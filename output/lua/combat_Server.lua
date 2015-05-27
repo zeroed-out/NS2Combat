@@ -90,7 +90,7 @@ if kCombatModActive then
 
     Script.Load("lua/combat_Props.lua")
     // halloween special
-    Script.Load("lua/combat_Halloween.lua")
+    //Script.Load("lua/combat_Halloween.lua")
 
     // due to a bug, this needs to be loaded here
 	Script.Load("lua/combat_PowerConsumerMixin.lua")
@@ -98,7 +98,7 @@ if kCombatModActive then
     Script.Load("lua/combat_WeldableMixin.lua")
 	Script.Load("lua/combat_LiveMixin.lua")
     Script.Load("lua/Weapons/Alien/combat_HealSprayMixin.lua")
-	Script.Load("lua/combat_ScoringMixin.lua")
+    Script.Load("lua/combat_ScoringMixin.lua")
 	
 	// new hook style hooks
 	Script.Load("lua/combat_Babbler.lua")
