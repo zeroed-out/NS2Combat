@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_Alien_Hooks.lua
+-- combat_Alien_Hooks.lua
 
 local HotReload = CombatAlien
 if(not HotReload) then
@@ -50,7 +50,7 @@ function CombatAlien:UpdateArmorAmount_Hook(self, carapaceLevel)
     
     end
 
-	// Always set the hives back to false, so that later on we can enable tier 2/3 even after embryo.
+	-- Always set the hives back to false, so that later on we can enable tier 2/3 even after embryo.
 	if self:GetTeamNumber() ~= kTeamReadyRoom then
 		if self.combatTwoHives then
 			self.twoHives = true
@@ -69,7 +69,7 @@ end
 
 function CombatAlien:UpdateHealthAmount_Hook(self, bioMassLevel, maxLevel)
 
-	// Cap the health level at the max biomass level
+	-- Cap the health level at the max biomass level
     local level = math.min(10, math.max(0, self:GetLvl() - 1))
     local newMaxHealth = self:GetBaseHealth() + level * self:GetHealthPerBioMass()
 
@@ -89,14 +89,14 @@ function CombatAlien:OnUpdateAnimationInput_Hook(self, modelMixin)
 		if self:GotFocus() then
 			modelMixin:SetAnimationInput("attack_speed", kCombatFocusAttackSpeed)        
 		else
-			// standard attack speed is 1, but the variable is local so we cant use it
+			-- standard attack speed is 1, but the variable is local so we cant use it
 			modelMixin:SetAnimationInput("attack_speed", self:GetIsEnzymed() and kEnzymeAttackSpeed or 1.0)
 		end
 	end
     
 end
 
-// no hook, replace it
+-- no hook, replace it
 function GetHasCamouflageUpgrade(callingEntity)
     if Server then
         return callingEntity.combatTable and callingEntity.combatTable.hasCamouflage 
@@ -121,18 +121,18 @@ if Server then
 		
 		self.combatTwoHives = player.combatTwoHives
 		self.combatThreeHives = player.combatThreeHives
-		//Shared.Message("player.combatTwoHives: " .. tostring(player.combatTwoHives))
-		//Shared.Message("player.combatThreeHives: " .. tostring(player.combatThreeHives))
+		--Shared.Message("player.combatTwoHives: " .. tostring(player.combatTwoHives))
+		--Shared.Message("player.combatThreeHives: " .. tostring(player.combatThreeHives))
 		
 		if player.combatTable then
 			self:CheckCombatData()
-			//Shared.Message("player.combatTable.twoHives: " .. tostring(player.combatTable.twoHives))
+			--Shared.Message("player.combatTable.twoHives: " .. tostring(player.combatTable.twoHives))
 			if player.combatTable.twoHives then
 				self.combatTwoHives = true
 				self.combatTable.twoHives = true
 			end
 			
-			//Shared.Message("player.combatTable.threeHives: " .. tostring(player.combatTable.threeHives))
+			--Shared.Message("player.combatTable.threeHives: " .. tostring(player.combatTable.threeHives))
 			if player.combatTable.threeHives then
 				self.combatThreeHives = true
 				self.combatTable.threeHives = true

@@ -1,11 +1,11 @@
-// ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
-//
-// lua\AmmoPack.lua
-//
-//    Created by:   Charlie Cleveland (charlie@unknownworlds.com) and
-//                  Max McGuire (max@unknownworlds.com)
-//
-// ========= For more information, visit us at http://www.unknownworlds.com =====================
+-- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
+--
+-- lua\AmmoPack.lua
+--
+--    Created by:   Charlie Cleveland (charlie@unknownworlds.com) and
+--                  Max McGuire (max@unknownworlds.com)
+--
+-- ========= For more information, visit us at http:--www.unknownworlds.com =====================
 
 Script.Load("lua/DropPack.lua")
 Script.Load("lua/PickupableMixin.lua")
@@ -36,7 +36,7 @@ end
 
 function CombatXmasGift:OnTouch(recipient)
 
-    // give xp
+    -- give xp
     StartSoundEffectAtOrigin(AmmoPack.kPickupSound, recipient:GetOrigin())
     recipient:AddXp(CombatXmasGift.Xp * (math.random(1, 5) / 5))
     combatHalloween_SendPickedUpMessage(recipient:GetName())
@@ -45,15 +45,15 @@ end
 
 function CombatXmasGift:GetIsValidRecipient(recipient)
     if not Client then
-        //return ( recipient:isa("Marine") or recipient:isa("Alien") ) and (recipient:GetXp() < maxXp)
+        --return ( recipient:isa("Marine") or recipient:isa("Alien") ) and (recipient:GetXp() < maxXp)
         return ( recipient:isa("Marine") or recipient:isa("Alien") ) and recipient:GetXp() < maxXp
     else
-        // return false to avoid the GUIPicups (will cause an error)
+        -- return false to avoid the GUIPicups (will cause an error)
         return false
     end
 end
 
-// that the xmas gift doesnt appear anymore
+-- that the xmas gift doesnt appear anymore
 function CombatXmasGift:GetIsPermanent()
     return true
 end

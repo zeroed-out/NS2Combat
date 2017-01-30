@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_WeldableMixin.lua
+-- combat_WeldableMixin.lua
 
 Script.Load("lua/Utility.lua")
 
@@ -16,13 +16,13 @@ local function setDecimalPlaces(num, idp)
 end
 
 
-// Give some XP to the damaging entity.
+-- Give some XP to the damaging entity.
 function WeldableMixin:OnWeld(doer, elapsedTime, player)
 
     if self:GetCanBeWelded(doer) then
     
     	if self.GetIsBuilt and GetGamerules():GetHasTimelimitPassed() then
-			// Do nothing
+			-- Do nothing
         elseif self.OnWeldOverride then
             self:OnWeldOverride(doer, elapsedTime)
         elseif doer:isa("MAC") then
@@ -39,7 +39,7 @@ function WeldableMixin:OnWeld(doer, elapsedTime, player)
 				healXp = setDecimalPlaces(maxXp * kHealXpRate * doer:GetRepairRate(self) * elapsedTime / self:GetMaxHealth(), 1)
 			end
 				
-			// Award XP.
+			-- Award XP.
 			local doerPlayer = doer:GetParent()
 			doerPlayer:AddXp(healXp)
         end

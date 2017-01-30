@@ -1,13 +1,13 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_ModSwitchter.lua
+-- combat_ModSwitchter.lua
 
-// functions for switching the mod to classic or combat, load the defaults etc.
+-- functions for switching the mod to classic or combat, load the defaults etc.
 
 Script.Load("lua/dkjson.lua")
 Script.Load("lua/Utility.lua")
@@ -32,12 +32,12 @@ kCombatPowerPointsTakeDamage = kCombatPowerPointsTakeDamageDefault
 kCombatDefaultWinner = kCombatDefaultWinnerDefault
 kCombatCompMode = kCombatCompModeDefault
 
-kCombatModSwitcherPath = "config://CombatMod.cfg"
+kCombatModSwitcherPath = "config:--CombatMod.cfg"
 
-// load the ModActive value from config://CombatModConfig.json
+-- load the ModActive value from config:--CombatModConfig.json
 function ModSwitcher_Load(changeLocal)
 
-    // Load the settings from file if the file exists.
+    -- Load the settings from file if the file exists.
     local settings = { }
     local settingsFile = io.open(kCombatModSwitcherPath, "r")
     if settingsFile then
@@ -46,7 +46,7 @@ function ModSwitcher_Load(changeLocal)
         settings = json.decode(fileContents)
         
         if changeLocal then
-            // there is no string to bool function so we need to do it like this
+            -- there is no string to bool function so we need to do it like this
             if settings.ModActive == "true" or settings.ModActive == true then 
                 kCombatModActive = true 
             elseif settings.ModActive == "false" or  settings.ModActive == false then
@@ -92,7 +92,7 @@ function ModSwitcher_Load(changeLocal)
 				settings.ModTimeLimit = kCombatTimeLimitDefault
 			end
 			
-		    // there is no string to bool function so we need to do it like this
+		    -- there is no string to bool function so we need to do it like this
 			if settings.ModAllowOvertime == "true" or settings.ModAllowOvertime == true then 
                 kCombatAllowOvertime = true 
             elseif settings.ModAllowOvertime == "false" or  settings.ModAllowOvertime == false then
@@ -104,7 +104,7 @@ function ModSwitcher_Load(changeLocal)
 				settings.ModAllowOvertime = kCombatAllowOvertimeDefault
             end
             
-            // there is no string to bool function so we need to do it like this
+            -- there is no string to bool function so we need to do it like this
             if settings.ModPowerPointsTakeDamage == "true" or settings.ModPowerPointsTakeDamage == true then 
                 kCombatPowerPointsTakeDamage = true 
             elseif settings.ModPowerPointsTakeDamage == "false" or  settings.ModPowerPointsTakeDamage == false then
@@ -116,7 +116,7 @@ function ModSwitcher_Load(changeLocal)
 				settings.ModPowerPointsTakeDamage = kCombatPowerPointsTakeDamageDefault
             end
 
-            // there is no string to bool function so we need to do it like this
+            -- there is no string to bool function so we need to do it like this
             if settings.ModCompMode == "true" or settings.ModCompMode == true then
                 kCombatCompMode = true
             elseif settings.ModCompMode == "false" or  settings.ModCompMode == false then
@@ -137,7 +137,7 @@ function ModSwitcher_Load(changeLocal)
 				settings.ModDefaultWinner = kCombatDefaultWinnerDefault
 			end
 			
-			// Enable/Disable the mod based on the player threshold if that value is set greater than 0.
+			-- Enable/Disable the mod based on the player threshold if that value is set greater than 0.
 			if kCombatModActive and kCombatPlayerThreshold > 0 then
 				if kCombatLastPlayerCount < kCombatPlayerThreshold then
 					kCombatModActive = true
@@ -151,7 +151,7 @@ function ModSwitcher_Load(changeLocal)
         else
             io.close(settingsFile)
 			
-			// Handle cases where there are missing attributes.
+			-- Handle cases where there are missing attributes.
 			if settings.ModActive == nil then
 				settings.ModActive = kCombatModActiveDefault
 			end
@@ -188,7 +188,7 @@ function ModSwitcher_Load(changeLocal)
         end
         
     else
-        // file not found, create it
+        -- file not found, create it
         Shared.Message(kCombatModSwitcherPath .. " not found, will create it now.")
         newSettings = ModSwitcher_Save(kCombatModActive, kCombatPlayerThreshold, kCombatLastPlayerCount, kCombatTimeLimit, kCombatAllowOvertime, kCombatPowerPointsTakeDamage, kCombatDefaultWinner, kCombatCompMode, true)
 		ModSwitcher_Output_Status(newSettings)
@@ -197,10 +197,10 @@ function ModSwitcher_Load(changeLocal)
 end
 
 
-// save it, but change the local variable when the map is changing (will be done via load the value
+-- save it, but change the local variable when the map is changing (will be done via load the value
 function ModSwitcher_Save(ModActiveBool, ThresholdNumber, LastPlayers, TimeLimit, AllowOvertime, PowerPointsTakeDamage, DefaultWinner, CompMode, newlyCreate)
   
-	// Default values in case the file does not exist.
+	-- Default values in case the file does not exist.
 	local currentSettings = { 
 		ModActive = kCombatModActiveDefault,
 		ModThreshold = kCombatPlayerThresholdDefault,
@@ -211,15 +211,15 @@ function ModSwitcher_Save(ModActiveBool, ThresholdNumber, LastPlayers, TimeLimit
 		ModDefaultWinner = kCombatDefaultWinnerDefault,
 		ModCompMode = kCombatCompModeDefault
 	}
-	// If we're not newly creating the file, fill in any missing values here.
+	-- If we're not newly creating the file, fill in any missing values here.
     if not newlyCreate then
-		// load the values, maybe it was changed shortly before and the local value is wrong, but dont change the local value
+		-- load the values, maybe it was changed shortly before and the local value is wrong, but dont change the local value
 		currentSettings = ModSwitcher_Load(false)
 	end
 	
 	Shared.Message("\n")
  
-	// Override the incoming values with the current ones if they are not specified.
+	-- Override the incoming values with the current ones if they are not specified.
     if currentSettings.ModActive == nil then    
 		ModActiveBool = kCombatModActiveDefault
 	elseif ModActiveBool == nil then
@@ -284,7 +284,7 @@ function ModSwitcher_Save(ModActiveBool, ThresholdNumber, LastPlayers, TimeLimit
 		SendGlobalChatMessage("Competitive mode is now: " .. ModSwitcher_Active_Status(CompMode))
 	end
 
-	// Save to disk.
+	-- Save to disk.
 	local settingsFile = io.open(kCombatModSwitcherPath, "w+")
 	
 	kCombatModSwitcherConfig = { 
@@ -298,7 +298,7 @@ function ModSwitcher_Save(ModActiveBool, ThresholdNumber, LastPlayers, TimeLimit
 						ModCompMode = CompMode
 						}
 	
-	// if its not exist it will be created automatically                  
+	-- if its not exist it will be created automatically
 	settingsFile:write(json.encode(kCombatModSwitcherConfig))
 	
 	io.close(settingsFile)
@@ -307,7 +307,7 @@ function ModSwitcher_Save(ModActiveBool, ThresholdNumber, LastPlayers, TimeLimit
 end
 
 function ModSwitcher_Output_Status_Console()
-	// load the values, maybe it was changed shortly before and the local value is wrong, but dont change the local value
+	-- load the values, maybe it was changed shortly before and the local value is wrong, but dont change the local value
 	currentSettings = ModSwitcher_Load(false)
 	
 	ModSwitcher_Output_Status(currentSettings)

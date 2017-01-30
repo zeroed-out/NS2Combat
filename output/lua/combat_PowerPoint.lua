@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_PowerPoint.lua
+-- combat_PowerPoint.lua
 local kSocketedModelName = PrecacheAsset("models/system/editor/power_node.model")
 local kSocketedAnimationGraph = PrecacheAsset("models/system/editor/power_node.animation_graph")
 local kAuxPowerBackupSound = PrecacheAsset("sound/NS2.fev/marine/power_node/backup")

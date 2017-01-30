@@ -1,4 +1,4 @@
-// Raw Print and Hooking Scripts from fsfod
+-- Raw Print and Hooking Scripts from fsfod
 
 local values = {nil, nil, nil, nil, nil, nil, nil, nil, nil}
 
@@ -29,6 +29,6 @@ function RawPrint(fmt, ...)
   end
 end
 
-// Scripts for Hooking
+-- Scripts for Hooking
 Script.Load("lua/ClassHooker.lua")
 Script.Load("lua/LoadTracker.lua")

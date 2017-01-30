@@ -1,13 +1,13 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_Utility.lua
+-- combat_Utility.lua
 
-// Used to send messages to all players.
+-- Used to send messages to all players.
 function SendGlobalChatMessage(message)
 	local allPlayers = Shared.GetEntitiesWithClassname("Player")
 	if (allPlayers:GetSize() > 0) then
@@ -16,11 +16,11 @@ function SendGlobalChatMessage(message)
 		end
 	end
 	
-	// Also output to the console for admins.
+	-- Also output to the console for admins.
 	Shared.Message(message)
 end
 
-// Gets the time in the format "[m minutes,] s seconds"
+-- Gets the time in the format "[m minutes,] s seconds"
 function GetTimeText(timeInSeconds)
 
 	local timeLeftText = ""
@@ -48,7 +48,7 @@ function GetTimeText(timeInSeconds)
 
 end
 
-// Gets the time in the format "mm:ss:ms"
+-- Gets the time in the format "mm:ss:ms"
 function GetTimeDigital(timeInSeconds, showMinutes, showMilliseconds)
 
 	local timeLeftText = ""
@@ -76,7 +76,7 @@ function GetTimeDigital(timeInSeconds, showMinutes, showMilliseconds)
 		timeLeftText = timeLeftText .. timeLeftSeconds
 	end
 	
-	// Disable milliseconds by default. They are *really* annoying.
+	-- Disable milliseconds by default. They are *really* annoying.
 	if showMilliseconds then
 		timeLeftText = timeLeftText .. ":"
 	

@@ -1,12 +1,12 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_Halloween.lua
-// functions for the halloween special
+-- combat_Halloween.lua
+-- functions for the halloween special
 
 kCombatHalloweenMode = false
 
@@ -20,7 +20,7 @@ kHalloWeenNextSpawn = 0
 
 
 function combatHalloween_CheckTime(timeTaken)
-    // spawn Halloweenai after some minutes, but only if there is no ai
+    -- spawn Halloweenai after some minutes, but only if there is no ai
     if kCombatAllAi then
         if table.maxn(kCombatAllAi) == 0 then
             if kHalloWeenNextSpawn <= 0 then
@@ -49,7 +49,7 @@ function combatHalloween_AddAi(player)
     if player then
         position = player:GetOrigin()
     else
-        // if the command is not called by a player, spawn it randomly beside one player
+        -- if the command is not called by a player, spawn it randomly beside one player
         local playerCount = Shared.GetEntitiesWithClassname("Player"):GetSize()
         local players = EntityListToTable(Shared.GetEntitiesWithClassname("Player"))
         
@@ -121,7 +121,7 @@ function combatHalloween_SendKilledMessage(killerName)
 end
 
 
-// Console Functions for testing
+-- Console Functions for testing
 
 function OnCommandAddAi(client)
 
@@ -135,7 +135,7 @@ function OnCommandAddAi(client)
     
 end
 
-// delete added Ais
+-- delete added Ais
 function OnCommandRemoveAi(client)
 
     if client ~= nil then

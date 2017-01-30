@@ -1,14 +1,14 @@
-// ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
-//
-// lua\Weapons\Alien\Devour.lua
-//
-//    Created by:   Charlie Cleveland (charlie@unknownworlds.com) and
-//                  Max McGuire (max@unknownworlds.com) and
-//                  Urwalek Andreas (andi@unknownworlds.com)
-//
-// Basic goring attack. Can also be used to smash down locked or welded doors.
-//
-// ========= For more information, visit us at http://www.unknownworlds.com =====================
+-- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
+--
+-- lua\Weapons\Alien\Devour.lua
+--
+--    Created by:   Charlie Cleveland (charlie@unknownworlds.com) and
+--                  Max McGuire (max@unknownworlds.com) and
+--                  Urwalek Andreas (andi@unknownworlds.com)
+--
+-- Basic goring attack. Can also be used to smash down locked or welded doors.
+--
+-- ========= For more information, visit us at http:--www.unknownworlds.com =====================
 
 Script.Load("lua/Weapons/Alien/Ability.lua")
 
@@ -22,7 +22,7 @@ Devour.waitTime = 1
 Devour.devourTime = 5
 Devour.damage = 40
 Devour.energyRate = kEnergyUpdateRate * 14
-// when hitting marine his aim is interrupted
+-- when hitting marine his aim is interrupted
 Devour.kAimInterruptDuration = 0.7
 
 local kAttackRadius = 0.8
@@ -56,7 +56,7 @@ local function DevourAttack(self, player, hitTarget, excludeTarget)
     for index, target in ipairs(targets) do
         
         if target:isa("Player") and not target:isa("Exo") then
-            // ToDo: eat nearest target
+            -- ToDo: eat nearest target
             if not Shared.GetCheatsEnabled() and (target:GetTeamNumber() ~= self:GetTeamNumber()) then
                 didHit = true      
                 self.eatingPlayerId = target:GetId()
@@ -69,7 +69,7 @@ local function DevourAttack(self, player, hitTarget, excludeTarget)
     
     end
     
-    // since gore is aoe we need to manually trigger possibly hit effects
+    -- since gore is aoe we need to manually trigger possibly hit effects
     if not didHit and trace.fraction ~= 1 then
         TriggerHitEffects(self, nil, trace.endPoint, trace.surface, tableparams)
     end
@@ -119,7 +119,7 @@ local function UpdateDevour(self)
             end
         end 
     end   
-    // Keep on updating
+    -- Keep on updating
     return true
     
 end
@@ -158,7 +158,7 @@ local function ClearPlayerNow(player)
 		local oldHealth = player:GetHealth()
 		newPlayer = player:Replace(player.previousMapName, player:GetTeamNumber(), false,  player:GetOrigin())
 		newPlayer.health = oldHealth 
-		// give him his weapons back
+		-- give him his weapons back
 		newPlayer:GiveUpsBack()
 		newPlayer:SetCorroded()
 	end
@@ -238,7 +238,7 @@ function Devour:OnTag(tagName)
 
         self:TriggerEffects("gore_attack")  
         local didHit, impactPoint, target = self:Attack(player)        
-        // play sound effects
+        -- play sound effects
         if didHit then  
         end
    

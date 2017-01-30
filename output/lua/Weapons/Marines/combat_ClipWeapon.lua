@@ -1,13 +1,13 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_ClipWeapon.lua
+-- combat_ClipWeapon.lua
 
-// for fast reload
+-- for fast reload
 
 local HotReload = CombatClipWeapon
 if(not HotReload) then
@@ -21,7 +21,7 @@ function CombatClipWeapon:OnLoad()
 	
 end
 
-// for fast reloading
+-- for fast reloading
 function CombatClipWeapon:OnUpdateAnimationInput_Hook(self, modelMixin)
    
     local player = self:GetParent()

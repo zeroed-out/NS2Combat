@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_GUIBioMassDisplay.lua
+-- combat_GUIBioMassDisplay.lua
 
 local HotReload = CombatGUIBioMassDisplay
 if(not HotReload) then
@@ -20,7 +20,7 @@ function CombatGUIBioMassDisplay:OnLoad()
 	
 end
 
-// Hide the biomass GUI
+-- Hide the biomass GUI
 function CombatGUIBioMassDisplay:Update_Hook(self, deltaTime)
 
     self.backgroundColor.a = 0

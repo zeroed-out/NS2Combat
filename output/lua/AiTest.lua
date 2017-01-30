@@ -1,22 +1,22 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// initially, this was for my singlepalyer project, but lets make a cool halloween ai with that
+-- initially, this was for my singlepalyer project, but lets make a cool halloween ai with that
 
 
-//******************************************
-//* Scripts 
-//******************************************
+--******************************************
+--* Scripts
+--******************************************
 
 Script.Load("lua/Onos.lua")
 
-// needed for the MoveToTarget Command
+-- needed for the MoveToTarget Command
 Script.Load("lua/PathingMixin.lua")
-// needed for the Attack Command
+-- needed for the Attack Command
 Script.Load("lua/AttackOrderMixin.lua")
 Script.Load("lua/OrdersMixin.lua")
 
@@ -26,9 +26,9 @@ Script.Load("lua/DamageMixin.lua")
 
 class 'AITEST' (Onos)
 
-//******************************************
-//* Class variables
-//******************************************
+--******************************************
+--* Class variables
+--******************************************
 
 AITEST.kMapName = "aitest"
 
@@ -41,18 +41,18 @@ AITEST.kArmor = 2045
 AITEST.kMoveSpeed = 7.5
 AITEST.kFireEffect         = PrecacheAsset("cinematics/environment/fire_small.cinematic")
 AITEST.MaxDistance = 25
-// gore is 95
+-- gore is 95
 AITEST.Damage = 85
 
 local kMoveParam = "move_speed"
 
 
-//******************************************
-//* Network variables
-//******************************************
+--******************************************
+--* Network variables
+--******************************************
 
 if Server then
-    //Script.Load("lua/ai/aiITest_Server.lua")
+    --Script.Load("lua/ai/aiITest_Server.lua")
 end
 
 local networkVars =
@@ -67,12 +67,12 @@ AddMixinNetworkVars(AttackOrderMixin, networkVars)
 AddMixinNetworkVars(OrdersMixin, networkVars)
 
 
-//******************************************
-//* Functions
-//******************************************
+--******************************************
+--* Functions
+--******************************************
 
 
-// onCreate and OnInitilized need every class
+-- onCreate and OnInitilized need every class
 function AITEST:OnCreate()
 
     Exo.OnCreate(self)
@@ -93,8 +93,8 @@ end
 function AITEST:OnInitialized()
     
     Onos.OnInitialized(self)
-    // setModel need to be called before the Initialize
-    //self:SetModel(AITEST.kModelName, AITEST.AnimationGraph) 
+    -- setModel need to be called before the Initialize
+    --self:SetModel(AITEST.kModelName, AITEST.AnimationGraph)
 
     self.armor = AITEST.kArmor
     self.maxArmor = self.armor
@@ -103,16 +103,16 @@ function AITEST:OnInitialized()
     self.attackPitch = 0
        
     if Server then          
-        //self:GiveItem(Gore.kMapName)
-        //self:SetActiveWeapon(Gore.kMapName)
+        --self:GiveItem(Gore.kMapName)
+        --self:SetActiveWeapon(Gore.kMapName)
         
-        // This Mixin must be inited inside this OnInitialized() function.
+        -- This Mixin must be inited inside this OnInitialized() function.
         if not HasMixin(self, "MapBlip") then
             InitMixin(self, MapBlipMixin)
         end
         
     elseif Client then
-        // create the fire cinematic
+        -- create the fire cinematic
         self:SetUpdates(true)  
         self.fireEffect = Client.CreateCinematic(RenderScene.Zone_Default)
         local cinematicName = AITEST.kFireEffect
@@ -140,7 +140,7 @@ function AITEST:OnKill(attacker, doer, point, direction)
     combatHalloween_RemoveAi()
 end
 
-// Buttons for commander
+-- Buttons for commander
 function AITEST:GetTechButtons(techId)
 
     if techId == kTechId.RootMenu then
@@ -154,7 +154,7 @@ function AITEST:GetTechButtons(techId)
     
 end
 
-// called all the time from the engine
+-- called all the time from the engine
 function AITEST:OnUpdate(deltaTime)
 
     PROFILE("AITEST:OnUpdate")
@@ -165,7 +165,7 @@ function AITEST:OnUpdate(deltaTime)
     if Server then
         self:UpdateOrders(deltaTime)
     elseif Client then
-        // update fire position
+        -- update fire position
         self:SetFirePosition()
     end
    
@@ -173,11 +173,11 @@ end
 
 
 function AITEST:GetCanSleep()
-    return false // not self.moving and not self.whackAttack:GetTarget()
+    return false -- not self.moving and not self.whackAttack:GetTarget()
 end
 
 
-// for camera
+-- for camera
 function AITEST:GetViewOffset()
     return self:GetCoords().yAxis * 1.0
 end
@@ -187,13 +187,13 @@ function AITEST:GetEyePos()
 end
 
 
-// needed for the pathing mixin
-// TODO: exos can maybe fly later
+-- needed for the pathing mixin
+-- TODO: exos can maybe fly later
 function AITEST:GetIsFlying()
     return false
 end
 
-// TODO: speed maybe not everytime the same?
+-- TODO: speed maybe not everytime the same?
 function AITEST:GetSpeed()
     return AITEST.kMoveSpeed
 end
@@ -210,7 +210,7 @@ end
 
 
 function AITEST:GetCanTakeDamageOverride()
-    //return Player.GetCanTakeDamageOverride(self) and not self:GetIsFeinting()
+    --return Player.GetCanTakeDamageOverride(self) and not self:GetIsFeinting()
     return true
 end
 
@@ -218,12 +218,12 @@ function AITEST:GetCanDieOverride()
     return true
 end
 
-//******************************************
-//* Animation things
-//******************************************
+--******************************************
+--* Animation things
+--******************************************
 
-// to update the visual animation effects
-// TODO: idle, shooting etc.
+-- to update the visual animation effects
+-- TODO: idle, shooting etc.
 function AITEST:OnUpdateAnimationInput(modelMixin)
 
     PROFILE("AITEST:OnUpdateAnimationInput")
@@ -250,7 +250,7 @@ function AITEST:OnUpdateAnimationInput(modelMixin)
 end
 
 
-// to handle animation changes
+-- to handle animation changes
 function AITEST:OnTag(tagName)
 
     PROFILE("AITEST:OnTag")
@@ -276,15 +276,15 @@ function AITEST:OnUpdatePoseParameters()
             
         end
 
-        //SetPlayerPoseParameters(self, viewModel)
-        //self:SetPoseParam(kMoveParam, 1)
+        --SetPlayerPoseParameters(self, viewModel)
+        --self:SetPoseParam(kMoveParam, 1)
         
     end
 
 end
 
 
-// really important function, animation are not getting played without it
+-- really important function, animation are not getting played without it
 function AITEST:UpdateMoveYaw()
  
     local viewCoords = Coords.GetLookIn(self:GetEyePos(), self:GetOrigin())
@@ -293,9 +293,9 @@ function AITEST:UpdateMoveYaw()
     
     local pitch = -Math.Wrap(Math.Degrees(viewAngles.pitch), -180, 180)
     
-    //if self.attackPitch then
-      //  pitch = self.attackPitch    
-    //end
+    --if self.attackPitch then
+      --  pitch = self.attackPitch
+    --end
     
     local landIntensity = self.landIntensity or 0
     
@@ -310,15 +310,15 @@ function AITEST:UpdateMoveYaw()
     end    
    
     local horizontalVelocity = self:GetVelocityFromPolar()
-    // Not all selfs will contrain their movement to the X/Z plane only.
+    -- Not all selfs will contrain their movement to the X/Z plane only.
     if self.GetMoveSpeedIs2D and self:GetMoveSpeedIs2D() then
         horizontalVelocity.y = 0
     end
     
-    //local x = Math.DotProduct(viewCoords.xAxis, horizontalVelocity)
-    //local z = Math.DotProduct(viewCoords.zAxis, horizontalVelocity)
+    --local x = Math.DotProduct(viewCoords.xAxis, horizontalVelocity)
+    --local z = Math.DotProduct(viewCoords.zAxis, horizontalVelocity)
     
-    //local moveYaw = Math.Wrap(Math.Degrees( math.atan2(z,x) ), -180, 180)
+    --local moveYaw = Math.Wrap(Math.Degrees( math.atan2(z,x) ), -180, 180)
     local speedScalar = self:GetVelocityLength() / self:GetMaxSpeed(true)
     
     self:SetPoseParam("move_yaw", bodyYaw +90)
@@ -336,7 +336,7 @@ end
 function AITEST:SetAttackPitch(targetLocation)
     
     if targetLocation then 
-        // Update our attackYaw to aim at our current target
+        -- Update our attackYaw to aim at our current target
 
         local bodyPitchVec = targetLocation - self:GetModelOrigin()
         bodyPitchVec:Normalize()
@@ -345,7 +345,7 @@ function AITEST:SetAttackPitch(targetLocation)
         if self.attackPitch < 0 then
             self.attackPitch = self.attackPitch + 360                     
                     
-            // pitch and roll the body now, before we trace the front tracks
+            -- pitch and roll the body now, before we trace the front tracks
             local angles = self:GetAngles()
             angles.pitch = self.attackPitch
             self:SetAngles(angles)            
@@ -361,25 +361,25 @@ function AITEST:SetAttackPitch(targetLocation)
 end
 
 
-//******************************************
-//* Orders, KI Things
-//******************************************
+--******************************************
+--* Orders, KI Things
+--******************************************
 
-// called from OnUpdate to handle the different orders
+-- called from OnUpdate to handle the different orders
 function AITEST:UpdateOrders(deltaTime)
 
     local order = self:GetCurrentOrder()
     
     if order == nil then   
         self:CheckForTargets()
-        // if order still nill, do something else  
+        -- if order still nill, do something else
         if order == nil then
-            // Move to random tech point or nozzle on map
+            -- Move to random tech point or nozzle on map
             self:ChooseRandomDestination()                    
         end
     else   
     
-        // If we have no order or are attacking, acquire possible new target    
+        -- If we have no order or are attacking, acquire possible new target
         if order:GetType() == kTechId.Attack then
             self:UpdateAttackOrder(deltaTime)
         elseif order:GetType() == kTechId.Move then
@@ -392,7 +392,7 @@ end
 
 function AITEST:CheckForTargets()
 
-    // Check for new target every so often, but not every frame
+    -- Check for new target every so often, but not every frame
     local time = Shared.GetTime()
     if self.timeOfLastAcquire == nil or (time > self.timeOfLastAcquire + 0.2) then
     
@@ -422,14 +422,14 @@ function AITEST:UpdateMoveOrder(deltaTime)
         self:CompletedCurrentOrder()
         self.moving = false
         
-        // If no more orders, we're done
+        -- If no more orders, we're done
         if self:GetCurrentOrder() == nil then
-            //self:SetMode(ARC.kMode.Stationary)
+            --self:SetMode(ARC.kMode.Stationary)
         end
         
     else
         self.moving = true
-        // even if were walking, check for targets
+        -- even if were walking, check for targets
         self:CheckForTargets()
     end
         
@@ -437,8 +437,8 @@ end
 
 
 function AITEST:ChooseRandomDestination()
-    // if it got no orders, walk a bit
-    // Go to nearest unbuilt tech point or nozzle
+    -- if it got no orders, walk a bit
+    -- Go to nearest unbuilt tech point or nozzle
     local randomInt = math.random(1,2)
     teamStart = {
                 GetGamerules():GetTeam1():GetInitialTechPoint(),
@@ -463,15 +463,15 @@ function AITEST:ClearTargetDirection()
 end
 
 
-//******************************************
-//* Attackorder things
-//******************************************
+--******************************************
+--* Attackorder things
+--******************************************
 
 function AITEST:AttackVisibleTarget()
 
     local player = self
 
-    // Are there any visible enemy players or structures nearby?
+    -- Are there any visible enemy players or structures nearby?
     local success = false
     
     if not self.timeLastTargetCheck or (Shared.GetTime() - self.timeLastTargetCheck > 2) then
@@ -479,7 +479,7 @@ function AITEST:AttackVisibleTarget()
         local nearestTarget = nil
         local nearestTargetDistance = nil
         
-        // find enemys from both teams
+        -- find enemys from both teams
         local targets = {}
         local targets1 = GetEntitiesWithMixinForTeamWithinRange("Live", kTeam1Index, player:GetOrigin(), 20)
         local targets2 = GetEntitiesWithMixinForTeamWithinRange("Live", kTeam2Index, player:GetOrigin(), 20)
@@ -494,7 +494,7 @@ function AITEST:AttackVisibleTarget()
         
             if target:GetIsAlive() and target:GetIsVisible() and target:GetCanTakeDamage() and target ~= player then
             
-                // Prioritize players over non-players
+                -- Prioritize players over non-players
                 local dist = (target:GetEngagementPoint() - player:GetModelOrigin()):GetLength()
                 
                 local newTarget = (not nearestTarget) or (target:isa("Player") and not nearestTarget:isa("Player"))
@@ -507,7 +507,7 @@ function AITEST:AttackVisibleTarget()
                 end
                 
                 if newTarget then
-                    // can we reach it?
+                    -- can we reach it?
                     nearestTarget = target
                     nearestTargetDistance = dist
                 end
@@ -541,26 +541,26 @@ function AITEST:UpdateAttackOrder(deltaTime)
     local currentOrder = self:GetCurrentOrder()
     ASSERT(currentOrder)
     
-    // Get target
+    -- Get target
     local target = Shared.GetEntity(currentOrder:GetParam())
     if target then
         
         if target:GetIsAlive() then
             local targetLocation = target:GetEngagementPoint()     
-            // If we are close enough to target, attack it    
+            -- If we are close enough to target, attack it
             local targetPosition = Vector(target:GetOrigin())
             
-            // Different targets can be attacked from different ranges, depending on size
+            -- Different targets can be attacked from different ranges, depending on size
             local attackDistance = 2.7     
-            // if the enemy is to far away, search a new one
+            -- if the enemy is to far away, search a new one
             local maxDistance =  AITEST.MaxDistance
             local distanceToTarget = (targetPosition - self:GetOrigin()):GetLength()
             
             if distanceToTarget <= attackDistance  then
-                //OrderMeleeAttack(self, target)
+                --OrderMeleeAttack(self, target)
                 self.moving = false
                 self.attacking = true
-                //self:SetAttackPitch(targetPosition)
+                --self:SetAttackPitch(targetPosition)
                 self:AttackVictim(target)
                 return
             elseif distanceToTarget <= maxDistance then
@@ -568,7 +568,7 @@ function AITEST:UpdateAttackOrder(deltaTime)
                 if not success then
                     self.moving = true
                     self.attacking = false
-                    //self:SetAttackPitch(nil)
+                    --self:SetAttackPitch(nil)
                     return
                 end
             end
@@ -577,7 +577,7 @@ function AITEST:UpdateAttackOrder(deltaTime)
         self:CompletedCurrentOrder()
         self.moving = false
         self.attacking = false
-        //self:SetAttackPitch(nil)
+        --self:SetAttackPitch(nil)
         
     end
 
@@ -602,13 +602,13 @@ end
 
 function AITEST:MeleeAttack(self, target)
 
-    // Traceline from us to them
+    -- Traceline from us to them
     local trace = Shared.TraceRay(self:GetMeleeAttackOrigin(), target:GetOrigin(), CollisionRep.Damage, PhysicsMask.AllButPCs, EntityFilterTwo(self, target))
 
     local direction = target:GetOrigin() - self:GetOrigin()
     direction:Normalize()
     
-    // Use player or owner (in the case of MACs, Drifters, etc.)
+    -- Use player or owner (in the case of MACs, Drifters, etc.)
     local attacker = self:GetOwner()
     if self:isa("Player") then
         attacker = self
@@ -642,9 +642,9 @@ function AITEST:GetMeleeAttackInterval()
     return 0.9
 end
 
-//******************************************
-//* Client things
-//******************************************
+--******************************************
+--* Client things
+--******************************************
 
 
 function AITEST:SetFirePosition()    

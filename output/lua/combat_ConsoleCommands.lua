@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_ConsoleCommands.lua
+-- combat_ConsoleCommands.lua
                 
 testSound = PrecacheAsset("sound/combat.fev/combat/general/overtime001")
                      
@@ -25,7 +25,7 @@ end
 
 function OnCommandSpendLvl(client, ...)
         
-    // support multiple types
+    -- support multiple types
     local args = {...}    
     local upgradeTable = {}
     local player = client:GetControllingPlayer() 
@@ -38,7 +38,7 @@ function OnCommandSpendLvl(client, ...)
         for i, typeCode in ipairs(args) do
             local upgrade = GetUpgradeFromTextCode(typeCode)
             if not upgrade then 
-                // check for every arg if its a valid update
+                -- check for every arg if its a valid update
                 local hintType = ""
                 if player:isa("Marine") or player:isa("Exo") then
                     hintType = "wrong_type_marine"
@@ -47,7 +47,7 @@ function OnCommandSpendLvl(client, ...)
                 end			
                 player:spendlvlHints(hintType, typeCode)
             else
-            // build new table with upgrades
+            -- build new table with upgrades
                 table.insert(upgradeTable, upgrade) 
             end        
         end       
@@ -95,8 +95,8 @@ function OnCommandStuck(client)
 	local player = client:GetControllingPlayer()
 	player:SetOrigin( player:GetOrigin()+ Vector(0, 4, 0))
 	
-	// TODO: Find the nearest wall and move us to the other side of it.
-	// AH: This is low priority for me.
+	-- TODO: Find the nearest wall and move us to the other side of it.
+	-- AH: This is low priority for me.
 
 end
 
@@ -110,7 +110,7 @@ end
 
 function OnCommandHelp(client)
 
-	// Display a banner showing the available commands
+	-- Display a banner showing the available commands
 	local player = client:GetControllingPlayer()
 	player:SendDirectMessage("Use the 'buy' menu to buy upgrades.")
 	player:SendDirectMessage("You gain XP for killing other players, ")
@@ -121,7 +121,7 @@ end
 
 function OnCommandUpgrades(client)
 
-	// Shows all available Upgrades
+	-- Shows all available Upgrades
 	local player = client:GetControllingPlayer()
 	local upgradeList = nil
 	
@@ -147,7 +147,7 @@ function OnCommandUpgrades(client)
 end
 
 
-// send the Ups to the requesting player
+-- send the Ups to the requesting player
 function OnCommandSendUpgrades(client)
 
     local player = client:GetControllingPlayer()
@@ -155,7 +155,7 @@ function OnCommandSendUpgrades(client)
 
 end
 
-// Refund all the upgrades for this player
+-- Refund all the upgrades for this player
 function OnCommandRefundAllUpgrades(client)
 
     local player = client:GetControllingPlayer()
@@ -178,7 +178,7 @@ function OnCommandModActiveAdmin(client, activeBoolean)
             ModSwitcher_Save(activeBoolean, nil, nil, nil, nil, nil, nil, nil, false)
             Shared.Message("The changes only take effect after the next mapchange")
             
-            // send it to every player            
+            -- send it to every player
             ModSwitcher_Output_Status_All()
               
         else
@@ -204,7 +204,7 @@ function OnCommandModThresholdAdmin(client, numPlayers)
             ModSwitcher_Save(nil, tonumber(numPlayers), nil, nil, nil, nil, nil, nil, false)
             Shared.Message("The changes only take effect after the next mapchange!")
             
-            // send it to every player            
+            -- send it to every player
             ModSwitcher_Output_Status_All()
               
         else
@@ -233,10 +233,10 @@ local function SendTimeLeftChatToPlayer(player)
 
 end
 
-// Get the time remaining in this match.
+-- Get the time remaining in this match.
 local function OnCommandTimeLeft(client)
 
-	// Display the remaining time left
+	-- Display the remaining time left
 	local player = client:GetControllingPlayer()
 	SendTimeLeftChatToPlayer(player)
 
@@ -257,11 +257,11 @@ function OnCommandTimeLimitAdmin(client, timeLimit)
             ModSwitcher_Save(nil, nil, nil, timeLimit, nil, nil, nil, nil, false)
 			kCombatTimeLimit = tonumber(timeLimit)
             
-            // send it to every player            
+            -- send it to every player
             ModSwitcher_Output_Status_All()
 			
-			// Also send out a network message to update players' GUI.
-			// and remind them how long is remaining
+			-- Also send out a network message to update players' GUI.
+			-- and remind them how long is remaining
 			for i, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
 				SendCombatGameTimeUpdate(player)
 				SendTimeLeftChatToPlayer(player)
@@ -282,7 +282,7 @@ function OnCommandOvertimeAdmin(client, activeBoolean)
             ModSwitcher_Save(nil, nil, nil, nil, activeBoolean, nil, nil, nil, false)
             Shared.Message("The changes only take effect after the next mapchange")
             
-            // send it to every player            
+            -- send it to every player
             ModSwitcher_Output_Status_All()
               
         else
@@ -308,7 +308,7 @@ function OnCommandPowerPointDamageAdmin(client, activeBoolean)
             ModSwitcher_Save(nil, nil, nil, nil, nil, activeBoolean, nil, nil, false)
             Shared.Message("The changes only take effect after the next mapchange")
             
-            // send it to every player            
+            -- send it to every player
             ModSwitcher_Output_Status_All()
               
         else
@@ -334,7 +334,7 @@ function OnCommandCompModeAdmin(client, activeBoolean)
             ModSwitcher_Save(nil, nil, nil, nil, nil, nil, nil, activeBoolean, false)
             Shared.Message("The changes only take effect after the next mapchange")
 
-            // send it to every player
+            -- send it to every player
             ModSwitcher_Output_Status_All()
 
         else
@@ -368,7 +368,7 @@ function OnCommandDefaultWinnerAdmin(client, defaultWinner)
             ModSwitcher_Save(nil, nil, nil, nil, nil, nil, tonumber(defaultWinner), nil, false)
 			kCombatDefaultWinner = tonumber(defaultWinner)
             
-            // send it to every player            
+            -- send it to every player
             ModSwitcher_Output_Status_All()
         else
             Shared.Message("CombatModSwitcher: Only 1 or 2 allowed. (1 = Marines, 2 = Aliens)")
@@ -390,7 +390,7 @@ function OnCommandChangeMap(client, mapName)
     
 end
 
-// this should only be used when a player makes racistic comments etc. and no admin is there! 
+-- this should only be used when a player makes racistic comments etc. and no admin is there!
 function OnCommandSuperAdminKick(client, userId)
 
     local steamId = client:GetUserId()
@@ -445,7 +445,7 @@ Event.Hook("Console_soundtest",       OnCommandSoundTest)
 
 
 
-// All commands that should be accessible via the chat need to be in this list
+-- All commands that should be accessible via the chat need to be in this list
 combatCommands = {"co_spendlvl", "co_help", "co_status", "co_upgrades", "/upgrades", "/status", "/buy", "/help", "/timeleft"}
 
 if kCombatModActive then
@@ -464,14 +464,14 @@ if kCombatModActive then
 	Event.Hook("Console_timeleft",              OnCommandTimeLeft)
 	Event.Hook("Console_/timeleft",              OnCommandTimeLeft)
     Event.Hook("Console_/status",                OnCommandStatus) 
-    //Event.Hook("Console_/stuck",                OnCommandStuck)    
+    --Event.Hook("Console_/stuck",                OnCommandStuck)
     Event.Hook("Console_co_sendupgrades",       OnCommandSendUpgrades) 
 	Event.Hook("Console_co_refundall", 	        OnCommandRefundAllUpgrades)
     
 end
 
-// only this command works when in classic mode
-// to make it available for admins and dedicated servers
+-- only this command works when in classic mode
+-- to make it available for admins and dedicated servers
 Event.Hook("Console_co_mod_active",         OnCommandModActive) 
 Event.Hook("Console_co_mod_threshold",         OnCommandModThreshold) 
 Event.Hook("Console_co_mod_timelimit",         OnCommandTimeLimit) 

@@ -1,12 +1,12 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_Xmas.lua
-// functions for the Xmas special
+-- combat_Xmas.lua
+-- functions for the Xmas special
 
 Script.Load("lua/Ragdoll.lua")
 
@@ -30,7 +30,7 @@ function combatXmas_GetRandomTime()
 end
 
 function combatXmas_CheckTime(timeTaken)
-    // palce a new gift after some time, but only if the old has been found, if not, destroy it
+    -- palce a new gift after some time, but only if the old has been found, if not, destroy it
     if not kXmasNextSpawn or kXmasNextSpawn == 0 then
         kXmasNextSpawn = timeTaken + combatXmas_GetRandomTime()
     else
@@ -54,7 +54,7 @@ function combatXmas_AddGift(player)
     if player then
         position = player:GetOrigin()
     else
-        // if the command is not called by a player, spawn it randomly beside one player
+        -- if the command is not called by a player, spawn it randomly beside one player
         local playerCount = Shared.GetEntitiesWithClassname("Player"):GetSize()
         local players = EntityListToTable(Shared.GetEntitiesWithClassname("Player"))
         
@@ -73,7 +73,7 @@ function combatXmas_AddGift(player)
     end
 
     if position then
-        // now we got a position, wait a bit maybe the player is dissapeared then
+        -- now we got a position, wait a bit maybe the player is dissapeared then
         local combatGift = CreateEntity(CombatXmasGift.kMapName, position , randomPlayer:GetTeamNumber())
         if combatGift then
             kCombatGiftId = combatGift:GetId()

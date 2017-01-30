@@ -1,13 +1,13 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_Locale.lua
+-- combat_Locale.lua
 
-// Replace the normal Locale.ResolveString with our own version!
+-- Replace the normal Locale.ResolveString with our own version!
 if Locale then
 	if Locale.ResolveString then
 		local NS2ResolveFunction = Locale.ResolveString
