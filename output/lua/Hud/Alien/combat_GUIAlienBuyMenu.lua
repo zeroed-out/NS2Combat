@@ -421,28 +421,26 @@ function CombatGUIAlienBuyMenu:SendKeyEvent_Hook(self, key, down)
                 
                 if self.selectedAlienType ~= AlienBuy_GetCurrentAlien() then
                     if AlienBuy_GetCurrentAlien() == 5 then
-                        -- only buy another calss when youre a skulk
+                        -- only buy another class when youre a skulk
                         table.insert(purchases, AlienBuy_GetTechIdForAlien(self.selectedAlienType))
                     end
                 end
-                
-                -- Buy all selected upgrades.
-                for i, currentButton in ipairs(self.upgradeButtons) do
-                    
-                    if currentButton.Selected then
-                        table.insert(purchases, currentButton.TechId)
-                    end
-                        
-                end
-                
-                self:_DeselectAllUpgrades()
+
+	            -- Buy all selected upgrades.
+	            for i, currentButton in ipairs(self.upgradeButtons) do
+
+		            if currentButton.Selected then
+			            table.insert(purchases, { Type = "Upgrade", Alien = self.selectedAlienType, UpgradeIndex = currentButton.Index, TechId = currentButton.TechId })
+		            end
+
+	            end
                 
                 closeMenu = true
                 inputHandled = true
-                
-                if table.maxn(purchases)  > 0 then
-                    AlienBuy_Purchase(purchases)
-                end
+
+	            if #purchases > 0 then
+		            AlienBuy_Purchase(purchases)
+	            end
                 
                 AlienBuy_OnPurchase()
                 

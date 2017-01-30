@@ -228,6 +228,10 @@ kTechRange = 20.0
 -- EMP energy drain
 kEMPBlastEnergyDamage = 75
 
+--set starting personal resources to 0
+kMarineInitialIndivRes = 0
+kAlienInitialIndivRes = 0
+
 -- Cooldown for buying exo/onos
 -- disabled this for better balance
 kHeavyTechCooldown = 0
