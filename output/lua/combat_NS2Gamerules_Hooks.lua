@@ -108,14 +108,13 @@ function CombatNS2Gamerules:OnCreate_Hook(self)
 
 end
 
-
-	-- Free the lvl when changing Teams
-    /**
-     * Returns two return codes: success and the player on the new team. This player could be a new
-     * player (the default respawn type for that team) or it will be the original player if the team 
-     * wasn't changed (false, original player returned). Pass force = true to make player change team 
-     * no matter what and to respawn immediately.
-     */
+-- Free the lvl when changing Teams
+--
+-- Returns two return codes: success and the player on the new team. This player could be a new
+-- player (the default respawn type for that team) or it will be the original player if the team
+-- wasn't changed (false, original player returned). Pass force = true to make player change team
+-- no matter what and to respawn immediately.
+--
 function CombatNS2Gamerules:JoinTeam_Hook(self, player, newTeamNumber, force)
 
 	-- The PostHook doesn't work because this function returns two values
@@ -349,14 +348,6 @@ function CombatNS2Gamerules:OnUpdate_Hook(self, timePassed)
 			if self:GetHasTimelimitPassed() and kCombatAllowOvertime == false then
 				self:GetTeam(kCombatDefaultWinner).combatTeamWon = true
 			else
-			    -- spawn Halloweenai after some minutes
-			    if kCombatHalloweenMode then
-                    combatHalloween_CheckTime(timeTaken)
-			    end
-				-- spawn Xmas gift after some time
-				if kCombatXmasMode then
-                    combatXmas_CheckTime(timeTaken)
-			    end
 				-- send timeleft to all players, but only every few min
                 if 	kCombatTimeLeftPlayed ~= timeLeft then
                

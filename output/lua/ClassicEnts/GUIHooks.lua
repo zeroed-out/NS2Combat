@@ -1,11 +1,11 @@
-// Natural Selection 2 GUI Hooking Library
-// GUIHooks.lua
-// - Dragon
+-- Natural Selection 2 GUI Hooking Library
+-- GUIHooks.lua
+-- - Dragon
 
-// This basic library is designed to make hooking GUI files easier.  Simply reference this file, then add functions
-// you want called when specific GUIScripts are loaded.
-// GHook:AddPreInitOverride("GUIMinimapFrame", testfunc) - Will call testfunc when GUIMinimapFrame is loaded, but before its :Initialize() function is run
-// GHook:AddPostInitOverride("GUIMinimapFrame", testfunc) Would call testfunc after the :Initialize() function is run.
+-- This basic library is designed to make hooking GUI files easier.  Simply reference this file, then add functions
+-- you want called when specific GUIScripts are loaded.
+-- GHook:AddPreInitOverride("GUIMinimapFrame", testfunc) - Will call testfunc when GUIMinimapFrame is loaded, but before its :Initialize() function is run
+-- GHook:AddPostInitOverride("GUIMinimapFrame", testfunc) Would call testfunc after the :Initialize() function is run.
 
 Script.Load("lua/Class.lua")
 

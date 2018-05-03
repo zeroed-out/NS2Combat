@@ -272,9 +272,9 @@ local function GetCanAffordAlienTypeAndUpgrades(self, alienType)
     
 end
 
-/**
- * Returns true if the player has a different Alien or any upgrade selected.
- */
+--
+-- Returns true if the player has a different Alien or any upgrade selected.
+--
 local function GetAlienOrUpgradeSelected(self)
     return self.selectedAlienType ~= AlienBuy_GetCurrentAlien() or GetNumberOfSelectedUpgrades(self) > 0
 end

@@ -50,9 +50,6 @@ XpValues["PowerPoint"] = 0
 XpValues["Extractor"] = 0
 XpValues["Hive"] = 400
 
--- for our halloween AI
-XpValues["AITEST"] = 200
-
 -- xp  for welding, healing
 kCombatHealingXP = 5
 

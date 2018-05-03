@@ -1,12 +1,12 @@
-// Natural Selection 2 'Classic Entities Mod'
-// Adds some additional entities inspired by Half-Life 1 and the Extra Entities Mod by JimWest - https://github.com/JimWest/ExtraEntitesMod
-// Designed to work with maps developed for Extra Entities Mod.  
-// Source located at - https://github.com/xToken/ClassicEnts
-// lua\ExtendedSignals.lua
-// - Dragon
+-- Natural Selection 2 'Classic Entities Mod'
+-- Adds some additional entities inspired by Half-Life 1 and the Extra Entities Mod by JimWest - https://github.com/JimWest/ExtraEntitesMod
+-- Designed to work with maps developed for Extra Entities Mod.
+-- Source located at - https://github.com/xToken/ClassicEnts
+-- lua\ExtendedSignals.lua
+-- - Dragon
 
-// This extends the vanilla channel/message system to add compatibility with the EEM style system.
-// Lookup target and provided names to provided channels as needed.  Start above a certain constant to avoid any problems with vanilla maps (hopefully)
+-- This extends the vanilla channel/message system to add compatibility with the EEM style system.
+-- Lookup target and provided names to provided channels as needed.  Start above a certain constant to avoid any problems with vanilla maps (hopefully)
 
 Script.Load("lua/Mixins/SignalEmitterMixin.lua")
 Script.Load("lua/Mixins/SignalListenerMixin.lua")

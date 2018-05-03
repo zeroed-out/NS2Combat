@@ -1,14 +1,12 @@
-// Natural Selection 2 'Classic Entities Mod'
-// Adds some additional entities inspired by Half-Life 1 and the Extra Entities Mod by JimWest - https://github.com/JimWest/ExtraEntitesMod
-// Designed to work with maps developed for Extra Entities Mod.  
-// Source located at - https://github.com/xToken/ClassicEnts
-// lua\ClassicEnts_Client.lua
-// - Dragon
+-- Natural Selection 2 'Classic Entities Mod'
+-- Adds some additional entities inspired by Half-Life 1 and the Extra Entities Mod by JimWest - https://github.com/JimWest/ExtraEntitesMod
+-- Designed to work with maps developed for Extra Entities Mod.
+-- Source located at - https://github.com/xToken/ClassicEnts
+-- lua\ClassicEnts\Client.lua
+-- - Dragon
 
-Script.Load("lua/ClassicEnts_Shared.lua")
+Script.Load("lua/ClassicEnts/Shared.lua")
 Script.Load("lua/ClassicEnts/GUIHooks.lua")
-Script.Load("lua/ClassicEnts/Elixer_Utility.lua")
-Elixer.UseVersion( 1.8 )
 
 local kDialogClasses = 
 {

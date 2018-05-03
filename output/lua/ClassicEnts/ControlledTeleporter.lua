@@ -1,9 +1,9 @@
-// Natural Selection 2 'Classic Entities Mod'
-// Adds some additional entities inspired by Half-Life 1 and the Extra Entities Mod by JimWest - https://github.com/JimWest/ExtraEntitesMod
-// Designed to work with maps developed for Extra Entities Mod.  
-// Source located at - https://github.com/xToken/ClassicEnts
-// lua\ClassicEnts\ControlledTeleporter.lua
-// - Dragon
+-- Natural Selection 2 'Classic Entities Mod'
+-- Adds some additional entities inspired by Half-Life 1 and the Extra Entities Mod by JimWest - https://github.com/JimWest/ExtraEntitesMod
+-- Designed to work with maps developed for Extra Entities Mod.
+-- Source located at - https://github.com/xToken/ClassicEnts
+-- lua\ClassicEnts\ControlledTeleporter.lua
+-- - Dragon
 
 Script.Load("lua/Mixins/SignalListenerMixin.lua")
 Script.Load("lua/Trigger.lua")
@@ -163,12 +163,12 @@ function ControlledTeleporter:OnTriggerEntered(enterEnt, triggerEnt)
             GetEffectManager():TriggerEffects("teleport_trigger", { effecthostcoords = destinationCoords }, self)
 			
 			//EEM seems to place teleporters much closer to the brush objects
-			// make sure nothing blocks us
+			-- make sure nothing blocks us
 			local destYaw = enterEnt:GetAngles().yaw
 			local extents = LookupTechData(enterEnt:GetTechId(), kTechDataMaxExtents)
 			local teleportPointBlocked = Shared.CollideCapsule(enterEnt:GetOrigin(), extents.y, math.max(extents.x, extents.z), CollisionRep.Default, PhysicsMask.AllButPCs, nil)
 			if teleportPointBlocked then
-				// move it a bit so we're not getting blocked
+				-- move it a bit so we're not getting blocked
 				local antiStuckVector = Vector(0,0,0)
 				antiStuckVector.z = math.cos(destYaw)
 				antiStuckVector.x = math.sin(destYaw)
