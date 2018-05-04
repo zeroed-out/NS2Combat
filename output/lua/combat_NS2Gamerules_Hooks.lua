@@ -22,7 +22,6 @@ function CombatNS2Gamerules:OnLoad()
 	--self:PostHookClassFunction("NS2Gamerules", "ChooseTechPoint", "ChooseTechPoint_Hook"):SetPassHandle(true)
 	self:RawHookClassFunction("NS2Gamerules", "ResetGame", "ResetGame_Hook")
 	self:RawHookClassFunction("NS2Gamerules", "UpdateMapCycle", "UpdateMapCycle_Hook")
-	self:ReplaceClassFunction("NS2Gamerules", "CheckGameEnd", "CheckGameEnd_Hook")
 	self:ReplaceClassFunction("NS2Gamerules", "CheckGameStart", "CheckGameStart_Hook")
     
     ClassHooker:SetClassCreatedIn("Gamerules", "lua/Gamerules.lua")
@@ -676,110 +675,6 @@ function CombatNS2Gamerules:NS2Gamerules_GetUpgradedDamage_Hook(attacker, doer, 
         
     return damage * damageScalar
 
-end
-
-local function CheckAutoConcede(self)
-
-	PROFILE("NS2Gamerules:CheckAutoConcede")
-			
-	-- This is an optional end condition based on the teams being unbalanced.
-	local endGameOnUnbalancedAmount = Server.GetConfigSetting("end_round_on_team_unbalance")
-	if endGameOnUnbalancedAmount and endGameOnUnbalancedAmount > 0 then
-
-		local gameLength = Shared.GetTime() - self:GetGameStartTime()
-		-- Don't start checking for auto-concede until the game has started for some time.
-		local checkAutoConcedeAfterTime = Server.GetConfigSetting("end_round_on_team_unbalance_check_after_time") or 300
-		if gameLength > checkAutoConcedeAfterTime then
-
-			local team1Players = self.team1:GetNumPlayers()
-			local team2Players = self.team2:GetNumPlayers()
-			local totalCount = team1Players + team2Players
-			-- Don't consider unbalanced game end until enough people are playing.
-
-			if totalCount > 6 then
-			
-				local team1ShouldLose = false
-				local team2ShouldLose = false
-				
-				if (1 - (team1Players / team2Players)) >= endGameOnUnbalancedAmount then
-
-					team1ShouldLose = true
-				elseif (1 - (team2Players / team1Players)) >= endGameOnUnbalancedAmount then
-
-					team2ShouldLose = true
-				end
-				
-				if team1ShouldLose or team2ShouldLose then
-				
-					-- Send a warning before ending the game.
-					local warningTime = Server.GetConfigSetting("end_round_on_team_unbalance_after_warning_time") or 30
-					if self.sentAutoConcedeWarningAtTime and Shared.GetTime() - self.sentAutoConcedeWarningAtTime >= warningTime then
-						return team1ShouldLose, team2ShouldLose
-					elseif not self.sentAutoConcedeWarningAtTime then
-					
-						Shared.Message((team1ShouldLose and "Marine" or "Alien") .. " team auto-concede in " .. warningTime .. " seconds")
-						Server.SendNetworkMessage("AutoConcedeWarning", { time = warningTime, team1Conceding = team1ShouldLose }, true)
-						self.sentAutoConcedeWarningAtTime = Shared.GetTime()
-						
-					end
-					
-				else
-					self.sentAutoConcedeWarningAtTime = nil
-				end
-				
-			end
-			
-		else
-			self.sentAutoConcedeWarningAtTime = nil
-		end
-		
-	end
-	
-	return false, false
-	
-end
-
-kDrawGameWindow = 2
-kGameEndCheckInterval = 0.75	
-function CombatNS2Gamerules:CheckGameEnd_Hook(self)
-	if self:GetGameStarted() and self.timeGameEnded == nil and not Shared.GetCheatsEnabled() and not self.preventGameEnd then
-		
-		local time = Shared.GetTime()
-		if not self.timeNextGameEndCheck or self.timeNextGameEndCheck < time then
-			
-			local team1Lost, team2Lost = CheckAutoConcede(self)
-			
-			if team2Lost and team1Lost then
-				
-				-- It's a draw, end immediately
-				self:DrawGame()
-				
-			elseif self.team2Lost then
-				
-				-- Still no draw after kDrawGameWindow, count the win
-				self:EndGame( self.team1 )
-				
-			elseif self.team1Lost then
-				
-				-- Still no draw after kDrawGameWindow, count the win
-				self:EndGame( self.team2 )
-			
-			elseif team1Lost or team2Lost then
-				
-				-- Check for draw in kDrawGameWindow seconds
-				self.team1Lost = team1Lost
-				self.team2Lost = team2Lost
-				self.timeNextGameEndCheck = time + kDrawGameWindow
-				
-			else
-				
-				-- No victor yet, keep checking every kGameEndCheckInterval
-				self.timeNextGameEndCheck = time + kGameEndCheckInterval
-				
-			end
-
-		end
-	end
 end
 
 local function StartCountdown(self)
