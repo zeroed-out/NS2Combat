@@ -13,20 +13,6 @@ Script.Load("lua/PathUtil.lua")
 Script.Load("lua/fsfod_scripts.lua")
 Script.Load("lua/combat_Shared.lua")
 
-/*
-test = {
-chatMessage = "Test",
-teamOnly = false
-}
-
-Client.SendNetworkMessage("ChatClient", test, true)
-*/
-
-//Client.SendNetworkMessage("CombatModeActive_Client", {})
-
-// Register the files we don't want to ever load.
-// Seems to work well but not compatible with the ModSwitcher class yet.
-//Script.Load("lua/combat_FileOverrides.lua")
 
 // Loading the Hook classes
 Script.Load("lua/combat_DSPEffects.lua")
@@ -93,3 +79,4 @@ Script.Load("lua/PostLoadMod.lua")
 
 // Tell the class hooker that we've fully loaded.
 ClassHooker:OnLuaFullyLoaded()
+

@@ -57,9 +57,6 @@ if kCombatModActive then
     
 end
 
-// but load the weapon hook, even in vanilla ns2 that marine reloading is working
-Script.Load("lua/Weapons/Marines/combat_ClipWeapon.lua")
-
 Script.Load("lua/Shared.lua")
 Script.Load("lua/ClassUtility.lua")
 
@@ -68,6 +65,9 @@ Script.Load("lua/ExtraEntitiesMod/eem_Shared.lua")
 
 // Load the normal Ns2 Server Scripts
 Script.Load("lua/Server.lua")
+
+// but load the weapon hook, even in vanilla ns2 that marine reloading is working
+Script.Load("lua/Weapons/Marines/combat_ClipWeapon.lua")
 
 //disable the ranking system:
 Server.SetConfigSetting("hiveranking", false)

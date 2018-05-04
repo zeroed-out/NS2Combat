@@ -17,6 +17,7 @@ function CombatMarineTeam:OnLoad()
 
     ClassHooker:SetClassCreatedIn("MarineTeam", "lua/MarineTeam.lua") 
 	self:ReplaceClassFunction("MarineTeam", "SpawnInitialStructures", "SpawnInitialStructures_Hook")
+	self:ReplaceClassFunction("MarineTeam", "SpawnWarmUpStructures", "SpawnWarmUpStructures_Hook")
 	self:ReplaceClassFunction("MarineTeam", "Update", "Update_Hook")
 	
 end
@@ -25,8 +26,14 @@ end
 // Hooks MarineTeam
 //___________________
 
+
+function CombatMarineTeam:SpawnWarmUpStructures_Hook()
+end
+
 function CombatMarineTeam:SpawnInitialStructures_Hook(self, techPoint)
 
+    self.startTechPoint = techPoint
+    
     local tower, commandStation = PlayingTeam.SpawnInitialStructures(self, techPoint)
 
 	//Check if there is already an Armory
