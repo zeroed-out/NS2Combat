@@ -206,6 +206,9 @@ kCommandStationHealth = 6000
 -- Range for evolving to Onos/Exo from the Hive/CommandStation
 kTechRange = 20.0
 
+-- nerf range of xeno
+kXenocideRange = 9
+
 -- EMP energy drain
 kEMPBlastEnergyDamage = 75
 
