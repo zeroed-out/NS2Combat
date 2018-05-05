@@ -34,7 +34,7 @@ function CombatPlayingTeam:GetHasTeamLost_Hook(self)
 	if(GetGamerules():GetGameStarted()) then
     
         -- Team can't respawn or last Command Station or Hive destroyed
-        local numCommandStructures = self:GetNumCommandStructures()
+        local numCommandStructures = self:GetNumAliveCommandStructures()
         
         if  ( numCommandStructures == 0 ) or
             ( self:GetNumPlayers() == 0 ) then

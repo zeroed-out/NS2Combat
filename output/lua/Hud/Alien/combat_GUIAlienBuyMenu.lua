@@ -15,6 +15,21 @@ end
 
 Script.Load("lua/GUIAssets.lua")
 
+local function AlienBuy_GetHyperMutationCostReduction(alienType)
+
+    if AlienBuy_GetCurrentAlien() == alienType then
+        return 0
+    end    
+    
+    local costReduction = 0
+    local player = Client.GetLocalPlayer()
+    if player then        
+        costReduction = AlienBuy_GetAlienCost(alienType)
+    end
+    
+    return costReduction
+end
+
 local kLargeFont = Fonts.kAgencyFB_Large
 local kFont = Fonts.kAgencyFB_Small
 local cannotSelectSound = "sound/NS2.fev/alien/common/vision_off"
@@ -146,6 +161,8 @@ function CombatGUIAlienBuyMenu:_InitializeUpgradeButtons_Hook(self)
                 index = 95 
             elseif techId == kTechId.ThreeHives then
                 index = 77
+            elseif techId == kTechId.Vampirism then
+                index = 66
             else 
                 iconX, iconY = GetMaterialXYOffset(techId, false)
             end
@@ -545,10 +562,7 @@ function CombatGUIAlienBuyMenu:_HandleUpgradeClicked_Hook(self, mouseX, mouseY)
 				currentButton.Selected = not currentButton.Selected
 				inputHandled = true
 				if currentButton.Selected then AlienBuy_OnUpgradeSelected() else AlienBuy_OnUpgradeDeselected() end
-				-- Setup a tweener based on the state of the button so it moves to the correct spot.
-				local currentTweener = self:_GetUpgradeTweener(currentButton)
-				currentTweener.setCurrent((currentButton.Selected and 1) or 2)
-				currentTweener.setMode((currentButton.Selected and "forward") or "backward")
+			
 			end
 		end
     end

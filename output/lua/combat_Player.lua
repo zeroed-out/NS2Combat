@@ -594,7 +594,7 @@ if Server then
     end
 
     function Player:ProcessTauntAbilities()
-
+    
         if self.combatTable then
             if self.combatTable.hasEMP then
                 if  self.combatTable.lastEMP == 0 or Shared.GetTime() >= ( self.combatTable.lastEMP + kEMPTimer) then
@@ -605,7 +605,7 @@ if Server then
                     self:SendDirectMessage("EMP-taunt is not ready, wait " .. timeReady .. " sec")
                 end    
             elseif self.combatTable.hasInk then
-                if  self.combatTable.lastInk == 0 or Shared.GetTime() >= ( self.combatTable.lastInk + kInkTimer) then
+                if self.combatTable.lastInk == 0 or Shared.GetTime() >= ( self.combatTable.lastInk + kInkTimer) then
                     self:TriggerInk()
                     self.combatTable.lastInk = Shared.GetTime()
                 else

@@ -15,23 +15,13 @@ if(not HotReload) then
   ClassHooker:Mixin("CombatClipWeapon")
 end
     
+local idleTime = 0
+local animFrequency = 10 --Amount of time between idle animations
+    
 function CombatClipWeapon:OnLoad()
 
-    self:PostHookClassFunction("ClipWeapon", "OnUpdateAnimationInput", "OnUpdateAnimationInput_Hook")
+    --self:ReplaceClassFunction("ClipWeapon", "GetCatalystSpeedBase", "GetCatalystSpeedBase_Hook")
 	
-end
-
--- for fast reloading
-function CombatClipWeapon:OnUpdateAnimationInput_Hook(self, modelMixin)
-   
-    local player = self:GetParent()
-    if player then
-    
-        if kCombatModActive then
-            modelMixin:SetAnimationInput("reload_time", player:GotFastReload() and kCombatFastReloadTime or kClassicReloadTime)
-        end
-    end
-            
 end
 
 if (not HotReload) then

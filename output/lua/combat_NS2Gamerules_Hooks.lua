@@ -19,10 +19,9 @@ function CombatNS2Gamerules:OnLoad()
 	self:PostHookClassFunction("NS2Gamerules", "OnCreate", "OnCreate_Hook")
     self:ReplaceClassFunction("NS2Gamerules", "JoinTeam", "JoinTeam_Hook")
 	self:PostHookClassFunction("NS2Gamerules", "OnUpdate", "OnUpdate_Hook")
-	self:PostHookClassFunction("NS2Gamerules", "ChooseTechPoint", "ChooseTechPoint_Hook"):SetPassHandle(true)
+	--self:PostHookClassFunction("NS2Gamerules", "ChooseTechPoint", "ChooseTechPoint_Hook"):SetPassHandle(true)
 	self:RawHookClassFunction("NS2Gamerules", "ResetGame", "ResetGame_Hook")
 	self:RawHookClassFunction("NS2Gamerules", "UpdateMapCycle", "UpdateMapCycle_Hook")
-	self:ReplaceClassFunction("NS2Gamerules", "CheckGameEnd", "CheckGameEnd_Hook")
 	self:ReplaceClassFunction("NS2Gamerules", "CheckGameStart", "CheckGameStart_Hook")
     
     ClassHooker:SetClassCreatedIn("Gamerules", "lua/Gamerules.lua")
@@ -195,6 +194,7 @@ function CombatNS2Gamerules:JoinTeam_Hook(self, player, newTeamNumber, force)
 			
 		end
 		
+		
 		newPlayer:TriggerEffects("join_team")
 		
 		if success then
@@ -209,12 +209,6 @@ function CombatNS2Gamerules:JoinTeam_Hook(self, player, newTeamNumber, force)
 			if newPlayer.OnJoinTeam then
 				newPlayer:OnJoinTeam()
 			end    
-			
-			if newTeamNumber == kTeam1Index or newTeamNumber == kTeam2Index then
-				newPlayer:SetEntranceTime()
-			elseif newPlayer:GetEntranceTime() then
-				newPlayer:SetExitTime()
-			end
 			
 			Server.SendNetworkMessage(newPlayerClient, "SetClientTeamNumber", { teamNumber = newPlayer:GetTeamNumber() }, true)
 			
@@ -297,6 +291,50 @@ end
 
 -- After a certain amount of time the aliens need to win (except if it's marines vs marines).
 function CombatNS2Gamerules:OnUpdate_Hook(self, timePassed)
+    
+    
+    if self.justCreated then
+    
+        if not self.gameStarted then
+            self:ResetGame()
+        end
+        
+        self.justCreated = false
+        
+    end
+    
+    if self:GetMapLoaded() then
+    
+        self:CheckGameStart()
+        self:CheckGameEnd()
+
+        --self:UpdateWarmUp()
+        
+        self:UpdatePregame(timePassed)
+        self:UpdateToReadyRoom()
+        self:UpdateMapCycle()
+        self:ServerAgeCheck()
+        self:UpdateAutoTeamBalance(timePassed)
+        
+        self.timeSinceGameStateChanged = self.timeSinceGameStateChanged + timePassed
+        
+        self.worldTeam:Update(timePassed)
+        self.team1:Update(timePassed)
+        self.team2:Update(timePassed)
+        self.spectatorTeam:Update(timePassed)
+        
+        self:UpdatePings()
+        self:UpdateHealth()
+        self:UpdateTechPoints()
+
+        self:CheckForNoCommander(self.team1, "MarineCommander")
+        self:CheckForNoCommander(self.team2, "AlienCommander")
+        self:KillEnemiesNearCommandStructureInPreGame(timePassed)
+        
+        self:UpdatePlayerSkill()
+        self:UpdateNumPlayersForScoreboard()
+        
+        
 	local team1 = self:GetTeam(1)
 	local team2 = self:GetTeam(2)
 	
@@ -362,9 +400,14 @@ function CombatNS2Gamerules:OnUpdate_Hook(self, timePassed)
 	        kCombatTimeLeftPlayed = 0
 	    end
 	end
+        
+end
+
+
 end
 
 -- let ns2 find a techPoint for team1 and search the nearest techPoint for team2
+-- DISABLED FOR NOW
 local team1TechPoint = nil
 function CombatNS2Gamerules:ChooseTechPoint_Hook(handle, self, techPoints, teamNumber)
 
@@ -447,157 +490,223 @@ function CombatNS2Gamerules:ResetGame_Hook(self)
 		SendCombatGameTimeUpdate(player)
 	end
 
+    
+    self:SetGameState(kGameState.NotStarted)
+
+    TournamentModeOnReset()
+
+    -- Destroy any map entities that are still around
+    DestroyLiveMapEntities()
+    
+    -- Reset all players, delete other not map entities that were created during 
+    -- the game (hives, command structures, initial resource towers, etc)
+    -- We need to convert the EntityList to a table since we are destroying entities
+    -- within the EntityList here.
+    for index, entity in ientitylist(Shared.GetEntitiesWithClassname("Entity")) do
+    
+        -- Don't reset/delete NS2Gamerules or TeamInfo.
+        -- NOTE!!!
+        -- MapBlips are destroyed by their owner which has the MapBlipMixin.
+        -- There is a problem with how this reset code works currently. A map entity such as a Hive creates
+        -- it's MapBlip when it is first created. Before the entity:isa("MapBlip") condition was added, all MapBlips
+        -- would be destroyed on map reset including those owned by map entities. The map entity Hive would still reference
+        -- it's original MapBlip and this would cause problems as that MapBlip was long destroyed. The right solution
+        -- is to destroy ALL entities when a game ends and then recreate the map entities fresh from the map data
+        -- at the start of the next game, including the NS2Gamerules. This is how a map transition would have to work anyway.
+        -- Do not destroy any entity that has a parent. The entity will be destroyed when the parent is destroyed or
+        -- when the owner manually destroyes the entity.
+        local shieldTypes = { "GameInfo", "MapBlip", "NS2Gamerules", "PlayerInfoEntity" }
+        local allowDestruction = true
+        for i = 1, #shieldTypes do
+            allowDestruction = allowDestruction and not entity:isa(shieldTypes[i])
 end
 
-function CombatNS2Gamerules:UpdateMapCycle_Hook(self)
+        if allowDestruction and entity:GetParent() == nil then
 
+            local isMapEntity = entity:GetIsMapEntity()
+            local mapName = entity:GetMapName()
+
+            -- Reset all map entities and all player's that have a valid Client (not ragdolled players for example).
+            local resetEntity = entity:isa("TeamInfo") or entity:GetIsMapEntity() or (entity:isa("Player") and entity:GetClient() ~= nil)
+            if resetEntity then
+	
+                if entity.Reset then
+                    entity:Reset()
+	end
+
+            else
+                DestroyEntity(entity)
+end
+
+        end       
+
+    end
+
+    -- Clear out obstacles from the navmesh before we start repopualating the scene
+    RemoveAllObstacles()
+    
+    -- Build list of tech points
+    local techPoints = EntityListToTable(Shared.GetEntitiesWithClassname("TechPoint"))
+    if #techPoints < 2 then
+        Print("Warning -- Found only %d %s entities.", table.maxn(techPoints), TechPoint.kMapName)
+    end
+    local team1TechPoint, team2TechPoint
+        
+    if Server.teamSpawnOverride and #Server.teamSpawnOverride > 0 then
+            
+        for t = 1, #techPoints do
+                
+            local techPointName = string.lower(techPoints[t]:GetLocationName())
+            local selectedSpawn = Server.teamSpawnOverride[1]
+            if techPointName == selectedSpawn.marineSpawn then
+                team1TechPoint = techPoints[t]
+            elseif techPointName == selectedSpawn.alienSpawn then
+                team2TechPoint = techPoints[t]
+            end
+            
+        end
+                
+        if not team1TechPoint or not team2TechPoint then
+            Shared.Message("Invalid spawns, defaulting to normal spawns")
+            if Server.spawnSelectionOverrides then
+            
+                local selectedSpawn = self.techPointRandomizer:random(1, #Server.spawnSelectionOverrides)
+                selectedSpawn = Server.spawnSelectionOverrides[selectedSpawn]
+                
+                for t = 1, #techPoints do
+            
+                    local techPointName = string.lower(techPoints[t]:GetLocationName())
+                    if techPointName == selectedSpawn.marineSpawn then
+                        team1TechPoint = techPoints[t]
+                    elseif techPointName == selectedSpawn.alienSpawn then
+                        team2TechPoint = techPoints[t]
+        end
+        
+    end
+        
+            else
+
+                -- Reset teams (keep players on them)
+                team1TechPoint = self:ChooseTechPoint(techPoints, kTeam1Index)
+                team2TechPoint = self:ChooseTechPoint(techPoints, kTeam2Index)
+
+end
+
+        end
+
+    elseif Server.spawnSelectionOverrides then
+			
+        local selectedSpawn = self.techPointRandomizer:random(1, #Server.spawnSelectionOverrides)
+        selectedSpawn = Server.spawnSelectionOverrides[selectedSpawn]
+
+        for t = 1, #techPoints do
+
+            local techPointName = string.lower(techPoints[t]:GetLocationName())
+            if techPointName == selectedSpawn.marineSpawn then
+                team1TechPoint = techPoints[t]
+            elseif techPointName == selectedSpawn.alienSpawn then
+                team2TechPoint = techPoints[t]
+            end
+
+        end
+			
+    else
+				
+        -- Reset teams (keep players on them)
+        team1TechPoint = self:ChooseTechPoint(techPoints, kTeam1Index)
+        team2TechPoint = self:ChooseTechPoint(techPoints, kTeam2Index)
+
+				end
+				
+    self.team1:ResetPreservePlayers(team1TechPoint)
+    self.team2:ResetPreservePlayers(team2TechPoint)
+				
+    -- Save data for end game stats later.
+    self.startingLocationNameTeam1 = team1TechPoint:GetLocationName()
+    self.startingLocationNameTeam2 = team2TechPoint:GetLocationName()
+    self.startingLocationsPathDistance = GetPathDistance(team1TechPoint:GetOrigin(), team2TechPoint:GetOrigin())
+    self.initialHiveTechId = nil
+					
+    self.worldTeam:ResetPreservePlayers(nil)
+    self.spectatorTeam:ResetPreservePlayers(nil)    
+						
+    -- Create team specific entities
+    local commandStructure1 = self.team1:ResetTeam()
+    local commandStructure2 = self.team2:ResetTeam()
+					
+    -- Create living map entities fresh
+    CreateLiveMapEntities()
+				
+    self.forceGameStart = false
+    self.preventGameEnd = nil
+    -- Reset banned players for new game
+    self.bannedPlayers = {}
+			
+    -- Send scoreboard and tech node update, ignoring other scoreboard updates (clearscores resets everything)
+    for index, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
+        Server.SendCommand(player, "onresetgame")
+        player.sendTechTreeBase = true
+		end
+		
+    self.team1:OnResetComplete()
+    self.team2:OnResetComplete()
+	end
+	
+function CombatNS2Gamerules:UpdateMapCycle_Hook(self)
+	
 	if self.timeToCycleMap ~= nil and Shared.GetTime() >= self.timeToCycleMap then
 
 		local playerCount = Shared.GetEntitiesWithClassname("Player"):GetSize()
 		ModSwitcher_Save(nil, nil, playerCount, nil, nil, nil, nil, nil, false)
-	
+		
 	end
-
+			
 end
-
+			
 function CombatNS2Gamerules:NS2Gamerules_GetUpgradedDamage_Hook(attacker, doer, damage, damageType)
-
+				
     local damageScalar = 1
-
+				
     if attacker ~= nil then
-    
+				
         -- Damage upgrades only affect weapons, not ARCs, Sentries, MACs, Mines, etc.
         if doer:isa("Weapon") or doer:isa("Grenade") or doer:isa("Minigun") or doer:isa("Railgun") then
-        
+				
             if(GetHasTech(attacker, kTechId.Weapons3, true)) then
-            
+				
                 damageScalar = kWeapons3DamageScalar
-                
+			
             elseif(GetHasTech(attacker, kTechId.Weapons2, true)) then
-            
+				
                 damageScalar = kWeapons2DamageScalar
-                
+				
             elseif(GetHasTech(attacker, kTechId.Weapons1, true)) then
-            
+				
                 damageScalar = kWeapons1DamageScalar
-                
-            end
-            
-        end
+				
+			end
+
+		end
         
-    end
+	end
         
     return damage * damageScalar
 
 end
 
-local function CheckAutoConcede(self)
+local function StartCountdown(self)
 
-	PROFILE("NS2Gamerules:CheckAutoConcede")
-			
-	-- This is an optional end condition based on the teams being unbalanced.
-	local endGameOnUnbalancedAmount = Server.GetConfigSetting("end_round_on_team_unbalance")
-	if endGameOnUnbalancedAmount and endGameOnUnbalancedAmount > 0 then
-
-		local gameLength = Shared.GetTime() - self:GetGameStartTime()
-		-- Don't start checking for auto-concede until the game has started for some time.
-		local checkAutoConcedeAfterTime = Server.GetConfigSetting("end_round_on_team_unbalance_check_after_time") or 300
-		if gameLength > checkAutoConcedeAfterTime then
-
-			local team1Players = self.team1:GetNumPlayers()
-			local team2Players = self.team2:GetNumPlayers()
-			local totalCount = team1Players + team2Players
-			-- Don't consider unbalanced game end until enough people are playing.
-
-			if totalCount > 6 then
-			
-				local team1ShouldLose = false
-				local team2ShouldLose = false
-				
-				if (1 - (team1Players / team2Players)) >= endGameOnUnbalancedAmount then
-
-					team1ShouldLose = true
-				elseif (1 - (team2Players / team1Players)) >= endGameOnUnbalancedAmount then
-
-					team2ShouldLose = true
-				end
-				
-				if team1ShouldLose or team2ShouldLose then
-				
-					-- Send a warning before ending the game.
-					local warningTime = Server.GetConfigSetting("end_round_on_team_unbalance_after_warning_time") or 30
-					if self.sentAutoConcedeWarningAtTime and Shared.GetTime() - self.sentAutoConcedeWarningAtTime >= warningTime then
-						return team1ShouldLose, team2ShouldLose
-					elseif not self.sentAutoConcedeWarningAtTime then
-					
-						Shared.Message((team1ShouldLose and "Marine" or "Alien") .. " team auto-concede in " .. warningTime .. " seconds")
-						Server.SendNetworkMessage("AutoConcedeWarning", { time = warningTime, team1Conceding = team1ShouldLose }, true)
-						self.sentAutoConcedeWarningAtTime = Shared.GetTime()
-						
-					end
-					
-				else
-					self.sentAutoConcedeWarningAtTime = nil
-				end
-				
-			end
-			
-		else
-			self.sentAutoConcedeWarningAtTime = nil
-		end
-		
-	end
-	
-	return false, false
-	
+    self:ResetGame()
+    
+    self:SetGameState(kGameState.Countdown)
+    self.countdownTime = kCountDownLength
+    
+    self.lastCountdownPlayed = nil
+    
 end
-
-kDrawGameWindow = 2
-kGameEndCheckInterval = 0.75	
-function CombatNS2Gamerules:CheckGameEnd_Hook(self)
-	if self:GetGameStarted() and self.timeGameEnded == nil and not Shared.GetCheatsEnabled() and not self.preventGameEnd then
-		
-		local time = Shared.GetTime()
-		if not self.timeNextGameEndCheck or self.timeNextGameEndCheck < time then
-			
-			local team1Lost, team2Lost = CheckAutoConcede(self)
-			
-			if team2Lost and team1Lost then
-				
-				-- It's a draw, end immediately
-				self:DrawGame()
-				
-			elseif self.team2Lost then
-				
-				-- Still no draw after kDrawGameWindow, count the win
-				self:EndGame( self.team1 )
-				
-			elseif self.team1Lost then
-				
-				-- Still no draw after kDrawGameWindow, count the win
-				self:EndGame( self.team2 )
-			
-			elseif team1Lost or team2Lost then
-				
-				-- Check for draw in kDrawGameWindow seconds
-				self.team1Lost = team1Lost
-				self.team2Lost = team2Lost
-				self.timeNextGameEndCheck = time + kDrawGameWindow
-				
-			else
-				
-				-- No victor yet, keep checking every kGameEndCheckInterval
-				self.timeNextGameEndCheck = time + kGameEndCheckInterval
-				
-			end
-
-		end
-	end
-end
-
 function CombatNS2Gamerules:CheckGameStart_Hook(self)
 
-    if self:GetGameState() == kGameState.NotStarted or self:GetGameState() == kGameState.PreGame then
+    if self:GetGameState() <= kGameState.PreGame then
         
         -- Start pre-game when both teams have players or when once side does if cheats are enabled
         local team1Players = self.team1:GetNumPlayers()
@@ -605,12 +714,14 @@ function CombatNS2Gamerules:CheckGameStart_Hook(self)
             
         if (team1Players > 0 and team2Players > 0) or (Shared.GetCheatsEnabled() and (team1Players > 0 or team2Players > 0)) then
             
-            if self:GetGameState() == kGameState.NotStarted then
-                    self:SetGameState(kGameState.PreGame)
+            if self:GetGameState() < kGameState.PreGame then
+                StartCountdown(self)
             end
                 
-        elseif self:GetGameState() == kGameState.PreGame then
+        else
+            if self:GetGameState() == kGameState.PreGame then
             self:SetGameState(kGameState.NotStarted)
+        end
         end
             
     end

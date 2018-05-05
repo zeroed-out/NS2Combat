@@ -77,7 +77,6 @@ AmmoPack.kNumClips = 1
 kCatalystTimer = 14
 -- scan Duration, maybe we need to tune it a bit
 kScanDuration = 7
-kScanRadius = 40
 
 -- Make these less "spammy"
 kEMPTimer = 30
@@ -85,10 +84,6 @@ kInkTimer = 30
 -- reduce ink amount a bit
 ShadeInk.kShadeInkDisorientRadius = 9
 kCombatTauntCheckInterval = 4
-
--- fast reload
-kClassicReloadTime = 1.150000
-kCombatFastReloadTime = kClassicReloadTime * 1.375
 
 -- Focus
 kCombatFocusAttackSpeed = 0.6
@@ -126,10 +121,6 @@ kAlienEggsPerHive = 0
 kCamouflageTime = 2
 kCamouflageUncloakFactor = 2 / 3
 
--- Gorge Healspray heals more (and makes a bit more damage)
-kHealsprayDamage = 7
--- Conversely, reduce the welder's effectiveness from its original value of 150.
-kStructureWeldRate = 100
 -- The rate at which players heal the hive/cc should be multiplied by this ratio.
 kHiveCCHealRate = 0.3
 -- The rate at which players gain XP for healing... relative to damage dealt.
@@ -155,18 +146,8 @@ kHydraKillTime = 30
 -- Time delay for exo suits to power up.
 kExoPowerUpTime = 3
 
--- decrease the exo dmg a bit (with lvl 3 it will be then a bit above the standard 25)
-kMinigunDamage = 20
-
--- Flamethrower nerf
-kFlamethrowerDamage = 20
-
 -- Grenade Launcher nerf
 kGrenadeLauncherGrenadeDamage = 135
-
--- reduce the spike dmg a bit
-kSpikeMaxDamage = 10
-kSpikeMinDamage = 8
 
 -- Ammo for mines
 kNumMines = 1

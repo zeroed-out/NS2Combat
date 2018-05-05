@@ -10,13 +10,15 @@
 -- Provide a deep copy function for the tech tree.
 function TechTree:CopyDataFrom(techTree)
 	self.nodeList = {}
-	-- Deep clone the node list.
-	local index, oldTechNode = next(techTree.nodeList, nil)
+    self.techIdList = {} -- list of avaible techids (used for iterating over techtree
+	-- Deep clone the node list.	local index, oldTechNode = next(techTree.nodeList, nil)
 	while index do
 		local techId = oldTechNode:GetTechId()
 		local newTechNode = TechNode()
+        local nodeEntityId = newTechNode:GetTechId()
 		newTechNode:CopyDataFrom(oldTechNode)
 		self.nodeList[techId] = newTechNode
+        self.techIdList[#self.techIdList + 1] = nodeEntityId
 		index, oldTechNode = next(techTree.nodeList, index)
 	end
     

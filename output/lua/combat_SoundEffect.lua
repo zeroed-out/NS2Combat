@@ -19,6 +19,7 @@ end
 
 local kTauntSounds =
 {
+    "sound/NS2.fev/alien/voiceovers/chuckle",
     "sound/NS2.fev/alien/skulk/taunt",
     "sound/NS2.fev/alien/gorge/taunt",
     "sound/NS2.fev/alien/lerk/taunt",
@@ -26,6 +27,9 @@ local kTauntSounds =
     "sound/NS2.fev/alien/onos/taunt",
     "sound/NS2.fev/alien/common/swarm",
 	"sound/NS2.fev/marine/voiceovers/taunt",
+	"sound/NS2.fev/marine/voiceovers/taunt_female",
+	"sound/NS2.fev/marine/voiceovers/taunt_exclusive",
+	"sound/NS2.fev/marine/voiceovers/taunt_exclusive_female",
 }
 
 -- Hooks for Ink and EMP are in here.
