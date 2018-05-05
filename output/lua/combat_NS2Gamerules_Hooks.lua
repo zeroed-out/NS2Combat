@@ -194,6 +194,7 @@ function CombatNS2Gamerules:JoinTeam_Hook(self, player, newTeamNumber, force)
 			self.sponitor:OnJoinTeam(newPlayer, team)
 			
 			if oldPlayerWasSpectating then
+                local newPlayerClient = Server.GetOwner(newPlayer)
 				newPlayerClient:SetSpectatingPlayer(nil)
 			end
 			
