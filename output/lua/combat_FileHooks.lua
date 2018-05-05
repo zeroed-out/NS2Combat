@@ -42,3 +42,4 @@ end
 
 
 ModLoader.SetupFileHook( "lua/Weapons/Marine/ClipWeapon.lua", "lua/Combat/ClipWeapon.lua", "post" )
+ModLoader.SetupFileHook( "lua/CommandStructure.lua", "lua/Combat/CommandStructure.lua", "post" )
