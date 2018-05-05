@@ -1,6 +1,0 @@
-modEntry = {
-	Client = "lua/ClassicEnts/Client.lua",
-	Predict = "lua/ClassicEnts/Predict.lua",
-	Server = "lua/ClassicEnts/Server.lua",
-	Priority = 10
-}
