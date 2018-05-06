@@ -13,7 +13,7 @@
 class 'GUIDevouredPlayer' (GUIAnimatedScript)
 
 GUIDevouredPlayer.kBackgroundTexture = "ui/devour.dds"
-GUIDevouredPlayer.kMaskTexture = PrecacheAsset("ui/white.dds")
+GUIDevouredPlayer.kMaskTexture = PrecacheAsset("materials/dev/dev_white.dds")
 
 GUIDevouredPlayer.kBackgroundWidth = GUIScale(1500)
 GUIDevouredPlayer.kBackgroundHeight = GUIScale(1500)
