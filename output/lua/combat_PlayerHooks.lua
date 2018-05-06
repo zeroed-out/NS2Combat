@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_PlayerHooks.lua
+-- combat_PlayerHooks.lua
 
   CombatPlayer = CombatPlayer or {}
   ClassHooker:Mixin("CombatPlayer")
@@ -26,12 +26,12 @@ function CombatPlayer:OnLoad()
 end
 
 
-// Implement lvl and XP
+-- Implement lvl and XP
 function CombatPlayer:Reset_Hook(self)
 	self:ResetCombatData()	
 end
 
-// Copy old lvl and XP when respawning 
+-- Copy old lvl and XP when respawning
 function CombatPlayer:CopyPlayerDataFrom_Hook(self, player)    
 
 	self.combatTable = player.combatTable
@@ -48,8 +48,8 @@ end
 
 function CombatPlayer:OnCreate_Hook(self)
 
-	// Set up the timers for repetitive check events.
-	// This should improve performance somewhat as well.
+	-- Set up the timers for repetitive check events.
+	-- This should improve performance somewhat as well.
 	self:AddTimedCallback(CombatHandleQueuedMessages, 1)
 	self.lastReminderNotify = Shared.GetTime()
 
@@ -57,16 +57,16 @@ end
 
 function CombatHandleQueuedMessages(self)
 
-	// Handle queued direct messages.
+	-- Handle queued direct messages.
 	if (self.directMessagesActive ~= nil and self.directMessagesActive > 0) then
 		if (Shared.GetTime() - self.timeOfLastDirectMessage > kDirectMessageFadeTime) then
 		
-			// After the fade time has passed, clear old messages from the queue.
+			-- After the fade time has passed, clear old messages from the queue.
 			for msgIndex = 1, math.min(self.directMessagesActive, kDirectMessagesNumVisible) do
 				self.directMessagesActive = self.directMessagesActive - 1
 			end
 			
-			// Send any waiting messages, up to kDirectMessagesNumVisible.
+			-- Send any waiting messages, up to kDirectMessagesNumVisible.
 			if (#self.directMessageQueue > 0) then
 				for msgIndex = 1, math.min(#self.directMessageQueue, kDirectMessagesNumVisible) do
 					local message = table.remove(self.directMessageQueue, 1)
@@ -83,17 +83,17 @@ function CombatHandleQueuedMessages(self)
 	
 end
 
-// Various updates and timers in here.
+-- Various updates and timers in here.
 function CombatPlayer:OnUpdatePlayer_Hook(self, deltaTime)
 		
-	// Spawn Protect
+	-- Spawn Protect
 	self:CheckCombatData()
 	if self.combatTable.activeSpawnProtect then
 	
 		if self:GetIsAlive() and (self:GetTeamNumber() == 1 or self:GetTeamNumber() == 2) then
 		
 			if not self.combatTable.deactivateSpawnProtect then
-				// set the real spawn protect time here
+				-- set the real spawn protect time here
 				local spawnProtectTime = 0
 				if self:isa("Alien") then
 					spawnProtectTime = kCombatAlienSpawnProtectTime
@@ -105,7 +105,7 @@ function CombatPlayer:OnUpdatePlayer_Hook(self, deltaTime)
 			end
 			
 			if Shared.GetTime() >= self.combatTable.deactivateSpawnProtect then
-				// end spawn protect
+				-- end spawn protect
 				self:DeactivateSpawnProtect()
 			else
 				if not self.gotSpawnProtect then
@@ -116,27 +116,27 @@ function CombatPlayer:OnUpdatePlayer_Hook(self, deltaTime)
 		
 	end
 	
-	// Putting this here to try and fix the giving xp on join.
-	// Also helps us write the xp balancing function later.
+	-- Putting this here to try and fix the giving xp on join.
+	-- Also helps us write the xp balancing function later.
 	if self:GetIsPlaying() then
 		if self.combatTable.setAvgXp then
 			local avgXp = Experience_GetAvgXp(self)
-			// Send the avg as a message to the player (%d doesn't work with SendDirectMessage)
+			-- Send the avg as a message to the player (%d doesn't work with SendDirectMessage)
 			self:BalanceXp(avgXp)
 			
-			// Reset the average Xp flag.
+			-- Reset the average Xp flag.
 			self.combatTable.setAvgXp = false
 		end
 	end
 	
-	// only trigger Scan and Resupply when player is alive
+	-- only trigger Scan and Resupply when player is alive
 	if self:GetIsAlive() then
 
-		// Only if player get not devoured
+		-- Only if player get not devoured
 		if not self:isa("DevouredPlayer") then 
-		// Provide scan and resupply function
+		-- Provide scan and resupply function
 			if self.combatTable.hasScan then
-				// SCAN!!
+				-- SCAN!!
 				if (self.combatTable.lastScan + deltaTime >= kScanTimer) then
 				
 					local success = self:ScanNow()
@@ -153,7 +153,7 @@ function CombatPlayer:OnUpdatePlayer_Hook(self, deltaTime)
 			if self.combatTable.hasResupply then
 				if (self.combatTable.lastResupply + deltaTime >= kResupplyTimer) then
 				
-					// Keep the timer going, even if we don't need to resupply.
+					-- Keep the timer going, even if we don't need to resupply.
 					local success = false
 					if (self:NeedsResupply()) then
 						success = self:ResupplyNow()
@@ -188,11 +188,11 @@ function CombatPlayer:GetCanTakeDamageOverride_Hook(handle, self)
 
 end
 
-//___________________
-// Hooks Alien_Upgrade
-//___________________
+--___________________
+-- Hooks Alien_Upgrade
+--___________________
 
-// Hook GetIsTechAvailable so Aliens can get Ups Like cara, cele etc.
+-- Hook GetIsTechAvailable so Aliens can get Ups Like cara, cele etc.
 function CombatPlayer:GetIsTechAvailable_Hook(self, teamNumber, techId)
 
     return true

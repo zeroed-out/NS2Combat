@@ -1,6 +1,6 @@
-//
-//   Created by:   fsfod
-//
+--
+--   Created by:   fsfod
+--
 --[[
 3 hook types:
 
@@ -87,7 +87,7 @@ ClassHooker = {
   
   MainLuaLoadingFinished = false,
   InstantHookLibs = {
-    //["Client"] = true, 
+    --["Client"] = true,
     ["Server"] = true, 
     ["Shared"] = true
   }
@@ -282,7 +282,7 @@ local function CheckSetOrignal(hookData, OrignalFunction)
    return
   end
   
-  //update hookData.Orignal if its not set to a replacer or blocker hook function
+  --update hookData.Orignal if its not set to a replacer or blocker hook function
   if(hookData.Orignal == hookData.RealOrignal) then
     hookData.Orignal = OrignalFunction
   end
@@ -290,7 +290,7 @@ local function CheckSetOrignal(hookData, OrignalFunction)
   hookData.RealOrignal = OrignalFunction
 
   if(hookData.ReplacedOrignal) then
-   // hookData.ReplacedOrignal = OrignalFunction
+   -- hookData.ReplacedOrignal = OrignalFunction
   end
 end
 
@@ -333,7 +333,7 @@ function ClassHooker:CreateAndSetHook(hookData, funcname)
     error(string.format("function \"%s\" does not exist%s", funcname, (hookData.Library and "in library ") or ""))
   end
   
-  //we do allow the crazy edge case of table with a call __call operator but not userdata because it could be a class
+  --we do allow the crazy edge case of table with a call __call operator but not userdata because it could be a class
   if(type(OrignalFunction) ~= "function" and (type(OrignalFunction) ~= "table" or getmetable(OrignalFunction).__call == nil)) then
     error(string.format("function \"%s\"%s is not valid hook target because its not a function", funcname, (hookData.Library and (" in library "..hookData.Library)) or ""))
   end
@@ -506,7 +506,7 @@ function ClassHooker:ProcessHookEntryFlags(handle, flags)
 end
 
 
-//if the library is either Shared, Client or Server then hook will instantly be set
+--if the library is either Shared, Client or Server then hook will instantly be set
 function ClassHooker:HookLibraryFunctionType(hookType, libName, functionName, FuncOrSelf, callbackFuncName, flags)
 
   local LibHookList = self.LibaryHooks[libName]
@@ -794,7 +794,7 @@ function ClassHooker:SetClassCreatedIn(class, luafile)
   end
   
   local path = LoadTracker.NormalizePath(luafile)
-  //
+  --
   if(self.CreatedIn[class]) then
     if(self.CreatedIn[class] ~= path) then
       error(string.format("ClassHooker:SetClassCreatedIn 2 diffent paths have been set for the same class(%s) %s and %s", class, self.CreatedIn[class], path))
@@ -883,7 +883,7 @@ function ClassHooker:ClientLoadComplete()
     return
   end
 
-  //check for any unset client hooks now that the client library is fully loaded
+  --check for any unset client hooks now that the client library is fully loaded
   for funcName,hooktbl in pairs(self.LibaryHooks["Client"]) do
     if(not hooktbl.Dispatcher) then
       self:CreateAndSetHook(hooktbl, funcName)

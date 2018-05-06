@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_SoundEffect.lua
+-- combat_SoundEffect.lua
 
 local HotReload = CombatSoundEffect
 if(not HotReload) then
@@ -32,17 +32,17 @@ local kTauntSounds =
 	"sound/NS2.fev/marine/voiceovers/taunt_exclusive_female",
 }
 
-// Hooks for Ink and EMP are in here.
+-- Hooks for Ink and EMP are in here.
 function CombatSoundEffect:StartSoundEffectOnEntity_Hook(soundEffectName, onEntity)
 
 	if onEntity and onEntity:isa("Player") then
 		onEntity:CheckCombatData()
 		
-		// Check whether the sound is a taunt sound
+		-- Check whether the sound is a taunt sound
 		for index, tauntSoundName in ipairs(kTauntSounds) do
 			if (soundEffectName == tauntSoundName) then
 				
-				// Now check whether the player has taunted recently and fire taunt abilities.
+				-- Now check whether the player has taunted recently and fire taunt abilities.
 				if (Shared.GetTime() - onEntity.combatTable.lastTauntTime > kCombatTauntCheckInterval) then
 					onEntity:ProcessTauntAbilities()
 					onEntity.combatTable.lastTauntTime = Shared.GetTime()

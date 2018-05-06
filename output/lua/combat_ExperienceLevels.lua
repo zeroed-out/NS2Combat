@@ -1,15 +1,15 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_ExperienceLevels.lua
+-- combat_ExperienceLevels.lua
 
-// XP-List
-//Table for 
-//    LVL,  needed XP to reach, RineName, AlienName, givenXP to killer     
+-- XP-List
+--Table for
+--    LVL,  needed XP to reach, RineName, AlienName, givenXP to killer
 local HotReload = XpList
 if(not HotReload) then
 	XpList = {}
@@ -35,12 +35,12 @@ function Experience_GetLvl(xp)
 
 	local returnlevel = 1
 
-	// Look up the level of this amount of Xp
+	-- Look up the level of this amount of Xp
 	if xp >= maxXp then 
 		return maxLvl
 	end
 	
-	// ToDo: Do a faster search instead. We're going to be here a lot!
+	-- ToDo: Do a faster search instead. We're going to be here a lot!
 	for index, thislevel in ipairs(XpList) do
 	
 		if xp >= thislevel["XP"] and 
@@ -58,7 +58,7 @@ end
 function Experience_GetLvlName(lvl, team)
 
 	local LvlName = ""
-	// ToDo: Support Marine vs Marine?
+	-- ToDo: Support Marine vs Marine?
 	if (team == 1) then
 		LvlName = XpList[lvl]["MarineName"]
 	else

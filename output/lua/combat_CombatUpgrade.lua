@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_CombatUpgrade.lua
+-- combat_CombatUpgrade.lua
 
 Script.Load("lua/combat_ExperienceEnums.lua")
 							
@@ -84,9 +84,9 @@ end
 
 function CombatUpgrade:GetIsHardCapped(player)
 
-	// Hard cap scale is expressed e.g. 1/5
-	// So if we have more than 1 player with this upgrade per 5 players we are hardcapped.
-	// Recalculate at the point someone tries to buy for accuracy.
+	-- Hard cap scale is expressed e.g. 1/5
+	-- So if we have more than 1 player with this upgrade per 5 players we are hardcapped.
+	-- Recalculate at the point someone tries to buy for accuracy.
 	if (self.hardCapScale > 0) then
 	
 		local teamPlayers = GetEntitiesForTeam("Player", player:GetTeamNumber())
@@ -95,7 +95,7 @@ function CombatUpgrade:GetIsHardCapped(player)
 		
 		for index, teamPlayer in ipairs(teamPlayers) do
 		
-			// Skip dead players
+			-- Skip dead players
 			if (teamPlayer:GetIsAlive()) then
 				
 				if (teamPlayer:GetHasCombatUpgrade(self:GetId())) then
@@ -138,16 +138,16 @@ function CombatUpgrade:ExecuteTechUpgrade(player)
 	node:SetHasTech(true)
 	techTree:SetTechNodeChanged(node)
 	techTree:SetTechChanged()
-	// Update the tech tree and send updates to the client. Don't know why, but it's only working when we send it here.
-    //techTree:SendTechTreeBase(player)
+	-- Update the tech tree and send updates to the client. Don't know why, but it's only working when we send it here.
+    --techTree:SendTechTreeBase(player)
 
-    // Update the hard cap count, if necessary
+    -- Update the hard cap count, if necessary
 	if (self:GetHardCapScale() > 0) then
 		self:UpdateHardCapCount(player:GetTeamNumber())
 	end
 end
 
-// Update the count for the upgrades at the time of buying, to improve the user experience.
+-- Update the count for the upgrades at the time of buying, to improve the user experience.
 function CombatUpgrade:UpdateHardCapCount(teamIndex)
 
 	UpdateUpgradeCountsForTeam(GetGamerules(), teamIndex)
@@ -167,9 +167,9 @@ function CombatUpgrade:DoUpgrade(player)
 	local techId = self:GetTechId()
 	local kMapName = LookupTechData(techId, kTechDataMapName)
 	
-	// Generic functions for upgrades and custom ones.
+	-- Generic functions for upgrades and custom ones.
 	if self:HasCustomFunc() then
-		// If the custom function returns a new player then use that instead.
+		-- If the custom function returns a new player then use that instead.
 		local customFunc = self:GetCustomFunc()
 		local customReturnPlayer = customFunc(player, self)
 		if (customReturnPlayer) then
@@ -179,7 +179,7 @@ function CombatUpgrade:DoUpgrade(player)
 		self:ExecuteTechUpgrade(player)
 	end
 	
-	// Do specific stuff for aliens or marines.
+	-- Do specific stuff for aliens or marines.
     self:TeamSpecificLogic(player)
 end
 
@@ -187,14 +187,14 @@ local origGetIsTechUnlocked = GetIsTechUnlocked
 function GetIsTechUnlocked(player, techId)
 
 	if player:isa("Alien") then
-		// Check for Tier 2 ups
+		-- Check for Tier 2 ups
 		for _, v in ipairs(kCombatAlienTierTwoTechIds) do
 	    	if techId == v then
 	    		return player.twoHives
 	    	end
 	    end
 
-	    // Check for Tier 3 ups
+	    -- Check for Tier 3 ups
 		for _, v in ipairs(kCombatAlienTierThreeTechIds) do
 	    	if techId == v then
 	    		return player.threeHives

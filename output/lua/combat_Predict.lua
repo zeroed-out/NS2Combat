@@ -1,19 +1,19 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_Predict.lua
+-- combat_Predict.lua
 
-// Set the name of the VM for debugging
+-- Set the name of the VM for debugging
 decoda_name = "Predict"
 
-// sewleks framework
+-- sewleks framework
 Script.Load("lua/PreLoadMod.lua")
 
-// Load the script from fsfod that we can hook some functions
+-- Load the script from fsfod that we can hook some functions
 Script.Load("lua/PathUtil.lua")
 Script.Load("lua/fsfod_scripts.lua")
 

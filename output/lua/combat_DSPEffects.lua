@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_DSPEffects.lua
+-- combat_DSPEffects.lua
 
 local devouredPlayerLowPassId = -1
 local devouredPlayerEchoId = -1
@@ -25,12 +25,12 @@ end
 
 function CombatDSPEffects:CreateDSPs_Hook()
 
-    // Devoured effect low-pass filter.
+    -- Devoured effect low-pass filter.
     devouredPlayerLowPassId = Client.CreateDSP(SoundSystem.DSP_LowPassSimple)
     Client.SetDSPActive(devouredPlayerLowPassId, false)
     Client.SetDSPFloatParameter(devouredPlayerLowPassId, 0, 3000)
 	
-	// Devoured effect echo filter.
+	-- Devoured effect echo filter.
 	devouredPlayerEchoId = Client.CreateDSP(SoundSystem.DSP_Echo)
 	Client.SetDSPActive(devouredPlayerEchoId, false)
     Client.SetDSPFloatParameter(devouredPlayerEchoId, 0, 45)

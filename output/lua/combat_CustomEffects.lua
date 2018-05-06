@@ -1,13 +1,13 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_CustomEffects.lua
+-- combat_CustomEffects.lua
 
-// Sounds for both client and server
+-- Sounds for both client and server
 CombatEffects = {}
 CombatEffects.kMarineLvlUpSound = PrecacheAsset("sound/combat.fev/combat/upgrades/marine_lvl_up")
 CombatEffects.kAlienLvlUpSound = PrecacheAsset("sound/NS2.fev/alien/common/res_received")
@@ -18,7 +18,7 @@ CombatEffects.kLastStandAnnounce = PrecacheAsset("sound/combat.fev/combat/genera
 kCombatEffects =
 {
  
-	// When a player levels up...
+	-- When a player levels up...
     combat_level_up =
     {
         levelUpEffects = 
@@ -35,7 +35,7 @@ kCombatEffects =
         resReceivedEffects =
         {
             {private_sound = "sound/combat.fev/combat/upgrades/alien_lvl_up", classname = "Alien", done = true},
-            // Marine/Exo
+            -- Marine/Exo
             {private_sound = "sound/NS2.fev/marine/common/res_received", done = true},
 
         },

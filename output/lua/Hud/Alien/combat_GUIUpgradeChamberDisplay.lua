@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_GUIUpgradeChamberDisplay.lua
+-- combat_GUIUpgradeChamberDisplay.lua
 
 local HotReload = CombatGUIUpgradeChamberDisplay
 if(not HotReload) then
@@ -20,7 +20,7 @@ function CombatGUIUpgradeChamberDisplay:OnLoad()
 	
 end
 
-// Hide the chamber GUI
+-- Hide the chamber GUI
 function CombatGUIUpgradeChamberDisplay:Initialize_Hook(self)
 
     self.background:SetIsVisible(false)

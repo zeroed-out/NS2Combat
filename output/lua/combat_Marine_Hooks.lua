@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_Marine.lua
+-- combat_Marine.lua
 
 local HotReload = CombatMarine
 if(not HotReload) then
@@ -23,25 +23,25 @@ function CombatMarine:OnLoad()
     
 end
 
-//___________________
-// Hooks Marine
-//___________________
+--___________________
+-- Hooks Marine
+--___________________
 
-// Dont' drop Weapons after getting killed, but destroy them!
+-- Dont' drop Weapons after getting killed, but destroy them!
 function CombatMarine:MarineOnKill_Hook(self, damage, attacker, doer, point, direction)
 
     self:DestroyWeapons()
 	
 end
 
-// Weapons can't be dropped anymore
+-- Weapons can't be dropped anymore
 function CombatMarine:Drop_Hook(self, weapon, ignoreDropTimeLimit, ignoreReplacementWeapon)
 
-	// just do nothing
+	-- just do nothing
 
 end
 
-// Return the new marine so that we can update the player that is referenced.
+-- Return the new marine so that we can update the player that is referenced.
 function CombatMarine:GiveJetpack_Hook(self)
 
     local activeWeapon = self:GetActiveWeapon()
@@ -63,7 +63,7 @@ end
 
 function CombatMarine:OnTakeDamage_Hook(self, damage, attacker, doer, point)
 
-	// Activate the Catalyst Pack.
+	-- Activate the Catalyst Pack.
 	self:CheckCombatData()
 	self:CheckCatalyst()
 

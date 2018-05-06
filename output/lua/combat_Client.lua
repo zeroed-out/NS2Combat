@@ -1,20 +1,20 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// sewleks framework
+-- sewleks framework
 Script.Load("lua/PreLoadMod.lua")
 
-// Load the script from fsfod that we can hook some functions
+-- Load the script from fsfod that we can hook some functions
 Script.Load("lua/PathUtil.lua")
 Script.Load("lua/fsfod_scripts.lua")
 Script.Load("lua/combat_Shared.lua")
 
 
-// Loading the Hook classes
+-- Loading the Hook classes
 Script.Load("lua/combat_DSPEffects.lua")
 Script.Load("lua/Hud/Marine/combat_GUIMarineHud.lua")
 Script.Load("lua/Hud/Alien/combat_GUIAlienBuyMenu.lua")
@@ -33,22 +33,21 @@ Script.Load("lua/ClientResources.lua")
 Script.Load("lua/Shared.lua")
 Script.Load("lua/ClassUtility.lua")
 
-
-// Load the normal Ns2 Client Scripts
+-- Load the normal Ns2 Client Scripts
 Script.Load("lua/Client.lua")
 
-// new functions, no hooks
-// to provide the client also with all Ups (for the GUI)
+-- new functions, no hooks
+-- to provide the client also with all Ups (for the GUI)
 
 function combatLoadClientFunctions()
 
-	// Language support
+	-- Language support
 	Script.Load("lua/combat_Locale.lua")
 	local locale = Client.GetOptionString( "locale", "enUS" )
-	// Test for locale here when we have more languages added.
+	-- Test for locale here when we have more languages added.
 	Script.Load("gamestrings/combat_enUS.lua")
 	
-	// Load everything we need for Combat
+	-- Load everything we need for Combat
     Script.Load("lua/combat_Player_ClientUpgrade.lua")
     Script.Load("lua/combat_CustomEffects.lua")
     Script.Load("lua/combat_CombatUpgrade.lua")
@@ -75,6 +74,6 @@ end
 
 Script.Load("lua/PostLoadMod.lua")
 
-// Tell the class hooker that we've fully loaded.
+-- Tell the class hooker that we've fully loaded.
 ClassHooker:OnLuaFullyLoaded()
 

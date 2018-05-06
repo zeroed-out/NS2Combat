@@ -1,21 +1,21 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_Player_SharedUpgrade.lua
+-- combat_Player_SharedUpgrade.lua
 
-// Sound Precache here
+-- Sound Precache here
 
-// helper functions for the buy Menu
+-- helper functions for the buy Menu
 
 function Player:GetScore()
 
-    // There are cases where the player name will be nil such as right before
-    // this Player is destroyed on the Client (due to the scoreboard removal message
-    // being received on the Client before the entity removed message). Play it safe.
+    -- There are cases where the player name will be nil such as right before
+    -- this Player is destroyed on the Client (due to the scoreboard removal message
+    -- being received on the Client before the entity removed message). Play it safe.
     local scoreboardScore = Scoreboard_GetPlayerData(self:GetClientIndex(), "Score") or 0
 	local playerScore = self.score
 	local bestGuessScore = 0
@@ -36,7 +36,7 @@ function Player:GotRequirements(upgrade)
     if upgrade then
         local requirements = upgrade:GetRequirements()
 
-        // does this up needs other ups??
+        -- does this up needs other ups??
         if requirements then
             requiredUpgrade = GetUpgradeFromId(requirements)    
             if (self.combatUpgrades and table.maxn(self.combatUpgrades) > 0) then
@@ -62,7 +62,7 @@ function Player:GotRequirementsFromTechIds(upgrade, upgradeTechIdList)
     if upgrade then
         local requirements = upgrade:GetRequirements()
 
-        // does this up needs other ups??
+        -- does this up needs other ups??
         if requirements then
 			requiredUpgrade = GetUpgradeFromId(requirements)    
 			for i, techId in pairs(upgradeTechIdList) do
@@ -101,7 +101,7 @@ function Player:GetUpgrades()
     
     if (self.combatUpgrades and table.maxn(self.combatUpgrades) > 0) then    
         for i, id in ipairs(self.combatUpgrades) do
-            // dunno why but the first entry is now nil
+            -- dunno why but the first entry is now nil
             if not(id == "nil") then
                 local upgrade = GetUpgradeFromId(tonumber(id))
                 local techId = upgrade:GetTechId()
@@ -120,7 +120,7 @@ function Player:GetUpgrades()
         end   
  
         if (table.maxn(deleteIDs) > 0) and (table.maxn(upgrades) > 0) then
-            // sort upgrades, if we got wpn2, delete wpn1 again etc..
+            -- sort upgrades, if we got wpn2, delete wpn1 again etc..
             for i, deleteId in ipairs(deleteIDs) do
                 for j, techId in ipairs(upgrades) do
                     if techId == deleteId then
@@ -139,7 +139,7 @@ function Player:GetUpgrades()
 end
 
 
-// sends the buy command to the console
+-- sends the buy command to the console
 function Player:Combat_PurchaseItemAndUpgrades(textCodes)
 
     local buyString = ""
@@ -179,7 +179,7 @@ function Player:GetNextLevelXP()
 
 end
 
-// Return the proportion of this level that we've progressed.
+-- Return the proportion of this level that we've progressed.
 function Player:GetLevelProgression()
 
 	local xp = self:GetScore()

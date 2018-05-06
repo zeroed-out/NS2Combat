@@ -1,23 +1,23 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_Player.lua
+-- combat_Player.lua
 
-// Load the Upgrade functions too...
+-- Load the Upgrade functions too...
 Script.Load("lua/combat_Player_Upgrades.lua")
 
-//___________________
-// New functions,
-// not hooked
-//___________________
+--___________________
+-- New functions,
+-- not hooked
+--___________________
 
-// first functions should also be loaded by client and predict
+-- first functions should also be loaded by client and predict
 
-// check for FastReload
+-- check for FastReload
 function Player:GotFastReload()
     
     local fastReload = false
@@ -45,7 +45,7 @@ function Player:GotFastReload()
 
 end
 
-// check focus upgrade and weapon
+-- check focus upgrade and weapon
 function Player:GotFocus()
 
     local gotFocus = false
@@ -53,7 +53,7 @@ function Player:GotFocus()
     if Server then
 		self:CheckCombatData()
         if self.combatTable.hasFocus then
-            // check the weapon
+            -- check the weapon
             if self:IsAttackingPrimry() then
                 gotFocus = true
             end       
@@ -81,8 +81,8 @@ end
 function  Player:IsAttackingPrimry()
     local activeWeapon = self:GetActiveWeapon()
     if activeWeapon then
-        // only give focus when primary attacking, every weapon has itsn own attribute so its a bit dirty, but it works
-        // there is a primaryAttacking on every weapon, but only on bite its getting true
+        -- only give focus when primary attacking, every weapon has itsn own attribute so its a bit dirty, but it works
+        -- there is a primaryAttacking on every weapon, but only on bite its getting true
         if (activeWeapon.primaryAttacking == true or activeWeapon.firingPrimary == true or activeWeapon.attacking == true or activeWeapon.attackButtonPressed == true) then
             local hudSlot = activeWeapon.GetHUDSlot()                
             if hudSlot == 1 then
@@ -94,7 +94,7 @@ function  Player:IsAttackingPrimry()
 end
 
 if Server then
-    // function for spawn protect
+    -- function for spawn protect
 
     function Player:SetSpawnProtect()
 
@@ -118,17 +118,17 @@ if Server then
         end
         */
 		
-        // Deactivate the nano shield by manipulating the time variable.
+        -- Deactivate the nano shield by manipulating the time variable.
         self.timeNanoShieldInit = 0
         
     end
 
     function Player:PerformSpawnProtect()
         
-		// Only make the effects once. 
+		-- Only make the effects once.
 		if not self.gotSpawnProtect then 
 		
-			// Fire the effects on a slight delay because something in the NS2 code normally clears it first!
+			-- Fire the effects on a slight delay because something in the NS2 code normally clears it first!
 			if not self.spawnProtectActivateTime then
 			
 				self.spawnProtectActivateTime = Shared.GetTime() + kCombatSpawnProtectDelay
@@ -163,7 +163,7 @@ if Server then
      end
 
 
-    // Resup and Scan function
+    -- Resup and Scan function
 
     function Player:ScanNow()
 
@@ -178,8 +178,8 @@ if Server then
 
     function Player:NeedsResupply()
         
-        // Ammo packs give ammo to clip as well (so pass true to GetNeedsAmmo())
-        // check every weapon the player got
+        -- Ammo packs give ammo to clip as well (so pass true to GetNeedsAmmo())
+        -- check every weapon the player got
         local weapon = self:GetActiveWeapon()
         local needsHealth = not GetIsVortexed(self) and self:GetHealth() < self:GetMaxHealth()
         local needsAmmo = false
@@ -208,7 +208,7 @@ if Server then
 		local newHealth = math.min(self:GetHealth() + MedPack.kHealth, self:GetMaxHealth())
 		self:SetHealth(newHealth)
 		
-		// dont drop a ammo pack, give ammo via a new function
+		-- dont drop a ammo pack, give ammo via a new function
 		self:GiveAmmoToEveryWeapon()
             
 		StartSoundEffectAtOrigin(MedPack.kHealthSound, self:GetOrigin())
@@ -243,7 +243,7 @@ if Server then
         local globalSound = CatPack.kPickupSound
         local localSound = "sound/NS2.fev/marine/common/mine_warmup"
         
-        // Use one sound for global, another for local player to give more of an effect!
+        -- Use one sound for global, another for local player to give more of an effect!
         StartSoundEffectAtOrigin(globalSound, self:GetOrigin())
         StartSoundEffectForPlayer(localSound, self)  
         self:ApplyCatPack()
@@ -279,7 +279,7 @@ if Server then
 
     function Player:TriggerInk()
 
-        // Create ShadeInk entity in world at this position with a small offset
+        -- Create ShadeInk entity in world at this position with a small offset
         local shadeInk = CreateEntity(ShadeInk.kMapName, self:GetOrigin() + Vector(0, 0.2, 0), self:GetTeamNumber())
 		StartSoundEffectOnEntity("sound/NS2.fev/alien/structures/shade/cloak_triggered", shadeInk)
 
@@ -344,7 +344,7 @@ if Server then
 
     function Player:ClearCombatData()
 
-        // Blow away the old combatTable amd combatTechTree then re-run the check
+        -- Blow away the old combatTable amd combatTechTree then re-run the check
         self.combatTable = nil
         self.combatTechTree = nil
         self:CheckCombatData()
@@ -353,14 +353,14 @@ if Server then
 
     function Player:CheckCombatData()
 
-        // Initialise the Combat Tech Tree
+        -- Initialise the Combat Tech Tree
         if not self.combatTable then
             self:ResetCombatData()
         end
         
         if not self.combatTechTree then
                 
-            // Also create a personal version of the tech tree.
+            -- Also create a personal version of the tech tree.
             local team = self:GetTeam()
             if team ~= nil and team:isa("PlayingTeam") then
                 self.combatTechTree = TechTree()
@@ -386,29 +386,29 @@ if Server then
     function Player:AddXp(amount)
         
         self:CheckCombatData()
-        //self:TriggerEffects("issueOrderSounds")
+        --self:TriggerEffects("issueOrderSounds")
         
-        // check if amount isn't nil, could cause an error
+        -- check if amount isn't nil, could cause an error
         if amount and amount > 0 then
             if (amount > 10) then
                 self:TriggerEffects("combat_xp")
             end
             
-            // show the cool effect, no direct Message is needed anymore
+            -- show the cool effect, no direct Message is needed anymore
             self:XpEffect(amount)
             self:CheckLvlUp(self.score) 
-            //self:SetScoreboardChanged(true)
+            --self:SetScoreboardChanged(true)
         end   
     end
 
-    // Give XP to m8's around you when you kill an enemy
+    -- Give XP to m8's around you when you kill an enemy
     function Player:GiveXpMatesNearby(xp)
 
         xp = xp * mateXpAmount
 
         local playersInRange = GetEntitiesForTeamWithinRange("Player", self:GetTeamNumber(), self:GetOrigin(), mateXpRange)
         
-        // Only give Xp to players who are alive!
+        -- Only give Xp to players who are alive!
         for _, player in ipairs(playersInRange) do
             if self ~= player and player:GetIsAlive() then
                 player:AddXp(xp)    
@@ -417,20 +417,20 @@ if Server then
 
     end
 
-    // cool effect for getting xp, also showing a new Lvl
+    -- cool effect for getting xp, also showing a new Lvl
     function Player:XpEffect(xp, lvl)
 
-        // Should only be called on the Server.
+        -- Should only be called on the Server.
         if Server then
         
             if xp ~= nil and xp ~= 0 then
             
                 self.score = Clamp(self.score + xp, 0, self:GetMixinConstants().kMaxScore or 100)
                 local lastXpEffect = self.combatTable.lastXpEffect  
-                // dont spam the player with xpeffects            
+                -- dont spam the player with xpeffects
                 if lastXpEffect == 0 or Shared.GetTime() >= ( lastXpEffect + kXPEffectTimer) then 
      
-                    // show also old xp award, but forget it after some time
+                    -- show also old xp award, but forget it after some time
                     if self.combatTable.lastXpAmount > 0 and Shared.GetTime() < ( lastXpEffect + kXPForgetTimer) then                            
                         xp = xp + self.combatTable.lastXpAmount  
                     end      
@@ -439,7 +439,7 @@ if Server then
                     self.combatTable.lastXpEffect = Shared.GetTime() 
                     self.combatTable.lastXpAmount = 0                        
                 else
-                    // save the last XpAmount and sum it
+                    -- save the last XpAmount and sum it
                     self.combatTable.lastXpAmount = self.combatTable.lastXpAmount + xp
                 end
      
@@ -454,20 +454,20 @@ if Server then
     function Player:CheckLvlUp(xp)
         
         if self:GetLvl() > self.combatTable.lvl then
-            //Lvl UP
-            // make sure that we get every lvl we've earned
+            --Lvl UP
+            -- make sure that we get every lvl we've earned
             local numberLevels = self:GetLvl() - self.combatTable.lvl
             self.resources = self.resources + numberLevels
             self.combatTable.lvl = self:GetLvl()
 			
-			// Trigger sound on level up
+			-- Trigger sound on level up
 			if (self:isa("Alien")) then
 				StartSoundEffectForPlayer(CombatEffects.kAlienLvlUpSound, self)
 			else
 				StartSoundEffectForPlayer(CombatEffects.kMarineLvlUpSound, self)
 			end   
 			
-			// Trigger an effect
+			-- Trigger an effect
             self:TriggerEffects("combat_level_up")
 			
 			SendCombatLvlUp(self)
@@ -477,7 +477,7 @@ if Server then
     end
 
     function Player:spendlvlHints(hint, type)
-    // sends a hint to the player if co_spendlvl fails
+    -- sends a hint to the player if co_spendlvl fails
 
         if not type then type = "" end
 
@@ -506,8 +506,8 @@ if Server then
             self:SendDirectMessage("You got only " .. self:GetLvlFree().. " but you need at least ".. type .. " free Lvl")
             
         elseif hint == "already_owned" then
-			// Suppress this now as most people buy via the menus.
-            //self:SendDirectMessage("You already own the upgrade " .. type)
+			-- Suppress this now as most people buy via the menus.
+            --self:SendDirectMessage("You already own the upgrade " .. type)
             
         elseif hint == "no_room" then
             self:SendDirectMessage( type .." upgrade failed, maybe not enough room")  
@@ -558,22 +558,22 @@ if Server then
 
     function Player:SendDirectMessage(message)
         
-        // Initialise queue if necessary
+        -- Initialise queue if necessary
         if (self.directMessageQueue == nil) then
             self.directMessageQueue = {}
             self.timeOfLastDirectMessage = 0
             self.directMessagesActive = 0
         end
 
-        // Queue messages that have been sent if there are too many...
+        -- Queue messages that have been sent if there are too many...
         if (Shared.GetTime() - self.timeOfLastDirectMessage < kDirectMessageFadeTime and self.directMessagesActive + 1 > kDirectMessagesNumVisible) then
             table.insert(self.directMessageQueue, message)
         else
-            // Otherwise we're good to send the message normally.
+            -- Otherwise we're good to send the message normally.
             self:BuildAndSendDirectMessage(message)
         end
         
-        // Update the last sent timer if this is the first message sent.
+        -- Update the last sent timer if this is the first message sent.
         if (self.directMessagesActive == 0) then
             self.timeOfLastDirectMessage = Shared.GetTime()
         end
@@ -583,7 +583,7 @@ if Server then
 
     function Player:BuildAndSendDirectMessage(message)
 
-        //Sending LVL Msg only to the Player  
+        --Sending LVL Msg only to the Player
         local playerName = "Combat: " .. self:GetName()
         local playerLocationId = -1
         local playerTeamNumber = kTeamReadyRoom

@@ -1,6 +1,6 @@
-//
-//   Created by:   fsfod
-//
+--
+--   Created by:   fsfod
+--
 
 local ForwardSlash, BackSlash = string.byte("/"), string.byte("\\")
 

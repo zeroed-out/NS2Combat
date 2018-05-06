@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_DisorientableMixin.lua
+-- combat_DisorientableMixin.lua
 
 function DisorientableMixin:GetDisorientedAmount()
 	if self:isa("DevouredPlayer") then

@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_AlienTeam.lua
+-- combat_AlienTeam.lua
 
 local HotReload = CombatAlienTeam
 if(not HotReload) then
@@ -24,7 +24,7 @@ function CombatAlienTeam:OnLoad()
 end
 
 
-// No cysts
+-- No cysts
 function CombatAlienTeam:SpawnInitialStructures_Hook(self, techPoint)
 
     local tower, hive = PlayingTeam.SpawnInitialStructures(self, techPoint)

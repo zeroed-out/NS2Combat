@@ -1,11 +1,11 @@
-//________________________________
-//
-//   	NS2 Combat Mod     
-//	Made by JimWest and MCMLXXXIV, 2012
-//
-//________________________________
+--________________________________
+--
+--   	NS2 Combat Mod
+--	Made by JimWest and MCMLXXXIV, 2012
+--
+--________________________________
 
-// combat_MarineTeam.lua
+-- combat_MarineTeam.lua
 
 local HotReload = CombatMarineTeam
 if(not HotReload) then
@@ -22,9 +22,9 @@ function CombatMarineTeam:OnLoad()
 	
 end
 
-//___________________
-// Hooks MarineTeam
-//___________________
+--___________________
+-- Hooks MarineTeam
+--___________________
 
 
 function CombatMarineTeam:SpawnWarmUpStructures_Hook()
@@ -36,14 +36,14 @@ function CombatMarineTeam:SpawnInitialStructures_Hook(self, techPoint)
     
     local tower, commandStation = PlayingTeam.SpawnInitialStructures(self, techPoint)
 
-	//Check if there is already an Armory
+	--Check if there is already an Armory
 	if #GetEntitiesForTeam("Armory", self:GetTeamNumber()) == 0 then	
-		// Don't Spawn an IP, make an armory instead!
-		// spawn initial Armory for marine team    
+		-- Don't Spawn an IP, make an armory instead!
+		-- spawn initial Armory for marine team
 		local techPointOrigin = techPoint:GetOrigin() + Vector(0, 2, 0)
 		
 		for i = 1, kSpawnArmoryMaxRetries do
-			// Increase the spawn distance on a gradual basis.
+			-- Increase the spawn distance on a gradual basis.
 			local origin = CalculateRandomSpawn(nil, techPointOrigin, kTechId.Armory, true, kArmorySpawnMinDistance, (kArmorySpawnMaxDistance * i / kSpawnArmoryMaxRetries), nil)
 
 			if origin then			
@@ -64,7 +64,7 @@ end
 
 
 
-// Don't Check for IPS
+-- Don't Check for IPS
 function CombatMarineTeam:Update_Hook(self, timePassed)
 
     PlayingTeam.Update(self, timePassed)

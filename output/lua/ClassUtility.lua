@@ -58,7 +58,7 @@ local _Gcopy = _Gcopy or CopyClassTable()
 
 local function ReplaceMethodInDerivedClasses(className, methodName, method, original)
 
-    // only replace the method when it matches with super class (has not been implemented by the derrived class)
+    -- only replace the method when it matches with super class (has not been implemented by the derrived class)
 	if _G[className][methodName] ~= original then
 		return
 	end
@@ -77,7 +77,7 @@ end
 function Class_Reload(className, networkVars)
 
     assert(className)
-    local methods = _G[className] // this has already been updated for <className>, but needs to be copied to child classes which dont re-implement the function
+    local methods = _G[className] -- this has already been updated for <className>, but needs to be copied to child classes which dont re-implement the function
     local originalMethods = _Gcopy[className]
     local childClasses = Script.GetDerivedClasses(className)
     
@@ -99,10 +99,10 @@ function Class_Reload(className, networkVars)
         
     end
     
-    // needs to be refreshed (in case a mod mods a mod :) )
+    -- needs to be refreshed (in case a mod mods a mod :) )
     _Gcopy = CopyClassTable()
     
-    // dont delete old network vars, simply replace them if their type has changed or add them if new
+    -- dont delete old network vars, simply replace them if their type has changed or add them if new
     Shared.LinkClassToMap(className, nil, networkVars)
 
 end
