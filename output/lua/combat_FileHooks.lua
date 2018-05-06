@@ -9,14 +9,17 @@
 -- ========= For more information, visit us at http://www.unknownworlds.com =====================
 do
 	local blacklist = {
-		"NS2Plus"
+		"NS2Plus",
+		"NinS2Plus",
+		"NS2+"
 	}
 
 	for _, modName in ipairs(blacklist) do
 		local modEntry = ModLoader.GetModInfo(modName)
 		if modEntry then
+            Log("Blacklisting mod since incompatible: " .. modName)
 			if modEntry.FileHooks then
-				ModLoader.SetupFileHook( modEntry.FileHooks, "IMModBlacklist.lua", "halt")
+				ModLoader.SetupFileHook( modEntry.FileHooks, "ModBlacklist.lua", "halt")
 			end
 
 			local client = decoda_name == "Client"
@@ -25,15 +28,15 @@ do
 			local shared = client or server or predict
 
 			if shared and modEntry.Shared then
-				ModLoader.SetupFileHook( modEntry.Shared, "IMModBlacklist.lua", "halt")
+				ModLoader.SetupFileHook( modEntry.Shared, "ModBlacklist.lua", "halt")
 			end
 
 			if client and modEntry.Client then
-				ModLoader.SetupFileHook( modEntry.Client, "IMModBlacklist.lua", "halt")
+				ModLoader.SetupFileHook( modEntry.Client, "ModBlacklist.lua", "halt")
 			elseif predict and modEntry.Predict then
-				ModLoader.SetupFileHook( modEntry.Predict, "IMModBlacklist.lua", "halt")
+				ModLoader.SetupFileHook( modEntry.Predict, "ModBlacklist.lua", "halt")
 			elseif server and modEntry.Server then
-				ModLoader.SetupFileHook( modEntry.Server, "IMModBlacklist.lua", "halt")
+				ModLoader.SetupFileHook( modEntry.Server, "ModBlacklist.lua", "halt")
 			end
 		end
 	end
