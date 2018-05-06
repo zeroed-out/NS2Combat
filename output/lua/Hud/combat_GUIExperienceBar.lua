@@ -9,10 +9,10 @@
 
 class 'combat_GUIExperienceBar' (GUIScript)
 
-combat_GUIExperienceBar.kMarineBarTextureName = "ui/combat_xpbar_marine.png"
-combat_GUIExperienceBar.kMarineBackgroundTextureName = "ui/combat_xpbarbg_marine.png"
-combat_GUIExperienceBar.kAlienBarTextureName = "ui/combat_xpbar_alien.png"
-combat_GUIExperienceBar.kAlienBackgroundTextureName = "ui/combat_xpbarbg_alien.png"
+combat_GUIExperienceBar.kMarineBarTextureName = PrecacheAsset("ui/combat_xpbar_marine.dds")
+combat_GUIExperienceBar.kMarineBackgroundTextureName = PrecacheAsset("ui/combat_xpbarbg_marine.dds")
+combat_GUIExperienceBar.kAlienBarTextureName = PrecacheAsset("ui/combat_xpbar_alien.dds")
+combat_GUIExperienceBar.kAlienBackgroundTextureName = PrecacheAsset("ui/combat_xpbarbg_alien.dds")
 combat_GUIExperienceBar.kTextFontName = Fonts.kArial_17
 
 combat_GUIExperienceBar.kExperienceBackgroundWidth = 450
@@ -32,10 +32,10 @@ combat_GUIExperienceBar.kMarineBarTextureX1 = 12
 combat_GUIExperienceBar.kMarineBarTextureX2 = 500
 combat_GUIExperienceBar.kMarineBarTextureY1 = 0
 combat_GUIExperienceBar.kMarineBarTextureY2 = 31
-combat_GUIExperienceBar.kMarineBarBackgroundTextureX1 = 12
-combat_GUIExperienceBar.kMarineBarBackgroundTextureX2 = 500
+combat_GUIExperienceBar.kMarineBarBackgroundTextureX1 = 0
+combat_GUIExperienceBar.kMarineBarBackgroundTextureX2 = 512
 combat_GUIExperienceBar.kMarineBarBackgroundTextureY1 = 0
-combat_GUIExperienceBar.kMarineBarBackgroundTextureY2 = 31
+combat_GUIExperienceBar.kMarineBarBackgroundTextureY2 = 32
 combat_GUIExperienceBar.kAlienBarTextureX1 = 13
 combat_GUIExperienceBar.kAlienBarTextureX2 = 498
 combat_GUIExperienceBar.kAlienBarTextureY1 = 0
