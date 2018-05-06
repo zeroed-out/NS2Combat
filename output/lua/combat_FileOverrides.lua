@@ -1,15 +1,15 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_FileOverrides.lua
+// combat_FileOverrides.lua
 
--- Use this to remove files entirely from the loading process.
+// Use this to remove files entirely from the loading process.
 
--- Case doesn't matter here!
+// Case doesn't matter here!
 kCombatFileRemovals = {
 	"lua/CommAbilities/Alien/Bonewall.lua",
 	"lua/CommAbilities/Alien/CragBabblers.lua",
@@ -17,7 +17,7 @@ kCombatFileRemovals = {
 	"lua/CommAbilities/Alien/Rupture.lua"
 }
 
--- Case matters here!
+// Case matters here!
 kCombatEntityStubs = {
 	"BoneWall",
 	"CragBabblers",
@@ -32,8 +32,8 @@ end
 for index, override in ipairs(kCombatFileRemovals) do
 	Shared.Message ("Removing source file " .. override)
 	
-	-- Hook into the load tracker code to remove the file when we come across it.
-	-- The normalized string is always lower case.
+	// Hook into the load tracker code to remove the file when we come across it.
+	// The normalized string is always lower case.
 	override = string.lower(override)
 	LoadTracker:SetFileOverride(override, "")
 end

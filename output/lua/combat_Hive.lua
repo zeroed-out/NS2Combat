@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_Hive.lua
+// combat_Hive.lua
 
 local HotReload = CombatHive
 if(not HotReload) then
@@ -19,7 +19,7 @@ function CombatHive:OnLoad()
 	
 end
 
--- Hives should begin as mature.
+// Hives should begin as mature.
 function CombatHive:OnCreate_Hook(self)
 
 	self:SetMature()

@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---  This file kindly contributed by fsfod!
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//  This file kindly contributed by fsfod!
+//________________________________
 
--- Loading the Hook classes
+// Loading the Hook classes
 NS2CombatMenuMod = {}
 
 if(not NS2CombatMenuMod) then
@@ -42,8 +42,8 @@ function NS2CombatMenuMod:MouseStateFix(self)
   end
 end
 
--- new functions, no hooks
--- to provide the client also with all Ups (for the GUI)
+// new functions, no hooks
+// to provide the client also with all Ups (for the GUI)
 function NS2CombatMenuMod:OnClientLuaFinished()
 	Script.Load("lua/combat_Player_ClientUpgrade.lua")
 	Script.Load("lua/combat_CombatUpgrade.lua")
@@ -60,6 +60,6 @@ end
 
 
 function NS2CombatMenuMod:OnClientLoadComplete()
-  --self:LoadScript("lua/Hud/Alien/combat_GUIAlienBuyMenu.lua")
-  --self:LoadScript("lua/Hud/Marine/combat_GUIMarineBuyMenu.lua")
+  //self:LoadScript("lua/Hud/Alien/combat_GUIAlienBuyMenu.lua")
+  //self:LoadScript("lua/Hud/Marine/combat_GUIMarineBuyMenu.lua")
 end

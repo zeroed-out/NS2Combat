@@ -1,9 +1,9 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
 Script.Load("lua/Player.lua")
 Script.Load("lua/Weapons/Marines/DevouredViewModel.lua")
@@ -33,9 +33,9 @@ function DevouredPlayer:OnInitialized()
     
     self:SetIsVisible(false)       
   
-    -- Remove physics
+    // Remove physics
     self:DestroyController()    
-    -- Other players never see a DevouredPlayer.
+    // Other players never see a DevouredPlayer.
     self:SetPropagate(Entity.Propagate_Never) 
 
     self.devouringPercentage = 0
@@ -77,12 +77,12 @@ function DevouredPlayer:OnDestroy()
 end
 
 
--- let the player chat, but but nove
+// let the player chat, but but nove
 function DevouredPlayer:OverrideInput(input)
   
 		ClampInputPitch(input)
 		
-		-- Completely override movement and commands
+		// Completely override movement and commands
 		input.move.x = 0
 		input.move.y = 0
 		input.move.z = 0
@@ -128,7 +128,7 @@ function DevouredPlayer:AdjustGravityForce(input, gravity)
 end
 
 -- ERASE OR REFACTOR
--- Handle player transitions to egg, new lifeforms, etc.
+// Handle player transitions to egg, new lifeforms, etc.
 function DevouredPlayer:OnEntityChange(oldEntityId, newEntityId)
 
     if oldEntityId ~= Entity.invalidId and oldEntityId ~= nil then
@@ -154,7 +154,7 @@ function DevouredPlayer:GetTechId()
 end
 
 function DevouredPlayer:OnTag(tagName)
-    --Print(tagName)
+    //Print(tagName)
 end
 
 function DevouredPlayer:SetIsOnosDying(newValue)

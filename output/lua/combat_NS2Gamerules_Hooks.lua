@@ -33,9 +33,9 @@ end
 
 function UpdateUpgradeCountsForTeam(gameRules, teamIndex)
 	
-	--Seems these are occasionally invalid? idk..
+	//Seems these are occasionally invalid? idk..
 	if teamIndex < 0 or teamIndex > 3 then
-		--Invalid
+		//Invalid
 		return
 	end
 
@@ -108,26 +108,29 @@ function CombatNS2Gamerules:OnCreate_Hook(self)
 
 end
 
--- Free the lvl when changing Teams
---
--- Returns two return codes: success and the player on the new team. This player could be a new
--- player (the default respawn type for that team) or it will be the original player if the team
--- wasn't changed (false, original player returned). Pass force = true to make player change team
--- no matter what and to respawn immediately.
---
+
+	-- Free the lvl when changing Teams
+    /**
+     * Returns two return codes: success and the player on the new team. This player could be a new
+     * player (the default respawn type for that team) or it will be the original player if the team 
+     * wasn't changed (false, original player returned). Pass force = true to make player change team 
+     * no matter what and to respawn immediately.
+     */
 function CombatNS2Gamerules:JoinTeam_Hook(self, player, newTeamNumber, force)
 
 	-- The PostHook doesn't work because this function returns two values
 	-- So we need to replace instead. Sorry!
-	local client = Server.GetOwner(player)
-	if not client then return end
-	
 	local success = false
-	local oldPlayerWasSpectating = client and client:GetSpectatingPlayer()
-	local oldTeamNumber = player:GetTeamNumber()
+	local oldPlayerWasSpectating = false
+	if player then
+	
+		local ownerClient = Server.GetOwner(player)
+		oldPlayerWasSpectating = ownerClient ~= nil and ownerClient:GetSpectatingPlayer() ~= nil
+		
+	end
 	
 	-- Join new team
-	if oldTeamNumber ~= newTeamNumber or force then        
+	if player and player:GetTeamNumber() ~= newTeamNumber or force then        
 		
 		if player:isa("Commander") then
 			OnCommanderLogOut(player)
@@ -138,10 +141,10 @@ function CombatNS2Gamerules:JoinTeam_Hook(self, player, newTeamNumber, force)
 		end
 	
 		local team = self:GetTeam(newTeamNumber)
-		local oldTeam = self:GetTeam(oldTeamNumber)
+		local oldTeam = self:GetTeam(player:GetTeamNumber())
 		
 		-- Remove the player from the old queue if they happen to be in one
-		if oldTeam then
+		if oldTeam ~= nil then
 			oldTeam:RemovePlayerFromRespawnQueue(player)
 		end
 		
@@ -167,13 +170,6 @@ function CombatNS2Gamerules:JoinTeam_Hook(self, player, newTeamNumber, force)
 			
 		end
 		
-		local clientUserId = client:GetUserId()
-		--Save old pres
-		if oldTeam == self.team1 or oldTeam == self.team2 then
-			if not self.clientpres[clientUserId] then self.clientpres[clientUserId] = {} end
-			self.clientpres[clientUserId][oldTeamNumber] = player:GetResources()
-		end
-		
 		-- Update frozen state of player based on the game state and player team.
 		if team == self.team1 or team == self.team2 then
 		
@@ -183,9 +179,6 @@ function CombatNS2Gamerules:JoinTeam_Hook(self, player, newTeamNumber, force)
 				newPlayer.frozen = true
 			end
 			
-			local pres = self.clientpres[clientUserId] and self.clientpres[clientUserId][newTeamNumber]
-			newPlayer:SetResources( pres or ConditionalValue(team == self.team1, kMarineInitialIndivRes, kAlienInitialIndivRes) )
-		
 		else
 		
 			-- Ready room or spectator players should never be frozen
@@ -197,10 +190,9 @@ function CombatNS2Gamerules:JoinTeam_Hook(self, player, newTeamNumber, force)
 		newPlayer:TriggerEffects("join_team")
 		
 		if success then
-                
+		
 			self.sponitor:OnJoinTeam(newPlayer, team)
 			
-			local newPlayerClient = Server.GetOwner(newPlayer)
 			if oldPlayerWasSpectating then
                 local newPlayerClient = Server.GetOwner(newPlayer)
 				newPlayerClient:SetSpectatingPlayer(nil)
@@ -210,50 +202,42 @@ function CombatNS2Gamerules:JoinTeam_Hook(self, player, newTeamNumber, force)
 				newPlayer:OnJoinTeam()
 			end    
 			
+			-- This is the new bit for Combat
+			-- Only reset things like techTree, scan, camo etc.		
+			newPlayer:CheckCombatData()	
+			local lastTeamNumber = newPlayer.combatTable.lastTeamNumber
+			newPlayer:Reset_Lite()
+
+			--newPlayer.combatTable.xp = player:GetXp()
+			-- if the player joins the same team, subtract one level
+			if lastTeamNumber == newTeamNumber then
+				if newPlayer:GetLvl() >= kCombatPenaltyLevel + 1 then
+					local newXP = Experience_XpForLvl(newPlayer:GetLvl()-1)
+					newPlayer.score = newXP
+					newPlayer.combatTable.lvl = newPlayer:GetLvl()
+					newPlayer:SendDirectMessage( "You lost " .. kCombatPenaltyLevel .. " level for rejoining the same team!")
+				end
+			end
+			newPlayer:AddLvlFree(newPlayer:GetLvl() - 1 + kCombatStartUpgradePoints)
+			
+			--set spawn protect
+			newPlayer:SetSpawnProtect()
+			
+			-- Send upgrade updates for each player.
+			if newTeamNumber == kTeam1Index or newTeamNumber == kTeam2Index then
+				for upgradeId, upgradeCount in pairs(self.UpgradeCounts[newTeamNumber]) do
+					-- Send all upgrade counts to this player
+					SendCombatUpgradeCountUpdate(newPlayer, upgradeId, upgradeCount)
+				end
+			end
+			
+			-- Send timer updates
+			SendCombatGameTimeUpdate(newPlayer)
+	
 			Server.SendNetworkMessage(newPlayerClient, "SetClientTeamNumber", { teamNumber = newPlayer:GetTeamNumber() }, true)
 			
-			if newTeamNumber == kSpectatorIndex then
-				newPlayer:SetSpectatorMode(kSpectatorMode.Overhead)
-			end
-			
 		end
-		
-	end
-	
-	-- This is the new bit for Combat
-	if (success) then
-        
-        -- Only reset things like techTree, scan, camo etc.
-		newPlayer:CheckCombatData()	
-		local lastTeamNumber = newPlayer.combatTable.lastTeamNumber
-		newPlayer:Reset_Lite()
 
-		--newPlayer.combatTable.xp = player:GetXp()
-		-- if the player joins the same team, subtract one level
-		if lastTeamNumber == newTeamNumber then
-			if newPlayer:GetLvl() >= kCombatPenaltyLevel + 1 then
-			    local newXP = Experience_XpForLvl(newPlayer:GetLvl()-1)
-				newPlayer.score = newXP
-				newPlayer.combatTable.lvl = newPlayer:GetLvl()
-				newPlayer:SendDirectMessage( "You lost " .. kCombatPenaltyLevel .. " level for rejoining the same team!")
-			end
-		end
-		newPlayer:AddLvlFree(newPlayer:GetLvl() - 1 + kCombatStartUpgradePoints)
-		
-		--set spawn protect
-		newPlayer:SetSpawnProtect()
-		
-		-- Send upgrade updates for each player.
-		if newTeamNumber == kTeam1Index or newTeamNumber == kTeam2Index then
-			for upgradeId, upgradeCount in pairs(self.UpgradeCounts[newTeamNumber]) do
-				-- Send all upgrade counts to this player
-				SendCombatUpgradeCountUpdate(newPlayer, upgradeId, upgradeCount)
-			end
-		end
-		
-		-- Send timer updates
-		SendCombatGameTimeUpdate(newPlayer)
-		
 		return success, newPlayer
 		
 	end
@@ -335,65 +319,73 @@ function CombatNS2Gamerules:OnUpdate_Hook(self, timePassed)
         self:UpdateNumPlayersForScoreboard()
         
         
-	local team1 = self:GetTeam(1)
-	local team2 = self:GetTeam(2)
-	
-	-- Check that it's Marines vs Aliens...
-	if self:GetGameState() == kGameState.Started then
-		if team1:isa("MarineTeam") and team2:isa("AlienTeam") then
-			-- send timeleft to all players, but only every few min
-			local exactTimeLeft = (kCombatTimeLimit - self.timeSinceGameStateChanged)
-			local timeTaken = math.ceil(self.timeSinceGameStateChanged)
-			local timeLeft = math.ceil(exactTimeLeft)
-				
-			if self:GetHasTimelimitPassed() and kCombatAllowOvertime == false then
-				self:GetTeam(kCombatDefaultWinner).combatTeamWon = true
-			else
-				-- send timeleft to all players, but only every few min
-                if 	kCombatTimeLeftPlayed ~= timeLeft then
-               
-					if timeLeft == -1 and kCombatAllowOvertime then
-						-- Send the last stand sound to every player
-						for i, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
-							Server.PlayPrivateSound(player, CombatEffects.kLastStandAnnounce, player, 1.0, Vector(0, 0, 0))
-							player:SendDirectMessage("OVERTIME!!")
-							player:SendDirectMessage("Structures cannot be repaired!")
-							player:SendDirectMessage("Spawn times have been increased!")
-						end
-						kCombatTimeLeftPlayed = timeLeft
-					end
-				end
-			end
-			
-			-- Periodic events...
-			if timeTaken ~= kCombatTimePlayed then
-				-- Balance the teams once every 5 minutes or so...
-				if timeTaken % kCombatRebalanceInterval == 0 then
-					local avgXp = Experience_GetAvgXp()
-					for i, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do      
-						-- Ignore players that are not on a team.
-						if player:GetIsPlaying() then
-							player:BalanceXp(avgXp)
-						end
-					end
-				end
-				
-				kCombatTimePlayed = timeTaken
-			end
-		end
-	else
-		-- reset kCombatTimePlayed
-	    if kCombatTimePlayed ~= 0 then
-	        kCombatTimePlayed = 0
-	    end
-	
-	    -- reset kCombatTimeLeftPlayed
-	    if kCombatTimeLeftPlayed ~= 0 then
-	        kCombatTimeLeftPlayed = 0
-	    end
-	end
+        local team1 = self:GetTeam(1)
+        local team2 = self:GetTeam(2)
         
-end
+        -- Check that it's Marines vs Aliens...
+        if self:GetGameState() == kGameState.Started then
+            if team1:isa("MarineTeam") and team2:isa("AlienTeam") then
+                -- send timeleft to all players, but only every few min
+                local exactTimeLeft = (kCombatTimeLimit - self.timeSinceGameStateChanged)
+                local timeTaken = math.ceil(self.timeSinceGameStateChanged)
+                local timeLeft = math.ceil(exactTimeLeft)
+                    
+                if self:GetHasTimelimitPassed() and kCombatAllowOvertime == false then
+                    self:GetTeam(kCombatDefaultWinner).combatTeamWon = true
+                else
+                    -- spawn Halloweenai after some minutes
+                    if kCombatHalloweenMode then
+                        combatHalloween_CheckTime(timeTaken)
+                    end
+                    -- spawn Xmas gift after some time
+                    if kCombatXmasMode then
+                        combatXmas_CheckTime(timeTaken)
+                    end
+                    -- send timeleft to all players, but only every few min
+                    if 	kCombatTimeLeftPlayed ~= timeLeft then
+                   
+                        if timeLeft == -1 and kCombatAllowOvertime then
+                            -- Send the last stand sound to every player
+                            for i, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
+                                Server.PlayPrivateSound(player, CombatEffects.kLastStandAnnounce, player, 1.0, Vector(0, 0, 0))
+                                player:SendDirectMessage("OVERTIME!!")
+                                player:SendDirectMessage("Structures cannot be repaired!")
+                                player:SendDirectMessage("Spawn times have been increased!")
+                            end
+                            kCombatTimeLeftPlayed = timeLeft
+                        end
+                    end
+                end
+                
+                -- Periodic events...
+                if timeTaken ~= kCombatTimePlayed then
+                    -- Balance the teams once every 5 minutes or so...
+                    if timeTaken % kCombatRebalanceInterval == 0 then
+                        local avgXp = Experience_GetAvgXp()
+                        for i, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do      
+                            -- Ignore players that are not on a team.
+                            if player:GetIsPlaying() then
+                                player:BalanceXp(avgXp)
+                            end
+                        end
+                    end
+                    
+                    kCombatTimePlayed = timeTaken
+                end
+            end
+        else
+            -- reset kCombatTimePlayed
+            if kCombatTimePlayed ~= 0 then
+                kCombatTimePlayed = 0
+            end
+        
+            -- reset kCombatTimeLeftPlayed
+            if kCombatTimeLeftPlayed ~= 0 then
+                kCombatTimeLeftPlayed = 0
+            end
+        end
+        
+    end
 
 
 end
@@ -481,7 +473,7 @@ function CombatNS2Gamerules:ResetGame_Hook(self)
 	for i, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
 		SendCombatGameTimeUpdate(player)
 	end
-
+    
     
     self:SetGameState(kGameState.NotStarted)
 
@@ -511,29 +503,29 @@ function CombatNS2Gamerules:ResetGame_Hook(self)
         local allowDestruction = true
         for i = 1, #shieldTypes do
             allowDestruction = allowDestruction and not entity:isa(shieldTypes[i])
-end
-
+        end
+        
         if allowDestruction and entity:GetParent() == nil then
-
+        
             local isMapEntity = entity:GetIsMapEntity()
             local mapName = entity:GetMapName()
-
+            
             -- Reset all map entities and all player's that have a valid Client (not ragdolled players for example).
             local resetEntity = entity:isa("TeamInfo") or entity:GetIsMapEntity() or (entity:isa("Player") and entity:GetClient() ~= nil)
             if resetEntity then
-	
+            
                 if entity.Reset then
                     entity:Reset()
-	end
-
+                end
+                
             else
                 DestroyEntity(entity)
-end
-
+            end
+            
         end       
-
+        
     end
-
+    
     -- Clear out obstacles from the navmesh before we start repopualating the scene
     RemoveAllObstacles()
     
@@ -543,11 +535,11 @@ end
         Print("Warning -- Found only %d %s entities.", table.maxn(techPoints), TechPoint.kMapName)
     end
     local team1TechPoint, team2TechPoint
-        
+    
     if Server.teamSpawnOverride and #Server.teamSpawnOverride > 0 then
-            
+       
         for t = 1, #techPoints do
-                
+
             local techPointName = string.lower(techPoints[t]:GetLocationName())
             local selectedSpawn = Server.teamSpawnOverride[1]
             if techPointName == selectedSpawn.marineSpawn then
@@ -557,130 +549,130 @@ end
             end
             
         end
-                
+        
         if not team1TechPoint or not team2TechPoint then
             Shared.Message("Invalid spawns, defaulting to normal spawns")
             if Server.spawnSelectionOverrides then
-            
+    
                 local selectedSpawn = self.techPointRandomizer:random(1, #Server.spawnSelectionOverrides)
                 selectedSpawn = Server.spawnSelectionOverrides[selectedSpawn]
                 
                 for t = 1, #techPoints do
-            
+                
                     local techPointName = string.lower(techPoints[t]:GetLocationName())
                     if techPointName == selectedSpawn.marineSpawn then
                         team1TechPoint = techPoints[t]
                     elseif techPointName == selectedSpawn.alienSpawn then
                         team2TechPoint = techPoints[t]
-        end
-        
-    end
-        
+                    end
+                    
+                end
+                    
             else
-
+                
                 -- Reset teams (keep players on them)
                 team1TechPoint = self:ChooseTechPoint(techPoints, kTeam1Index)
                 team2TechPoint = self:ChooseTechPoint(techPoints, kTeam2Index)
 
-end
-
+            end
+        
         end
-
+        
     elseif Server.spawnSelectionOverrides then
-			
+    
         local selectedSpawn = self.techPointRandomizer:random(1, #Server.spawnSelectionOverrides)
         selectedSpawn = Server.spawnSelectionOverrides[selectedSpawn]
-
+        
         for t = 1, #techPoints do
-
+        
             local techPointName = string.lower(techPoints[t]:GetLocationName())
             if techPointName == selectedSpawn.marineSpawn then
                 team1TechPoint = techPoints[t]
             elseif techPointName == selectedSpawn.alienSpawn then
                 team2TechPoint = techPoints[t]
             end
-
+            
         end
-			
+        
     else
-				
+    
         -- Reset teams (keep players on them)
         team1TechPoint = self:ChooseTechPoint(techPoints, kTeam1Index)
         team2TechPoint = self:ChooseTechPoint(techPoints, kTeam2Index)
 
-				end
-				
+    end
+    
     self.team1:ResetPreservePlayers(team1TechPoint)
     self.team2:ResetPreservePlayers(team2TechPoint)
-				
+    
     -- Save data for end game stats later.
     self.startingLocationNameTeam1 = team1TechPoint:GetLocationName()
     self.startingLocationNameTeam2 = team2TechPoint:GetLocationName()
     self.startingLocationsPathDistance = GetPathDistance(team1TechPoint:GetOrigin(), team2TechPoint:GetOrigin())
     self.initialHiveTechId = nil
-					
+    
     self.worldTeam:ResetPreservePlayers(nil)
     self.spectatorTeam:ResetPreservePlayers(nil)    
-						
+    
     -- Create team specific entities
     local commandStructure1 = self.team1:ResetTeam()
     local commandStructure2 = self.team2:ResetTeam()
-					
+
     -- Create living map entities fresh
     CreateLiveMapEntities()
-				
+    
     self.forceGameStart = false
     self.preventGameEnd = nil
     -- Reset banned players for new game
     self.bannedPlayers = {}
-			
+    
     -- Send scoreboard and tech node update, ignoring other scoreboard updates (clearscores resets everything)
     for index, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
         Server.SendCommand(player, "onresetgame")
         player.sendTechTreeBase = true
-		end
-		
+    end
+    
     self.team1:OnResetComplete()
     self.team2:OnResetComplete()
-	end
-	
+end
+
 function CombatNS2Gamerules:UpdateMapCycle_Hook(self)
-	
+
 	if self.timeToCycleMap ~= nil and Shared.GetTime() >= self.timeToCycleMap then
 
 		local playerCount = Shared.GetEntitiesWithClassname("Player"):GetSize()
 		ModSwitcher_Save(nil, nil, playerCount, nil, nil, nil, nil, nil, false)
-		
+	
 	end
-			
+
 end
-			
+
 function CombatNS2Gamerules:NS2Gamerules_GetUpgradedDamage_Hook(attacker, doer, damage, damageType)
-				
+
     local damageScalar = 1
-				
+
     if attacker ~= nil then
-				
+    
         -- Damage upgrades only affect weapons, not ARCs, Sentries, MACs, Mines, etc.
         if doer:isa("Weapon") or doer:isa("Grenade") or doer:isa("Minigun") or doer:isa("Railgun") then
-				
-            if(GetHasTech(attacker, kTechId.Weapons3, true)) then
-				
-                damageScalar = kWeapons3DamageScalar
-			
-            elseif(GetHasTech(attacker, kTechId.Weapons2, true)) then
-				
-                damageScalar = kWeapons2DamageScalar
-				
-            elseif(GetHasTech(attacker, kTechId.Weapons1, true)) then
-				
-                damageScalar = kWeapons1DamageScalar
-				
-			end
-
-		end
         
-	end
+            if(GetHasTech(attacker, kTechId.Weapons3, true)) then
+            
+                damageScalar = kWeapons3DamageScalar
+                
+            elseif(GetHasTech(attacker, kTechId.Weapons2, true)) then
+            
+                damageScalar = kWeapons2DamageScalar
+                
+            elseif(GetHasTech(attacker, kTechId.Weapons1, true)) then
+            
+                damageScalar = kWeapons1DamageScalar
+                
+            end
+            
+        end
+        
+    end
         
     return damage * damageScalar
 
@@ -712,8 +704,8 @@ function CombatNS2Gamerules:CheckGameStart_Hook(self)
                 
         else
             if self:GetGameState() == kGameState.PreGame then
-            self:SetGameState(kGameState.NotStarted)
-        end
+                self:SetGameState(kGameState.NotStarted)
+            end
         end
             
     end

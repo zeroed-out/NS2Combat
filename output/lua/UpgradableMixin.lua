@@ -1,19 +1,17 @@
--- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
---
--- lua\UpgradableMixin.lua
---
---    Created by:   Brian Cronin (brianc@unknownworlds.com)
---
---    Modified to support more than 6 upgrades
---
--- ========= For more information, visit us at http:--www.unknownworlds.com =====================
+// ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======    
+//    
+// lua\UpgradableMixin.lua    
+//    
+//    Created by:   Brian Cronin (brianc@unknownworlds.com)    
+//    
+// ========= For more information, visit us at http://www.unknownworlds.com =====================    
 
 Script.Load("lua/FunctionContracts.lua")
 
---
--- UpgradableMixin handles two forms of upgrades. There are the upgrades that it owns (upgrade1 - upgrade4).
--- It can also handle upgrading the entire entity to another tech Id independent of the upgrades it owns.
---
+/**
+ * UpgradableMixin handles two forms of upgrades. There are the upgrades that it owns (upgrade1 - upgrade4).
+ * It can also handle upgrading the entire entity to another tech Id independent of the upgrades it owns.
+ */
 UpgradableMixin = CreateMixin( UpgradableMixin )
 UpgradableMixin.type = "Upgradable"
 

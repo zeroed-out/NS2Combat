@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_Armory.lua
+// combat_Armory.lua
 
 local HotReload = CombatArmory
 if(not HotReload) then
@@ -21,7 +21,7 @@ function CombatArmory:OnLoad()
     
 end
 
--- Give some XP to the damaging entity.
+// Give some XP to the damaging entity.
 function CombatArmory:GetRequiresPower_Hook(self)
 
    return false

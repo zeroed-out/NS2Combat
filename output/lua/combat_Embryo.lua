@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_Embryo.lua
+// combat_Embryo.lua
 
 local HotReload = CombatEmbryo
 if(not HotReload) then
@@ -19,10 +19,10 @@ function CombatEmbryo:OnLoad()
     
 end
 
--- Weapons can't be dropped anymore
+// Weapons can't be dropped anymore
 function CombatEmbryo:SetGestationData_Hook(self, techIds, previousTechId, healthScalar, armorScalar)
 
-	-- Override the gestation times...
+	// Override the gestation times...
 	self.gestationTime = kSkulkGestateTime
 	
 	if (self.combatTable.classEvolve) then

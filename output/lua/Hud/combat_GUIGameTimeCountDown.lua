@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_GUIGameTimeCountDown.lua
+// combat_GUIGameTimeCountDown.lua
 
 Script.Load("lua/combat_Utility.lua")
 
@@ -33,7 +33,7 @@ function combat_GUIGameTimeCountDown:Initialize()
 
 	GUIAnimatedScript.Initialize(self)
     
-	-- Used for Global Offset
+	// Used for Global Offset
 	self.background = self:CreateAnimatedGraphicItem()
     self.background:SetIsScaling(false)
     self.background:SetSize( Vector(Client.GetScreenWidth(), Client.GetScreenHeight(), 0) )
@@ -42,7 +42,7 @@ function combat_GUIGameTimeCountDown:Initialize()
     self.background:SetLayer(kGUILayerPlayerHUDBackground)
     self.background:SetColor( Color(1, 1, 1, 0) )
 	
-    -- Timer display background
+    // Timer display background
     self.timerBackground = self:CreateAnimatedGraphicItem()
     self.timerBackground:SetSize( Vector(combat_GUIGameTimeCountDown.kBackgroundWidth, combat_GUIGameTimeCountDown.kBackgroundHeight, 0) )
     self.timerBackground:SetPosition(Vector(combat_GUIGameTimeCountDown.kBackgroundOffsetX - (combat_GUIGameTimeCountDown.kBackgroundWidth / 2), combat_GUIGameTimeCountDown.kBackgroundOffsetY, 0))
@@ -53,7 +53,7 @@ function combat_GUIGameTimeCountDown:Initialize()
 	self.timerBackground:SetColor( combat_GUIGameTimeCountDown.kBackgroundColor )
 	self.timerBackground:SetIsVisible(false)
 	
-	-- Time remaining
+	// Time remaining
     self.timeRemainingText = self:CreateAnimatedTextItem()
     self.timeRemainingText:SetAnchor(GUIItem.Middle, GUIItem.Center)
     self.timeRemainingText:SetPosition(combat_GUIGameTimeCountDown.kTimeOffset)
@@ -98,7 +98,7 @@ function combat_GUIGameTimeCountDown:Update(deltaTime)
 
     local player = Client.GetLocalPlayer()
 	
-	-- Alter the display based on team, status.
+	// Alter the display based on team, status.
 	if player then
 		local newTeam = false
 		if (self.playerTeam ~= GetTeamType()) then
@@ -119,7 +119,7 @@ function combat_GUIGameTimeCountDown:Update(deltaTime)
 			end
 		end
 		
-		-- Update the client-side clock.
+		// Update the client-side clock.
 		kCombatTimeSinceGameStart = kCombatTimeSinceGameStart + deltaTime
 		
 		local player = Client.GetLocalPlayer()
@@ -145,7 +145,7 @@ end
 
 function combat_GUIGameTimeCountDown:RemindTime(player)
 		
-    -- send timeleft chat things now here, all client sided
+    // send timeleft chat things now here, all client sided
     if (kCombatTimeLimit ~= nil) then
         local timeLeft = math.ceil((kCombatTimeLimit - kCombatTimeSinceGameStart))
         if  timeLeft > 0 and

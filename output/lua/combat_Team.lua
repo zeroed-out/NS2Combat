@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_Team.lua
+// combat_Team.lua
 
 local HotReload = CombatTeam
 if(not HotReload) then
@@ -21,8 +21,8 @@ function CombatTeam:OnLoad()
 	
 end
 
--- A cheap trick to stop waves from spawning on the Alien side.
--- This is a nasty way of doing it but it works for now!
+// A cheap trick to stop waves from spawning on the Alien side.
+// This is a nasty way of doing it but it works for now!
 function CombatTeam:GetNumPlayersInQueue_Hook(self)
     return 0
 end

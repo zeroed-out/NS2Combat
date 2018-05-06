@@ -1,24 +1,24 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_SpawnProtectClass
+// combat_SpawnProtectClass
 
---******************************************
---* Scripts
---******************************************
+//******************************************
+//* Scripts 
+//******************************************
 
 Script.Load("lua/ScriptActor.lua")
 Script.Load("lua/TeamMixin.lua")
 
 class 'CombatSpawnProtect' (ScriptActor)
 
---******************************************
---* Class variables
---******************************************
+//******************************************
+//* Class variables
+//******************************************
 
 CombatSpawnProtect.kMapName = "combatspawnprotect"
 CombatSpawnProtect.materialFile = "cinematics/vfx_materials/spawnProtect.material"
@@ -27,9 +27,9 @@ Shared.PrecacheSurfaceShader("cinematics/vfx_materials/spawnProtect.surface_shad
 Shared.PrecacheSurfaceShader("cinematics/vfx_materials/spawnProtect_view.surface_shader")
 
 
---******************************************
---* Network variables
---******************************************
+//******************************************
+//* Network variables
+//******************************************
 
 local networkVars =
 {
@@ -39,10 +39,10 @@ local networkVars =
 AddMixinNetworkVars(TeamMixin, networkVars)
 
 
---******************************************
---* Functions
---******************************************
--- onCreate and OnInitilized need every class
+//******************************************
+//* Functions
+//******************************************
+// onCreate and OnInitilized need every class
 function CombatSpawnProtect:OnCreate()
     InitMixin(self, TeamMixin)
     self:SetUpdates(true)
@@ -50,7 +50,7 @@ end
 
 function CombatSpawnProtect:OnInitialized()
      
-    -- get the parent player
+    // get the parent player     
     local playersInRange = GetEntitiesForTeamWithinRange("Player", self:GetTeamNumber(), self:GetOrigin(), 1)
     for index, player in ipairs(playersInRange) do
         local distance = (player:GetOrigin() - self:GetOrigin())

@@ -1,12 +1,12 @@
--- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
---
--- lua\GUIDevouredPlayer.lua
---
--- Created by: Jon 'Huze' Hughes (jon@jhuze.com)
---
--- Spectator: Loads all the insight GUI elements
---
--- ========= For more information, visit us at http:--www.unknownworlds.com =====================
+// ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
+//
+// lua\GUIDevouredPlayer.lua
+//
+// Created by: Jon 'Huze' Hughes (jon@jhuze.com)
+//
+// Spectator: Loads all the insight GUI elements
+//
+// ========= For more information, visit us at http://www.unknownworlds.com =====================
 
  Script.Load("lua/GUIAnimatedScript.lua")
 
@@ -36,23 +36,23 @@ function GUIDevouredPlayer:Initialize()
 
 	GUIAnimatedScript.Initialize(self)
     
-	-- Used for Global Offset
+	// Used for Global Offset
 	self.background = self:CreateAnimatedGraphicItem()
     self.background:SetIsScaling(false)
     self.background:SetSize( Vector(Client.GetScreenWidth(), Client.GetScreenHeight(), 0) )
     self.background:SetAnchor(GUIItem.Top, GUIItem.Top)
     self.background:SetPosition( Vector(0, 0, 0) ) 
     self.background:SetTexture(GUIDevouredPlayer.kBackgroundTexture)
-    --self.background:SetLayer(kGUILayerDebugText)
+    //self.background:SetLayer(kGUILayerDebugText)    
     self.background:SetShader("shaders/GUIWavy.surface_shader")
     self.background:SetAdditionalTexture("wavyMask", GUIDevouredPlayer.kMaskTexture)
     self.background:SetIsVisible(true)
 
-	-- Text
+	// Text
     self.devourText = self:CreateAnimatedTextItem()
     self.devourText:SetAnchor(GUIItem.Middle, GUIItem.Center)
     self.devourText:SetPosition(GUIDevouredPlayer.kTimeOffset)
-	--self.devourText:SetLayer(kGUILayerPlayerHUDForeground1)
+	//self.devourText:SetLayer(kGUILayerPlayerHUDForeground1)
 	self.devourText:SetTextAlignmentX(GUIItem.Align_Center)
     self.devourText:SetTextAlignmentY(GUIItem.Align_Center)
 	self.devourText:SetText("Getting devoured")
@@ -62,14 +62,14 @@ function GUIDevouredPlayer:Initialize()
 	self.devourText:SetFontIsBold(GUIDevouredPlayer.kTimeBold)
 	self.devourText:SetIsVisible(true)
 	
-    -- devour bar
+    // devour bar    
     self.devourBar = GUIManager:CreateGraphicItem()
     self.devourBar:SetSize( Vector(GUIDevourOnos.kBackgroundWidth, GUIDevourOnos.kBackgroundHeight, 0) )
     self.devourBar:SetPosition(Vector(GUIDevourOnos.kBackgroundWidth / 2 + GUIDevourOnos.kBackgroundOffsetX, -GUIDevourOnos.kBackgroundHeight / 2 + GUIDevourOnos.kBackgroundOffsetY, 0))
     self.devourBar:SetAnchor(GUIItem.Left, GUIItem.Bottom) 
     self.devourBar:SetTexture(GUIDevourOnos.kJetpackFuelTexture)
     self.devourBar:SetTexturePixelCoordinates(unpack(GUIDevourOnos.kBarCoords))
-    --self.devourBar:SetLayer(kGUILayerPlayerHUDBackground)
+    //self.devourBar:SetLayer(kGUILayerPlayerHUDBackground)
     self.devourBar:SetIsVisible(false)
  
 	self.background:AddChild(self.devourText)
@@ -82,10 +82,10 @@ function GUIDevouredPlayer:SetDevourBar(devourValue)
 
     local fraction = devourValue / 100
     self.devourBar:SetSize( Vector(GUIDevourOnos.kBarWidth * fraction, -GUIDevourOnos.kBarHeight, 0) )
-    --self.devourBar:SetColor( Color(1 - fraction * GUIDevourOnos.kFuelBlueIntensity,
-                                 --GUIDevourOnos.kFuelBlueIntensity * fraction * 0.8 ,
-                                 --0 ,
-                                 --GUIDevourOnos.kFuelBarOpacity) )
+    //self.devourBar:SetColor( Color(1 - fraction * GUIDevourOnos.kFuelBlueIntensity, 
+                                 //GUIDevourOnos.kFuelBlueIntensity * fraction * 0.8 , 
+                                 //0 ,
+                                 //GUIDevourOnos.kFuelBarOpacity) )
 
 end
 	
