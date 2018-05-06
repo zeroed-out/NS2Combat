@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_GUIMarineBuyMenu.lua
+// combat_GUIMarineBuyMenu.lua
 
 Script.Load("lua/GUIAnimatedScript.lua")
 
@@ -37,12 +37,12 @@ combat_GUIMarineBuyMenu.kArrowWidth = GUIScale(32)
 combat_GUIMarineBuyMenu.kArrowHeight = GUIScale(32)
 combat_GUIMarineBuyMenu.kArrowTexCoords = { 1, 1, 0, 0 }
 
--- Small Item Icons
+// Small Item Icons
 
 combat_GUIMarineBuyMenu.kSmallIconSize = GUIScale( Vector(80, 80, 0) )
 combat_GUIMarineBuyMenu.kSelectorSize = GUIScale( Vector(100, 100, 0) )
 
--- x-offset
+// x-offset
 combat_GUIMarineBuyMenu.kSmallIconOffset_x = GUIScale(120)
 
 combat_GUIMarineBuyMenu.kIconTopOffset = 40
@@ -52,7 +52,7 @@ combat_GUIMarineBuyMenu.kEquippedIconTopOffset = 58
 
 local smallIconHeight = 80
 local smallIconWidth = 80
--- max Icon per row
+// max Icon per row
 local smallIconRows = 4
 
 local gSmallIconIndex = nil
@@ -60,16 +60,16 @@ local function GetSmallIconPixelCoordinates(itemTechId)
 
     if not kCombatMarineTechIdToMaterialOffset then
     
-        -- Init marine offsets
+        // Init marine offsets
         kCombatMarineTechIdToMaterialOffset = {} 
         
-        -- class
+        // class 
         kCombatMarineTechIdToMaterialOffset[kTechId.Jetpack] = 40
         kCombatMarineTechIdToMaterialOffset[kTechId.Exosuit] = 76
         kCombatMarineTechIdToMaterialOffset[kTechId.DualMinigunExosuit] = 35
         kCombatMarineTechIdToMaterialOffset[kTechId.ClawRailgunExosuit] = 76
         
-        -- weapons
+        // weapons        
         kCombatMarineTechIdToMaterialOffset[kTechId.LayMines] = 80
         kCombatMarineTechIdToMaterialOffset[kTechId.Welder] = 34
         kCombatMarineTechIdToMaterialOffset[kTechId.Shotgun] = 48
@@ -77,7 +77,7 @@ local function GetSmallIconPixelCoordinates(itemTechId)
         kCombatMarineTechIdToMaterialOffset[kTechId.Flamethrower] = 42
 		kCombatMarineTechIdToMaterialOffset[kTechId.Mine] = 80
         
-        -- tech
+        // tech        
         kCombatMarineTechIdToMaterialOffset[kTechId.Armor1] = 49
         kCombatMarineTechIdToMaterialOffset[kTechId.Armor2] = 50
         kCombatMarineTechIdToMaterialOffset[kTechId.Armor3] = 51
@@ -88,10 +88,10 @@ local function GetSmallIconPixelCoordinates(itemTechId)
         kCombatMarineTechIdToMaterialOffset[kTechId.Scan] = 41
         kCombatMarineTechIdToMaterialOffset[kTechId.MACEMP] = 62
 		kCombatMarineTechIdToMaterialOffset[kTechId.CatPack] = 45
-		-- fast reload
+		// fast reload
 		kCombatMarineTechIdToMaterialOffset[kTechId.AdvancedWeaponry] = 71
 		
-		-- grenades
+		// grenades
         kCombatMarineTechIdToMaterialOffset[kTechId.ClusterGrenade] = 92
         kCombatMarineTechIdToMaterialOffset[kTechId.GasGrenade] = 93
         kCombatMarineTechIdToMaterialOffset[kTechId.PulseGrenade] = 94        
@@ -127,7 +127,7 @@ combat_GUIMarineBuyMenu.kEquippedColor = Color(0.6, 0.6, 0.6, 0.6)
 
 combat_GUIMarineBuyMenu.kBackgroundWidth = GUIScale(600)
 combat_GUIMarineBuyMenu.kBackgroundHeight = GUIScale(520)
--- We want the background graphic to look centered around the circle even though there is the part coming off to the right.
+// We want the background graphic to look centered around the circle even though there is the part coming off to the right.
 combat_GUIMarineBuyMenu.kBackgroundXOffset = GUIScale(0)
 
 combat_GUIMarineBuyMenu.kPlayersTextSize = GUIScale(24)
@@ -171,10 +171,10 @@ end
 
 function combat_GUIMarineBuyMenu:OnClose()
 
-    -- Check if GUIMarineBuyMenu is what is causing itself to close.
+    // Check if GUIMarineBuyMenu is what is causing itself to close.
 	self.player.combatBuy = false
     if not self.closingMenu then
-        -- Play the close sound since we didn't trigger the close.
+        // Play the close sound since we didn't trigger the close.
         MarineBuy_OnClose()
     end
 
@@ -202,7 +202,7 @@ function combat_GUIMarineBuyMenu:Initialize()
     self:_InitializeEquipped()    
 	self:_InitializeRefundButton()
 
-    -- note: items buttons get initialized through SetHostStructure()
+    // note: items buttons get initialized through SetHostStructure()
     MarineBuy_OnOpen()
     
 end
@@ -244,7 +244,7 @@ end
 
 function combat_GUIMarineBuyMenu:_InitializeBackground()
 
-    -- This invisible background is used for centering only.
+    // This invisible background is used for centering only.
     self.background = GUIManager:CreateGraphicItem()
     self.background:SetSize(Vector(Client.GetScreenWidth(), Client.GetScreenHeight(), 0))
     self.background:SetAnchor(GUIItem.Left, GUIItem.Top)
@@ -278,7 +278,7 @@ end
 
 function combat_GUIMarineBuyMenu:_UpdateBackground(deltaTime)
 
-    -- TODO: create some fancy effect (screen of structure is projecting rays in our direction?)
+    // TODO: create some fancy effect (screen of structure is projecting rays in our direction?)
 
 end
 
@@ -374,10 +374,10 @@ function combat_GUIMarineBuyMenu:_InitializeItemButtons()
     self.itemButtons = { }
     
     local allUps = GetAllUpgrades("Marine")
-    -- sort the ups, defined in this file
+    // sort the ups, defined in this file
     sortedList = CombatMarineBuy_GUISortUps(allUps) 
 
-    -- get the headlines
+    // get the headlines
     local  headlines = CombatMarineBuy_GetHeadlines()
     local nextHeadline = 1
     
@@ -391,16 +391,16 @@ function combat_GUIMarineBuyMenu:_InitializeItemButtons()
     
         if upgrade ~= "nextRow" then
             local itemTechId = upgrade:GetTechId()
-            -- only 6 icons per column
+            // only 6 icons per column
             if itemTechId then         
                 
                 local graphicItem = GUIManager:CreateGraphicItem()
                 graphicItem:SetSize(combat_GUIMarineBuyMenu.kSmallIconSize)
                 graphicItem:SetAnchor(GUIItem.Middle, GUIItem.Top)
                 graphicItem:SetPosition(Vector((-combat_GUIMarineBuyMenu.kSmallIconSize.x/ 2) + xOffset, combat_GUIMarineBuyMenu.kIconTopOffset + (combat_GUIMarineBuyMenu.kSmallIconSize.y) * itemNr - combat_GUIMarineBuyMenu.kSmallIconSize.y, 0))
-                -- set the tecture file for the icons
+                // set the tecture file for the icons
                 graphicItem:SetTexture(combat_GUIMarineBuyMenu.kSmallIconTexture)
-                 -- set the pixel coordinate for the icon
+                 // set the pixel coordinate for the icon
                 graphicItem:SetTexturePixelCoordinates(GetSmallIconPixelCoordinates(itemTechId))
 
                 local graphicItemActive = GUIManager:CreateGraphicItem()
@@ -465,13 +465,13 @@ function combat_GUIMarineBuyMenu:_InitializeItemButtons()
                 itemNr = itemNr +1
             end
         else
-            -- if its first next row, only set the headline
+            // if its first next row, only set the headline
             if i > 1 then
                 itemNr = 1
                 xOffset = xOffset + combat_GUIMarineBuyMenu.kSmallIconOffset_x
             end
             
-            -- set the headline
+            // set the headline
             local graphicItemHeading = GUIManager:CreateTextItem()
             graphicItemHeading:SetFontName(combat_GUIMarineBuyMenu.kFont)
             graphicItemHeading:SetFontIsBold(true)
@@ -489,7 +489,7 @@ function combat_GUIMarineBuyMenu:_InitializeItemButtons()
     
     end
     
-    -- to prevent wrong display before the first update
+    // to prevent wrong display before the first update
     self:_UpdateItemButtons(0)
 
 end
@@ -549,18 +549,18 @@ function combat_GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
            local gotRequirements = self.player:GotRequirements(item.Upgrade)           
            local useColor = Color(1,1,1,1)
 
-            -- set grey if player doesn'T have the needed other Up
+            // set grey if player doesn'T have the needed other Up
             if not gotRequirements then
             
 				useColor = Color(1, 0, 0, 1)
                
-            -- set it blink when we got the upp already
+            // set it blink when we got the upp already
             elseif  self.player:GotItemAlready(item.Upgrade) then
                 
                 local anim = math.cos(Shared.GetTime() * 9) * 0.4 + 0.6
                 useColor = Color(1, 1, anim, 1)
                     
-            -- set red if can't afford
+            // set red if can't afford
             elseif PlayerUI_GetPlayerResources() < item.Upgrade:GetLevels() then
             
                 useColor = Color(0.5, 0.5, 0.5, 1) 
@@ -608,7 +608,7 @@ function combat_GUIMarineBuyMenu:_InitializeContent()
     
     self.itemDescription = GetGUIManager():CreateTextItem()
     self.itemDescription:SetFontName(combat_GUIMarineBuyMenu.kDescriptionFontName)
-    --self.itemDescription:SetFontIsBold(true)
+    //self.itemDescription:SetFontIsBold(true)
     self.itemDescription:SetFontSize(combat_GUIMarineBuyMenu.kDescriptionFontSize)
     self.itemDescription:SetAnchor(GUIItem.Middle, GUIItem.Top)
     self.itemDescription:SetPosition(Vector((-combat_GUIMarineBuyMenu.kSmallIconSize.x/ 2) - 200, combat_GUIMarineBuyMenu.kIconTopOffset + (combat_GUIMarineBuyMenu.kSmallIconSize.y) * (smallIconRows + 1.8) - combat_GUIMarineBuyMenu.kSmallIconSize.y, 0))
@@ -635,7 +635,7 @@ function combat_GUIMarineBuyMenu:_UpdateContent(deltaTime)
         local upgradesCost = 0
         local canAfford = PlayerUI_GetPlayerResources() >= itemCost + upgradesCost
 
-        -- the discription text under the buttons
+        // the discription text under the buttons
         self.itemName:SetText(GetDisplayNameForTechId(techId))
         self.itemDescription:SetText(CombatMarineBuy_GetWeaponDescription(techId))
         self.itemDescription:SetTextClipped(true, combat_GUIMarineBuyMenu.kItemDescriptionSize.x - 2* combat_GUIMarineBuyMenu.kPadding, combat_GUIMarineBuyMenu.kItemDescriptionSize.y - combat_GUIMarineBuyMenu.kPadding)
@@ -681,7 +681,7 @@ function combat_GUIMarineBuyMenu:_InitializeResourceDisplay()
     self.resourceDisplay:SetTextAlignmentY(GUIItem.Align_Center)
     
     self.resourceDisplay:SetColor(combat_GUIMarineBuyMenu.kTextColor)
-    --self.resourceDisplay:SetColor(combat_GUIMarineBuyMenu.kTextColor)
+    //self.resourceDisplay:SetColor(combat_GUIMarineBuyMenu.kTextColor)
     
     self.resourceDisplay:SetText("")
     self.resourceDisplayBackground:AddChild(self.resourceDisplay)
@@ -782,7 +782,7 @@ function combat_GUIMarineBuyMenu:_UpdateRefundButton(deltaTime)
 
     if self:_GetIsMouseOver(self.refundButton) then
         self.refundButton:SetColor(Color(1, 1, 1, 1))
-        -- the discription text under the buttons
+        // the discription text under the buttons
 		self.itemName:SetText(Combat_ResolveString("COMBAT_REFUND_TITLE_MARINE"))
         self.itemDescription:SetText(Combat_ResolveString("COMBAT_REFUND_DESCRIPTION_MARINE"))
         self.itemDescription:SetTextClipped(true, combat_GUIMarineBuyMenu.kItemDescriptionSize.x - 2* combat_GUIMarineBuyMenu.kPadding, combat_GUIMarineBuyMenu.kItemDescriptionSize.y - combat_GUIMarineBuyMenu.kPadding)
@@ -835,14 +835,14 @@ function combat_GUIMarineBuyMenu:SendKeyEvent(key, down)
             
             if not inputHandled then
             
-                -- Check if the close button was pressed.
+                // Check if the close button was pressed.
                 if self:_GetIsMouseOver(self.closeButton) then
                     closeMenu = true
                     inputHandled = true
                     self:OnClose()
                 end
 				
-				-- Check if the close button was pressed.
+				// Check if the close button was pressed.
 				if not closeMenu then
 					if self:_GetIsMouseOver(self.refundButton) then
 					self:_ClickRefundButton()
@@ -913,7 +913,7 @@ function combat_GUIMarineBuyMenu:_GetSelectedUpgradesCost()
     
     for k, upgrade in ipairs(self.selectedUpgrades) do
     
-        --upgradeCosts = upgradeCosts + MarineBuy_GetCosts(upgrade)
+        //upgradeCosts = upgradeCosts + MarineBuy_GetCosts(upgrade)
     
     end
     

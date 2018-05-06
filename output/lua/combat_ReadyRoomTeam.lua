@@ -1,12 +1,12 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
 
--- dirty way to fix a bug
+// dirty way to fix a bug
 function ReadyRoomTeam:GetTeamType()
     return kNeutralTeamType
 end
@@ -19,7 +19,7 @@ function ReadyRoomTeam:GetRespawnMapName(player)
         mapName = ReadyRoomPlayer.kMapName
     end
     
-    -- Use previous life form if dead or in commander chair
+    // Use previous life form if dead or in commander chair
     if (mapName == MarineCommander.kMapName) 
        or (mapName == AlienCommander.kMapName) 
        or (mapName == Spectator.kMapName) 
@@ -30,7 +30,7 @@ function ReadyRoomTeam:GetRespawnMapName(player)
         
     end
     
-    -- need to set embryos to ready room players, otherwise they wont be able to move
+    // need to set embryos to ready room players, otherwise they wont be able to move
     if mapName == Embryo.kMapName then
         mapName = ReadyRoomPlayer.kMapName
     end

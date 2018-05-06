@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_GUIPlayerResources.lua
+// combat_GUIPlayerResources.lua
 
 
 local HotReload = CombatGUIPlayerResources
@@ -24,7 +24,7 @@ function CombatGUIPlayerResources:OnLoad()
 end
 
 
--- Hide the TEAM RES
+// Hide the TEAM RES
 function CombatGUIPlayerResources:UpdateResource_Hook(self, deltaTime, parameters)
 
 	self.teamText:SetText("")
@@ -32,7 +32,7 @@ function CombatGUIPlayerResources:UpdateResource_Hook(self, deltaTime, parameter
 end
 
 
--- Upgrade Points instead of RESOURCES
+// Upgrade Points instead of RESOURCES
 function CombatGUIPlayerResources:Initialize_Hook(self, style) 
 
 	self.pResDescription:SetText("Upgrade Points")

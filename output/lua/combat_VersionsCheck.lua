@@ -1,18 +1,18 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_VersionsCheck.lua
+// combat_VersionsCheck.lua
 
--- Checks if a new version is available
+// Checks if a new version is available
 
--- Local Versionsnumber
+// Local Versionsnumber
 
 Script.Load("Version.lua")
-local kCombatVersionPath = "https:--raw.github.com/AlexHayton/NS2Combat/master/Version.lua"
+local kCombatVersionPath = "https://raw.github.com/AlexHayton/NS2Combat/master/Version.lua"
 
 local CombatCheckVersion = function(data)
 
@@ -33,7 +33,7 @@ local CombatCheckVersion = function(data)
 				Shared.Message("Warning: CombatMod is Out of Date, your version is: " .. ToString(kCombatLocalVersion) .. " , newest version is: " .. ToString(WebVersion))
 			end
 		else
-			-- must be a 404 page
+			// must be a 404 page
 			Shared.Error("Error: Couldn't check the Version, file not found.")
 		end
 	else
@@ -47,6 +47,6 @@ local CombatCheckVersion = function(data)
 end
 
 function CombatInitCheckVersion()
-	--local params = {}
-	--Shared.SendHTTPRequest(kCombatVersionPath, "GET", params, CombatCheckVersion)
+	//local params = {}
+	//Shared.SendHTTPRequest(kCombatVersionPath, "GET", params, CombatCheckVersion)
 end

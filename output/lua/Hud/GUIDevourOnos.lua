@@ -1,12 +1,12 @@
--- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
---
--- lua\GUIDevourOnos.lua
---
--- Created by: Andreas Urwalek (a_urwa@sbox.tugraz.at)
---
--- Manages the marine buy/purchase menu.
---
--- ========= For more information, visit us at http:--www.unknownworlds.com =====================
+// ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
+//
+// lua\GUIDevourOnos.lua
+//
+// Created by: Andreas Urwalek (a_urwa@sbox.tugraz.at)
+//
+// Manages the marine buy/purchase menu.
+//
+// ========= For more information, visit us at http://www.unknownworlds.com =====================
 
 Script.Load("lua/combat_Utility.lua")
 
@@ -33,7 +33,7 @@ GUIDevourOnos.kFuelBarOpacity = 0.8
 
 function GUIDevourOnos:Initialize()    
     
-    -- devour bar
+    // devour bar    
     self.devourBar = GUIManager:CreateGraphicItem()
     self.devourBar:SetSize( Vector(GUIDevourOnos.kBackgroundWidth, GUIDevourOnos.kBackgroundHeight, 0) )
     self.devourBar:SetPosition(Vector(GUIDevourOnos.kBackgroundWidth / 2 + GUIDevourOnos.kBackgroundOffsetX, -GUIDevourOnos.kBackgroundHeight / 2 + GUIDevourOnos.kBackgroundOffsetY, 0))
@@ -51,10 +51,10 @@ function GUIDevourOnos:SetDevourBar(devourValue)
 
     local fraction = devourValue / 100
     self.devourBar:SetSize( Vector(GUIDevourOnos.kBarWidth * fraction, -GUIDevourOnos.kBarHeight, 0) )
-    --self.devourBar:SetColor( Color(1 - fraction * GUIDevourOnos.kFuelBlueIntensity,
-                                 --GUIDevourOnos.kFuelBlueIntensity * fraction * 0.8 ,
-                                 --0 ,
-                                 --GUIDevourOnos.kFuelBarOpacity) )
+    //self.devourBar:SetColor( Color(1 - fraction * GUIDevourOnos.kFuelBlueIntensity, 
+                                 //GUIDevourOnos.kFuelBlueIntensity * fraction * 0.8 , 
+                                 //0 ,
+                                 //GUIDevourOnos.kFuelBarOpacity) )
 
 end
 

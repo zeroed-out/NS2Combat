@@ -1,6 +1,6 @@
---
---   Created by:   fsfod
---
+//
+//   Created by:   fsfod
+//
 
 DispatchBuilder = DispatchBuilder or {}
  
@@ -247,7 +247,7 @@ local function RawArgsToNormalHooks(hookData, ...)
 		end
 	end
 
-  --have to call this here to work around the lua vm loading Orignal too early when this was called in the multihook dispatcher functions. LuaJIT seems to load it late
+  //have to call this here to work around the lua vm loading Orignal too early when this was called in the multihook dispatcher functions. LuaJIT seems to load it late
 	return hookData.Orignal(...)
 end
 

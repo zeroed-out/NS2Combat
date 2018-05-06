@@ -1,17 +1,17 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_ConsoleCommands_Client.lua
+// combat_ConsoleCommands_Client.lua
 
--- Console commands only for the client (so the server can send the ups to the client)
+// Console commands only for the client (so the server can send the ups to the client)
 
 function OnCommandSetUpgrades(upgradeId)
         
-    -- insert the ids in the personal player table
+    // insert the ids in the personal player table
     local player = Client.GetLocalPlayer()
     
     if not player.combatUpgrades then
@@ -26,7 +26,7 @@ end
 
 function OnCommandClearUpgrades()
         
-    -- clear all tech
+    // clear all tech
     local player = Client.GetLocalPlayer()
     player.combatUpgrades = {}
    
@@ -38,8 +38,8 @@ function OnCommandPoints(pointsString, resString)
     local res = tonumber(resString)
     ScoreDisplayUI_SetNewScore(points, res)
 
-	-- Add the points to the score here so that we get a more accurate score amount for the experience bar.
-	-- Todo: Make score/xp a network value?
+	// Add the points to the score here so that we get a more accurate score amount for the experience bar.
+	// Todo: Make score/xp a network value?
 	player = Client.GetLocalPlayer()
 	if player.score == nil then
 		player.score = 0

@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- GUIFuncTrain.lua
+// GUIFuncTrain.lua
 
 Script.Load("lua/GUIAnimatedScript.lua")
 
@@ -41,7 +41,7 @@ end
 
 function GUIFuncTrain:_InitializeBackground()
 
-    -- This invisible background is used for centering only.
+    // This invisible background is used for centering only.
     self.background = GUIManager:CreateGraphicItem()
     self.background:SetSize(Vector(Client.GetScreenWidth(), Client.GetScreenHeight(), 0))
     self.background:SetAnchor(GUIItem.Left, GUIItem.Top)
@@ -75,7 +75,7 @@ end
 
 function GUIFuncTrain:_UpdateBackground(deltaTime)
 
-    -- TODO: create some fancy effect (screen of structure is projecting rays in our direction?)
+    // TODO: create some fancy effect (screen of structure is projecting rays in our direction?)
 
 end
 

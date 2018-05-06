@@ -1,9 +1,9 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
 Script.Load("lua/Weapons/Weapon.lua")
 
@@ -65,7 +65,7 @@ function DevouredViewModel:OnDraw(player, previousWeaponMapName)
 
     Weapon.OnDraw(self, player, previousWeaponMapName)
     
-    -- Attach weapon to parent's hand
+    // Attach weapon to parent's hand
     self:SetAttachPoint(Weapon.kHumanAttachPoint)
     
 end
@@ -116,7 +116,7 @@ function DevouredViewModel:OnTag(tagName)
     elseif tagName == "attack_right_start" then
         self:PlaySound(kPunchSoundRight)
     elseif tagName == "attack_left_end" or tagName == "attack_right_end" then
-        --self:PlaySound(kWoundSound)
+        //self:PlaySound(kWoundSound)        
     end
 end
 

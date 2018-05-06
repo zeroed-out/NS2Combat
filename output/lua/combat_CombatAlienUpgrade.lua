@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_CombatAlienUpgrade.lua
+// combat_CombatAlienUpgrade.lua
 
 class 'CombatAlienUpgrade' (CombatUpgrade)
 
@@ -18,7 +18,7 @@ end
 function CombatAlienUpgrade:TeamSpecificLogic(player)
 	
 	if not player.isRespawning then
-	    -- Eliminate velocity so that we don't slide or jump as an egg
+	    // Eliminate velocity so that we don't slide or jump as an egg
         player:SetVelocity(Vector(0, 0, 0))
 		player:DropToFloor()
         success = player:EvolveTo(self:GetTechId())		

@@ -1,15 +1,15 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_MarineBuyFuncs.lua
+// combat_MarineBuyFuncs.lua
       
--- helper Functions for the List, text etc
+// helper Functions for the List, text etc  
 
--- headlines for the Buymenu
+// headlines for the Buymenu
 function CombatMarineBuy_GetHeadlines()
 
     headlines = {
@@ -25,12 +25,12 @@ function CombatMarineBuy_GetHeadlines()
     
 end
 
--- costum sort function that the ups to look good
+// costum sort function that the ups to look good
 function CombatMarineBuy_GUISortUps(upgradeList)
 
--- max 4 rows per column
+// max 4 rows per column
     local layoutList = {
-        -- 0, Support
+        // 0, Support
         "nextRow",
         kTechId.MedPack,
 	    kTechId.CatPack,
@@ -38,34 +38,34 @@ function CombatMarineBuy_GUISortUps(upgradeList)
         kTechId.LayMines,
         "nextRow",
 
-        -- 1, Weapons
+        // 1, Weapons
         kTechId.Shotgun,
         kTechId.GrenadeLauncher,
         kTechId.Flamethrower,
         kTechId.MACEMP,
         "nextRow",
         
-        -- 2, Weapon Upgrades
+        // 2, Weapon Upgrades 
         kTechId.Weapons1,
         kTechId.Weapons2,
         kTechId.Weapons3,
 	    kTechId.AdvancedWeaponry,
         "nextRow",
 
-        -- 3, Armor Upgrades
+        // 3, Armor Upgrades
         kTechId.Armor1,
         kTechId.Armor2,
         kTechId.Armor3,
         kTechId.Welder,
         "nextRow",
 		
-        -- 4, Class Upgrades
+        // 4, Class Upgrades
         kTechId.Jetpack,     
 	    kTechId.DualMinigunExosuit,
 	    kTechId.ClawRailgunExosuit,
 	    "nextRow",
 	    
-	    -- 5, grenades
+	    // 5, grenades
         kTechId.ClusterGrenade,
         kTechId.GasGrenade,
         kTechId.PulseGrenade,
@@ -73,7 +73,7 @@ function CombatMarineBuy_GUISortUps(upgradeList)
     }
     
     local sortedList = {}    
-    -- search the techID in the Uplist and copy it to its correct place
+    // search the techID in the Uplist and copy it to its correct place
     for i, entry in ipairs(layoutList) do
         if (entry  == "nextRow") then
             table.insert(sortedList, "nextRow")

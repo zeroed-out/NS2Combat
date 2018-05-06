@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_GUIAlienSpectatorHUD.lua
+// combat_GUIAlienSpectatorHUD.lua
 
 local HotReload = CombatGUIAlienSpectatorHUD
 if(not HotReload) then

@@ -1,23 +1,23 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_AlienBuyFuncs.lua
+// combat_AlienBuyFuncs.lua
 function GetPurchasedTechIds(techId)
     
     local player = Client.GetLocalPlayer()
     
     if player then
-        -- get All ups from the personal combat table (send from the server via OnCommandSetUpgrades(upgradeId)
+        // get All ups from the personal combat table (send from the server via OnCommandSetUpgrades(upgradeId)
         local purchasedList = {}
         
         if player.combatUpgrades then
             for i, upgradeId in ipairs (player.combatUpgrades) do
                 local upgrade =  GetUpgradeFromId(tonumber(upgradeId))            
-                -- don't show the icon from a class
+                // don't show the icon from a class
                 if (upgrade and upgrade:GetType() ~= kCombatUpgradeTypes.Class) then
                     table.insert(purchasedList, upgrade:GetTechId())
                 end
@@ -37,13 +37,13 @@ function AlienBuy_GetUpgradePurchased(techId)
     local player = Client.GetLocalPlayer()
     
     if player then
-        -- get All ups from the personal combat table (send from the server via OnCommandSetUpgrades(upgradeId)
+        // get All ups from the personal combat table (send from the server via OnCommandSetUpgrades(upgradeId)
         local gotTechId = false
         
         if player.combatUpgrades then
             for i, upgradeId in ipairs (player.combatUpgrades) do
                 local upgrade =  GetUpgradeFromId(tonumber(upgradeId))            
-                -- don't show the icon from a class
+                // don't show the icon from a class
                 if (upgrade and upgrade:GetType() ~= kCombatUpgradeTypes.Class) then
                     if techId == upgrade:GetTechId() then
                         gotTechId = true
@@ -67,7 +67,7 @@ function AlienUI_GetUpgradesForCategory(category)
 end
 
 
--- iconx, icony, name, tooltip, research, cost. Need to change that to change the costs
+// iconx, icony, name, tooltip, research, cost. Need to change that to change the costs
 function GetUnpurchasedUpgradeInfoArray(techIdTable)
 
     local t = {}
@@ -91,7 +91,7 @@ function GetUnpurchasedUpgradeInfoArray(techIdTable)
 				table.insert(t, upgradeName)                    
 				table.insert(t, GetTooltipInfoText(techId))                 
 				table.insert(t, GetTechTree():GetResearchProgressForNode(techId))
-				-- cost
+				// cost
 				table.insert(t, upgrade:GetLevels()) 
 				table.insert(t, techId)
 				if techTree then
@@ -114,8 +114,8 @@ end
 
 function GetUnpurchasedTechIds(techId)
 
-    -- get All ups for the aliens
-    --TODO : delete purchased ups
+    // get All ups for the aliens
+    //TODO : delete purchased ups
     local allUps = GetAllUpgrades("Alien") 
     local techUps = GetUpgradesOfType(allUps, kCombatUpgradeTypes.Tech)
     
@@ -227,7 +227,7 @@ function AlienBuy_GetCurrentAlien()
     
     index = ConditionalValue( index < 1, 5, index) 
     
-    --ASSERT(index >= 1 and index <= table.count(indexToAlienTechIdTable), "AlienBuy_GetCurrentAlien(" .. ToString(techId) .. "): returning invalid index " .. ToString(index) .. " for " .. SafeClassName(player))
+    //ASSERT(index >= 1 and index <= table.count(indexToAlienTechIdTable), "AlienBuy_GetCurrentAlien(" .. ToString(techId) .. "): returning invalid index " .. ToString(index) .. " for " .. SafeClassName(player))
     
     return index
     

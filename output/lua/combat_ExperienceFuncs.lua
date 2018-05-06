@@ -1,13 +1,13 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_ExperienceFuncs.lua
+// combat_ExperienceFuncs.lua
 
--- Returns the average XP of all active players.
+// Returns the average XP of all active players.
 function Experience_GetAvgXp(ignorePlayer)
 
     local avgXp = 0
@@ -15,7 +15,7 @@ function Experience_GetAvgXp(ignorePlayer)
     local playerNumbers = 0
     
     for i, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do      
-		-- Ignore players that are not on a team.
+		// Ignore players that are not on a team.
 		if (player ~= ignorePlayer) and (player:GetTeamNumber() >= 1) and (player:GetTeamNumber() <= 2) then
 			allXp = allXp + player:GetXp()
 			playerNumbers = playerNumbers + 1
@@ -40,7 +40,7 @@ function GetXpValue(entity)
 	
 end
 
--- Used to check whether an entity should deliver Xp on death or on damage
+// Used to check whether an entity should deliver Xp on death or on damage
 function GetTrickleXp(entity)
 	if entity:isa("Hive") or entity:isa("CommandStation") or entity:isa("Armory") then
 		return true
@@ -60,7 +60,7 @@ function GetAllUpgrades(team)
 		className = "CombatAlienUpgrade"
 	end
 	
-	-- Extract all the upgrades for this kind of team (Alien vs. Marine).
+	// Extract all the upgrades for this kind of team (Alien vs. Marine).
 	for index, upgrade in pairs(UpsList) do
 		if upgrade:isa(className) then
 			table.insert(upgradeList, upgrade)
@@ -73,7 +73,7 @@ end
 
 function GetUpgradeFromId(upgradeId)
 
-	-- Find the upgrade that matches this Id.
+	// Find the upgrade that matches this Id.
 	for index, upgrade in pairs(UpsList) do
 		if upgrade:GetId() == upgradeId then
 			return upgrade
@@ -84,7 +84,7 @@ end
 
 function GetUpgradeFromTechId(upgradeTechId)
 
-	-- Find the upgrade that matches this Id.
+	// Find the upgrade that matches this Id.
 	for index, upgrade in pairs(UpsList) do
 		if upgrade:GetTechId() == upgradeTechId then
 			return upgrade
@@ -97,7 +97,7 @@ function GetUpgradesOfType(upgradeList, upgradeType)
 
 	local typeList = {}
 
-	-- Extract all the upgrades of this type.
+	// Extract all the upgrades of this type.
 	for index, upgrade in pairs(upgradeList) do
 		if upgrade:GetType() == upgradeType then
 			table.insert(typeList, upgrade)

@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_PlayingTeam.lua
+// combat_PlayingTeam.lua
 
 local HotReload = GetChatPlayerData
 
@@ -33,7 +33,7 @@ local function GetChatPlayerData(client)
     
 end
 
--- we can't hook that cause it's a local function, so we just create a new one
+// we can't hook that cause it's a local function, so we just create a new one
 local function OnChatReceived(client, message)
     
     chatMessage = string.sub(message.message , 1, kMaxChatLength) 
@@ -73,7 +73,7 @@ local function OnChatReceived(client, message)
         end
     
     else
-    -- if its a combat Command, call it
+    // if its a combat Command, call it 
         local player = client:GetControllingPlayer()
         Server.ClientCommand(player, chatMessage)
     end

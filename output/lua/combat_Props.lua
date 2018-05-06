@@ -1,19 +1,19 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- how to get the origin (different from the editor)
+// how to get the origin (different from the editor)
 
--- coord Editor (513) / 39,36 = 13,03 (spark choord), for x, y and z choord
+// coord Editor (513) / 39,36 = 13,03 (spark choord), for x, y and z choord
 
---pairs for spawn
+//pairs for spawn
 
 combatSpawnList = {}
 
--- ns2_tram
+// ns2_tram
 /*combatSpawnList.ns2_tram = {}
 table.insert(combatSpawnList.ns2_tram,   
     {
@@ -71,13 +71,13 @@ CombatPropList = {}
 
 function CombatGetSpawns()
 
-    -- get the current map
+    // get the current map
     local mapName = Shared.GetMapName() 
     
     if not combatSpawnCombo then    
-        -- only do something when the map is in the List
+        // only do something when the map is in the List
         if combatSpawnList[mapName] then
-        -- get a random number an pick the spawn combo
+        // get a random number an pick the spawn combo
             
             local randomNrSpawnCombo = math.random(1, table.maxn(combatSpawnList[mapName]))
             
@@ -99,7 +99,7 @@ function CombatGetSpawns()
 end
 
 function CombatInitProps()
-    -- TODO: maybe create an effect, too
+    // TODO: maybe create an effect, too
     local mapName = Shared.GetMapName() 
     if combatSpawnList[mapName] and combatSpawnComboIndex then
         for index, prop in ipairs (combatSpawnList[mapName][combatSpawnComboIndex]["Props"]) do
@@ -110,11 +110,11 @@ end
 
 function CombatCreateProp(origin, angels, scale)
 
-    -- addept Editor values to engine values
+    // addept Editor values to engine values
     local sparkFactor = (1 / 39.36)
     
     origin = origin * sparkFactor  
-    --scale = scale * sparkFactor
+    //scale = scale * sparkFactor  
   
     local coords = angels:GetCoords(origin)
     
@@ -124,16 +124,16 @@ function CombatCreateProp(origin, angels, scale)
 
     local renderModelCommAlpha = 0
     local blocksPlacement = true
-    --local CollisionObject.Static = 1
+    //local CollisionObject.Static = 1
     
-    -- the model ist just the source, need to be a quadratic or circle model
+    // the model ist just the source, need to be a quadratic or circle model
     local model = "models/props/generic/generic_crate_01.model"
     
-    -- Create the physical representation of the prop.
+    // Create the physical representation of the prop.
     local physicsModel = Shared.CreatePhysicsModel(model, false, coords, nil) 
     physicsModel:SetPhysicsType(1)
     
-    -- Make it not block selection and structure placement (GetCommanderPickTarget)
+    // Make it not block selection and structure placement (GetCommanderPickTarget)
     if renderModelCommAlpha < 1 or blocksPlacement then
         physicsModel:SetGroup(PhysicsGroup.CommanderPropsGroup)
     end
@@ -141,8 +141,8 @@ function CombatCreateProp(origin, angels, scale)
     table.insert(CombatPropList, physicsModel)
         if Client then
     
-            -- Create the visual representation of the prop.
-            -- All static props can be instanced.
+            // Create the visual representation of the prop.
+            // All static props can be instanced.
             local renderModel = Client.CreateRenderModel(RenderScene.Zone_Default)       
             renderModel:SetModel(model)
             
@@ -164,19 +164,19 @@ end
 function CombatUpdatePropEffect(team)
 
     for i, prop in ipairs(CombatPropList) do  
-         -- get the middle of the prop
+         // get the middle of the prop
          local coords = prop:GetCoords()
          local middle = coords.origin + (coords.yAxis / 2)
          
-		 -- Spawn an effect, just a dummy entity cause its getting destroyed after the effect (you can just play a effect you need an entity first)
+		 // Spawn an effect, just a dummy entity cause its getting destroyed after the effect (you can just play a effect you need an entity first)
 		 propEntity = CreateEntity(EtherealGate.kMapName, middle, team:GetTeamNumber())	 
 
-		 -- play the effect and destroy the entity
+		 // play the effect and destroy the entity
 		 propEntity:TriggerEffects(kPropEffect)
 		 DestroyEntity(propEntity)
 
-		 -- Old way of sending the prop effect, with a message.
-		 --team:PrintWorldTextForTeamInRange(kWorldTextMessageType.Resources, 0, middle , 20)
+		 // Old way of sending the prop effect, with a message.
+		 //team:PrintWorldTextForTeamInRange(kWorldTextMessageType.Resources, 0, middle , 20)
     end
 
 end

@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_GUIExperienceBar.lua
+// combat_GUIExperienceBar.lua
 
 class 'combat_GUIExperienceBar' (GUIScript)
 
@@ -27,7 +27,7 @@ combat_GUIExperienceBar.kExperienceBarWidth = combat_GUIExperienceBar.kExperienc
 combat_GUIExperienceBar.kExperienceBarHeight = combat_GUIExperienceBar.kExperienceBackgroundHeight - combat_GUIExperienceBar.kExperienceBorder*2
 combat_GUIExperienceBar.kExperienceBarMinimisedHeight = combat_GUIExperienceBar.kExperienceBackgroundMinimisedHeight - combat_GUIExperienceBar.kExperienceBorder*2
 
--- Texture Coords
+// Texture Coords
 combat_GUIExperienceBar.kMarineBarTextureX1 = 12
 combat_GUIExperienceBar.kMarineBarTextureX2 = 500
 combat_GUIExperienceBar.kMarineBarTextureY1 = 0
@@ -131,14 +131,14 @@ end
 
 function combat_GUIExperienceBar:Update(deltaTime)
 
-	-- Alter the display based on team, status.
+	// Alter the display based on team, status.
 	local newTeam = false
 	if (self.playerTeam ~= GetTeamType()) then
 		self.playerTeam = GetTeamType()
 		newTeam = true
 	end
 	
-	-- We have switched teams.
+	// We have switched teams.
 	if (newTeam) then
 		if (self.playerTeam == "Marines") then
 			self.experienceBarBackground:SetIsVisible(true)
@@ -182,7 +182,7 @@ function combat_GUIExperienceBar:Update(deltaTime)
 		end
 	end
 		
-	-- Recalculate, tween and fade
+	// Recalculate, tween and fade
 	if (self.showExperience) then
 		self:CalculateExperienceData()
 		self:UpdateExperienceBar(deltaTime)
@@ -214,15 +214,15 @@ function combat_GUIExperienceBar:UpdateExperienceBar(deltaTime)
 	local currentBarWidth = self.experienceBar:GetSize().x
 	local targetBarWidth = calculatedBarWidth
 	
-	-- Method to allow proper tweening visualisation when you go up a rank.
-	-- Currently detecting this by examining old vs new size.
+	// Method to allow proper tweening visualisation when you go up a rank.
+	// Currently detecting this by examining old vs new size.
 	if (math.ceil(calculatedBarWidth) < math.floor(currentBarWidth)) then
 		self.rankIncreased = true
 	end
 	
 	if (self.rankIncreased) then
 		targetBarWidth = combat_GUIExperienceBar.kExperienceBarWidth
-		-- Once we reach the end, reset the bar back to the beginning.
+		// Once we reach the end, reset the bar back to the beginning.
 		if (currentBarWidth >= targetBarWidth) then
 			self.rankIncreased = false
 			currentBarWidth = 0
@@ -245,11 +245,11 @@ function combat_GUIExperienceBar:UpdateExperienceBar(deltaTime)
 	local texCoordX2 = self.experienceData.barPixelCoordsX1 + (Slerp(currentBarWidth, targetBarWidth, deltaTime*increaseRate) / combat_GUIExperienceBar.kExperienceBarWidth * (self.experienceData.barPixelCoordsX2 - self.experienceData.barPixelCoordsX1))
 	self.experienceBar:SetTexturePixelCoordinates(self.experienceData.barPixelCoordsX1, self.experienceData.barPixelCoordsY1, texCoordX2, self.experienceData.barPixelCoordsY2)
 	
-	-- Detect and register if the bar is moving
+	// Detect and register if the bar is moving
 	if (math.abs(currentBarWidth - calculatedBarWidth) > 0.01) then
 		self.barMoving = true
 	else
-		-- Delay the fade out by a while
+		// Delay the fade out by a while
 		if (self.barMoving) then
 			self.fadeOutTime = Shared.GetTime() + combat_GUIExperienceBar.kBarFadeOutDelay
 		end
@@ -280,16 +280,16 @@ end
 
 function combat_GUIExperienceBar:UpdateText(deltaTime)
 	local updateRate = combat_GUIExperienceBar.kTextIncreaseRate
-	-- Handle the case when the experience jumps up by a huge amount
+	// Handle the case when the experience jumps up by a huge amount
 	if self.experienceData.targetExperience > self.currentExperience and
 	   self.experienceData.targetExperience - self.currentExperience > combat_GUIExperienceBar.kTextIncreaseRate*2 then
 	   updateRate = combat_GUIExperienceBar.kTextIncreaseRate * 10
 	end
 	   
-	-- Tween the experience text too!
+	// Tween the experience text too!
 	self.currentExperience = Slerp(self.currentExperience, self.experienceData.targetExperience, deltaTime*updateRate)
 	
-	-- Handle the case when the round changes and we are set back to 0 experience.
+	// Handle the case when the round changes and we are set back to 0 experience.
 	if self.currentExperience > self.experienceData.targetExperience then
 		self.currentExperience = 0
 	end
@@ -303,7 +303,7 @@ end
 
 function combat_GUIExperienceBar:UpdateVisible(deltaTime)
 
-	-- Hide the experience bar if the player is dead.
+	// Hide the experience bar if the player is dead.
 	self.experienceBarBackground:SetIsVisible(self.experienceData.isVisible)
 	
 end

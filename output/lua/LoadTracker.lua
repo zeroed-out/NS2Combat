@@ -1,6 +1,6 @@
---
---   Created by:   fsfod
---
+//
+//   Created by:   fsfod
+//
 
 local HotReload = LoadTracker
 
@@ -19,7 +19,7 @@ if(not LoadTracker) then
   local Script_Load = Script.Load
   
   Script.Load = function(scriptPath)
-  	--just let the real script.load bomb on bad paramters
+  	//just let the real script.load bomb on bad paramters
   	if(not scriptPath or type(scriptPath) ~= "string") then
   		Script_Load(scriptPath)
   	end

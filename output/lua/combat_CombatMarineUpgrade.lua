@@ -1,11 +1,11 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
+//________________________________
+//
+//   	NS2 Combat Mod     
+//	Made by JimWest and MCMLXXXIV, 2012
+//
+//________________________________
 
--- combat_CombatMarineUpgrade.lua
+// combat_CombatMarineUpgrade.lua
 
 class 'CombatMarineUpgrade' (CombatUpgrade)
 
@@ -20,11 +20,11 @@ function CombatMarineUpgrade:TeamSpecificLogic(player)
 	local techId = self:GetTechId()
 	local kMapName = LookupTechData(techId, kTechDataMapName)
 	
-	-- Apply weapons upgrades to a marine.
+	// Apply weapons upgrades to a marine.
 	if (player:GetIsAlive() and self:GetType() == kCombatUpgradeTypes.Weapon) then
-		--Player.InitWeapons(player)
+		//Player.InitWeapons(player)
 		
-		-- if this is a primary weapon, destroy the old one.
+		// if this is a primary weapon, destroy the old one.
 		if GetIsPrimaryWeapon(kMapName) then
 			local weapon = player:GetWeaponInHUDSlot(1)
 			if (weapon) then
@@ -38,7 +38,7 @@ function CombatMarineUpgrade:TeamSpecificLogic(player)
 	
 end
 
--- TODO: Walk up the player's tech tree...
+// TODO: Walk up the player's tech tree...
 function GetIsPrimaryWeapon(kMapName)
     local isPrimary = false
     
