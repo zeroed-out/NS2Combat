@@ -24,7 +24,7 @@ local function AlienBuy_GetHyperMutationCostReduction(alienType)
     local costReduction = 0
     local player = Client.GetLocalPlayer()
     if player then        
-        costReduction = AlienBuy_GetAlienCost(alienType)
+        costReduction = AlienBuy_GetAlienCost(AlienBuy_GetCurrentAlien())
     end
     
     return costReduction
@@ -297,7 +297,14 @@ local function UpdateEvolveButton(self)
         // If cannot afford selected alien type and/or upgrades, cannot evolve.
         evolveButtonTextureCoords = GUIAlienBuyMenu.kEvolveButtonNeedResourcesTextureCoordinates
         evolveText = Combat_ResolveString("ABM_NEED")
-        evolveCost = AlienBuy_GetAlienCost(self.selectedAlienType) + selectedUpgradesCost - AlienBuy_GetHyperMutationCostReduction(self.selectedAlienType)
+        local totalCost = selectedUpgradesCost
+        
+        // Cannot buy the current alien.
+        if self.selectedAlienType ~= AlienBuy_GetCurrentAlien() then
+            totalCost = totalCost + AlienBuy_GetAlienCost(self.selectedAlienType)
+        end
+        
+        evolveCost = totalCost - AlienBuy_GetHyperMutationCostReduction(self.selectedAlienType)
         
     else
     
@@ -476,6 +483,7 @@ function CombatGUIAlienBuyMenu:SendKeyEvent_Hook(self, key, down)
                     local researched, researchProgress, researching = self:_GetAlienTypeResearchInfo(buttonItem.TypeData.Index)
                     if (researched or researching) and self:_GetIsMouseOver(buttonItem.Button) then
                         
+                        -- only works if you're a skulk
                         if (AlienBuy_GetCurrentAlien() == 5) then
                             // Deselect all upgrades when a different alien type is selected.
                             if self.selectedAlienType ~= buttonItem.TypeData.Index  then

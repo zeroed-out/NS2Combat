@@ -470,7 +470,7 @@ if Server then
 			// Trigger an effect
             self:TriggerEffects("combat_level_up")
 			
-			SendCombatLvlUp(self)
+			SendCombatLvlUp(self, self.resources)
 			
         end     
         

@@ -107,11 +107,11 @@ function Player:CoEnableUpgrade(upgrades)
                 end
             end
             
-            if not self:HasRoomToEvolve(techId) then
+            if not self:HasRoomToEvolve(lifeFormTechId) then
                 noRoom = true
             end
            
-            if techId == kTechId.Onos and not hardCapped then
+            if lifeFormTechId == kTechId.Onos and not hardCapped then
 				if (Shared.GetTime() - self.combatTable.timeLastHeavyTech) < kHeavyTechCooldown then
 					heavyTechCooldown = true
 				else
