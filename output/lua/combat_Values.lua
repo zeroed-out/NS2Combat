@@ -134,7 +134,7 @@ kPowerPointArmor = 500
 kPowerPointPointValue = 0
 // Moved to CombatConfig.json
 //kCombatPowerPointsTakeDamage = true
-kCombatPowerPointAutoRepairTime = 60
+kCombatPowerPointAutoRepairTime = 300
 
 // Alien vision should be free
 kAlienVisionCost = 0
