@@ -65,7 +65,7 @@ function GetAllUpgrades(team)
 	end
 	
 	-- Extract all the upgrades for this kind of team (Alien vs. Marine).
-	for index, upgrade in pairs(UpsList) do
+	for _, upgrade in ipairs(UpsList) do
 		if upgrade:isa(className) then
 			table.insert(upgradeList, upgrade)
 		end
@@ -78,7 +78,7 @@ end
 function GetUpgradeFromId(upgradeId)
 
 	-- Find the upgrade that matches this Id.
-	for index, upgrade in pairs(UpsList) do
+	for _, upgrade in ipairs(UpsList) do
 		if upgrade:GetId() == upgradeId then
 			return upgrade
 		end
@@ -89,7 +89,7 @@ end
 function GetUpgradeFromTechId(upgradeTechId)
 
 	-- Find the upgrade that matches this Id.
-	for index, upgrade in pairs(UpsList) do
+	for _, upgrade in ipairs(UpsList) do
 		if upgrade:GetTechId() == upgradeTechId then
 			return upgrade
 		end
@@ -102,7 +102,7 @@ function GetUpgradesOfType(upgradeList, upgradeType)
 	local typeList = {}
 
 	-- Extract all the upgrades of this type.
-	for index, upgrade in pairs(upgradeList) do
+	for _, upgrade in ipairs(upgradeList) do
 		if upgrade:GetType() == upgradeType then
 			table.insert(typeList, upgrade)
 		end
@@ -114,7 +114,7 @@ end
 
 function GetUpgradeFromTextCode(textCode)
 
-	for index, upgrade in pairs(UpsList) do
+	for _, upgrade in ipairs(UpsList) do
 		if (textCode == upgrade:GetTextCode()) then
 			return upgrade
 		end
@@ -126,7 +126,7 @@ end
 
 function GetUpgradeFromTechId(techId)
 
-	for index, upgrade in pairs(UpsList) do
+	for _, upgrade in ipairs(UpsList) do
 		if (techId == upgrade:GetTechId()) then
 			return upgrade
 		end

@@ -130,7 +130,7 @@ function PlayingTeam:Update(timePassed)
             
 		else
 			-- Send any 'waiting to respawn' messages (normally these only go to AlienSpectators)
-			for index, player in pairs(self:GetPlayers()) do				
+			for _, player in ipairs(self:GetPlayers()) do
 				if not player.waitingToSpawnMessageSent then
 					if player:GetIsAlive() == false then
 						SendPlayersMessage({ player }, kTeamMessageTypes.SpawningWait)

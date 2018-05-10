@@ -51,7 +51,10 @@ function UpdateUpgradeCountsForTeam(gameRules, teamIndex)
 	end
 
 	-- Updates for each player.
-	for upgradeId, upgradeCount in pairs(gameRules.UpgradeCounts[teamIndex]) do
+	for _, upgrade in ipairs(GetAllUpgrades(teamIndex)) do
+		local upgradeId = upgrade:GetId()
+		local upgradeCount = gameRules.UpgradeCounts[teamIndex][upgradeId]
+
 		-- Send any updates to all players
 		if upgradeCount ~= oldCounts[upgradeId] then
 			local teamPlayers = GetEntitiesForTeam("Player", teamIndex)
@@ -59,6 +62,7 @@ function UpdateUpgradeCountsForTeam(gameRules, teamIndex)
 				SendCombatUpgradeCountUpdate(teamPlayer, upgradeId, upgradeCount)
 			end
 		end
+
 	end
 
 end
@@ -110,6 +114,7 @@ function NS2Gamerules:JoinTeam(player, newTeamNumber, force)
 	if not client then return end
 
 	local success = false
+	local newPlayer
 	local oldPlayerWasSpectating = client and client:GetSpectatingPlayer()
 	local oldTeamNumber = player:GetTeamNumber()
 
@@ -231,9 +236,12 @@ function NS2Gamerules:JoinTeam(player, newTeamNumber, force)
 
 		-- Send upgrade updates for each player.
 		if newTeamNumber == kTeam1Index or newTeamNumber == kTeam2Index then
-			for upgradeId, upgradeCount in pairs(self.UpgradeCounts[newTeamNumber]) do
-				-- Send all upgrade counts to this player
+			for _, upgrade in ipairs(GetAllUpgrades(newTeamNumber)) do
+				local upgradeId = upgrade:GetId()
+				local upgradeCount = self.UpgradeCounts[newTeamNumber][upgradeId]
+
 				SendCombatUpgradeCountUpdate(newPlayer, upgradeId, upgradeCount)
+
 			end
 		end
 

@@ -106,7 +106,7 @@ local function OnCommandUpgrades(client)
 		upgradeList = GetAllUpgrades("Alien")
 	end
 	
-	for index, upgrade in pairs(upgradeList) do
+	for _, upgrade in ipairs(upgradeList) do
 		local requirements = upgrade:GetRequirements()
 		local requirementsText = ""
 		

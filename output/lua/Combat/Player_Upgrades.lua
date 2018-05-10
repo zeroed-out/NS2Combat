@@ -534,7 +534,7 @@ function Player:SendUpgrades(upgrades)
     if combatTechTree then  
 
         if (type(upgrades) == "table") then  
-            for _, upgrade in pairs(upgrades) do
+            for _, upgrade in ipairs(upgrades) do
                 if upgrade then
 					SendCombatSetUpgrade(self, upgrade:GetId())
                 end
