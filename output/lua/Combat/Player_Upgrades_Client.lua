@@ -37,9 +37,9 @@ function Player:GotRequirements(upgrade)
 
         -- does this up needs other ups??
         if requirements then
-            requiredUpgrade = GetUpgradeFromId(requirements)    
-            if (self.combatUpgrades and table.maxn(self.combatUpgrades) > 0) then
-                for i, id in ipairs(self.combatUpgrades) do
+            local requiredUpgrade = GetUpgradeFromId(requirements)
+            if (self.combatUpgrades and #self.combatUpgrades > 0) then
+                for _, id in ipairs(self.combatUpgrades) do
                     if (tonumber(id) == requiredUpgrade:GetId()) then
                         return true
                     end  
@@ -63,8 +63,8 @@ function Player:GotRequirementsFromTechIds(upgrade, upgradeTechIdList)
 
         -- does this up needs other ups??
         if requirements then
-			requiredUpgrade = GetUpgradeFromId(requirements)    
-			for i, techId in pairs(upgradeTechIdList) do
+			local requiredUpgrade = GetUpgradeFromId(requirements)
+			for _, techId in ipairs(upgradeTechIdList) do
 				if (techId == requiredUpgrade:GetTechId()) then
 					return true
 				end  
@@ -73,6 +73,7 @@ function Player:GotRequirementsFromTechIds(upgrade, upgradeTechIdList)
             return true
         end
     end
+
     return false
 end
 
@@ -80,7 +81,7 @@ function Player:GotItemAlready(upgrade)
 
     if upgrade then 
         if (self.combatUpgrades and table.maxn(self.combatUpgrades) > 0) then
-            for i, id in ipairs(self.combatUpgrades) do
+            for _, id in ipairs(self.combatUpgrades) do
                 if (tonumber(id) == upgrade:GetId()) then
                     return true
                 end  

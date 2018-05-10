@@ -8,6 +8,7 @@
 -- combat_GUIAlienBuyMenu.lua
 Script.Load("lua/GUIAssets.lua")
 
+-- Todo: Refactor GUIAlienBuyMenu to make it easier to modify without having to copy all those local methods
 local kLargeFont = Fonts.kAgencyFB_Large
 local kFont = Fonts.kAgencyFB_Small
 local cannotSelectSound = "sound/NS2.fev/alien/common/vision_off"
@@ -142,14 +143,6 @@ function GUIAlienBuyMenu:_InitializeUpgradeButtons()
             -- Render above the Alien image.
             buttonIcon:SetLayer(kGUILayerPlayerHUDForeground3)
             self.background:AddChild(buttonIcon)
-            
-            -- The background is visible only inside the embryo.
-            local buttonBackground = GUIManager:CreateGraphicItem()
-            buttonBackground:SetSize(Vector(GUIAlienBuyMenu.kUpgradeButtonSize, GUIAlienBuyMenu.kUpgradeButtonSize, 0))
-            buttonBackground:SetTexture(GUIAlienBuyMenu.kBuyMenuTexture)
-            buttonBackground:SetTexturePixelCoordinates(unpack(GUIAlienBuyMenu.kUpgradeButtonBackgroundTextureCoordinates))
-            --buttonBackground:SetStencilFunc(GUIItem.NotEqual)
-            buttonIcon:AddChild(buttonBackground)
 
             local unselectedPosition = Vector( math.cos(angle) * GUIAlienBuyMenu.kUpgradeButtonDistance - GUIAlienBuyMenu.kUpgradeButtonSize * .5, math.sin(angle) * GUIAlienBuyMenu.kUpgradeButtonDistance - GUIAlienBuyMenu.kUpgradeButtonSize * .5, 0 )
             
@@ -160,7 +153,7 @@ function GUIAlienBuyMenu:_InitializeUpgradeButtons()
                 table.insertunique(self.upgradeList, techId)
             end
 
-            table.insert(self.upgradeButtons, { Background = buttonBackground, Icon = buttonIcon, TechId = techId, Category = techId,
+            table.insert(self.upgradeButtons, { Background = nil, Icon = buttonIcon, TechId = techId, Category = techId,
                                                 Selected = purchased, SelectedMovePercent = 0, Cost = GetUpgradeFromTechId(techId):GetLevels(), Purchased = purchased, Index = nil, 
                                                 UnselectedPosition = unselectedPosition, SelectedPosition = self.slots[i].Graphic:GetPosition()  })
         
@@ -314,9 +307,10 @@ local function UpdateEvolveButton(self)
     
 end
 
-local kDefaultColor = Color(1,1,1,1)
+local kDefaultColor = Color(kIconColors[kAlienTeamType])
 local kNotAvailableColor = Color(0.3, 0.3, 0.3, 1)
-local kNotAllowedColor = Color(1, 0,0,1)
+local kNotAllowedColor = Color(1, 0, 0, 1)
+local kPurchasedColor = Color(1, 0.6, 0, 1)
 
 local function UpdateRefundButton(self)
 
@@ -348,7 +342,9 @@ function GUIAlienBuyMenu:Update(deltaTime)
     for i, currentButton in ipairs(self.upgradeButtons) do
         local useColor = kDefaultColor
 
-        if currentButton.Cost > lvlFree then
+        if currentButton.Purchased then
+            useColor = kPurchasedColor
+        elseif currentButton.Cost > lvlFree then
             useColor = kNotAvailableColor
         end
 
@@ -510,9 +506,11 @@ function GUIAlienBuyMenu:_UninitializeUpgradeButtons()
 
 end
 
+local old_HandleUpgradeClicked = GUIAlienBuyMenu._HandleUpgradeClicked
+local ToggleButton
 function GUIAlienBuyMenu:_HandleUpgradeClicked()
     local inputHandled = false
-    
+
     for _, currentButton in ipairs(self.upgradeButtons) do
         -- Can't select if it has been purchased already or is unselectable.
         if (not _GetHasMaximumSelected(self) or currentButton.Selected) and self:_GetIsMouseOver(currentButton.Icon) then
@@ -521,16 +519,28 @@ function GUIAlienBuyMenu:_HandleUpgradeClicked()
                 -- Play a sound or something to indicate this button isn't clickable.
                 PlayerUI_TriggerInvalidSound()
             else
-                currentButton.Selected = not currentButton.Selected
+                ToggleButton(self, currentButton)
                 inputHandled = true
 
                 if currentButton.Selected then
                     AlienBuy_OnUpgradeSelected()
                 else
+                    -- Deselect the tier 3 upgrade if the tier 2 get deselected
+                    if currentButton.TechId == kTechId.TwoHives then
+                        for _, button in ipairs(self.upgradeButtons) do
+                            if button.TechId == kTechId.ThreeHives and button.Selected then
+                                ToggleButton(self, button)
+                                break
+                            end
+                        end
+                    end
+
                     AlienBuy_OnUpgradeDeselected()
                 end
 
             end
+
+            break
 
         end
     end
@@ -538,3 +548,4 @@ function GUIAlienBuyMenu:_HandleUpgradeClicked()
     return inputHandled
 
 end
+debug.joinupvalues(GUIAlienBuyMenu._HandleUpgradeClicked, old_HandleUpgradeClicked)

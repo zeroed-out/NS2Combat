@@ -12,7 +12,7 @@ Script.Load("lua/Combat/Player_Upgrades.lua")
 
 -- Todo: Move to Marine and Exo?
 function Player:Buy()
-    
+
     -- Don't allow display in the ready room, or as phantom
     if self:GetIsLocalPlayer() and not HelpScreen_GetHelpScreen():GetIsBeingDisplayed() then
 
