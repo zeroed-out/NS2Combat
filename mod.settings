@@ -3,7 +3,7 @@ source_dir  = "source"
 output_dir  = "output"
 description = [=[NS2Combat: A Combat-style mod for Natural Selection 2!
 
-This is used with permission, and is licensed under the MIT License. For more info, check out https://github.com/AlexHayton/NS2Combat
+This is used with permission, and is licensed under the MIT License. For more info, check out https://github.com/TheRealNin/NS2Combat
 
 Bringing back the old and out of date Combat mod :)
 

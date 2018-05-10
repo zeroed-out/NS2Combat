@@ -1,9 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
 
 
 -- custom NetworkMessages for the combat mod (for telling client if the mode is active or not)
@@ -39,6 +33,7 @@ Shared.RegisterNetworkMessage("CombatSetUpgrade", kCombatSetUpgradeMessage)
 
 local kCombatSetLvlUpMessage =
 {
+    level = "integer"
 }
 Shared.RegisterNetworkMessage("CombatLvlUp", kCombatSetLvlUpMessage)
 
@@ -106,7 +101,7 @@ if Server then
     function SendCombatLvlUp(player)
 		
         if player then
-			local message = {}
+			local message = {level = player.resources}
             Server.SendNetworkMessage(player, "CombatLvlUp", message, true)
         end
      
@@ -161,7 +156,7 @@ elseif Client then
     
     function GetCombatLvlUp(messageTable)
 		local player = Client.GetLocalPlayer()
-        player:LevelUpMessage()
+        player:LevelUpMessage(messageTable.level)
     end
     Client.HookNetworkMessage("CombatLvlUp", GetCombatLvlUp)
     
