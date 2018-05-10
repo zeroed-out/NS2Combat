@@ -8,10 +8,10 @@
 -- combat_GUIPlayerResources.lua
 
 -- Hide the TEAM RES
-local oldUpdateResource = GUIPlayerResource.UpdateResource
-function GUIPlayerResource:UpdateResource(...)
+local oldUpdate = GUIPlayerResource.Update
+function GUIPlayerResource:Update(...)
 
-    oldUpdateResource(self, ...)
+    oldUpdate(self, ...)
 
 	self.teamText:SetText("")
 
