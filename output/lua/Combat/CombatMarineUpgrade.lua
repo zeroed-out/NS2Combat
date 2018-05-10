@@ -37,18 +37,3 @@ function CombatMarineUpgrade:TeamSpecificLogic(player)
 	end
 	
 end
-
--- TODO: Walk up the player's tech tree...
-function GetIsPrimaryWeapon(kMapName)
-    local isPrimary = false
-    
-    if kMapName == Shotgun.kMapName or
-        kMapName == Flamethrower.kMapName  or
-        kMapName == GrenadeLauncher.kMapName or
-        kMapName == Rifle.kMapName then
-        
-        isPrimary = true
-    end
-    
-    return isPrimary
-end
