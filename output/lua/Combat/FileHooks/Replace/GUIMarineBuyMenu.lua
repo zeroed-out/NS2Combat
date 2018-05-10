@@ -283,9 +283,6 @@ function GUIMarineBuyMenu:_InitializeBackground()
 end
 
 function GUIMarineBuyMenu:_UpdateBackground(deltaTime)
-
-    -- TODO: create some fancy effect (screen of structure is projecting rays in our direction?)
-
 end
 
 function GUIMarineBuyMenu:_UninitializeBackground()

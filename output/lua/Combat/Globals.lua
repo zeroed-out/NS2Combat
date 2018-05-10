@@ -50,7 +50,7 @@ kSpawnMinDistance = 2
 kSpawnMaxDistance = 70
 kSpawnMaxVertical = 30
 kSpawnArmoryMaxRetries = 200
-kArmorySpawnMinDistance = 6
+kArmorySpawnMinDistance = 7
 kArmorySpawnMaxDistance = 60
 
 -- By default, Aliens win after a certain amount of time...
