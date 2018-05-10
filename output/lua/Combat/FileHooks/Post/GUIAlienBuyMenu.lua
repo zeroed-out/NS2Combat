@@ -8,21 +8,6 @@
 -- combat_GUIAlienBuyMenu.lua
 Script.Load("lua/GUIAssets.lua")
 
-local function AlienBuy_GetHyperMutationCostReduction(alienType)
-
-    if AlienBuy_GetCurrentAlien() == alienType then
-        return 0
-    end    
-    
-    local costReduction = 0
-    local player = Client.GetLocalPlayer()
-    if player then        
-        costReduction = AlienBuy_GetAlienCost(alienType)
-    end
-    
-    return costReduction
-end
-
 local kLargeFont = Fonts.kAgencyFB_Large
 local kFont = Fonts.kAgencyFB_Small
 local cannotSelectSound = "sound/NS2.fev/alien/common/vision_off"
@@ -51,15 +36,15 @@ local function CreateSlot(self, category)
 end
 
 function GUIAlienBuyMenu:_InitializeSlots()
-	 
-	-- For the first version of this, just make a slot for each upgrade.
-	 self.slots = {}
+
+    -- For the first version of this, just make a slot for each upgrade.
+     self.slots = {}
     
-	for i, upgrade in ipairs(UpsList) do
-		if (upgrade:GetTeam() == "Alien" and upgrade:GetType() ~= kCombatUpgradeTypes.Class) then
-			CreateSlot(self, upgrade:GetTechId())
-		end
-	end
+    for i, upgrade in ipairs(UpsList) do
+        if (upgrade:GetTeam() == "Alien" and upgrade:GetType() ~= kCombatUpgradeTypes.Class) then
+            CreateSlot(self, upgrade:GetTechId())
+        end
+    end
     
     local anglePerSlot = (math.pi * kCombatAlienBuyMenuTotalAngle) / (#self.slots-1)
     
@@ -110,7 +95,7 @@ function GUIAlienBuyMenu:_InitializeUpgradeButtons()
         local upgrades = AlienUI_GetUpgradesForCategory(self.slots[i].Category)
         local offsetAngle = self.slots[i].Angle
         local anglePerUpgrade = math.pi * 0.25 / 3
-		anglePerUpgrade = anglePerUpgrade * 0.1
+        anglePerUpgrade = anglePerUpgrade * 0.1
         local category = self.slots[i].Category
         
         for upgradeIndex = 1, #upgrades do
@@ -183,35 +168,35 @@ function GUIAlienBuyMenu:_InitializeUpgradeButtons()
         end
     
     end
-	
-	-- Create the refund button too.
-	InitializeRefundButton(self)
+
+    -- Create the refund button too.
+    InitializeRefundButton(self)
 
 end
 
 local function GetSelectedUpgradesCost(self)
 
     local cost = 0
-	local purchasedTech = GetPurchasedTechIds()
-	
-	-- Only count upgrades that we've selected and don't already own.
+    local purchasedTech = GetPurchasedTechIds()
+
+    -- Only count upgrades that we've selected and don't already own.
     for i, currentButton in ipairs(self.upgradeButtons) do
     
         if currentButton.Selected then
-			
-			local isPurchased = false
-			
-			for j, purchasedTechId in ipairs(purchasedTech) do
-				if currentButton.TechId == purchasedTechId then
-				    isPurchased = true
-				end
-			end
-			
-			-- If the upgrade isn't purchased add the cost.
-			if not isPurchased then
-				cost = cost + currentButton.Cost
-			end
-			
+
+            local isPurchased = false
+
+            for j, purchasedTechId in ipairs(purchasedTech) do
+                if currentButton.TechId == purchasedTechId then
+                    isPurchased = true
+                end
+            end
+
+            -- If the upgrade isn't purchased add the cost.
+            if not isPurchased then
+                cost = cost + currentButton.Cost
+            end
+
         end
         
     end
@@ -243,8 +228,8 @@ local function GetCanAffordAlienTypeAndUpgrades(self, alienType)
     if alienType == AlienBuy_GetCurrentAlien() then
         alienCost = 0
     end
-    
-    return PlayerUI_GetPlayerResources() >= alienCost + upgradesCost - AlienBuy_GetHyperMutationCostReduction(self.selectedAlienType)
+
+    return PlayerUI_GetPlayerResources() >= alienCost + upgradesCost
     
 end
 
@@ -274,7 +259,7 @@ local function UpdateEvolveButton(self)
         -- If cannot afford selected alien type and/or upgrades, cannot evolve.
         evolveButtonTextureCoords = GUIAlienBuyMenu.kEvolveButtonNeedResourcesTextureCoordinates
         evolveText = Combat_ResolveString("ABM_NEED")
-        evolveCost = AlienBuy_GetAlienCost(self.selectedAlienType) + selectedUpgradesCost - AlienBuy_GetHyperMutationCostReduction(self.selectedAlienType)
+        evolveCost = AlienBuy_GetAlienCost(self.selectedAlienType) + selectedUpgradesCost
         
     else
     
@@ -287,7 +272,7 @@ local function UpdateEvolveButton(self)
         end
         
         evolveText = Combat_ResolveString("ABM_EVOLVE_FOR")
-        evolveCost = totalCost - AlienBuy_GetHyperMutationCostReduction(self.selectedAlienType) -- shows also negative values
+        evolveCost = totalCost
         
     end
             
@@ -335,11 +320,11 @@ local kNotAllowedColor = Color(1, 0,0,1)
 
 local function UpdateRefundButton(self)
 
-	if self:_GetIsMouseOver(self.refundButtonBackground) then
-		local infoText = Combat_ResolveString("COMBAT_REFUND_TITLE_ALIEN")
-		local infoTip = Combat_ResolveString("COMBAT_REFUND_DESCRIPTION_ALIEN")
-		self:_ShowMouseOverInfo(infoText, infoTip, 0, 0, 0)
-	end
+    if self:_GetIsMouseOver(self.refundButtonBackground) then
+        local infoText = Combat_ResolveString("COMBAT_REFUND_TITLE_ALIEN")
+        local infoTip = Combat_ResolveString("COMBAT_REFUND_DESCRIPTION_ALIEN")
+        self:_ShowMouseOverInfo(infoText, infoTip, 0, 0, 0)
+    end
 
 end
 
@@ -348,32 +333,32 @@ function GUIAlienBuyMenu:Update(deltaTime)
 
     oldUpdate(self, deltaTime)
 
-	-- Call our version of the evolve button script.
-	UpdateEvolveButton(self)
-	
-	-- Hide all the slots.
-	for i, slot in ipairs(self.slots) do
-		slot.Graphic:SetIsVisible(false)
-	end
-	
-	local lvlFree = PlayerUI_GetPersonalResources()
-	
-	-- Override the colours per our schema.
-	-- Always show, unless we can't afford the upgrade or it is not allowed.
-	for i, currentButton in ipairs(self.upgradeButtons) do
-		local useColor = kDefaultColor
-		
-		if currentButton.Cost > lvlFree then
-			useColor = kNotAvailableColor 
-		end
-		
-		if not currentButton.Selected and not AlienBuy_GetIsUpgradeAllowed(currentButton.TechId, self.upgradeList) then
-			useColor = kNotAllowedColor
-		end
-		
-		currentButton.Icon:SetColor(useColor)
-		
-		if self:_GetIsMouseOver(currentButton.Icon) then
+    -- Call our version of the evolve button script.
+    UpdateEvolveButton(self)
+
+    -- Hide all the slots.
+    for i, slot in ipairs(self.slots) do
+        slot.Graphic:SetIsVisible(false)
+    end
+
+    local lvlFree = PlayerUI_GetPersonalResources()
+
+    -- Override the colours per our schema.
+    -- Always show, unless we can't afford the upgrade or it is not allowed.
+    for i, currentButton in ipairs(self.upgradeButtons) do
+        local useColor = kDefaultColor
+
+        if currentButton.Cost > lvlFree then
+            useColor = kNotAvailableColor
+        end
+
+        if not currentButton.Selected and not AlienBuy_GetIsUpgradeAllowed(currentButton.TechId, self.upgradeList) then
+            useColor = kNotAllowedColor
+        end
+
+        currentButton.Icon:SetColor(useColor)
+
+        if self:_GetIsMouseOver(currentButton.Icon) then
        
            local currentUpgradeInfoText = GetDisplayNameForTechId(currentButton.TechId)
            local tooltipText = GetTooltipInfoText(currentButton.TechId)
@@ -384,19 +369,19 @@ function GUIAlienBuyMenu:Update(deltaTime)
            self:_ShowMouseOverInfo(currentUpgradeInfoText, ToString(currentButton.Cost))
            
        end
-	end
-	
-	UpdateRefundButton(self)
+    end
+
+    UpdateRefundButton(self)
 
 end
 
 local function ClickRefundButton(self)
-	
-	Shared.ConsoleCommand("co_refundall")
+
+    Shared.ConsoleCommand("co_refundall")
 
 end
 
-function GUIAlienBuyMenu:SendKeyEvent(self, key, down)
+function GUIAlienBuyMenu:SendKeyEvent(key, down)
 
     local closeMenu = false
     local inputHandled = false
@@ -423,21 +408,21 @@ function GUIAlienBuyMenu:SendKeyEvent(self, key, down)
                     end
                 end
 
-	            -- Buy all selected upgrades.
-	            for i, currentButton in ipairs(self.upgradeButtons) do
+                -- Buy all selected upgrades.
+                for i, currentButton in ipairs(self.upgradeButtons) do
 
-		            if currentButton.Selected then
-			            table.insert(purchases, { Type = "Upgrade", Alien = self.selectedAlienType, UpgradeIndex = currentButton.Index, TechId = currentButton.TechId })
-		            end
+                    if currentButton.Selected then
+                        table.insert(purchases, currentButton.TechId ) -- Combat uses only the techIds !!!
+                    end
 
-	            end
+                end
                 
                 closeMenu = true
                 inputHandled = true
 
-	            if #purchases > 0 then
-		            AlienBuy_Purchase(purchases)
-	            end
+                if #purchases > 0 then
+                    AlienBuy_Purchase(purchases)
+                end
                 
                 AlienBuy_OnPurchase()
                 
@@ -468,24 +453,24 @@ function GUIAlienBuyMenu:SendKeyEvent(self, key, down)
                     end
                     
                 end
-				
-				if self:_GetIsMouseOver(self.refundButtonBackground) then
-					ClickRefundButton(self)
-					closeMenu = true
-					inputHandled = true
-					AlienBuy_OnClose()
-				end
+
+                if self:_GetIsMouseOver(self.refundButtonBackground) then
+                    ClickRefundButton(self)
+                    closeMenu = true
+                    inputHandled = true
+                    AlienBuy_OnClose()
+                end
                 
                 -- Check if the close button was pressed.
-				if not closeMenu then
-					if self:_GetIsMouseOver(self.closeButton) then
-					
-						closeMenu = true
-						inputHandled = true
-						AlienBuy_OnClose()
-						
-					end
-				end
+                if not closeMenu then
+                    if self:_GetIsMouseOver(self.closeButton) then
+
+                        closeMenu = true
+                        inputHandled = true
+                        AlienBuy_OnClose()
+
+                    end
+                end
                 
             end
             
@@ -498,7 +483,7 @@ function GUIAlienBuyMenu:SendKeyEvent(self, key, down)
     
         self.closingMenu = true
         local player = Client.GetLocalPlayer()
-		player:CloseMenu(true)
+        player:CloseMenu(true)
         
     end
     
@@ -525,26 +510,29 @@ function GUIAlienBuyMenu:_UninitializeUpgradeButtons()
 
 end
 
-local old_HandleUpgradeClicked = GUIAlienBuyMenu._HandleUpgradeClicked
-function GUIAlienBuyMenu:_HandleUpgradeClicked(...)
-
-    old_UninitializeUpgradeButtons(self, ...)
-
+function GUIAlienBuyMenu:_HandleUpgradeClicked()
     local inputHandled = false
     
     for _, currentButton in ipairs(self.upgradeButtons) do
         -- Can't select if it has been purchased already or is unselectable.
-		if (not _GetHasMaximumSelected(self) or currentButton.Selected == true) and self:_GetIsMouseOver(currentButton.Icon) then
-			if (not AlienBuy_GetIsUpgradeAllowed(currentButton.TechId, self.upgradeList) or currentButton.Purchased) then
-				-- Play a sound or something to indicate this button isn't clickable.
-				PlayerUI_TriggerInvalidSound()
-			else
-				currentButton.Selected = not currentButton.Selected
-				inputHandled = true
-				if currentButton.Selected then AlienBuy_OnUpgradeSelected() else AlienBuy_OnUpgradeDeselected() end
-			
-			end
-		end
+        if (not _GetHasMaximumSelected(self) or currentButton.Selected) and self:_GetIsMouseOver(currentButton.Icon) then
+
+            if not AlienBuy_GetIsUpgradeAllowed(currentButton.TechId, self.upgradeList) or currentButton.Purchased then
+                -- Play a sound or something to indicate this button isn't clickable.
+                PlayerUI_TriggerInvalidSound()
+            else
+                currentButton.Selected = not currentButton.Selected
+                inputHandled = true
+
+                if currentButton.Selected then
+                    AlienBuy_OnUpgradeSelected()
+                else
+                    AlienBuy_OnUpgradeDeselected()
+                end
+
+            end
+
+        end
     end
     
     return inputHandled

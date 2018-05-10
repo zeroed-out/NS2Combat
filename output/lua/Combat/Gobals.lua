@@ -170,10 +170,12 @@ kExosuitCost = generalCost
 kMinigunCost = generalCost
 kDualMinigunCost = generalCost
 
-kGorgeCost = generalCost
-kLerkCost = generalCost
-kFadeCost = generalCost
-kOnosCost = generalCost
+-- Used by alien buy menu
+kGorgeCost = 1
+kLerkCost = 2
+kFadeCost = 4
+kOnosCost = 5
+
 kCarapaceCost = generalCost
 kRegenerationCost = generalCost
 kAuraCost = generalCost

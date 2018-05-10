@@ -110,8 +110,6 @@ function GetUnpurchasedUpgradeInfoArray(techIdTable)
 end
 
 
-
-
 function GetUnpurchasedTechIds(techId)
 
     -- get All ups for the aliens

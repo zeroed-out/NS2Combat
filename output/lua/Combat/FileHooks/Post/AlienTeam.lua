@@ -26,7 +26,7 @@ function AlienTeam:GetNumHives()
     
 end
 
-function AlienTeam:GetBioMassLevel(self)
+function AlienTeam:GetBioMassLevel()
 
 	return 12
 	
