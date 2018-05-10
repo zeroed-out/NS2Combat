@@ -1,3 +1,0 @@
-shader = "cinematics/vfx_materials/devour_goop.surface_shader"
-albedoMap = "materials/effects/mesh_effects/waterfall_tile_02.dds"
-normalMap = "materials/effects/mesh_effects/waterfall_tile_01_normal.dds"
