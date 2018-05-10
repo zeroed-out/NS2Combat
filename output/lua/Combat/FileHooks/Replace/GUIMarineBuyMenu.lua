@@ -206,6 +206,8 @@ function GUIMarineBuyMenu:Initialize()
 
     -- note: items buttons get initialized through SetHostStructure()
     MarineBuy_OnOpen()
+
+    MouseTracker_SetIsVisible(true, "ui/Cursor_MenuDefault.dds", true)
     
 end
 
@@ -234,6 +236,8 @@ function GUIMarineBuyMenu:Uninitialize()
     self:_UninitializeResourceDisplay()
     self:_UninitializeCloseButton()
 	self:_UninitializeRefundButton()
+
+    MouseTracker_SetIsVisible(false)
 
 end
 

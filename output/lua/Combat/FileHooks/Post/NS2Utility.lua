@@ -185,3 +185,8 @@ function UpdateAbilityAvailability(forAlien, tierOneTechId, tierTwoTechId, tierT
     end
 
 end
+
+-- Allow Marines to use buymenu everywhere
+function GetIsCloseToMenuStructure()
+    return true
+end

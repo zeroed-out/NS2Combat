@@ -10,7 +10,27 @@
 -- Load the Upgrade functions too...
 Script.Load("lua/Combat/Player_Upgrades.lua")
 
--- first functions should also be loaded by client and predict
+-- Todo: Move to Marine and Exo?
+function Player:Buy()
+    
+    -- Don't allow display in the ready room, or as phantom
+    if self:GetIsLocalPlayer() and not HelpScreen_GetHelpScreen():GetIsBeingDisplayed() then
+
+        -- The Embryo cannot use the buy menu in any case.
+        if self:GetTeamNumber() ~= 0 and not self:isa("Embryo") then
+
+            if not self.buyMenu then
+
+                self.buyMenu = GetGUIManager():CreateGUIScript("GUIMarineBuyMenu")
+
+            else
+                self:CloseMenu()
+            end
+
+        end
+
+    end
+end
 
 -- check for FastReload
 function Player:GotFastReload()
