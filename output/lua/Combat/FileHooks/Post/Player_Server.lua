@@ -248,11 +248,10 @@ function Player:CheckCombatData()
 
         -- Also create a personal version of the tech tree.
         local team = self:GetTeam()
-        if team ~= nil and team:isa("PlayingTeam") then
+        if team and team:isa("PlayingTeam") then
             self.combatTechTree = TechTree()
             self.combatTechTree:CopyDataFrom(team:GetTechTree())
             self.combatTechTree:ComputeAvailability()
-            self:SendAllUpgrades()
         end
 
     end

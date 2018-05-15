@@ -81,13 +81,13 @@ end
 if Server then
 
 	local oldGetCanTakeDamageOverride = Alien.GetCanTakeDamageOverride
-    function Alien:GetCanTakeDamageOverride_Hook()
+    function Alien:GetCanTakeDamageOverride()
 
         return not self.gotSpawnProtect and  oldGetCanTakeDamageOverride(self)
     end
 
 	local oldCopyPlayerDataFrom = Alien.CopyPlayerDataFrom
-	function Alien:CopyPlayerDataFrom_Hook(player)
+	function Alien:CopyPlayerDataFrom(player)
 
 		oldCopyPlayerDataFrom(self, player)
 		

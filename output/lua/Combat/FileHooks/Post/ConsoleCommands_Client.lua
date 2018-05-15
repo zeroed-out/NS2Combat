@@ -9,7 +9,7 @@
 
 -- Console commands only for the client (so the server can send the ups to the client)
 
-function OnCommandSetUpgrades(upgradeId)
+local function OnCommandSetUpgrades(upgradeId)
         
     -- insert the ids in the personal player table
     local player = Client.GetLocalPlayer()

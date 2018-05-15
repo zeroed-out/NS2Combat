@@ -9,6 +9,16 @@
 
 Script.Load("lua/Combat/Player_Upgrades_Client.lua")
 
+local oldOnInitLocalClient = Player.OnInitLocalClient
+function Player:OnInitLocalClient()
+
+    -- get the ups from the server (only worked that way)
+    Shared.ConsoleCommand("co_sendupgrades")
+
+    oldOnInitLocalClient(self)
+end
+
+
 -- Close the menu properly when a player dies.
 -- Note: This does not trigger when players are killed via the console as that calls 'Kill' directly.
 local oldAddTakeDamageIndicator = Player.AddTakeDamageIndicator

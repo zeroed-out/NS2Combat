@@ -243,11 +243,7 @@ function Player:ApplyAllUpgrades(upgradeTypes, singleUpgrade)
                     end
                 end
                 
-            end            
-                
-            -- send the Ups to the GUI
-			-- not necessary here, seems like working without
-            -- self:SendAllUpgrades()
+            end
             
         else
             if type(singleUpgrade) == "table" then			
@@ -513,7 +509,8 @@ function Player:SendAllUpgrades()
     local combatTechTree = self:GetCombatTechTree()
 
     -- clear all upgrades and send new ones
-    self:ClearCoUpgrades()
+	-- seems like it works also without this, saves some network traffic
+    -- self:ClearCoUpgrades()
     
     if combatTechTree then    
         for _, upgrade in ipairs(combatTechTree) do
@@ -548,8 +545,7 @@ end
 
 -- clear all Combat Upgrades
 function Player:ClearCoUpgrades()
-	-- seems like it works also without this, saves a lot network traffic
-    --Server.SendCommand(self, "co_clearupgrades")
+    Server.SendCommand(self, "co_clearupgrades")
 end
 
 function Player:BalanceXp(avgXp)
