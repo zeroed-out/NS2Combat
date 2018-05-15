@@ -213,7 +213,7 @@ end
 function PlayerUI_GetTimeRemaining()
 
 	local timeDigital = "00:00:00"
-	if (kCombatTimeLimit ~= nil) then
+	if kCombatTimeLimit then
 		local exactTimeLeft = kCombatTimeLimit - PlayerUI_GetGameLengthTime()
 		if exactTimeLeft > 0 then
 			local showMinutes = math.abs(exactTimeLeft) > 0

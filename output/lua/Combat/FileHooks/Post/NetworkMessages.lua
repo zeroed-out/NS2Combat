@@ -25,7 +25,7 @@ local kCombatSettings =
 	compMode = "boolean",
 	defaultWinner = "integer (0 to 2)",
 	powerPointTakeDamage = "boolean",
-	timelimit = "integer",
+    timeLimit = "integer",
     allowOverTime = "boolean"
 }
 Shared.RegisterNetworkMessage("CombatSettings", kCombatSettings)
@@ -77,7 +77,7 @@ if Server then
             compMode = kCombatCompMode,
             defaultWinner = kCombatDefaultWinner,
             powerPointTakeDamage = kCombatPowerPointsTakeDamage,
-            timelimit = kCombatTimeLimit,
+            timeLimit = kCombatTimeLimit,
             allowOverTime = kCombatAllowOvertime
         }
 
