@@ -5,6 +5,9 @@
 --
 --________________________________
 
+-- Balance changes of vanila values
+Script.Load("lua/Combat/Balance.lua")
+
 -- Experience based values like avgXpAmount is still in ExperienceData
 
 -- Welcome Message that every player receives who joined our game
@@ -25,7 +28,6 @@ kUpdatePingsIndividual = 5
 
 -- How often to send ping updates to all players.
 kUpdatePingsAll = 12
-
 						
 kCombatUpgradeNotifyInterval = 20
 kCombatReminderNotifyInterval = 45
@@ -65,37 +67,9 @@ kCombatTimeReminderInterval = 300
 kXPEffectTimer = 0.2
 kXPForgetTimer = 5
 
--- Timers for Scan, Resupply and Catalyst packs.
-kScanTimer = 14
-kResupplyTimer = 6
-AmmoPack.kNumClips = 1
-kCatalystTimer = 14
--- scan Duration, maybe we need to tune it a bit
-kScanDuration = 7
-
--- Make these less "spammy"
-kEMPTimer = 30
-kInkTimer = 30
--- reduce ink amount a bit
-ShadeInk.kShadeInkDisorientRadius = 9
-kCombatTauntCheckInterval = 4
-
--- Focus
-kCombatFocusAttackSpeed = 0.6
-kCombatFocusDamageScalar = 1.4
-
 -- Props
 kPropEffect = "vortex_destroy"
 kPropEffectTimer = 2
-
--- Gestate Times
-kGestateTime = {}
-kGestateTime[kTechId.Skulk] = 1
-kGestateTime[kTechId.Gorge] = 2
-kGestateTime[kTechId.Lerk] = 2
-kGestateTime[kTechId.Fade] = 3
-kGestateTime[kTechId.Onos] = 6
-kSkulkGestateTime = kGestateTime[kTechId.Skulk]
 
 -- Spawn protection
 kCombatSpawnProtectDelay = 0.1
@@ -108,14 +82,6 @@ kCombatAlienSpawnProtectTime = kSkulkGestateTime + 2
 -- No eggs
 kAlienEggsPerHive = 0
 
--- Don't try to increase the Infestation radius above kMaxRadius - you will get errors in Infestation.lua
---kHiveInfestationRadius = 20
-
--- Tweaks for weapons and upgrades
--- Camouflage
-kCamouflageTime = 2
-kCamouflageUncloakFactor = 2 / 3
-
 -- The rate at which players heal the hive/cc should be multiplied by this ratio.
 kHiveCCHealRate = 0.3
 -- The rate at which players gain XP for healing... relative to damage dealt.
@@ -123,32 +89,11 @@ kHealXpRate = 1
 -- Rate at which players gain XP for healing other players...
 kPlayerHealXpRate = 0
 
--- Power points
-kPowerPointHealth = 1200	
-kPowerPointArmor = 500	
-kPowerPointPointValue = 0
--- Moved to CombatConfig.json
---kCombatPowerPointsTakeDamage = true
-kCombatPowerPointAutoRepairTime = 300
-
--- Alien vision should be free
-kAlienVisionCost = 0
-kAlienVisionEnergyRegenMod = 1
-
 -- kill hydras after some time if the owner isn't a gorge
 kHydraKillTime = 30
 
 -- Time delay for exo suits to power up.
 kExoPowerUpTime = 3
-
--- Grenade Launcher nerf
-kGrenadeLauncherGrenadeDamage = 135
-
--- Ammo for mines
-kNumMines = 1
-
--- number of handgrenaeds
-kMaxHandGrenades = 1
 
 -- Override the costs of each of our entries.
 -- These won't take effect on the client side until we import this file into the client side mods
@@ -195,19 +140,8 @@ SetCachedTechData(kTechId.GorgeTunnel, kTechDataCostKey, kGorgeTunnelCost)
 SetCachedTechData(kTechId.BabblerEgg, kTechDataCostKey, kBabblerCost)
 SetCachedTechData(kTechId.Web, kTechDataCostKey, kWebBuildCost)
 
--- Health values
--- Make the marine structures slightly less squishy...
-kArmoryHealth = 3500
-kCommandStationHealth = 6000
-
 -- Range for evolving to Onos/Exo from the Hive/CommandStation
 kTechRange = 20.0
-
--- nerf range of xeno
-kXenocideRange = 9
-
--- EMP energy drain
-kEMPBlastEnergyDamage = 75
 
 --set starting personal resources to 0
 kMarineInitialIndivRes = 0

@@ -5,30 +5,41 @@
 --
 --________________________________
 
-Script.Load("gamestrings/combat_enUS.lua")
+do
+	local gamestringsFiles = {}
+
+	kCombatLocaleMessages = {}
+	Shared.GetMatchingFileNames("gamestrings/combat_*.lua", false, gamestringsFiles)
+
+	for i = 1, #gamestringsFiles do
+	local file = gamestringsFiles[i]
+		Script.Load(file)
+	end
+
+end
+
+local defaultLang = "enUS"
 
 -- Replace the normal Locale.ResolveString with our own version!
 if Locale then
-	if Locale.ResolveString then
-		local NS2ResolveFunction = Locale.ResolveString
+	local NS2ResolveFunction = Locale.ResolveString
 
-		function Combat_ResolveString(input)
+	function Combat_ResolveString(input)
+		if not input then return "" end
 
-			local resolvedString
-			if (kCombatLocaleMessages) then
-				if (kCombatLocaleMessages[input] ~= nil) then
-					resolvedString = kCombatLocaleMessages[input]
-				end
-			end
-			
-			if (resolvedString == nil) then
-				resolvedString = NS2ResolveFunction(input)
-			end
-			
-			return resolvedString
-
+		local lang = Locale.GetLocale()
+		local resolvedString
+		if kCombatLocaleMessages[lang] and kCombatLocaleMessages[lang][input] then
+			resolvedString = kCombatLocaleMessages[lang][input]
+		elseif kCombatLocaleMessages[defaultLang] and kCombatLocaleMessages[defaultLang][input] then
+			resolvedString = kCombatLocaleMessages[defaultLang][input]
+		else
+			resolvedString = NS2ResolveFunction(input)
 		end
 
-		Locale.ResolveString = Combat_ResolveString
+		return resolvedString
+
 	end
+
+	Locale.ResolveString = Combat_ResolveString
 end

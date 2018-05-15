@@ -96,45 +96,46 @@ function CombatMarineBuy_GetWeaponDescription(techId)
     
         combatWeaponDescription = {}
 
-        combatWeaponDescription[kTechId.MedPack] = "You get Resupply. Ammo and Medpacks will drop for you every " .. kResupplyTimer .. " seconds."
-        combatWeaponDescription[kTechId.Scan] = "You get a Scanner. A scan will appear every " .. kScanTimer .. " seconds, showing all enemies nearby."
-        combatWeaponDescription[kTechId.Welder] = "You get a Welder. You can repair your team's buildings or your teammates' Armor."
-        combatWeaponDescription[kTechId.LayMines] = "You get 1 Mine to use each time you die."
-        combatWeaponDescription[kTechId.MACEMP] =  "Your Taunt key will activate a powerful EMP-Blast that cripples enemies' energy reserves. Can be activated once every " .. kEMPTimer .. " seconds."
-		combatWeaponDescription[kTechId.CatPack] =  "You get Catalyst Packs. They make you move faster when time you shoot or taking damage. Activated once every " .. kCatalystTimer .. " seconds."
+        combatWeaponDescription[kTechId.MedPack] ={ "COMBAT_RESUPPLY_DESCRIPTION", kResupplyTimer }
+        combatWeaponDescription[kTechId.Scan] = { "COMBAT_SCAN_DESCRIPTION", kScanTimer }
+        combatWeaponDescription[kTechId.Welder] = { "COMBAT_WELDER_DESCRIPTION" }
+        combatWeaponDescription[kTechId.LayMines] = {"COMBAT_MINES_DESCRIPTION"}
+        combatWeaponDescription[kTechId.MACEMP] =  {"COMBAT_EMP_DESCRIPTION", kEMPTimer}
+		combatWeaponDescription[kTechId.CatPack] =  {"COMBAT_CATALYST_DESCRIPTION", kCatalystTimer}
 
-        combatWeaponDescription[kTechId.Axe] = "Here's Johnny!"
-        combatWeaponDescription[kTechId.Pistol] = "TSA standard issue pistol. This weapon packs a surprising punch and is good when you run out of ammunition for your main weapon."
-        combatWeaponDescription[kTechId.Rifle] = "TSA standard issue rifle. This standby is an all-around versatile weapon at most ranges. While slightly heavier than previous models, it can still be effective in the field when you're low on ammo with a rifle butt."
-        combatWeaponDescription[kTechId.Shotgun] = "You get a Shotgun, but you need Weapons 1 first."
-        combatWeaponDescription[kTechId.Flamethrower] = "You get a Flamethrower, but you need a Shotgun first."
-        combatWeaponDescription[kTechId.GrenadeLauncher] = "You get a Grenade Launcher, but you need a Shotgun first."
+        combatWeaponDescription[kTechId.Axe] = {"COMBAT_AXE_DESCRIPTION"}
+        combatWeaponDescription[kTechId.Pistol] = {"COMBAT_PISTOL_DESCRIPTION"}
+        combatWeaponDescription[kTechId.Rifle] = {"COMBAT_RIFLE_DESCRIPTION"}
+        combatWeaponDescription[kTechId.Shotgun] = {"COMBAT_SHOTGUN_DESCRIPTION"}
+        combatWeaponDescription[kTechId.Flamethrower] = {"COMBAT_FLAMETHROWER_DESCRIPTION"}
+        combatWeaponDescription[kTechId.GrenadeLauncher] = {"COMBAT_GRENADELAUNCHER_DESCRIPTION"}
 
-        combatWeaponDescription[kTechId.Weapons1] = "Weapons 1 tech Upgrade. Increases the damage of your weapons."
-        combatWeaponDescription[kTechId.Weapons2] = "Weapons 2 tech Upgrade. Increases the damage of your weapons. You need Weapons 1 first."
-        combatWeaponDescription[kTechId.Weapons3] = "Weapons 3 tech Upgrade. Increases the damage of your weapons. You need Weapons 2 first."
-		combatWeaponDescription[kTechId.AdvancedWeaponry] = "Increases the reload speed of all of your weapons."
+        combatWeaponDescription[kTechId.Weapons1] = {"COMBAT_WEAPON1_DESCRIPTION"}
+        combatWeaponDescription[kTechId.Weapons2] = {"COMBAT_WEAPON2_DESCRIPTION"}
+        combatWeaponDescription[kTechId.Weapons3] = {"COMBAT_WEAPON3_DESCRIPTION"}
+		combatWeaponDescription[kTechId.AdvancedWeaponry] = {"COMBAT_RELOAD_DESCRIPTION"}
 
-        combatWeaponDescription[kTechId.Armor1] = "Armor 1 tech Upgrade. Substantially increases your armor."
-        combatWeaponDescription[kTechId.Armor2] = "Armor 2 tech Upgrade. Substantially increases your armor. You need Armor 1 first."
-        combatWeaponDescription[kTechId.Armor3] = "Armor 3 tech Upgrade. Substantially increases your armor. You need Armor 2 first."
+        combatWeaponDescription[kTechId.Armor1] = {"COMBAT_ARMOR1_DESCRIPTION"}
+        combatWeaponDescription[kTechId.Armor2] = {"COMBAT_ARMOR2_DESCRIPTION"}
+        combatWeaponDescription[kTechId.Armor3] = {"COMBAT_ARMOR3_DESCRIPTION"}
 
-        combatWeaponDescription[kTechId.Jetpack] = "You get a Jetpack, but you need Armor 2 first."
-        combatWeaponDescription[kTechId.Exosuit] = "Suit up! You will need Armor 2 first."
-		combatWeaponDescription[kTechId.DualMinigunExosuit] = "Dual Miniguns for the Exosuit."
-		combatWeaponDescription[kTechId.ClawRailgunExosuit] = "RailGun with a Claw for the Exosuit."
+        combatWeaponDescription[kTechId.Jetpack] = {"COMBAT_JETPACK_DESCRIPTION"}
+        combatWeaponDescription[kTechId.Exosuit] = {"COMBAT_EXOSUIT_DESCRIPTION"}
+		combatWeaponDescription[kTechId.DualMinigunExosuit] = {"COMBAT_EXOSUIT_DUALMINIGUN_DESCRIPTION"}
+		combatWeaponDescription[kTechId.ClawRailgunExosuit] = {"COMBAT_EXOSUIT_RAILGUN_DESCRIPTION"}
 
-		combatWeaponDescription[kTechId.ClusterGrenade] = "You get 1 Cluster Grenade"
-        combatWeaponDescription[kTechId.GasGrenade] = "You get 1 Gas Grenade"
-        combatWeaponDescription[kTechId.PulseGrenade] =  "You get 1 Pulse Grenade"
+		combatWeaponDescription[kTechId.ClusterGrenade] = {"COMBAT_CLUSTERGRENADE_DESCRIPTION"}
+        combatWeaponDescription[kTechId.GasGrenade] = {"COMBAT_GASGRENADE_DESCRIPTION"}
+        combatWeaponDescription[kTechId.PulseGrenade] = {"COMBAT_PULSEGRENADE_DESCRIPTION"}
     
     end
     
     local description = combatWeaponDescription[techId]
-    if not description then
-        description = ""
+    local desc = Combat_ResolveString(description[1])
+    if description[2] then
+        desc = string.format(desc, description[2])
     end
     
-    return description
+    return desc
 
 end

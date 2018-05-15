@@ -11,6 +11,7 @@ Script.Load("lua/Combat/CombatUpgrade.lua")
 Script.Load("lua/Combat/CombatAlienUpgrade.lua")
 Script.Load("lua/Combat/CombatMarineUpgrade.lua")
 
+-- Todo: Level should be a player value
 -- Returns the average XP of all active players.
 function Experience_GetAvgXp(ignorePlayer)
 

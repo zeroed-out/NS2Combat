@@ -22,7 +22,7 @@ end
 
 function AlienTeam:GetNumHives()
 
-    return 6 -- Todo: Why?
+    return 6
     
 end
 

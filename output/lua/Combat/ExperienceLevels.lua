@@ -11,6 +11,7 @@
 --Table for
 --    LVL,  needed XP to reach, RineName, AlienName, givenXP to killer
 
+-- Todo: Make it possible to set up the levels via the config
 XpList = {}
 XpList[1] = { Level=1, 		XP=0,		MarineName="Private", 				AlienName="Hatchling", 		GivenXP=60}
 XpList[2] = { Level=2, 		XP=100, 	MarineName="Private First Class", 	AlienName="Xenoform", 		GivenXP=70}
@@ -37,8 +38,7 @@ function Experience_GetLvl(xp)
 	if xp >= maxXp then 
 		return maxLvl
 	end
-	
-	-- ToDo: Do a faster search instead. We're going to be here a lot!
+
 	for index, thislevel in ipairs(XpList) do
 	
 		if xp >= thislevel["XP"] and 
