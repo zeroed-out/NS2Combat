@@ -285,3 +285,24 @@ function NS2Gamerules:CheckGameStart()
 	end
 
 end
+
+-- Fix for certain combat maps not assigning the techpointsorrectly
+local oldChooseTechPoint = NS2Gamerules.ChooseTechPoint
+function NS2Gamerules:ChooseTechPoint(techPoints, teamNumber)
+	-- special case for combat maps
+	if #techPoints == 1 then
+		return techPoints[1]
+	end
+
+	if #techPoints == 2 then
+		for i = 1, 2 do
+			local currentTechPoint = techPoints[i]
+			if currentTechPoint:GetTeamNumberAllowed() == teamNumber then
+				table.removevalue(techPoints, currentTechPoint)
+				return currentTechPoint
+			end
+		end
+	end
+
+	return oldChooseTechPoint(self, techPoints, teamNumber)
+end
