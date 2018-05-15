@@ -60,4 +60,4 @@ local function SetupFilehookFolders(modPath)
 	end
 end
 
-SetupFilehookFolders("Combat/Filehooks")
+SetupFilehookFolders("Combat/FileHooks")
