@@ -47,7 +47,7 @@ function GUIGameTimeCountDown:Initialize()
     self.timerBackground:SetAnchor(GUIItem.Middle, GUIItem.Top) 
     self.timerBackground:SetLayer(kGUILayerPlayerHUD)
     self.timerBackground:SetTexture(GUIGameTimeCountDown.kBackgroundTexture)
-    self.timerBackground:SetTexturePixelCoordinates(unpack(GUIGameTimeCountDown.kBgCoords))
+    self.timerBackground:SetTexturePixelCoordinates(GUIUnpackCoords(GUIGameTimeCountDown.kBgCoords))
 	self.timerBackground:SetColor( GUIGameTimeCountDown.kBackgroundColor )
 	self.timerBackground:SetIsVisible(false)
 	

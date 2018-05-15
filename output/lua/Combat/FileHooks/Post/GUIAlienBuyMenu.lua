@@ -69,7 +69,7 @@ local function InitializeRefundButton(self)
     self.refundButtonBackground:SetSize(Vector(GUIAlienBuyMenu.kRefundButtonWidth, GUIAlienBuyMenu.kRefundButtonHeight, 0))
     self.refundButtonBackground:SetPosition(Vector(-GUIAlienBuyMenu.kRefundButtonWidth / 2, GUIAlienBuyMenu.kRefundButtonHeight / 2 + GUIAlienBuyMenu.kRefundButtonYOffset, 0))
     self.refundButtonBackground:SetTexture(GUIAlienBuyMenu.kBuyMenuTexture)
-    self.refundButtonBackground:SetTexturePixelCoordinates(unpack(GUIAlienBuyMenu.kRefundButtonTextureCoordinates))
+    self.refundButtonBackground:SetTexturePixelCoordinates(GUIUnpackCoords(GUIAlienBuyMenu.kRefundButtonTextureCoordinates))
     self.background:AddChild(self.refundButtonBackground)
     
     self.refundButtonText = GUIManager:CreateTextItem()
@@ -269,7 +269,7 @@ local function UpdateEvolveButton(self)
         
     end
             
-    self.evolveButtonBackground:SetTexturePixelCoordinates(unpack(evolveButtonTextureCoords))
+    self.evolveButtonBackground:SetTexturePixelCoordinates(GUIUnpackCoords(evolveButtonTextureCoords))
     self.evolveButtonText:SetText(evolveText)
     self.evolveResourceIcon:SetIsVisible(evolveCost ~= nil)
     local totalEvolveButtonTextWidth = 0

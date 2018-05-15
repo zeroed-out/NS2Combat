@@ -5,13 +5,6 @@
 --
 --________________________________
 
-
--- dirty way to fix a bug
--- Todo: figure out which bug this fixes and if there is a better fix
-function ReadyRoomTeam:GetTeamType()
-    return kNeutralTeamType
-end
-
 function ReadyRoomTeam:GetRespawnMapName(player)
 
     local mapName = player.kMapName    

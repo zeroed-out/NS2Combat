@@ -135,12 +135,7 @@ function PlayingTeam:Update(timePassed)
 					if player:GetIsAlive() == false then
 						SendPlayersMessage({ player }, kTeamMessageTypes.SpawningWait)
 						player.waitingToSpawnMessageSent = true
-
-						-- TODO: Update the GUI so that marines can get the 'ready to spawn in ... ' message too.
-						-- After that is done, remove the AlienSpectator check here.
-						if (player:isa("AlienSpectator")) then
-							player.timeWaveSpawnEnd = nextSpawnTime
-						end
+						player.timeWaveSpawnEnd = self.nextSpawnTime
 					end
 				end
 			end

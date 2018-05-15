@@ -509,14 +509,14 @@ end
 -- sends all upgrades to the player
 function Player:SendAllUpgrades()
 
-	self:CheckCombatData()    
+	self:CheckCombatData()
     local combatTechTree = self:GetCombatTechTree()
 
     -- clear all upgrades and send new ones
     self:ClearCoUpgrades()
     
     if combatTechTree then    
-        for _, upgrade in pairs(combatTechTree) do
+        for _, upgrade in ipairs(combatTechTree) do
             if upgrade then
 				SendCombatSetUpgrade(self, upgrade:GetId())
             end

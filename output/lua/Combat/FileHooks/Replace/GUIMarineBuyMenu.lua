@@ -429,7 +429,7 @@ function GUIMarineBuyMenu:_InitializeItemButtons()
                 selectedArrow:SetPosition(Vector(-GUIMarineBuyMenu.kArrowWidth - GUIMarineBuyMenu.kPadding, -GUIMarineBuyMenu.kArrowHeight * 0.5, 0))
                 selectedArrow:SetTexture(GUIMarineBuyMenu.kArrowTexture)
                 selectedArrow:SetColor(GUIMarineBuyMenu.kTextColor)
-                selectedArrow:SetTextureCoordinates(unpack(GUIMarineBuyMenu.kArrowTexCoords))
+                selectedArrow:SetTextureCoordinates(GUIUnpackCoords(GUIMarineBuyMenu.kArrowTexCoords))
                 selectedArrow:SetIsVisible(false)
                 
                 graphicItem:AddChild(selectedArrow) 

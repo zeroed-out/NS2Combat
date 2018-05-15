@@ -152,9 +152,7 @@ function Player:Combat_PurchaseItemAndUpgrades(textCodes)
         buyString = textCodes
     end
 
-    -- Todo: Whhhhhhyyyyyyy use console commands. Have mercy with me ~Ghoul
     Shared.ConsoleCommand("/buy " .. buyString)
-
 end
 
 function Player:XPUntilNextLevel()

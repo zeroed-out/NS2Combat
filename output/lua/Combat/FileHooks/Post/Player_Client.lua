@@ -9,16 +9,6 @@
 
 Script.Load("lua/Combat/Player_Upgrades_Client.lua")
 
-local oldOnInitLocalClient = Player.OnInitLocalClient
-function Player:OnInitLocalClient()
-
-	-- get the ups from the server (only worked that way)
-    -- Todo: Do we really need a console command????
-    Shared.ConsoleCommand("co_sendupgrades")
-
-    oldOnInitLocalClient(self)
-end
-
 -- Close the menu properly when a player dies.
 -- Note: This does not trigger when players are killed via the console as that calls 'Kill' directly.
 local oldAddTakeDamageIndicator = Player.AddTakeDamageIndicator
@@ -32,58 +22,48 @@ end
 
 -- to show the correct Armor and Weapon Lvl
 function PlayerUI_GetArmorLevel()
-    local armorLevel = 0
     local self = Client.GetLocalPlayer()
     if self.gameStarted then
     
         local techTree = self:GetUpgrades()
-        --Todo: Why iterate over the techtree when we could just use a int network value ...
         if techTree then
-            if table.maxn(techTree) > 0 then
-                for _, upgradeTechId in ipairs(techTree) do
-               
-                    if upgradeTechId == kTechId.Armor3 then
-                        armorLevel = 3
-                    elseif upgradeTechId == kTechId.Armor2 then
-                        armorLevel = 2
-                    elseif upgradeTechId == kTechId.Armor1 then
-                        armorLevel = 1
-                    end
-                    
-                end   
-            end
+            local armor3Node = techTree:GetTechNode(kTechId.Armor3)
+            if armor3Node then return 3 end
+
+            local armor2Node = techTree:GetTechNode(kTechId.Armor2)
+            if armor2Node then return 2 end
+
+            local armor1Node = techTree:GetTechNode(kTechId.Armor1)
+            if armor1Node then return 1 end
         end
     
     end
 
-    return armorLevel
+    return 0
 end
 
 function PlayerUI_GetWeaponLevel()
-    local weaponLevel = 0    
     local self = Client.GetLocalPlayer()
     if self.gameStarted then
-    
+
         local techTree = self:GetUpgrades()    
         if techTree then
-            if table.maxn(techTree) > 0 then
-                for _, upgradeTechId in ipairs(techTree) do
-               
-                    if upgradeTechId == kTechId.Weapons3 then
-                        weaponLevel = 3
-                    elseif upgradeTechId == kTechId.Weapons2 then
-                        weaponLevel = 2
-                    elseif upgradeTechId == kTechId.Weapons1 then
-                        weaponLevel = 1
-                    end
-                    
-                end   
+            local techTree = self:GetUpgrades()
+            if techTree then
+                local weapon3Node = techTree:GetTechNode(kTechId.Weapon3)
+                if weapon3Node then return 3 end
+
+                local weapon2Node = techTree:GetTechNode(kTechId.Weapon2)
+                if weapon2Node then return 2 end
+
+                local weapon1Node = techTree:GetTechNode(kTechId.Weapon1)
+                if weapon1Node then return 1 end
             end
         end
     
     end
     
-    return weaponLevel
+    return 0
 end
 
 local oldUpdateMisc = Player.UpdateMisc

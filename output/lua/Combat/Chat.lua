@@ -23,6 +23,7 @@ local function GetChatPlayerData(client)
 end
 
 -- we can't hook that cause it's a local function, so we just create a new one
+-- Todo: Make vanilla method global
 local function OnChatReceived(client, message)
     
     local chatMessage = string.sub(message.message , 1, kMaxChatLength)

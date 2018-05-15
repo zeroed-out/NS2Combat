@@ -56,7 +56,6 @@ end
 function Experience_GetLvlName(lvl, team)
 
 	local LvlName = ""
-	-- ToDo: Support Marine vs Marine?
 	if (team == 1) then
 		LvlName = XpList[lvl]["MarineName"]
 	else

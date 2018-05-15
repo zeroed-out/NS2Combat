@@ -88,7 +88,7 @@ function CombatMarineBuy_GUISortUps(upgradeList)
     return sortedList
 end
 
--- Todo: Move thse into the locale file
+-- Todo: Move these into the locale file
 local combatWeaponDescription
 function CombatMarineBuy_GetWeaponDescription(techId)
 
