@@ -55,14 +55,10 @@ kArmorySpawnMaxDistance = 60
 
 -- By default, Aliens win after a certain amount of time...
 -- Specified in seconds...
--- Time Limit is now specified in ModSwitcher.
---Todo: Move these to a server config
-CombatModActive = true
 kCombatCompMode = false
 kCombatTimeLimit = 1500
 kCombatAllowOvertime = true
 kCombatDefaultWinner = kTeam2Index
-kCombatTimeLeftPlayed = 0
 kCombatTimeReminderInterval = 300
 
 -- make xpeffect less "spammy"

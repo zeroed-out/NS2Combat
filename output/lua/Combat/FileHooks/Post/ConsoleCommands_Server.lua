@@ -6,9 +6,6 @@
 --________________________________
 
 -- combat_ConsoleCommands.lua
-                
-local testSound = PrecacheAsset("sound/combat.fev/combat/general/overtime001")
-
 local function OnCommandSpendLvl(client, ...)
         
     -- support multiple types
@@ -141,17 +138,13 @@ end
 local function SendTimeLeftChatToPlayer(player)
 
 	local gameRules = GetGamerules()
-	local exactTimeLeft = (kCombatTimeLimit - gameRules.timeSinceGameStateChanged)
+    if not gameRules then return end
+
+	local exactTimeLeft = kCombatTimeLimit - gameRules:GetGameStartTime()
 	local timeLeft = math.ceil(exactTimeLeft)
 	local timeLeftText = GetTimeText(timeLeft)
-	
-	if (player:GetTeamNumber() == kMarineTeamType) then
-		timeLeftText = timeLeftText .. " left until Marines have lost!"
-	else
-		timeLeftText = timeLeftText .. " left until Aliens have won!"
-	end
-	
-	player:SendDirectMessage( timeLeftText )
+
+	player:SendDirectMessage(GetTimeLeftMessage(timeLeftText, player:GetTeamNumber()))
 
 end
 
@@ -163,18 +156,6 @@ local function OnCommandTimeLeft(client)
 	SendTimeLeftChatToPlayer(player)
 
 end
-
-local function OnCommandSoundTest(client)
-
-    local player = client:GetControllingPlayer()
-    Print("Soundtest")    
-    Server.PlayPrivateSound(player, testSound, player, 1.0, Vector(0, 0, 0))
-
-end
-
-Event.Hook("Console_soundtest",       OnCommandSoundTest) 
-
-
 
 -- All commands that should be accessible via the chat need to be in this list
 combatCommands = {"co_spendlvl", "co_help", "co_status", "co_upgrades", "/upgrades", "/status", "/buy", "/help", "/timeleft"}

@@ -99,3 +99,18 @@ function GetHasTimelimitPassed()
 		return PlayerUI_GetHasTimelimitPassed()
 	end
 end
+
+function GetTimeLeftMessage(timeleft, teamNumber)
+	local message = ""
+	if kCombatAllowOvertime then
+		message = "left until overtime!"
+	elseif kCombatDefaultWinner == kTeam2Index then
+		message = teamNumber == kTeam1Index and "left until Marines have lost!" or
+				"left until Aliens have won!"
+	else
+		message = teamNumber == kTeam1Index and "left until Marines have won!" or
+				"left until Aliens have lost!"
+	end
+
+	return string.format("%s %s", timeleft, message)
+end

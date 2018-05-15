@@ -10,7 +10,7 @@ Shared.RegisterNetworkMessage("CombatUpgradeCountUpdate", kCombatUpgradeCountUpd
 
 local kCombatSetUpgradeMessage =
 {
-	upgradeId = "integer"
+	upgradeId = "enum kCombatUpgrades"
 }
 Shared.RegisterNetworkMessage("CombatSetUpgrade", kCombatSetUpgradeMessage)
 
@@ -20,10 +20,17 @@ local kCombatSetLvlUpMessage =
 }
 Shared.RegisterNetworkMessage("CombatLvlUp", kCombatSetLvlUpMessage)
 
+local kCombatSettings =
+{
+	compMode = "boolean",
+	defaultWinner = "integer (0 to 2)",
+	powerPointTakeDamage = "boolean",
+	timelimit = "integer",
+    allowOverTime = "boolean"
+}
+Shared.RegisterNetworkMessage("CombatSettings", kCombatSettings)
 
 if Server then
-
-    Script.Load("lua/Combat/Chat.lua")
 	
 	function BuildCombatUpgradeCountMessage(messageUpgradeId, messageUpgradeCount)
 	
@@ -64,11 +71,23 @@ if Server then
         end
      
     end
+
+    function SendCombatSettings(client)
+        local settings = {
+            compMode = kCombatCompMode,
+            defaultWinner = kCombatDefaultWinner,
+            powerPointTakeDamage = kCombatPowerPointsTakeDamage,
+            timelimit = kCombatTimeLimit,
+            allowOverTime = kCombatAllowOvertime
+        }
+
+        Server.SendNetworkMessage(client, "CombatSettings", settings, true)
+    end
     
 elseif Client then
 	
 	-- Upgrade the counts for this upgrade Id.
-	function GetUpgradeCountUpdate(messageTable)
+	local function GetUpgradeCountUpdate(messageTable)
 
 		if (kCombatUpgradeCounts == nil) then 
 			kCombatUpgradeCounts = {}
@@ -79,7 +98,7 @@ elseif Client then
     
     Client.HookNetworkMessage("CombatUpgradeCountUpdate", GetUpgradeCountUpdate)
 	
-	function GetCombatSetUpgrade(messageTable)
+	local function GetCombatSetUpgrade(messageTable)
 
 		-- insert the ids in the personal player table
 		local player = Client.GetLocalPlayer()
@@ -93,10 +112,19 @@ elseif Client then
     end
     Client.HookNetworkMessage("CombatSetUpgrade", GetCombatSetUpgrade)
     
-    function GetCombatLvlUp(messageTable)
+    local function GetCombatLvlUp(messageTable)
 		local player = Client.GetLocalPlayer()
         player:LevelUpMessage(messageTable.level)
     end
     Client.HookNetworkMessage("CombatLvlUp", GetCombatLvlUp)
+
+    local function ReceiveCombatSettings(settings)
+        kCombatCompMode = settings.compMode
+        kCombatTimeLimit = settings.timeLimit
+        kCombatAllowOvertime = settings.allowOvertime
+        kCombatDefaultWinner = settings.defaultWinner
+        kCombatPowerPointsTakeDamage = settings.powerPointsTakeDamage
+    end
+    Client.HookNetworkMessage("CombatSettings", ReceiveCombatSettings)
     
 end

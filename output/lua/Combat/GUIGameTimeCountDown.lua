@@ -150,27 +150,11 @@ function GUIGameTimeCountDown:RemindTime(player)
              (timeLeft <= 5)) then
             
             local timeLeftText = GetTimeText(timeLeft)
-            local team1Message = ""
-            local team2Message = ""
             
             if not lastTimeLeftText or timeLeftText ~= lastTimeLeftText then
 
-	            if kCombatAllowOvertime then
-		            team1Message = " left until overtime!"
-		            team2Message = " left until overtime!"
-                elseif kCombatDefaultWinner == kTeam2Index then
-                    team1Message = " left until Marines have lost!"
-                    team2Message = " left until Aliens have won!"
-                else
-                    team1Message = " left until Marines have won!"
-                    team2Message = " left until Aliens have lost!"
-                end
-
-                if player:GetTeamNumber() == 1 then
-                    ChatUI_AddSystemMessage(timeLeftText .. team1Message)
-                else
-                    ChatUI_AddSystemMessage(timeLeftText .. team2Message)
-                end
+				local message = GetTimeLeftMessage(timeLeftText, player:GetTeamNumber())
+                ChatUI_AddSystemMessage(message)
                 
                 lastTimeLeftText = timeLeftText
                 
