@@ -58,7 +58,7 @@ local function UpgradeArmor(player, techUpgrade)
 	player:UpdateArmorAmount()
 end
 
-local function GiveJetpack(player, techUpgrade)
+local function GiveJetpack(player)
 	local jetpackMarine = player:GiveJetpack()
 	-- get jp back after respawn
 	jetpackMarine.combatTable.giveClassAfterRespawn = JetpackMarine.kMapName
@@ -67,7 +67,7 @@ local function GiveJetpack(player, techUpgrade)
 	return jetpackMarine
 end
 
-local function GiveExo(player, techUpgrade)
+local function GiveExo(player)
 	local exoMarine = player:Replace(Exo.kMapName, player:GetTeamNumber(), false, player:GetOrigin(), { layout = "ClawMinigun" })
 	-- powering up, dont let him move
 	exoMarine:BlockMove()
@@ -79,7 +79,7 @@ local function GiveExo(player, techUpgrade)
 	return exoMarine
 end
 
-local function GiveExoDualMinigun(player, techUpgrade)
+local function GiveExoDualMinigun(player)
 	local exoMarine = player:Replace(Exo.kMapName, player:GetTeamNumber(), false, player:GetOrigin(), { layout = "MinigunMinigun" })
 	-- powering up, dont let him move
 	exoMarine:BlockMove()
@@ -92,7 +92,7 @@ local function GiveExoDualMinigun(player, techUpgrade)
 	return exoMarine
 end
 
-local function GiveExoRailGun(player, techUpgrade)
+local function GiveExoRailGun(player)
 	local exoMarine = player:Replace(Exo.kMapName, player:GetTeamNumber(), false, player:GetOrigin(), { layout = "ClawRailgun" })
 	-- powering up, dont let him move
 	exoMarine:BlockMove()
@@ -105,40 +105,40 @@ local function GiveExoRailGun(player, techUpgrade)
 	return exoMarine
 end
 
-local function TierTwo(player, techUpgrade)
+local function TierTwo(player)
     player.combatTwoHives = true
 	player.combatTable.twoHives = true
 	player.twoHives = true
 end
 
-local function TierThree(player, techUpgrade)
+local function TierThree(player)
     player.combatThreeHives = true
 	player.combatTable.threeHives = true
 	player.threeHives = true
 end
 
-local function Scan(player, techUpgrade)
+local function Scan(player)
 	player.combatTable.hasScan = true
 	player.combatTable.lastScan = 0
 end
 
-local function Resupply(player, techUpgrade)
+local function Resupply(player)
 	player.combatTable.hasResupply = true
 	player.combatTable.lastResupply = 0
 end
 
-local function Catalyst(player, techUpgrade)
+local function Catalyst(player)
 	player.combatTable.hasCatalyst = true
 	player.combatTable.lastCatalyst = 0
 end
 
-local function EMP(player, techUpgrade)
+local function EMP(player)
 	player.combatTable.hasEMP = true
 	player.combatTable.lastEMP = 0
 	player:SendDirectMessage("You got EMP-taunt, use your taunt key to activate it")
 end
 
-local function ShadeInk(player, techUpgrade)
+local function ShadeInk(player)
     player.combatTable.hasInk = true
 	player.combatTable.lastInk = 0
     player:SendDirectMessage("You got Ink-taunt, use your taunt key to activate it")
@@ -152,19 +152,19 @@ local function GiveWelder(player, techUpgrade)
 	--player:SwitchWeapon(1)
 end
 
-local function FastReload(player, techUpgrade)
+local function FastReload(player)
 	player.combatTable.hasFastReload = true
 end
 
-local function Focus(player, techUpgrade)
+local function Focus(player)
 	player.combatTable.hasFocus = true
 end
 
 -- Helper function to build upgrades for us.
 local function BuildUpgrade(team, upgradeId, upgradeTextCode, upgradeDescription, upgradeTechId, upgradeFunc, requirements, levels, upgradeType, refundUpgrade, hardCap, mutuallyExclusive)
-	local upgrade = nil
-	
-	if team == "Marine" then
+	local upgrade
+
+    if team == "Marine" then
 		upgrade = CombatMarineUpgrade()
 	else
 		upgrade = CombatAlienUpgrade()

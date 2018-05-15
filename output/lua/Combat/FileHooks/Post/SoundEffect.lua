@@ -34,7 +34,7 @@ function StartSoundEffectOnEntity(soundEffectName, onEntity)
 		onEntity:CheckCombatData()
 		
 		-- Check whether the sound is a taunt sound
-		for index, tauntSoundName in ipairs(kTauntSounds) do
+		for _, tauntSoundName in ipairs(kTauntSounds) do
 			if (soundEffectName == tauntSoundName) then
 				
 				-- Now check whether the player has taunted recently and fire taunt abilities.

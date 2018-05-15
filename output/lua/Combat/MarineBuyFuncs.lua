@@ -72,11 +72,11 @@ function CombatMarineBuy_GUISortUps(upgradeList)
     
     local sortedList = {}    
     -- search the techID in the Uplist and copy it to its correct place
-    for i, entry in ipairs(layoutList) do
+    for _, entry in ipairs(layoutList) do
         if (entry  == "nextRow") then
             table.insert(sortedList, "nextRow")
         else
-            for i, upgrade in ipairs(upgradeList) do
+            for _, upgrade in ipairs(upgradeList) do
                 if upgrade:GetTechId() == entry then
                     table.insert(sortedList, upgrade)
                     break

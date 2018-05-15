@@ -21,7 +21,7 @@ local function OnCommandSpendLvl(client, ...)
 	elseif not player:GetIsAlive() then
 		player:spendlvlHints("dead")
     else		
-        for i, typeCode in ipairs(args) do
+        for _, typeCode in ipairs(args) do
             local upgrade = GetUpgradeFromTextCode(typeCode)
             if not upgrade then 
                 -- check for every arg if its a valid update
@@ -98,9 +98,9 @@ local function OnCommandUpgrades(client)
 
 	-- Shows all available Upgrades
 	local player = client:GetControllingPlayer()
-	local upgradeList = nil
-	
-	if player:isa("Marine") or player:isa("Exo") then
+	local upgradeList
+
+    if player:isa("Marine") or player:isa("Exo") then
 		upgradeList = GetAllUpgrades("Marine")
 	else
 		upgradeList = GetAllUpgrades("Alien")

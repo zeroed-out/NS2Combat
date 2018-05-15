@@ -65,8 +65,8 @@ function GetRandomSpawnForCapsule(capsuleHeight, capsuleRadius, origin, minRange
     
     for i = 0, kSpawnMaxRetries do
     
-        local spawnPoint = nil
-		local points = GetRandomPointsWithinRadius(origin, minRange, minRange*2 + ((maxRange-minRange*2) * i / kSpawnMaxRetries), kSpawnMaxVertical, 1, 1, nil, validationFunc)
+        local spawnPoint
+        local points = GetRandomPointsWithinRadius(origin, minRange, minRange*2 + ((maxRange-minRange*2) * i / kSpawnMaxRetries), kSpawnMaxVertical, 1, 1, nil, validationFunc)
         if #points == 1 then
             spawnPoint = points[1]
         elseif Server then
@@ -102,12 +102,6 @@ local function UnlockAbility(forAlien, techId)
         local activeWeapon = forAlien:GetActiveWeapon()
 
         local tierWeapon = forAlien:GetWeapon(mapName)
-		local hasWeapon = false
-		if tierWeapon then
-			local hasWeapon = true
-		end
-		--Shared.Message("hasWeapon: " .. tostring(hasWeapon))
-		
         if not tierWeapon then
         
             forAlien:GiveItem(mapName)
@@ -129,8 +123,8 @@ local function LockAbility(forAlien, techId)
     
         local tierWeapon = forAlien:GetWeapon(mapName)
         local activeWeapon = forAlien:GetActiveWeapon()
-        local activeWeaponMapName = nil
-        
+        local activeWeaponMapName
+
         if activeWeapon ~= nil then
             activeWeaponMapName = activeWeapon:GetMapName()
         end

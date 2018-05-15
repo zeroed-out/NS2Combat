@@ -10,11 +10,6 @@ local kHealPlayerPercent = 3
 
 local kRange = 6
 local kHealCylinderWidth = 3
- 
-local kHealScoreAdded = 2
--- Every kAmountHealedForPoints points of damage healed, the player gets
--- kHealScoreAdded points to their score.
-local kAmountHealedForPoints = 400
 
 local function GetHealOrigin(self, player)
 
@@ -29,7 +24,6 @@ end
 
 local function DamageEntity(self, player, targetEntity)
 
-    local healthScalar = targetEntity:GetHealthScalar()
     self:DoDamage(kHealsprayDamage, targetEntity, targetEntity:GetEngagementPoint(), GetNormalizedVector(targetEntity:GetOrigin(), player:GetEyePos()), "none")
 
 end
@@ -37,8 +31,6 @@ end
 local function HealEntity(self, player, targetEntity)
 
     local onEnemyTeam = (GetEnemyTeamNumber(player:GetTeamNumber()) == targetEntity:GetTeamNumber())
-    local isEnemyPlayer = onEnemyTeam and targetEntity:isa("Player")
-    local toTarget = (player:GetEyePos() - targetEntity:GetOrigin()):GetUnit()
     
     -- Heal players by base amount plus a scaleable amount so it's effective vs. small and large targets.
     local health = kHealsprayDamage + targetEntity:GetMaxHealth() * kHealPlayerPercent / 100.0
@@ -62,10 +54,10 @@ local function HealEntity(self, player, targetEntity)
 		local maxXp = GetXpValue(targetEntity) or 1
 		local healXp = 0
 		if targetEntity:isa("Player") then
-			val = (maxXp * kPlayerHealXpRate * kHealXpRate * amountHealed / targetEntity:GetMaxHealth())
+			local val = (maxXp * kPlayerHealXpRate * kHealXpRate * amountHealed / targetEntity:GetMaxHealth())
 			healXp = math.floor( (val * 10) + 0.5) / (10)
 		else
-			val = (maxXp * kHealXpRate * amountHealed / targetEntity:GetMaxHealth())
+			local val = (maxXp * kHealXpRate * amountHealed / targetEntity:GetMaxHealth())
 			healXp = math.floor( (val * 10) + 0.5) / (10)
 		end
 			
@@ -111,10 +103,8 @@ local function GetEntitiesInCylinder(self, player, viewCoords, range, width)
     -- gorge always heals itself
     local ents = { player }
     local startPoint = viewCoords.origin
-    local fireDirection = viewCoords.zAxis
     
-    local relativePos = nil
-    
+    local relativePos
     for _, entity in ipairs( GetEntitiesWithMixinWithinRange("Live", startPoint, range) ) do
     
         if entity:GetIsAlive() then

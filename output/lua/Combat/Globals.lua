@@ -221,21 +221,6 @@ kAlienInitialIndivRes = 0
 -- disabled this for better balance
 kHeavyTechCooldown = 0
 
--- Minimap blips
-local function AddMinimapBlipType(blipType)
-	
-	-- We have to reconstruct the kTechId enum to add values.
-	local enumTable = {}
-	for index, value in ipairs(kMinimapBlipType) do
-		table.insert(enumTable, value)
-	end
-	
-	table.insert(enumTable, blipType)
-	
-	kMinimapBlipType = enum(enumTable)
-	
-end
-
 -- Alien Tier to Ability map
 kCombatAlienTierTwoTechIds = { kTechId.Leap, kTechId.BabblerEgg, kTechId.BabblerAbility, kTechId.Umbra, kTechId.MetabolizeEnergy, kTechId.MetabolizeHealth, kTechId.Charge, kTechId.BoneShield }
 kCombatAlienTierThreeTechIds = { kTechId.BileBomb, kTechId.Web, kTechId.BoneShield, kTechId.Spores, kTechId.Stab, kTechId.Stomp }

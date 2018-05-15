@@ -11,7 +11,7 @@
 function SendGlobalChatMessage(message)
 	local allPlayers = Shared.GetEntitiesWithClassname("Player")
 	if (allPlayers:GetSize() > 0) then
-		for index, player in ientitylist(allPlayers) do
+		for _, player in ientitylist(allPlayers) do
 			player:SendDirectMessage(message)
 		end
 	end
@@ -24,7 +24,7 @@ end
 function GetTimeText(timeInSeconds)
 
 	local timeLeftText = ""
-	timeNumericSeconds = math.abs(tonumber(timeInSeconds))
+	local timeNumericSeconds = math.abs(tonumber(timeInSeconds))
 	ASSERT(timeNumericSeconds >= 0)
 	if (timeNumericSeconds > 60) then
 		timeLeftText = math.floor(timeNumericSeconds/60) .." minutes"
@@ -52,7 +52,7 @@ end
 function GetTimeDigital(timeInSeconds, showMinutes, showMilliseconds)
 
 	local timeLeftText = ""
-	timeNumericSeconds = tonumber(timeInSeconds)
+	local timeNumericSeconds = tonumber(timeInSeconds)
 	if (timeNumericSeconds < 0) then 
 		timeLeftText = "- "
 	end
@@ -69,7 +69,7 @@ function GetTimeDigital(timeInSeconds, showMinutes, showMilliseconds)
 		timeLeftText = timeLeftText .. ":"
 	end
 	
-	timeLeftSeconds = math.floor(timeNumericSeconds % 60)
+	local timeLeftSeconds = math.floor(timeNumericSeconds % 60)
 	if (timeLeftSeconds < 10) then
 		timeLeftText = timeLeftText .. "0" .. timeLeftSeconds
 	else

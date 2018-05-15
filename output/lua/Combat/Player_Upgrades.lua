@@ -278,7 +278,7 @@ function Player:HasRoomToEvolve(techId)
     
     -- Check for room
     local eggExtents = LookupTechData(kTechId.Embryo, kTechDataMaxExtents)
-    local newAlienExtents = nil
+    local newAlienExtents
     -- Aliens will have a kTechDataMaxExtents defined, find it.
     newAlienExtents = LookupTechData(techId, kTechDataMaxExtents)
   
@@ -319,7 +319,7 @@ function Player:EvolveTo(newTechId)
 
 	if self:HasRoomToEvolve(newTechId) then
 	
-        newPlayer = self:Replace(Embryo.kMapName)
+        local newPlayer = self:Replace(Embryo.kMapName)
         position.y = position.y + Embryo.kEvolveSpawnOffset
         newPlayer:SetOrigin(position)
           
@@ -348,10 +348,10 @@ function Player:EvolveTo(newTechId)
 			end
 		end
 		
-		newAlienExtents = LookupTechData(newTechId, kTechDataMaxExtents)
+		local newAlienExtents = LookupTechData(newTechId, kTechDataMaxExtents)
   
 		-- In case we aren't evolving to a new alien, using the current's extents.
-		lifeform = self:GetTechId()
+		local lifeform = self:GetTechId()
 		if newAlienExtents then
 			lifeform = newTechId
 			self.combatTable.classEvolve = true
@@ -360,10 +360,10 @@ function Player:EvolveTo(newTechId)
 		-- Handle special upgrades.
 		newPlayer:SetGestationData(techIds, lifeform, healthScalar, armorScalar)
 
-        success = true
+		return true, newPlayer
     end
     
-    return success, newPlayer
+    return false, self
 	
 end
 

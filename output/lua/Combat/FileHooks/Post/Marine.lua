@@ -31,7 +31,7 @@ end
 function Marine:GiveJetpack()
 
     local activeWeapon = self:GetActiveWeapon()
-    local activeWeaponMapName = nil
+    local activeWeaponMapName
     local health = self:GetHealth()
     
     if activeWeapon ~= nil then
@@ -47,7 +47,7 @@ function Marine:GiveJetpack()
 	
 end
 
-local oldOnTakeDamage = Marine:OnTakeDamage
+local oldOnTakeDamage = Marine.OnTakeDamage
 function Marine:OnTakeDamage(...)
 
     oldOnTakeDamage(self, ...)

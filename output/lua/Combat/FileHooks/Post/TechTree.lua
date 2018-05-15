@@ -35,8 +35,8 @@ function TechTree:CopyDataFrom(techTree)
 		self.upgradedTechIdsSupporting = {}
 		
 		-- Deep clone the supporting techId list.
-		for i,v in pairs(techTree.upgradedTechIdsSupporting) do
-			table.insert(self.upgradedTechIdsSupporting, i, techTree.upgradedTechIdsSupporting[i])
+		for i = 1, #techTree.upgradedTechIdsSupporting do
+			self.upgradedTechIdsSupporting[i] = techTree.upgradedTechIdsSupporting[i]
 		end	
     end
 end

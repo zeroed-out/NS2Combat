@@ -90,7 +90,7 @@ function PlayingTeam:Update(timePassed)
 			
 			-- Loop through the respawn queue and spawn dead players.
 			-- Also handle the case where there are too many players to spawn all of them - do it on a FIFO basis.
-			local lastPlayer = nil
+			local lastPlayer
 			local thisPlayer = self:GetOldestQueuedPlayer()
 			
 			if thisPlayer then
@@ -104,7 +104,7 @@ function PlayingTeam:Update(timePassed)
                 end
             else
                 -- somethings wrong, spawn all Spectators
-                for i, player in ipairs(players) do
+                for _, player in ipairs(players) do
                     local success = self:SpawnPlayer(player)
                     -- Don't crash the server when no more players can spawn...
                     if not success then break end
@@ -112,8 +112,8 @@ function PlayingTeam:Update(timePassed)
             end
 			
 			-- If there are any players left, send them a message about why they didn't spawn.
-			if (#self.respawnQueue > 0) then
-				for i, player in ipairs(self.respawnQueue) do
+			if #self.respawnQueue > 0 then
+				for _, player in ipairs(self.respawnQueue) do
 				    -- sanity check if there are ids instead of objects
 				    if (IsNumber(player)) then
 				        player = Shared.GetEntity(player)
@@ -122,8 +122,8 @@ function PlayingTeam:Update(timePassed)
 					    player:SendDirectMessage("Could not find a valid spawn location for you... You will spawn in the next wave instead!")
                     end					    
 				end
-			elseif (#players > 0) then
-                for i, player in ipairs(players) do
+			else
+                for _, player in ipairs(players) do
 					player:SendDirectMessage("Could not find a valid spawn location for you... You will spawn in the next wave instead!")
 				end
             end
@@ -205,9 +205,6 @@ function PlayingTeam:SpawnPlayer(player)
 		
 		-- always switch to first weapon
 		newPlayer:SwitchWeapon(1)
-		
-		-- Send timer updates
-		SendCombatGameTimeUpdate(newPlayer)
     end
 
     return success
@@ -228,9 +225,9 @@ function PlayingTeam:RespawnPlayer(player, origin, angles)
     
         -- Compute random spawn location
         local capsuleHeight, capsuleRadius = player:GetTraceCapsule()
-		local spawnOrigin = nil
-		
-		-- Try it 10 times here
+		local spawnOrigin
+
+	    -- Try it 10 times here
 		for index = 1, 10 do
 			spawnOrigin = GetRandomSpawnForCapsule(capsuleHeight, capsuleRadius, initialTechPoint:GetOrigin(), kSpawnMinDistance, 25, EntityFilterAll())
 			if spawnOrigin ~= nil then

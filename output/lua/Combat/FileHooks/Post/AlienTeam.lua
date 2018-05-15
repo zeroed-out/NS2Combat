@@ -42,7 +42,7 @@ function AlienTeam:OnResetComplete()
 
     -- Try to destroy the local powernode, if we can find one.
     local initialTechPoint = self:GetInitialTechPoint()
-    for index, powerPoint in ientitylist(Shared.GetEntitiesWithClassname("PowerPoint")) do
+    for _, powerPoint in ientitylist(Shared.GetEntitiesWithClassname("PowerPoint")) do
 
         if powerPoint:GetLocationName() == initialTechPoint:GetLocationName() then
             powerPoint:SetConstructionComplete()

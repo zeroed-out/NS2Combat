@@ -659,12 +659,12 @@ if Server then
 
         -- Set up the timers for repetitive check events.
         -- This should improve performance somewhat as well.
-        self:AddTimedCallback(CombatHandleQueuedMessages, 1)
+        self:AddTimedCallback(self.CombatHandleQueuedMessages, 1)
         self.lastReminderNotify = Shared.GetTime()
 
     end
 
-    function CombatHandleQueuedMessages(self)
+    function Player:CombatHandleQueuedMessages()
 
         -- Handle queued direct messages.
         if (self.directMessagesActive ~= nil and self.directMessagesActive > 0) then

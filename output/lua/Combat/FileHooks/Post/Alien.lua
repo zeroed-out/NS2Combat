@@ -35,7 +35,7 @@ function Alien:UpdateArmorAmount(carapaceLevel)
 
 end
 
-function Alien:UpdateHealthAmount(bioMassLevel, maxLevel)
+function Alien:UpdateHealthAmount()
 
 	-- Cap the health level at the max biomass level
     local level = math.min(10, math.max(0, self:GetLvl() - 1))

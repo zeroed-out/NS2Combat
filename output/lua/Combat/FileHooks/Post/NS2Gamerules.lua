@@ -8,11 +8,11 @@
 -- combat_NS2Gamerules.lua
 
 function NS2Gamerules:GetHasTimelimitPassed()
-	if self.timeSinceGameStateChanged >= kCombatTimeLimit then
-		return true
-	else
-		return false
+	if self:GetGameStarted() then
+		return Shared.GetTime() - self:GetGameStartTime() >= kCombatTimeLimit
 	end
+
+	return false
 end
 
 function UpdateUpgradeCountsForTeam(gameRules, teamIndex)
@@ -26,22 +26,21 @@ function UpdateUpgradeCountsForTeam(gameRules, teamIndex)
 	-- Get the number of players on the team who have the upgrade
 	local oldCounts = gameRules.UpgradeCounts[teamIndex]
 	local teamPlayers = GetEntitiesForTeam("Player", teamIndex)
-	local numInTeam = #teamPlayers
 
 	-- Reset the upgrade counts
 	gameRules.UpgradeCounts[teamIndex] = {}
-	for upgradeIndex, upgrade in ipairs(GetAllUpgrades(teamIndex)) do
+	for _, upgrade in ipairs(GetAllUpgrades(teamIndex)) do
 		gameRules.UpgradeCounts[teamIndex][upgrade:GetId()] = 0
 	end
 
 	-- Recalculate the upgrade counts.
-	for index, teamPlayer in ipairs(teamPlayers) do
+	for _, teamPlayer in ipairs(teamPlayers) do
 
 		-- Skip dead players
 		if (teamPlayer:GetIsAlive()) then
 
 			local playerTechTree = teamPlayer:GetCombatTechTree()
-			for upgradeIndex, upgrade in ipairs(playerTechTree) do
+			for _, upgrade in ipairs(playerTechTree) do
 				-- Update the count for this upgrade.
 				gameRules.UpgradeCounts[teamIndex][upgrade:GetId()] = gameRules.UpgradeCounts[teamIndex][upgrade:GetId()] + 1
 			end
@@ -58,7 +57,7 @@ function UpdateUpgradeCountsForTeam(gameRules, teamIndex)
 		-- Send any updates to all players
 		if upgradeCount ~= oldCounts[upgradeId] then
 			local teamPlayers = GetEntitiesForTeam("Player", teamIndex)
-			for index, teamPlayer in ipairs(teamPlayers) do
+			for _, teamPlayer in ipairs(teamPlayers) do
 				SendCombatUpgradeCountUpdate(teamPlayer, upgradeId, upgradeCount)
 			end
 		end
@@ -85,12 +84,12 @@ function NS2Gamerules:OnCreate()
 
 	self.UpgradeCounts = {}
 	self.UpgradeCounts[kTeam1Index] = {}
-	for index, upgrade in ipairs(GetAllUpgrades(kTeam1Index)) do
+	for _, upgrade in ipairs(GetAllUpgrades(kTeam1Index)) do
 		self.UpgradeCounts[kTeam1Index][upgrade:GetId()] = 0
 	end
 
 	self.UpgradeCounts[kTeam2Index] = {}
-	for index, upgrade in ipairs(GetAllUpgrades(kTeam2Index)) do
+	for _, upgrade in ipairs(GetAllUpgrades(kTeam2Index)) do
 		self.UpgradeCounts[kTeam2Index][upgrade:GetId()] = 0
 	end
 
@@ -140,9 +139,6 @@ function NS2Gamerules:JoinTeam(player, newTeamNumber, ...)
 		end
 	end
 
-	-- Send timer updates
-	SendCombatGameTimeUpdate(newPlayer)
-
 	return success, newPlayer
 end
 
@@ -154,14 +150,9 @@ function NS2Gamerules:OnClientConnect(client)
 	oldOnClientConnect(self, client)
 
 	local player = client:GetControllingPlayer()
-
-	-- Tell the player that Combat Mode is active.
-
-	SendCombatModeActive(client, kCombatModActive, kCombatCompMode, kCombatAllowOvertime)
-
 	player:CheckCombatData()
 
-	for i, message in ipairs(combatWelcomeMessage) do
+	for _, message in ipairs(combatWelcomeMessage) do
 		player:SendDirectMessage(message)
 	end
 
@@ -181,42 +172,37 @@ function NS2Gamerules:UpdateWarmUp()
 	-- disable warmup
 end
 
+local lastTimeXPRebalanced = 0
+local overTimeMessageSent = false
 -- After a certain amount of time the aliens need to win (except if it's marines vs marines).
 local oldOnUpdate = NS2Gamerules.OnUpdate
 function NS2Gamerules:OnUpdate(timePassed)
 	oldOnUpdate(self, timePassed)
 
 	if self:GetGameState() == kGameState.Started then
-		-- send timeleft to all players, but only every few min
-		local exactTimeLeft = (kCombatTimeLimit - self.timeSinceGameStateChanged)
-		local timeTaken = math.ceil(self.timeSinceGameStateChanged)
-		local timeLeft = math.ceil(exactTimeLeft)
-
-		if self:GetHasTimelimitPassed() and kCombatAllowOvertime == false then
-			self:GetTeam(kCombatDefaultWinner).combatTeamWon = true
-		else
-			-- send timeleft to all players, but only every few min
-			if 	kCombatTimeLeftPlayed ~= timeLeft then
-
-				if timeLeft == -1 and kCombatAllowOvertime then
-					-- Send the last stand sound to every player
-					for i, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
-						Server.PlayPrivateSound(player, CombatEffects.kLastStandAnnounce, player, 1.0, Vector(0, 0, 0))
-						player:SendDirectMessage("OVERTIME!!")
-						player:SendDirectMessage("Structures cannot be repaired!")
-						player:SendDirectMessage("Spawn times have been increased!")
-					end
-					kCombatTimeLeftPlayed = timeLeft
+		if self:GetHasTimelimitPassed() then
+			if not kCombatAllowOvertime then
+				local winner = self:GetTeam(kCombatDefaultWinner)
+				self:EndGame(winner)
+			elseif not overTimeMessageSent then
+			-- Send the last stand sound to every player
+				for _, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
+					Server.PlayPrivateSound(player, CombatEffects.kLastStandAnnounce, player, 1.0, Vector(0, 0, 0))
+					player:SendDirectMessage("OVERTIME!!")
+					player:SendDirectMessage("Structures cannot be repaired!")
+					player:SendDirectMessage("Spawn times have been increased!")
 				end
+				overTimeMessageSent = true
 			end
 		end
 
 		-- Periodic events...
-		if timeTaken ~= kCombatTimePlayed then
+		local gameLength = Shared.GetTime() - self:GetGameStartTime()
+		if gameLength ~= lastTimeXPRebalanced then
 			-- Balance the teams once every 5 minutes or so...
-			if timeTaken % kCombatRebalanceInterval == 0 then
+			if gameLength % kCombatRebalanceInterval == 0 then
 				local avgXp = Experience_GetAvgXp()
-				for i, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
+				for _, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
 					-- Ignore players that are not on a team.
 					if player:GetIsPlaying() then
 						player:BalanceXp(avgXp)
@@ -224,45 +210,21 @@ function NS2Gamerules:OnUpdate(timePassed)
 				end
 			end
 
-			kCombatTimePlayed = timeTaken
+			lastTimeXPRebalanced = gameLength
 		end
 	else
-		-- reset kCombatTimePlayed
-		if kCombatTimePlayed ~= 0 then
-			kCombatTimePlayed = 0
-		end
-
-		-- reset kCombatTimeLeftPlayed
-		if kCombatTimeLeftPlayed ~= 0 then
-			kCombatTimeLeftPlayed = 0
-		end
+		lastTimeXPRebalanced = 0
+		overTimeMessageSent = false
 	end
 
 
-end
-
-local oldResetGame = NS2Gamerules.ResetGame
-function NS2Gamerules:ResetGame()
-
-	oldResetGame(self)
-
-	local team1 = self:GetTeam(1)
-	local team2 = self:GetTeam(2)
-	team1.combatTeamWon = nil
-	team2.combatTeamWon = nil
-	self.timeSinceGameStateChanged = 0
-
-	-- Send timer updates
-	for i, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
-		SendCombatGameTimeUpdate(player)
-	end
 end
 
 function NS2Gamerules_GetUpgradedDamage(attacker, doer, damage, damageType)
 
 	local damageScalar = 1
 
-	if attacker ~= nil then
+	if attacker then
 
 		-- Damage upgrades only affect weapons, not ARCs, Sentries, MACs, Mines, etc.
 		if doer:isa("Weapon") or doer:isa("Grenade") or doer:isa("Minigun") or doer:isa("Railgun") then

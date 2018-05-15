@@ -18,7 +18,7 @@ function Experience_GetAvgXp(ignorePlayer)
     local allXp = 0
     local playerNumbers = 0
     
-    for i, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do      
+    for _, player in ientitylist(Shared.GetEntitiesWithClassname("Player")) do
 		-- Ignore players that are not on a team.
 		if (player ~= ignorePlayer) and (player:GetTeamNumber() >= 1) and (player:GetTeamNumber() <= 2) then
 			allXp = allXp + player:GetXp()

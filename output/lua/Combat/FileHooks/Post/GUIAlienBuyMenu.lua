@@ -113,10 +113,10 @@ function GUIAlienBuyMenu:_InitializeUpgradeButtons()
             
             -- hackish but just wanted that combat work again
             -- handle tier2 and tier3
-            local iconX = nil
-            local iconY = nil
-            
-            local index = nil
+            local iconX
+            local iconY
+
+            local index
             local columns = 12
             
             if techId == kTechId.TwoHives then

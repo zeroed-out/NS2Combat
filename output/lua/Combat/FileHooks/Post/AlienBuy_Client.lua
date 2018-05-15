@@ -6,7 +6,7 @@
 --________________________________
 
 -- combat_AlienBuyFuncs.lua
-function GetPurchasedTechIds(techId)
+function GetPurchasedTechIds()
     
     local player = Client.GetLocalPlayer()
     
@@ -15,7 +15,7 @@ function GetPurchasedTechIds(techId)
         local purchasedList = {}
         
         if player.combatUpgrades then
-            for i, upgradeId in ipairs (player.combatUpgrades) do
+            for _, upgradeId in ipairs (player.combatUpgrades) do
                 local upgrade =  GetUpgradeFromId(tonumber(upgradeId))            
                 -- don't show the icon from a class
                 if (upgrade and upgrade:GetType() ~= kCombatUpgradeTypes.Class) then
@@ -41,7 +41,7 @@ function AlienBuy_GetUpgradePurchased(techId)
         local gotTechId = false
         
         if player.combatUpgrades then
-            for i, upgradeId in ipairs (player.combatUpgrades) do
+            for _, upgradeId in ipairs (player.combatUpgrades) do
                 local upgrade =  GetUpgradeFromId(tonumber(upgradeId))            
                 -- don't show the icon from a class
                 if (upgrade and upgrade:GetType() ~= kCombatUpgradeTypes.Class) then
@@ -76,7 +76,7 @@ function GetUnpurchasedUpgradeInfoArray(techIdTable)
     
     if player then
     
-        for index, techId in ipairs(techIdTable) do
+        for _, techId in ipairs(techIdTable) do
         
 			local iconX, iconY = GetMaterialXYOffset(techId, false)
 			
@@ -110,7 +110,7 @@ function GetUnpurchasedUpgradeInfoArray(techIdTable)
 end
 
 
-function GetUnpurchasedTechIds(techId)
+function GetUnpurchasedTechIds()
 
     -- get All ups for the aliens
     --TODO : delete purchased ups
@@ -120,7 +120,7 @@ function GetUnpurchasedTechIds(techId)
     local addOnUpgrades = {}   
     local player = Client.GetLocalPlayer()
     
-    for i, upgrade in ipairs(techUps) do
+    for _, upgrade in ipairs(techUps) do
         if not player:GotItemAlready(upgrade) then
             table.insert(addOnUpgrades, upgrade:GetTechId())
         end
@@ -138,7 +138,7 @@ function AlienBuy_GetPurchasedUpgradeInfoArray(techIdTable)
     
     local player = Client.GetLocalPlayer()
     
-    for index, techId in ipairs(techIdTable) do
+    for _, techId in ipairs(techIdTable) do
 
         local iconX, iconY = GetMaterialXYOffset(techId, false)
         if iconX and iconY then
@@ -171,7 +171,6 @@ end
 
 function AlienBuy_GetPurchasedUpgrades(idx)
 
-    local player = Client.GetLocalPlayer()
     return AlienBuy_GetPurchasedUpgradeInfoArray(GetPurchasedTechIds(IndexToAlienTechId(idx)))
     
 end
@@ -232,7 +231,7 @@ function AlienBuy_Purchase(purchases)
     local player = Client.GetLocalPlayer()
     local textCodes = {}
     if player then
-        for i, purchaseId in ipairs(purchases) do
+        for _, purchaseId in ipairs(purchases) do
             local upgrade = GetUpgradeFromTechId(purchaseId)
             if upgrade then
                 local textCode = upgrade:GetTextCode()
@@ -247,13 +246,10 @@ function AlienBuy_Purchase(purchases)
 
 end
 
-function AlienBuy_GetAbilitiesFor(lifeFormTechId)
-
-    local abilityIds = {}
-    return abilityIds
-
+function AlienBuy_GetAbilitiesFor()
+    return {}
 end
 
-function AlienBuy_IsAlienResearched(alienType)
+function AlienBuy_IsAlienResearched()
 	return true
 end

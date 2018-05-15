@@ -15,11 +15,6 @@ function Player:OnInitLocalClient()
 	-- get the ups from the server (only worked that way)
     -- Todo: Do we really need a console command????
     Shared.ConsoleCommand("co_sendupgrades")
-	
-	-- Also initialise counters
-	if (kCombatTimeSinceGameStart == nil) then
-		kCombatTimeSinceGameStart = 0
-	end
 
     oldOnInitLocalClient(self)
 end
@@ -45,7 +40,7 @@ function PlayerUI_GetArmorLevel()
         --Todo: Why iterate over the techtree when we could just use a int network value ...
         if techTree then
             if table.maxn(techTree) > 0 then
-                for i, upgradeTechId in ipairs(techTree) do
+                for _, upgradeTechId in ipairs(techTree) do
                
                     if upgradeTechId == kTechId.Armor3 then
                         armorLevel = 3
@@ -72,7 +67,7 @@ function PlayerUI_GetWeaponLevel()
         local techTree = self:GetUpgrades()    
         if techTree then
             if table.maxn(techTree) > 0 then
-                for i, upgradeTechId in ipairs(techTree) do
+                for _, upgradeTechId in ipairs(techTree) do
                
                     if upgradeTechId == kTechId.Weapons3 then
                         weaponLevel = 3

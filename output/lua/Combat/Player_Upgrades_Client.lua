@@ -100,7 +100,7 @@ function Player:GetUpgrades()
     local deleteIDs = {}
     
     if (self.combatUpgrades and table.maxn(self.combatUpgrades) > 0) then    
-        for i, id in ipairs(self.combatUpgrades) do
+        for _, id in ipairs(self.combatUpgrades) do
             -- dunno why but the first entry is now nil
             if not(id == "nil") then
                 local upgrade = GetUpgradeFromId(tonumber(id))
@@ -121,7 +121,7 @@ function Player:GetUpgrades()
  
         if (table.maxn(deleteIDs) > 0) and (table.maxn(upgrades) > 0) then
             -- sort upgrades, if we got wpn2, delete wpn1 again etc..
-            for i, deleteId in ipairs(deleteIDs) do
+            for _, deleteId in ipairs(deleteIDs) do
                 for j, techId in ipairs(upgrades) do
                     if techId == deleteId then
                         table.remove(upgrades, j)
@@ -145,7 +145,7 @@ function Player:Combat_PurchaseItemAndUpgrades(textCodes)
     local buyString = ""
     
     if type(textCodes) == "table" then    
-        for i, textCode in ipairs(textCodes) do
+        for _, textCode in ipairs(textCodes) do
             buyString = (buyString  .. textCode .. " ")
         end        
     else
@@ -216,7 +216,7 @@ function PlayerUI_GetTimeRemaining()
 
 	local timeDigital = "00:00:00"
 	if (kCombatTimeLimit ~= nil) then
-		local exactTimeLeft = (kCombatTimeLimit - kCombatTimeSinceGameStart)
+		local exactTimeLeft = kCombatTimeLimit - PlayerUI_GetGameLengthTime()
 		if exactTimeLeft > 0 then
 			local showMinutes = math.abs(exactTimeLeft) > 0
 			local showMilliseconds = exactTimeLeft > 0 and exactTimeLeft < 30		
@@ -229,7 +229,7 @@ function PlayerUI_GetTimeRemaining()
 end
 
 function PlayerUI_GetHasTimelimitPassed()
-	if kCombatTimeLimit ~= nil and kCombatTimeLimit - kCombatTimeSinceGameStart > 0 then
+	if kCombatTimeLimit ~= nil and kCombatTimeLimit - PlayerUI_GetGameLengthTime() > 0 then
 		return true
 	else
 		return false

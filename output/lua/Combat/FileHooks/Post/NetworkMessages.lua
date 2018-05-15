@@ -1,15 +1,5 @@
-
-
 -- custom NetworkMessages for the combat mod (for telling client if the mode is active or not)
 Script.Load("lua/Combat/ExperienceEnums.lua")
-
-local kCombatModeActiveMessage =
-{
-    combatMode = "boolean",
-    combatCompMode = "boolean",
-    combatAllowOvertime = "boolean"
-}
-Shared.RegisterNetworkMessage("CombatModeActive", kCombatModeActiveMessage)
 
 local kCombatUpgradeCountUpdateMessage =
 {
@@ -17,13 +7,6 @@ local kCombatUpgradeCountUpdateMessage =
 	upgradeCount = "integer"
 }
 Shared.RegisterNetworkMessage("CombatUpgradeCountUpdate", kCombatUpgradeCountUpdateMessage)
-
-local kCombatGameTimeMessage =
-{
-    timeSinceGameStart = "float",
-	gameTimeLimit = "integer"
-}
-Shared.RegisterNetworkMessage("CombatGameTimeUpdate", kCombatGameTimeMessage)
 
 local kCombatSetUpgradeMessage =
 {
@@ -41,14 +24,6 @@ Shared.RegisterNetworkMessage("CombatLvlUp", kCombatSetLvlUpMessage)
 if Server then
 
     Script.Load("lua/Combat/Chat.lua")
-
-    function SendCombatModeActive(client, activeBool, compActiveBool, overtimeActiveBool)
-
-        if client then       
-            Server.SendNetworkMessage(client:GetControllingPlayer(), "CombatModeActive", { combatMode = activeBool, combatCompMode = compActiveBool, combatAllowOvertime = overtimeActiveBool }, true)
-        end   
-     
-    end
 	
 	function BuildCombatUpgradeCountMessage(messageUpgradeId, messageUpgradeCount)
 	
@@ -62,23 +37,6 @@ if Server then
         if player then
 			local message = BuildCombatUpgradeCountMessage(upgradeId, upgradeCount)
             Server.SendNetworkMessage(player, "CombatUpgradeCountUpdate", message, true)
-        end
-     
-    end
-	
-	function BuildCombatGameTimeMessage(timeSinceGameStartFloat, gameTimeLimitInt)
-	
-		return { timeSinceGameStart = timeSinceGameStartFloat,
-				 gameTimeLimit = gameTimeLimitInt }
-	
-	end
-	
-	function SendCombatGameTimeUpdate(player)
-		
-        if player then
-			local timeSinceGameStart = GetGamerules():GetGameTimeChanged()
-			local message = BuildCombatGameTimeMessage(timeSinceGameStart, tonumber(kCombatTimeLimit))
-            Server.SendNetworkMessage(player, "CombatGameTimeUpdate", message, true)
         end
      
     end
@@ -108,16 +66,6 @@ if Server then
     end
     
 elseif Client then
-
-    function GetCombatModeActive(messageTable)
-
-        kCombatModActive = messageTable.combatMode
-        kCombatCompMode = messageTable.combatCompMode
-        kCombatAllowOvertime = messageTable.combatAllowOvertime
-        
-    end
-    
-    Client.HookNetworkMessage("CombatModeActive", GetCombatModeActive)
 	
 	-- Upgrade the counts for this upgrade Id.
 	function GetUpgradeCountUpdate(messageTable)
@@ -130,15 +78,6 @@ elseif Client then
     end
     
     Client.HookNetworkMessage("CombatUpgradeCountUpdate", GetUpgradeCountUpdate)
-	
-	-- Upgrade the counts for this upgrade Id.
-	function GetCombatGameTimeUpdate(messageTable)
-
-		kCombatTimeSinceGameStart = messageTable.timeSinceGameStart
-		kCombatTimeLimit =  messageTable.gameTimeLimit
-        
-    end
-    Client.HookNetworkMessage("CombatGameTimeUpdate", GetCombatGameTimeUpdate)
 	
 	function GetCombatSetUpgrade(messageTable)
 

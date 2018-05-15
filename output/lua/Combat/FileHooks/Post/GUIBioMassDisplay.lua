@@ -9,7 +9,7 @@
 
 -- Hide the biomass GUI
 local oldUpdate = GUIBioMassDisplay.Update
-function GUIBioMassDisplay:Update(deltaTime)
+function GUIBioMassDisplay:Update()
 
     oldUpdate(self)
 

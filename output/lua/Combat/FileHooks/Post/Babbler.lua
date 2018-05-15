@@ -25,7 +25,7 @@ function Babbler:OnUpdate(deltaTime)
 end
 
 local originalOnKill = Babbler.OnKill
-function Babbler:OnKill(attacker, doer, point, direction)
+function Babbler:OnKill(attacker)
     -- Give XP to killer.
     local pointOwner = attacker
     

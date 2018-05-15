@@ -14,7 +14,7 @@ if Locale then
 
 		function Combat_ResolveString(input)
 
-			local resolvedString = nil
+			local resolvedString
 			if (kCombatLocaleMessages) then
 				if (kCombatLocaleMessages[input] ~= nil) then
 					resolvedString = kCombatLocaleMessages[input]

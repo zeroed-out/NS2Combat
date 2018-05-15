@@ -7,7 +7,7 @@
 
 -- combat_AlienTeamInfo.lua
 
-function AlienTeamInfo:OnUpdate(deltaTime)
+function AlienTeamInfo:OnUpdate()
 
     self.veilLevel = 3
 	self.spurLevel = 3

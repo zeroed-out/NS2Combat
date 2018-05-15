@@ -89,7 +89,7 @@ function CombatUpgrade:GetIsHardCapped(player)
 		local numInTeam = #teamPlayers
 		local numPlayersWithUpgrade = 0
 		
-		for index, teamPlayer in ipairs(teamPlayers) do
+		for _, teamPlayer in ipairs(teamPlayers) do
 		
 			-- Skip dead players
 			if (teamPlayer:GetIsAlive()) then
@@ -160,9 +160,6 @@ function CombatUpgrade:GiveItem(player)
 end
 
 function CombatUpgrade:DoUpgrade(player)
-	local techId = self:GetTechId()
-	local kMapName = LookupTechData(techId, kTechDataMapName)
-	
 	-- Generic functions for upgrades and custom ones.
 	if self:HasCustomFunc() then
 		-- If the custom function returns a new player then use that instead.

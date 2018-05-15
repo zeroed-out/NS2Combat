@@ -57,7 +57,8 @@ local smallIconWidth = 80
 -- max Icon per row
 local smallIconRows = 4
 
-local gSmallIconIndex = nil
+local gSmallIconIndex
+local kCombatMarineTechIdToMaterialOffset
 local function GetSmallIconPixelCoordinates(itemTechId)
 
     if not kCombatMarineTechIdToMaterialOffset then
@@ -378,7 +379,7 @@ function GUIMarineBuyMenu:_InitializeItemButtons()
     
     local allUps = GetAllUpgrades("Marine")
     -- sort the ups, defined in this file
-    sortedList = CombatMarineBuy_GUISortUps(allUps) 
+    local sortedList = CombatMarineBuy_GUISortUps(allUps)
 
     -- get the headlines
     local  headlines = CombatMarineBuy_GetHeadlines()
@@ -388,7 +389,7 @@ function GUIMarineBuyMenu:_InitializeItemButtons()
     local fontScaleVector = Vector(0.8, 0.8, 0)
     local itemNr = 1
     local k = 1
-    xOffset  = 0
+    local xOffset  = 0
     
     for i, upgrade in ipairs(sortedList) do
     
@@ -503,7 +504,7 @@ GUIMarineBuyMenu.kEquippedColor = Color(0.5, 0.5, 0.5, 0.5)
 function GUIMarineBuyMenu:_UpdateEquipped(deltaTime)
 
     self.hoverItem = nil
-    for i, equipped in ipairs(self.equipped) do
+    for _, equipped in ipairs(self.equipped) do
     
         if self:_GetIsMouseOver(equipped.Graphic) then
             self.hoverItem = equipped.TechId
@@ -516,7 +517,7 @@ function GUIMarineBuyMenu:_UpdateEquipped(deltaTime)
     
 end
 
-local gResearchToWeaponIds = nil
+local gResearchToWeaponIds
 local function GetItemTechId(researchTechId)
 
     if not gResearchToWeaponIds then
@@ -826,7 +827,7 @@ function GUIMarineBuyMenu:SendKeyEvent(key, down)
         local mouseX, mouseY = Client.GetCursorPosScreen()
         if down then
                     
-            inputHandled, closeMenu = self:_HandleItemClicked(mouseX, mouseY) or inputHandled
+            inputHandled, closeMenu = self:_HandleItemClicked(mouseX, mouseY)
             
             if not inputHandled then
             

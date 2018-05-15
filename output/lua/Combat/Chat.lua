@@ -46,7 +46,7 @@ local function OnChatReceived(client, message)
                 if message.teamOnly then
                 
                     local players = GetEntitiesForTeam("Player", playerTeamNumber)
-                    for index, player in ipairs(players) do
+                    for _, player in ipairs(players) do
                         Server.SendNetworkMessage(player, "Chat", BuildChatMessage(true, playerName, playerLocationId, playerTeamNumber, playerTeamType, chatMessage), true)
                     end
                     

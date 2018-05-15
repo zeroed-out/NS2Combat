@@ -52,8 +52,7 @@ function CombatSpawnProtect:OnInitialized()
      
     -- get the parent player
     local playersInRange = GetEntitiesForTeamWithinRange("Player", self:GetTeamNumber(), self:GetOrigin(), 1)
-    for index, player in ipairs(playersInRange) do
-        local distance = (player:GetOrigin() - self:GetOrigin())
+    for _, player in ipairs(playersInRange) do
         if player:GetOrigin() == self:GetOrigin() then
             self.playerId = player:GetId()
             break
@@ -68,7 +67,7 @@ function CombatSpawnProtect:OnInitialized()
     
 end
 
-function CombatSpawnProtect:OnUpdate(deltaTime)
+function CombatSpawnProtect:OnUpdate()
     if Client and not Shared.GetIsRunningPrediction() then
         if not self.effectSuccess then
             self:_CreateEffect()
@@ -85,9 +84,7 @@ end
 if Client then
 	-- Adds the material effect to the entity and all child entities (that have a Model mixin)
     local function AddEffect(entity, material, viewMaterial, entities)
-    
-        local numChildren = entity:GetNumChildren()
-        
+
         if HasMixin(entity, "Model") then
             local model = entity._renderModel
             if model ~= nil then

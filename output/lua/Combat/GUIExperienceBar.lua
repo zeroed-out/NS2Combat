@@ -301,7 +301,7 @@ function GUIExperienceBar:UpdateText(deltaTime)
 	end
 end
 
-function GUIExperienceBar:UpdateVisible(deltaTime)
+function GUIExperienceBar:UpdateVisible()
 
 	-- Hide the experience bar if the player is dead.
 	self.experienceBarBackground:SetIsVisible(self.experienceData.isVisible)

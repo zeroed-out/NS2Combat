@@ -92,7 +92,7 @@ local function GetTeamType()
 	
 end
 
-function GUIGameTimeCountDown:Update(deltaTime)
+function GUIGameTimeCountDown:Update()
 
     local player = Client.GetLocalPlayer()
 	
@@ -117,9 +117,6 @@ function GUIGameTimeCountDown:Update(deltaTime)
 			end
 		end
 		
-		-- Update the client-side clock.
-		kCombatTimeSinceGameStart = kCombatTimeSinceGameStart + deltaTime
-		
 		local player = Client.GetLocalPlayer()
 		if (self.showTimer and player:GetIsAlive()) then
 			self.timerBackground:SetIsVisible(true)
@@ -140,13 +137,13 @@ function GUIGameTimeCountDown:Update(deltaTime)
 
 end
 
-
+local lastTimeLeftText
 function GUIGameTimeCountDown:RemindTime(player)
 		
     -- send timeleft chat things now here, all client sided
-    if (kCombatTimeLimit ~= nil) then
-        local timeLeft = math.ceil((kCombatTimeLimit - kCombatTimeSinceGameStart))
-        if  timeLeft > 0 and
+    if kCombatTimeLimit then
+        local timeLeft = math.ceil(kCombatTimeLimit - PlayerUI_GetGameLengthTime())
+        if timeLeft > 0 and
             ((timeLeft % kCombatTimeReminderInterval) == 0 or 
              (timeLeft == 60) or (timeLeft == 30) or
              (timeLeft == 20) or (timeLeft == 10) or
@@ -157,18 +154,16 @@ function GUIGameTimeCountDown:RemindTime(player)
             local team2Message = ""
             
             if not lastTimeLeftText or timeLeftText ~= lastTimeLeftText then
-            
-                if kCombatDefaultWinner == kTeam2Index then
+
+	            if kCombatAllowOvertime then
+		            team1Message = " left until overtime!"
+		            team2Message = " left until overtime!"
+                elseif kCombatDefaultWinner == kTeam2Index then
                     team1Message = " left until Marines have lost!"
-                    team2Message = " left until Aliens have won!"						
+                    team2Message = " left until Aliens have won!"
                 else
                     team1Message = " left until Marines have won!"
-                    team2Message = " left until Aliens have lost!"											
-                end
-                
-                if timeLeft >= 0 and kCombatAllowOvertime then
-                    team1Message = " left until overtime!"
-                    team2Message = " left until overtime!"
+                    team2Message = " left until Aliens have lost!"
                 end
 
                 if player:GetTeamNumber() == 1 then
