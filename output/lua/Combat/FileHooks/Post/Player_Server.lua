@@ -94,17 +94,13 @@ end
 
 function Player:ResupplyNow()
 
-    local success = false
-    local newHealth = math.min(self:GetHealth() + MedPack.kHealth, self:GetMaxHealth())
-    self:SetHealth(newHealth)
+    self.timeLastMedpack = false -- disables medpack pickup delay
+    MedPack.OnTouch(self, self)
 
     -- dont drop a ammo pack, give ammo via a new function
     self:GiveAmmoToEveryWeapon()
 
-    StartSoundEffectAtOrigin(MedPack.kHealthSound, self:GetOrigin())
-    success = true
-
-    return success
+    return true
 
 end
 
