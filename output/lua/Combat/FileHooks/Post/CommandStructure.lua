@@ -25,3 +25,9 @@ end
 function CommandStructure:GetCanBeHealedOverride()
 	return self:GetIsAlive() and GetHasTimelimitPassed and not GetHasTimelimitPassed()
 end
+
+function CommandStructure:GetCanBeUsed(_, useSuccessTable)
+	useSuccessTable.useSuccess = false
+
+	return false
+end
