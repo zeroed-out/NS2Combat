@@ -119,9 +119,10 @@ elseif Client then
     Client.HookNetworkMessage("CombatLvlUp", GetCombatLvlUp)
 
     local function ReceiveCombatSettings(settings)
+
         kCombatCompMode = settings.compMode
         kCombatTimeLimit = settings.timeLimit
-        kCombatAllowOvertime = settings.allowOvertime
+        kCombatAllowOvertime = settings.allowOverTime
         kCombatDefaultWinner = settings.defaultWinner
         kCombatPowerPointsTakeDamage = settings.powerPointsTakeDamage
     end

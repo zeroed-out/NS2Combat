@@ -57,10 +57,13 @@ kArmorySpawnMaxDistance = 60
 
 -- By default, Aliens win after a certain amount of time...
 -- Specified in seconds...
-kCombatCompMode = false
-kCombatTimeLimit = 1500
-kCombatAllowOvertime = true
-kCombatDefaultWinner = kTeam2Index
+if kCombatCompMode == nil then
+    kCombatCompMode = false
+    kCombatTimeLimit = 1500
+    kCombatAllowOvertime = true
+    kCombatDefaultWinner = kTeam2Index
+end
+
 kCombatTimeReminderInterval = 300
 
 -- make xpeffect less "spammy"

@@ -318,7 +318,7 @@ function GUIMarineBuyMenu:_InitializeEquipped()
     
         self.equipped = { }
     
-    local equippedTechIds = self.player:GetUpgrades()
+    local equippedTechIds = self.player:GetPlayerUpgrades()
     local selectorPosX = -GUIMarineBuyMenu.kSelectorSize.x + GUIMarineBuyMenu.kPadding
     
     for k, itemTechId in ipairs(equippedTechIds) do

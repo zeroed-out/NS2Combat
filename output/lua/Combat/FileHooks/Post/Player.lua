@@ -34,29 +34,21 @@ end
 
 -- check for FastReload
 function Player:GotFastReload()
-    
-    local fastReload = false
-    
+
     if Server then
 		self:CheckCombatData()
-        if self.combatTable.hasFastReload then
-            fastReload = true
-        end
+        return self.combatTable.hasFastReload
     elseif Client then
-        local techTree = self:GetUpgrades()
-        
-        if #techTree > 0 then
-            for i, upgradeTechId in ipairs(techTree) do
-                if upgradeTechId == kTechId.AdvancedWeaponry then
-                    fastReload = true
-                    break
-                end
+        local upgrades = self:GetPlayerUpgrades()
+        for _, upgradeTechId in ipairs(upgrades) do
+            if upgradeTechId == kTechId.AdvancedWeaponry then
+                return true
             end
         end
         
     end
     
-    return fastReload
+    return false
 
 end
 
@@ -69,28 +61,23 @@ function Player:GotFocus()
 		self:CheckCombatData()
         if self.combatTable.hasFocus then
             -- check the weapon
-            if self:IsAttackingPrimry() then
-                gotFocus = true
-            end       
+            return self:IsAttackingPrimry()
         end  
         
     elseif Client then
-        local techTree = self:GetUpgrades()
+        local upgrades = self:GetPlayerUpgrades()
         
-        if #techTree > 0 then
-            for i, upgradeTechId in ipairs(techTree) do
+        if #upgrades > 0 then
+            for i, upgradeTechId in ipairs(upgrades) do
                 if upgradeTechId == kTechId.NutrientMist then
-                    if self:IsAttackingPrimry() then
-                        gotFocus = true
-                    end
-                    break
+                    return self:IsAttackingPrimry()
                 end
             end
         end
         
     end
     
-    return gotFocus
+    return false
 end
 
 function Player:IsAttackingPrimry()

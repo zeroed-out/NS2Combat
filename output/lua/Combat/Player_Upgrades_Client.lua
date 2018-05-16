@@ -94,7 +94,7 @@ function Player:GotItemAlready(upgrade)
     
 end
 
-function Player:GetUpgrades()
+function Player:GetPlayerUpgrades()
 
     local upgrades = {}
     local deleteIDs = {}

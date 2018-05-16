@@ -337,7 +337,6 @@ function Player:EvolveTo(newTechId)
 		local myTechTree = self:GetCombatTechTree()
 		local techIds = {}
 		table.insert(techIds, newTechId)
-		--self:GetUpgrades()
 		for index, upgrade in ipairs(myTechTree) do
 			if (upgrade:GetType() == kCombatUpgradeTypes.Tech) then
 				table.insert(techIds, upgrade:GetTechId())
