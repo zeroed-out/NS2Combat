@@ -61,7 +61,7 @@ function Player:GotFocus()
 		self:CheckCombatData()
         if self.combatTable.hasFocus then
             -- check the weapon
-            return self:IsAttackingPrimry()
+            return self:GetIsUsingPrimaryWeapon()
         end  
         
     elseif Client then
@@ -70,7 +70,7 @@ function Player:GotFocus()
         if #upgrades > 0 then
             for i, upgradeTechId in ipairs(upgrades) do
                 if upgradeTechId == kTechId.NutrientMist then
-                    return self:IsAttackingPrimry()
+                    return self:GetIsUsingPrimaryWeapon()
                 end
             end
         end
@@ -80,7 +80,7 @@ function Player:GotFocus()
     return false
 end
 
-function Player:IsAttackingPrimry()
+function Player:GetIsUsingPrimaryWeapon()
     local activeWeapon = self:GetActiveWeapon()
     if activeWeapon then
         -- only give focus when primary attacking, every weapon has itsn own attribute so its a bit dirty, but it works
