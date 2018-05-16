@@ -75,7 +75,7 @@ function PlayingTeam:Update(timePassed)
 	local players = GetEntitiesForTeam("Spectator", self:GetTeamNumber())
 	
 	-- Spawn all players in the queue once every 10 seconds or so.
-	if (#self.respawnQueue > 0) or (#players > 0)  then
+	if self:GetNumPlayersInQueue() or (#players > 0)  then
 		
 		-- Are we ready to spawn? This is based on the time since the last spawn wave...
 		local respawnTimer = kCombatRespawnTimer
@@ -109,23 +109,6 @@ function PlayingTeam:Update(timePassed)
                     -- Don't crash the server when no more players can spawn...
                     if not success then break end
                 end
-            end
-			
-			-- If there are any players left, send them a message about why they didn't spawn.
-			if #self.respawnQueue > 0 then
-				for _, player in ipairs(self.respawnQueue) do
-				    -- sanity check if there are ids instead of objects
-				    if (IsNumber(player)) then
-				        player = Shared.GetEntity(player)
-				    end
-				    if (player) then
-					    player:SendDirectMessage("Could not find a valid spawn location for you... You will spawn in the next wave instead!")
-                    end					    
-				end
-			else
-                for _, player in ipairs(players) do
-					player:SendDirectMessage("Could not find a valid spawn location for you... You will spawn in the next wave instead!")
-				end
             end
             
 		else
@@ -174,13 +157,15 @@ function PlayingTeam:SpawnPlayer(player)
     end
 
     if player.combatTable and player.combatTable.giveClassAfterRespawn then
-        success, newPlayer  = player:GetTeam():ReplaceRespawnPlayer(player, nil, nil, player.combatTable.giveClassAfterRespawn)
+        success, newPlayer  = self:ReplaceRespawnPlayer(player, nil, nil, player.combatTable.giveClassAfterRespawn)
     else
 		-- Spawn normally
-        success, newPlayer = player:GetTeam():ReplaceRespawnPlayer(player, nil, nil)
+        success, newPlayer = self:ReplaceRespawnPlayer(player, nil, nil)
     end
 	
 	if success then
+		self:RemovePlayerFromRespawnQueue(player)
+
 		-- Give any upgrades back
         newPlayer:GiveUpsBack()    
 	
@@ -190,7 +175,6 @@ function PlayingTeam:SpawnPlayer(player)
             newPlayer:TriggerEffects("infantry_portal_spawn")
         end
 		newPlayer:TriggerEffects("spawnSoundEffects")
-		newPlayer:GetTeam():RemovePlayerFromRespawnQueue(newPlayer)
 		
 		-- Remove the third-person mode (bug introduced in 216).
 		newPlayer:SetCameraDistance(0)
