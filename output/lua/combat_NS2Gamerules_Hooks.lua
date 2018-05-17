@@ -13,6 +13,8 @@ if(not HotReload) then
 	ClassHooker:Mixin("CombatNS2Gamerules")
 end
 
+local kPregameLength = 10
+
 function CombatNS2Gamerules:OnLoad()
 
     ClassHooker:SetClassCreatedIn("NS2Gamerules", "lua/NS2Gamerules.lua")
@@ -23,6 +25,7 @@ function CombatNS2Gamerules:OnLoad()
 	self:RawHookClassFunction("NS2Gamerules", "ResetGame", "ResetGame_Hook")
 	self:RawHookClassFunction("NS2Gamerules", "UpdateMapCycle", "UpdateMapCycle_Hook")
 	self:ReplaceClassFunction("NS2Gamerules", "CheckGameStart", "CheckGameStart_Hook")
+	self:ReplaceClassFunction("NS2Gamerules", "GetPregameLength", "GetPregameLength_Hook")
     
     ClassHooker:SetClassCreatedIn("Gamerules", "lua/Gamerules.lua")
     self:PostHookClassFunction("Gamerules", "OnClientConnect", "OnClientConnect_Hook")
@@ -688,6 +691,16 @@ local function StartCountdown(self)
     self.lastCountdownPlayed = nil
     
 end
+
+function CombatNS2Gamerules:GetPregameLength_Hook()
+
+    local preGameTime = kPregameLength
+    if Shared.GetCheatsEnabled() then
+        preGameTime = 0
+    end
+    return preGameTime
+    
+end
 function CombatNS2Gamerules:CheckGameStart_Hook(self)
 
     if self:GetGameState() <= kGameState.PreGame then
@@ -699,7 +712,7 @@ function CombatNS2Gamerules:CheckGameStart_Hook(self)
         if (team1Players > 0 and team2Players > 0) or (Shared.GetCheatsEnabled() and (team1Players > 0 or team2Players > 0)) then
             
             if self:GetGameState() < kGameState.PreGame then
-                StartCountdown(self)
+                self:SetGameState(kGameState.PreGame)
             end
                 
         else

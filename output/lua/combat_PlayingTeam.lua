@@ -81,12 +81,9 @@ end
 // Respawn timers.
 function CombatPlayingTeam:Update_Hook(self, timePassed)
 
-	if self.timeSinceLastSpawn == nil then 
+	if not self.nextSpawnTime then 
 		CombatPlayingTeam:ResetSpawnTimer(self)
 	end
-	
-	// Increment the spawn timer
-	self.timeSinceLastSpawn = self.timeSinceLastSpawn + timePassed
 	
     // check if there are really no Spectators (should fix the spawnbug)
 	local players = GetEntitiesForTeam("Spectator", self:GetTeamNumber())
@@ -94,12 +91,7 @@ function CombatPlayingTeam:Update_Hook(self, timePassed)
 	// Spawn all players in the queue once every 10 seconds or so.
 	if (#self.respawnQueue > 0) or (#players > 0)  then
 		
-		// Are we ready to spawn? This is based on the time since the last spawn wave...
-		local respawnTimer = kCombatRespawnTimer
-		if GetHasTimelimitPassed() then
-			respawnTimer = kCombatOvertimeRespawnTimer
-		end
-		local timeToSpawn = (self.timeSinceLastSpawn >= respawnTimer)
+		local timeToSpawn = (self.nextSpawnTime < Shared.GetTime())
 		
 		if timeToSpawn then
 			// Reset the spawn timer.
@@ -156,7 +148,7 @@ function CombatPlayingTeam:Update_Hook(self, timePassed)
 						// TODO: Update the GUI so that marines can get the 'ready to spawn in ... ' message too.
 						// After that is done, remove the AlienSpectator check here.
 						if (player:isa("AlienSpectator")) then
-							player.timeWaveSpawnEnd = nextSpawnTime
+							player.timeWaveSpawnEnd = self.nextSpawnTime
 						end
 					end
 				end
@@ -181,8 +173,6 @@ end
 
 function CombatPlayingTeam:ResetSpawnTimer(self)
 
-	// Reset the spawn timer
-	self.timeSinceLastSpawn = 0
 	if not GetHasTimelimitPassed() then
 		self.nextSpawnTime = Shared.GetTime() + kCombatRespawnTimer
 	else
