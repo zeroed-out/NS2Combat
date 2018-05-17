@@ -196,7 +196,7 @@ end
 // Weapons
 table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Welder,				"welder",			"Welder",			kTechId.Welder, 				GiveWelder, 		nil, 						1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.RailGunExosuit })) 
 table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Shotgun,				"sg",				"Shotgun",			kTechId.Shotgun, 				nil, 				kCombatUpgrades.Weapons1, 	1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.RailGunExosuit })) 
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.HeavyMachineGun,		"hmg",				"Machine Gun",		kTechId.HeavyMachineGun, 		nil, 				kCombatUpgrades.Shotgun, 	2, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.RailGunExosuit })) 
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.HeavyMachineGun,		"hmg",				"Machine Gun",		kTechId.HeavyMachineGun, 		nil, 				kCombatUpgrades.Shotgun, 	1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.RailGunExosuit })) 
 
 if not kCombatCompMode then
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Mines,					"mines",			"Mines",			kTechId.LayMines, 				nil, 				nil, 						1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.RailGunExosuit }))
