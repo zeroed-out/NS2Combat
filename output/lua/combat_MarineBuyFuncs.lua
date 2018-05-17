@@ -36,13 +36,15 @@ function CombatMarineBuy_GUISortUps(upgradeList)
 	    kTechId.CatPack,
         kTechId.Scan,
         kTechId.LayMines,
+        kTechId.MACEMP,
+        kTechId.Welder,
         "nextRow",
 
         // 1, Weapons
         kTechId.Shotgun,
         kTechId.GrenadeLauncher,
         kTechId.Flamethrower,
-        kTechId.MACEMP,
+        kTechId.HeavyMachineGun,
         "nextRow",
         
         // 2, Weapon Upgrades 
@@ -56,13 +58,12 @@ function CombatMarineBuy_GUISortUps(upgradeList)
         kTechId.Armor1,
         kTechId.Armor2,
         kTechId.Armor3,
-        kTechId.Welder,
         "nextRow",
 		
         // 4, Class Upgrades
         kTechId.Jetpack,     
 	    kTechId.DualMinigunExosuit,
-	    kTechId.ClawRailgunExosuit,
+	    kTechId.DualRailgunExosuit,
 	    "nextRow",
 	    
 	    // 5, grenades
@@ -109,6 +110,7 @@ function CombatMarineBuy_GetWeaponDescription(techId)
         combatWeaponDescription[kTechId.Shotgun] = "You get a Shotgun, but you need Weapons 1 first."
         combatWeaponDescription[kTechId.Flamethrower] = "You get a Flamethrower, but you need a Shotgun first."
         combatWeaponDescription[kTechId.GrenadeLauncher] = "You get a Grenade Launcher, but you need a Shotgun first."
+        combatWeaponDescription[kTechId.HeavyMachineGun] = "You get a Heavy Machine Gun, but you need a Shotgun first."
         
         combatWeaponDescription[kTechId.Weapons1] = "Weapons 1 tech Upgrade. Increases the damage of your weapons."
         combatWeaponDescription[kTechId.Weapons2] = "Weapons 2 tech Upgrade. Increases the damage of your weapons. You need Weapons 1 first."
@@ -122,7 +124,7 @@ function CombatMarineBuy_GetWeaponDescription(techId)
         combatWeaponDescription[kTechId.Jetpack] = "You get a Jetpack, but you need Armor 2 first."
         combatWeaponDescription[kTechId.Exosuit] = "Suit up! You will need Armor 2 first."
 		combatWeaponDescription[kTechId.DualMinigunExosuit] = "Dual Miniguns for the Exosuit."
-		combatWeaponDescription[kTechId.ClawRailgunExosuit] = "RailGun with a Claw for the Exosuit."
+		combatWeaponDescription[kTechId.DualRailgunExosuit] = "Dual Railguns for the Exosuit."
 		
 		combatWeaponDescription[kTechId.ClusterGrenade] = "You get 1 Cluster Grenade"
         combatWeaponDescription[kTechId.GasGrenade] = "You get 1 Gas Grenade"

@@ -96,7 +96,7 @@ local function GiveExoDualMinigun(player, techUpgrade)
 end
 
 local function GiveExoRailGun(player, techUpgrade)
-	local exoMarine = player:Replace(Exo.kMapName, player:GetTeamNumber(), false, player:GetOrigin(), { layout = "ClawRailgun" })
+	local exoMarine = player:Replace(Exo.kMapName, player:GetTeamNumber(), false, player:GetOrigin(), { layout = "RailgunRailgun" })
 	// powering up, dont let him move
 	exoMarine:BlockMove()
 	exoMarine:SetCameraDistance(4)
@@ -190,12 +190,14 @@ table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Jetpack,				"jp",		
 //table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Exosuit,				"exo",			    "Exosuit",			kTechId.Exosuit, 	       		GiveExo,        	kCombatUpgrades.Armor2, 	5, 		kCombatUpgradeTypes.Class,	true,			1/7,		{ kCombatUpgrades.Jetpack, kCombatUpgrades.DualMinigunExosuit } )) 
 if not kCombatCompMode then
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.DualMinigunExosuit,	"dualminigun",		"Dual Minigun Exo",	kTechId.DualMinigunExosuit, 	GiveExoDualMinigun, kCombatUpgrades.Armor2, 	5, 		kCombatUpgradeTypes.Class,  true,			1/14,		{ kCombatUpgrades.Exosuit, kCombatUpgrades.Jetpack, kCombatUpgrades.RailGunExosuit} ))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.RailGunExosuit,	    "railgun",		    "RailGun Exo",	    kTechId.ClawRailgunExosuit, 	GiveExoRailGun,      kCombatUpgrades.Armor2, 	4, 		kCombatUpgradeTypes.Class,  true,			1/14,		{ kCombatUpgrades.Exosuit, kCombatUpgrades.Jetpack, kCombatUpgrades.DualMinigunExosuit } ))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.RailGunExosuit,	    "railgun",		    "Dual Railgun Exo",	kTechId.DualRailgunExosuit, 	GiveExoRailGun,      kCombatUpgrades.Armor2, 	4, 		kCombatUpgradeTypes.Class,  true,			1/14,		{ kCombatUpgrades.Exosuit, kCombatUpgrades.Jetpack, kCombatUpgrades.DualMinigunExosuit } ))
 end
 
 // Weapons
 table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Welder,				"welder",			"Welder",			kTechId.Welder, 				GiveWelder, 		nil, 						1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.RailGunExosuit })) 
 table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Shotgun,				"sg",				"Shotgun",			kTechId.Shotgun, 				nil, 				kCombatUpgrades.Weapons1, 	1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.RailGunExosuit })) 
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.HeavyMachineGun,		"hmg",				"Machine Gun",		kTechId.HeavyMachineGun, 		nil, 				kCombatUpgrades.Shotgun, 	2, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.RailGunExosuit })) 
+
 if not kCombatCompMode then
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Mines,					"mines",			"Mines",			kTechId.LayMines, 				nil, 				nil, 						1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.RailGunExosuit }))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Flamethrower,			"flame",			"Flamethrower",		kTechId.Flamethrower, 			nil, 				kCombatUpgrades.Shotgun, 	1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.GrenadeLauncher }))

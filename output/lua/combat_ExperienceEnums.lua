@@ -9,7 +9,7 @@
 
 // List of all upgrades available.
 kCombatUpgrades = enum({// Marine upgrades
-						'Mines', 'Welder', 'Shotgun', 'Flamethrower', 'GrenadeLauncher', 
+						'Mines', 'Welder', 'Shotgun', 'Flamethrower', 'GrenadeLauncher', 'HeavyMachineGun', 
 						'Weapons1', 'Weapons2', 'Weapons3', 'Armor1', 'Armor2', 'Armor3', 
 						'MotionDetector', 'Scanner', 'Catalyst', 'Resupply', 'EMP',
 						'Jetpack', 'Exosuit', 'DualMinigunExosuit', 'FastReload',

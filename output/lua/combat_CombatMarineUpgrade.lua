@@ -45,6 +45,7 @@ function GetIsPrimaryWeapon(kMapName)
     if kMapName == Shotgun.kMapName or
         kMapName == Flamethrower.kMapName  or
         kMapName == GrenadeLauncher.kMapName or
+        kMapName == HeavyMachineGun.kMapName or
         kMapName == Rifle.kMapName then
         
         isPrimary = true

@@ -67,7 +67,7 @@ local function GetSmallIconPixelCoordinates(itemTechId)
         kCombatMarineTechIdToMaterialOffset[kTechId.Jetpack] = 40
         kCombatMarineTechIdToMaterialOffset[kTechId.Exosuit] = 76
         kCombatMarineTechIdToMaterialOffset[kTechId.DualMinigunExosuit] = 35
-        kCombatMarineTechIdToMaterialOffset[kTechId.ClawRailgunExosuit] = 76
+        kCombatMarineTechIdToMaterialOffset[kTechId.DualRailgunExosuit] = 76
         
         // weapons        
         kCombatMarineTechIdToMaterialOffset[kTechId.LayMines] = 80
@@ -76,6 +76,7 @@ local function GetSmallIconPixelCoordinates(itemTechId)
         kCombatMarineTechIdToMaterialOffset[kTechId.GrenadeLauncher] = 72
         kCombatMarineTechIdToMaterialOffset[kTechId.Flamethrower] = 42
 		kCombatMarineTechIdToMaterialOffset[kTechId.Mine] = 80
+		kCombatMarineTechIdToMaterialOffset[kTechId.HeavyMachineGun] = 23
         
         // tech        
         kCombatMarineTechIdToMaterialOffset[kTechId.Armor1] = 49
@@ -521,6 +522,7 @@ local function GetItemTechId(researchTechId)
         gResearchToWeaponIds = {}
         gResearchToWeaponIds[kTechId.ShotgunTech] = kTechId.Shotgun
         gResearchToWeaponIds[kTechId.GrenadeLauncherTech] = kTechId.GrenadeLauncher
+        gResearchToWeaponIds[kTechId.HeavyMachineGunTech] = kTechId.HeavyMachineGun
         gResearchToWeaponIds[kTechId.WelderTech] = kTechId.Welder
         gResearchToWeaponIds[kTechId.MinesTech] = kTechId.LayMines
         gResearchToWeaponIds[kTechId.FlamethrowerTech] = kTechId.Flamethrower
@@ -598,7 +600,7 @@ function combat_GUIMarineBuyMenu:_InitializeContent()
     self.itemName:SetFontName(combat_GUIMarineBuyMenu.kFont)
     self.itemName:SetFontIsBold(true)
     self.itemName:SetAnchor(GUIItem.Left, GUIItem.Top)
-    self.itemName:SetPosition(Vector((-combat_GUIMarineBuyMenu.kSmallIconSize.x/ 2) - 60, combat_GUIMarineBuyMenu.kIconTopOffset + (combat_GUIMarineBuyMenu.kSmallIconSize.y) * (smallIconRows + 1.5) - combat_GUIMarineBuyMenu.kSmallIconSize.y, 0))
+    self.itemName:SetPosition(Vector((-combat_GUIMarineBuyMenu.kSmallIconSize.x/ 2) + 80, combat_GUIMarineBuyMenu.kIconTopOffset + (combat_GUIMarineBuyMenu.kSmallIconSize.y) * (smallIconRows + 1.5) - combat_GUIMarineBuyMenu.kSmallIconSize.y, 0))
     self.itemName:SetTextAlignmentX(GUIItem.Align_Min)
     self.itemName:SetTextAlignmentY(GUIItem.Align_Min)
     self.itemName:SetColor(combat_GUIMarineBuyMenu.kTextColor)
