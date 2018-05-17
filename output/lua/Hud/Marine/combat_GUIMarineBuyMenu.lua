@@ -628,7 +628,7 @@ function combat_GUIMarineBuyMenu:_UpdateContent(deltaTime)
         techId = self.selectedItem
     end
     
-    if techId then
+    if techId and self.hoverUpgrade then
     
         local researched = self.player:GotRequirements(self.hoverUpgrade)                
         local itemCost = ConditionalValue(self.hoverUpgrade, self.hoverUpgrade:GetLevels(), 0)
