@@ -131,6 +131,14 @@ function CombatNS2Gamerules:JoinTeam_Hook(self, player, newTeamNumber, force)
 		oldPlayerWasSpectating = ownerClient ~= nil and ownerClient:GetSpectatingPlayer() ~= nil
 		
 	end
+    
+    if newTeamNumber ~= kSpectatorIndex and not self:GetCanJoinPlayingTeam(player) then
+        return false
+    end
+
+    if not force and not self:GetCanJoinTeamNumber(player, newTeamNumber) then
+        return false
+    end
 	
 	-- Join new team
 	if player and player:GetTeamNumber() ~= newTeamNumber or force then        
