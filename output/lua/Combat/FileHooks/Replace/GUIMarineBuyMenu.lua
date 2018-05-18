@@ -70,15 +70,16 @@ local function GetSmallIconPixelCoordinates(itemTechId)
         kCombatMarineTechIdToMaterialOffset[kTechId.Jetpack] = 40
         kCombatMarineTechIdToMaterialOffset[kTechId.Exosuit] = 76
         kCombatMarineTechIdToMaterialOffset[kTechId.DualMinigunExosuit] = 35
-        kCombatMarineTechIdToMaterialOffset[kTechId.ClawRailgunExosuit] = 76
+        kCombatMarineTechIdToMaterialOffset[kTechId.DualRailgunExosuit] = 97
         
         -- weapons
         kCombatMarineTechIdToMaterialOffset[kTechId.LayMines] = 80
         kCombatMarineTechIdToMaterialOffset[kTechId.Welder] = 34
         kCombatMarineTechIdToMaterialOffset[kTechId.Shotgun] = 48
-        kCombatMarineTechIdToMaterialOffset[kTechId.GrenadeLauncher] = 72
+        kCombatMarineTechIdToMaterialOffset[kTechId.GrenadeLauncher] = 98
         kCombatMarineTechIdToMaterialOffset[kTechId.Flamethrower] = 42
-		kCombatMarineTechIdToMaterialOffset[kTechId.Mine] = 80
+        kCombatMarineTechIdToMaterialOffset[kTechId.Mine] = 80
+        kCombatMarineTechIdToMaterialOffset[kTechId.HeavyMachineGun] = 96
         
         -- tech
         kCombatMarineTechIdToMaterialOffset[kTechId.Armor1] = 49
@@ -90,11 +91,11 @@ local function GetSmallIconPixelCoordinates(itemTechId)
         kCombatMarineTechIdToMaterialOffset[kTechId.MedPack] = 37
         kCombatMarineTechIdToMaterialOffset[kTechId.Scan] = 41
         kCombatMarineTechIdToMaterialOffset[kTechId.MACEMP] = 62
-		kCombatMarineTechIdToMaterialOffset[kTechId.CatPack] = 45
-		-- fast reload
-		kCombatMarineTechIdToMaterialOffset[kTechId.AdvancedWeaponry] = 71
-		
-		-- grenades
+        kCombatMarineTechIdToMaterialOffset[kTechId.CatPack] = 45
+        -- fast reload
+        kCombatMarineTechIdToMaterialOffset[kTechId.AdvancedWeaponry] = 71
+
+        -- grenades
         kCombatMarineTechIdToMaterialOffset[kTechId.ClusterGrenade] = 92
         kCombatMarineTechIdToMaterialOffset[kTechId.GasGrenade] = 93
         kCombatMarineTechIdToMaterialOffset[kTechId.PulseGrenade] = 94        
@@ -175,7 +176,7 @@ end
 function GUIMarineBuyMenu:OnClose()
 
     -- Check if GUIMarineBuyMenu is what is causing itself to close.
-	self.player.combatBuy = false
+    self.player.combatBuy = false
     if not self.closingMenu then
         -- Play the close sound since we didn't trigger the close.
         MarineBuy_OnClose()
@@ -203,7 +204,7 @@ function GUIMarineBuyMenu:Initialize()
     self:_InitializeResourceDisplay()
     self:_InitializeCloseButton()
     self:_InitializeEquipped()    
-	self:_InitializeRefundButton()
+    self:_InitializeRefundButton()
 
     -- note: items buttons get initialized through SetHostStructure()
     MarineBuy_OnOpen()
@@ -216,14 +217,14 @@ function GUIMarineBuyMenu:Update(deltaTime)
 
     GUIAnimatedScript.Update(self, deltaTime)
 
-	self.player = Client.GetLocalPlayer()
+    self.player = Client.GetLocalPlayer()
     self:_UpdateBackground(deltaTime)
     self:_UpdateEquipped(deltaTime)
     self:_UpdateItemButtons(deltaTime)
     self:_UpdateContent(deltaTime)
     self:_UpdateResourceDisplay(deltaTime)
     self:_UpdateCloseButton(deltaTime)
-	self:_UpdateRefundButton(deltaTime)
+    self:_UpdateRefundButton(deltaTime)
     
 end
 
@@ -236,7 +237,7 @@ function GUIMarineBuyMenu:Uninitialize()
     self:_UninitializeContent()
     self:_UninitializeResourceDisplay()
     self:_UninitializeCloseButton()
-	self:_UninitializeRefundButton()
+    self:_UninitializeRefundButton()
 
     MouseTracker_SetIsVisible(false)
 
@@ -339,13 +340,13 @@ end
 
 local function GetHardCapText(upgrade)
 
-	local player = Client.GetLocalPlayer()
+    local player = Client.GetLocalPlayer()
     local teamInfo = GetTeamInfoEntity(player:GetTeamNumber())
-	local playerCount = teamInfo:GetPlayerCount()
-	if (kCombatUpgradeCounts[upgrade:GetId()] == nil) then
-		kCombatUpgradeCounts[upgrade:GetId()] = 0
-	end
-	return kCombatUpgradeCounts[upgrade:GetId()] .. "/" .. math.ceil(upgrade:GetHardCapScale() * playerCount)
+    local playerCount = teamInfo:GetPlayerCount()
+    if (kCombatUpgradeCounts[upgrade:GetId()] == nil) then
+        kCombatUpgradeCounts[upgrade:GetId()] = 0
+    end
+    return kCombatUpgradeCounts[upgrade:GetId()] .. "/" .. math.ceil(upgrade:GetHardCapScale() * playerCount)
 
 end
 
@@ -444,20 +445,20 @@ function GUIMarineBuyMenu:_InitializeItemButtons()
                 itemCost:SetScale(fontScaleVector)
                 itemCost:SetColor(GUIMarineBuyMenu.kTextColor)
                 itemCost:SetText(ToString(upgrade:GetLevels()))
-				
-				if upgrade:GetHardCapScale() > 0 then
-					local hardCapCount = GUIManager:CreateTextItem()
-					hardCapCount:SetFontName(GUIMarineBuyMenu.kFont)
-					hardCapCount:SetFontIsBold(true)
-					hardCapCount:SetAnchor(GUIItem.Left, GUIItem.Top)
-					hardCapCount:SetPosition(Vector(GUIMarineBuyMenu.kSmallIconSize.x - GUIMarineBuyMenu.kHardCapOffsetX, GUIMarineBuyMenu.kHardCapOffsetY, 0))
-					hardCapCount:SetTextAlignmentX(GUIItem.Align_Max)
-					hardCapCount:SetTextAlignmentY(GUIItem.Align_Center)
-					hardCapCount:SetScale(fontScaleVector)
-					hardCapCount:SetColor(GUIMarineBuyMenu.kTextColor)
-					hardCapCount:SetText(GetHardCapText(upgrade))
-					graphicItem:AddChild(hardCapCount) 
-				end
+
+                if upgrade:GetHardCapScale() > 0 then
+                    local hardCapCount = GUIManager:CreateTextItem()
+                    hardCapCount:SetFontName(GUIMarineBuyMenu.kFont)
+                    hardCapCount:SetFontIsBold(true)
+                    hardCapCount:SetAnchor(GUIItem.Left, GUIItem.Top)
+                    hardCapCount:SetPosition(Vector(GUIMarineBuyMenu.kSmallIconSize.x - GUIMarineBuyMenu.kHardCapOffsetX, GUIMarineBuyMenu.kHardCapOffsetY, 0))
+                    hardCapCount:SetTextAlignmentX(GUIItem.Align_Max)
+                    hardCapCount:SetTextAlignmentY(GUIItem.Align_Center)
+                    hardCapCount:SetScale(fontScaleVector)
+                    hardCapCount:SetColor(GUIMarineBuyMenu.kTextColor)
+                    hardCapCount:SetText(GetHardCapText(upgrade))
+                    graphicItem:AddChild(hardCapCount)
+                end
                 
                 costIcon:AddChild(itemCost)  
                 
@@ -525,6 +526,7 @@ local function GetItemTechId(researchTechId)
         gResearchToWeaponIds = {}
         gResearchToWeaponIds[kTechId.ShotgunTech] = kTechId.Shotgun
         gResearchToWeaponIds[kTechId.GrenadeLauncherTech] = kTechId.GrenadeLauncher
+        gResearchToWeaponIds[kTechId.HeavyMachineGunTech] = kTechId.HeavyMachineGun
         gResearchToWeaponIds[kTechId.WelderTech] = kTechId.Welder
         gResearchToWeaponIds[kTechId.MinesTech] = kTechId.LayMines
         gResearchToWeaponIds[kTechId.FlamethrowerTech] = kTechId.Flamethrower
@@ -556,7 +558,7 @@ function GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
             -- set grey if player doesn'T have the needed other Up
             if not gotRequirements then
             
-				useColor = Color(1, 0, 0, 1)
+                useColor = Color(1, 0, 0, 1)
                
             -- set it blink when we got the upp already
             elseif  self.player:GotItemAlready(item.Upgrade) then
@@ -576,9 +578,9 @@ function GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
             item.Cost:SetColor(useColor)
             item.ResourceIcon:SetColor(useColor)
             item.Arrow:SetIsVisible(self.selectedItem == item.TechId)
-			if (item.HardCapCount) then
-				item.HardCapCount:SetText(GetHardCapText(item.Upgrade))
-			end
+            if (item.HardCapCount) then
+                item.HardCapCount:SetText(GetHardCapText(item.Upgrade))
+            end
             
         end
     end
@@ -594,7 +596,7 @@ function GUIMarineBuyMenu:_InitializeContent()
     self.itemName:SetFontName(GUIMarineBuyMenu.kFont)
     self.itemName:SetFontIsBold(true)
     self.itemName:SetAnchor(GUIItem.Left, GUIItem.Top)
-    self.itemName:SetPosition(Vector((-GUIMarineBuyMenu.kSmallIconSize.x/ 2) - 60, GUIMarineBuyMenu.kIconTopOffset + (GUIMarineBuyMenu.kSmallIconSize.y) * (smallIconRows + 1.5) - GUIMarineBuyMenu.kSmallIconSize.y, 0))
+    self.itemName:SetPosition(Vector((-GUIMarineBuyMenu.kSmallIconSize.x/ 2) + 80, GUIMarineBuyMenu.kIconTopOffset + (GUIMarineBuyMenu.kSmallIconSize.y) * (smallIconRows + 1.5) - GUIMarineBuyMenu.kSmallIconSize.y, 0))
     self.itemName:SetTextAlignmentX(GUIItem.Align_Min)
     self.itemName:SetTextAlignmentY(GUIItem.Align_Min)
     self.itemName:SetColor(GUIMarineBuyMenu.kTextColor)
@@ -624,7 +626,7 @@ function GUIMarineBuyMenu:_UpdateContent(deltaTime)
         techId = self.selectedItem
     end
     
-    if techId then
+    if techId and self.hoverUpgrade then
     
         local researched = self.player:GotRequirements(self.hoverUpgrade)                
         local itemCost = ConditionalValue(self.hoverUpgrade, self.hoverUpgrade:GetLevels(), 0)
@@ -768,7 +770,7 @@ function GUIMarineBuyMenu:_InitializeRefundButton()
     self.refundButtonText:SetFontName(GUIMarineBuyMenu.kFont)
     self.refundButtonText:SetTextAlignmentX(GUIItem.Align_Center)
     self.refundButtonText:SetTextAlignmentY(GUIItem.Align_Center)
-	self.refundButtonText:SetText(Combat_ResolveString("COMBAT_REFUND_MARINE"))
+    self.refundButtonText:SetText(Combat_ResolveString("COMBAT_REFUND_MARINE"))
     self.refundButtonText:SetFontIsBold(true)
     self.refundButtonText:SetColor(GUIMarineBuyMenu.kCloseButtonColor)
     self.refundButton:AddChild(self.refundButtonText)
@@ -779,11 +781,11 @@ function GUIMarineBuyMenu:_UpdateRefundButton(deltaTime)
     if self:_GetIsMouseOver(self.refundButton) then
         self.refundButton:SetColor(Color(1, 1, 1, 1))
         -- the discription text under the buttons
-		self.itemName:SetText(Combat_ResolveString("COMBAT_REFUND_TITLE_MARINE"))
+        self.itemName:SetText(Combat_ResolveString("COMBAT_REFUND_TITLE_MARINE"))
         self.itemDescription:SetText(Combat_ResolveString("COMBAT_REFUND_DESCRIPTION_MARINE"))
         self.itemDescription:SetTextClipped(true, GUIMarineBuyMenu.kItemDescriptionSize.x - 2* GUIMarineBuyMenu.kPadding, GUIMarineBuyMenu.kItemDescriptionSize.y - GUIMarineBuyMenu.kPadding)
-		self.itemName:SetIsVisible(true)
-		self.itemDescription:SetIsVisible(true)
+        self.itemName:SetIsVisible(true)
+        self.itemDescription:SetIsVisible(true)
     else
         self.refundButton:SetColor(Color(0.5, 0.5, 0.5, 1))
     end
@@ -793,7 +795,7 @@ end
 function GUIMarineBuyMenu:_ClickRefundButton()
 
     Shared.ConsoleCommand("co_refundall")
-	
+
 end
 
 function GUIMarineBuyMenu:_UninitializeRefundButton()
@@ -837,16 +839,16 @@ function GUIMarineBuyMenu:SendKeyEvent(key, down)
                     inputHandled = true
                     self:OnClose()
                 end
-				
-				-- Check if the close button was pressed.
-				if not closeMenu then
-					if self:_GetIsMouseOver(self.refundButton) then
-					self:_ClickRefundButton()
-					closeMenu = true
+
+                -- Check if the close button was pressed.
+                if not closeMenu then
+                    if self:_GetIsMouseOver(self.refundButton) then
+                    self:_ClickRefundButton()
+                    closeMenu = true
                     inputHandled = true
                     self:OnClose()
-					end
-				end
+                    end
+                end
             end
         end
         

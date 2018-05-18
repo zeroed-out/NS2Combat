@@ -31,39 +31,40 @@ function CombatMarineBuy_GUISortUps(upgradeList)
         -- 0, Support
         "nextRow",
         kTechId.MedPack,
-	    kTechId.CatPack,
+        kTechId.CatPack,
         kTechId.Scan,
         kTechId.LayMines,
+        kTechId.MACEMP,
+        kTechId.Welder,
         "nextRow",
 
         -- 1, Weapons
         kTechId.Shotgun,
         kTechId.GrenadeLauncher,
         kTechId.Flamethrower,
-        kTechId.MACEMP,
+        kTechId.HeavyMachineGun,
         "nextRow",
         
         -- 2, Weapon Upgrades
         kTechId.Weapons1,
         kTechId.Weapons2,
         kTechId.Weapons3,
-	    kTechId.AdvancedWeaponry,
+        kTechId.AdvancedWeaponry,
         "nextRow",
 
         -- 3, Armor Upgrades
         kTechId.Armor1,
         kTechId.Armor2,
         kTechId.Armor3,
-        kTechId.Welder,
         "nextRow",
-		
+
         -- 4, Class Upgrades
         kTechId.Jetpack,     
-	    kTechId.DualMinigunExosuit,
-	    kTechId.ClawRailgunExosuit,
-	    "nextRow",
-	    
-	    -- 5, grenades
+        kTechId.DualMinigunExosuit,
+        kTechId.DualRailgunExosuit,
+        "nextRow",
+
+        -- 5, grenades
         kTechId.ClusterGrenade,
         kTechId.GasGrenade,
         kTechId.PulseGrenade,
@@ -101,19 +102,21 @@ function CombatMarineBuy_GetWeaponDescription(techId)
         combatWeaponDescription[kTechId.Welder] = { "COMBAT_WELDER_DESCRIPTION" }
         combatWeaponDescription[kTechId.LayMines] = {"COMBAT_MINES_DESCRIPTION"}
         combatWeaponDescription[kTechId.MACEMP] =  {"COMBAT_EMP_DESCRIPTION", kEMPTimer}
-		combatWeaponDescription[kTechId.CatPack] =  {"COMBAT_CATALYST_DESCRIPTION", kCatalystTimer}
+        combatWeaponDescription[kTechId.CatPack] =  {"COMBAT_CATALYST_DESCRIPTION", kCatalystTimer}
 
         combatWeaponDescription[kTechId.Axe] = {"COMBAT_AXE_DESCRIPTION"}
         combatWeaponDescription[kTechId.Pistol] = {"COMBAT_PISTOL_DESCRIPTION"}
         combatWeaponDescription[kTechId.Rifle] = {"COMBAT_RIFLE_DESCRIPTION"}
         combatWeaponDescription[kTechId.Shotgun] = {"COMBAT_SHOTGUN_DESCRIPTION"}
         combatWeaponDescription[kTechId.Flamethrower] = {"COMBAT_FLAMETHROWER_DESCRIPTION"}
-        combatWeaponDescription[kTechId.GrenadeLauncher] = {"COMBAT_GRENADELAUNCHER_DESCRIPTION"}
+        combatWeaponDescription[kTechId.GrenadeLauncher] = {"COMBAT_GRENADELAUNCHER_DESCRIPTION" }
+        combatWeaponDescription[kTechId.HeavyMachineGun] = {"COMBAT_MACHINE_GUN_DESCRIPTION"}
+
 
         combatWeaponDescription[kTechId.Weapons1] = {"COMBAT_WEAPON1_DESCRIPTION"}
         combatWeaponDescription[kTechId.Weapons2] = {"COMBAT_WEAPON2_DESCRIPTION"}
         combatWeaponDescription[kTechId.Weapons3] = {"COMBAT_WEAPON3_DESCRIPTION"}
-		combatWeaponDescription[kTechId.AdvancedWeaponry] = {"COMBAT_RELOAD_DESCRIPTION"}
+        combatWeaponDescription[kTechId.AdvancedWeaponry] = {"COMBAT_RELOAD_DESCRIPTION"}
 
         combatWeaponDescription[kTechId.Armor1] = {"COMBAT_ARMOR1_DESCRIPTION"}
         combatWeaponDescription[kTechId.Armor2] = {"COMBAT_ARMOR2_DESCRIPTION"}
@@ -121,10 +124,11 @@ function CombatMarineBuy_GetWeaponDescription(techId)
 
         combatWeaponDescription[kTechId.Jetpack] = {"COMBAT_JETPACK_DESCRIPTION"}
         combatWeaponDescription[kTechId.Exosuit] = {"COMBAT_EXOSUIT_DESCRIPTION"}
-		combatWeaponDescription[kTechId.DualMinigunExosuit] = {"COMBAT_EXOSUIT_DUALMINIGUN_DESCRIPTION"}
-		combatWeaponDescription[kTechId.ClawRailgunExosuit] = {"COMBAT_EXOSUIT_RAILGUN_DESCRIPTION"}
+        combatWeaponDescription[kTechId.DualMinigunExosuit] = {"COMBAT_EXOSUIT_DUALMINIGUN_DESCRIPTION"}
+        combatWeaponDescription[kTechId.ClawRailgunExosuit] = {"COMBAT_EXOSUIT_RAILGUN_DESCRIPTION"}
+        combatWeaponDescription[kTechId.DualRailgunExosuit] = {"COMBAT_EXOSUIT_DUALRAILGUN_DESCRIPTION"}
 
-		combatWeaponDescription[kTechId.ClusterGrenade] = {"COMBAT_CLUSTERGRENADE_DESCRIPTION"}
+        combatWeaponDescription[kTechId.ClusterGrenade] = {"COMBAT_CLUSTERGRENADE_DESCRIPTION"}
         combatWeaponDescription[kTechId.GasGrenade] = {"COMBAT_GASGRENADE_DESCRIPTION"}
         combatWeaponDescription[kTechId.PulseGrenade] = {"COMBAT_PULSEGRENADE_DESCRIPTION"}
     
