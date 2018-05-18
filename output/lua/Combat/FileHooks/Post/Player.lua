@@ -54,8 +54,6 @@ end
 
 -- check focus upgrade and weapon
 function Player:GotFocus()
-
-    local gotFocus = false
     
     if Server then
 		self:CheckCombatData()

@@ -1,10 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
 -- Display a COMBAT MODE instead of commander name...
 local oldUpdate = GUIMarineHUD.Update
 function GUIMarineHUD:Update(deltaTime)

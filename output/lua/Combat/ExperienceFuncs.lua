@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_ExperienceFuncs.lua
-
 Script.Load("lua/Combat/CombatUpgrade.lua")
 Script.Load("lua/Combat/CombatAlienUpgrade.lua")
 Script.Load("lua/Combat/CombatMarineUpgrade.lua")

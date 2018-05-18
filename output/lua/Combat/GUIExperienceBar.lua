@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- GUIExperienceBar.lua
-
 class 'GUIExperienceBar' (GUIScript)
 
 GUIExperienceBar.kMarineBarTextureName = PrecacheAsset("ui/combat_xpbar_marine.dds")

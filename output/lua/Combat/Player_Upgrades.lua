@@ -1,16 +1,8 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_Player_Upgrades.lua
-
---___________________
--- New functions,
--- not hooked
---___________________
+-- All new player and ultitily methods used for combats upgrade system
+-- Basically we create a copy of the teams techtree for each player and update it as needed
+-- Todo: We should just use the vanilla techtrees as lookup tables for the tech dependencies and
+-- store each players upgrades in a simple data structure like a bitmask or an array. That way we could avoid alot of
+-- currently needed networking and the expensive lookup methods.
 
 function GetIsPrimaryWeapon(kMapName)
     local isPrimary = false

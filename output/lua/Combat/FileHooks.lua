@@ -1,3 +1,5 @@
+-- Block any popular mod that's not compatible with us
+-- Todo: Maybe this should be part of the entry system?
 do
 	local blacklist = {
 		"NS2Plus",
@@ -35,6 +37,8 @@ end
 
 kCombatVersion = 5.21
 
+-- Setup Filehooks based on the folder structure inside the FileHooks folder
+-- Warning: Paths are case sensitive at Linux
 local function SetupFilehookFolder(folderPath, modPath, hookType)
 	local files = {}
 	local path = string.format("%s*.lua", folderPath)

@@ -1,13 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_PointGiverMixin.lua
-
-
 -- Could not be hooked cause no Class is created anymore, but with this it's just getting replaced
 
 function PointGiverMixin:OnKill(attacker, doer, point, direction)

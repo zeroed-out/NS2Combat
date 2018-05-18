@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_WeldableMixin.lua
-
 Script.Load("lua/Utility.lua")
 
 local function setDecimalPlaces(num, idp)

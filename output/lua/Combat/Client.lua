@@ -1,5 +1,6 @@
 Script.Load("lua/Combat/Locale.lua")
 
+-- Setup additional GUI scripts
 do
     AddClientUIScriptForTeam(kTeam1Index, "Combat/GUIExperienceBar")
     AddClientUIScriptForTeam(kTeam1Index, "Combat/GUIGameTimeCountDown")

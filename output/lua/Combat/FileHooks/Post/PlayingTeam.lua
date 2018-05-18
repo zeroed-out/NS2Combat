@@ -1,16 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_PlayingTeam.lua
-
---___________________
--- Hooks Playing Team
---___________________
-
 function PlayingTeam:GetHasTeamLost()
     -- Don't bother with the original - we just set our own logic here.
 	-- You can lose with cheats on (testing purposes)

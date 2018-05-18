@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_TechTree.lua
-
 -- Todo: Refactor/Fix this mess ~Ghoul
 -- Provide a deep copy function for the tech tree.
 function TechTree:CopyDataFrom(techTree)

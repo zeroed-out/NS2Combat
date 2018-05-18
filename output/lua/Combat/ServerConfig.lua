@@ -1,3 +1,6 @@
+-- Provide as server config for the most basic gamemode parameters
+-- Todo: Add a console command to change values on the fly or to reload the config
+
 local default = {
     ModCompMode = false,
     ModDefaultWinner = 2,

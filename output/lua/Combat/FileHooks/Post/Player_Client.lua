@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_Player_ClientHook.lua
-
 Script.Load("lua/Combat/Player_Upgrades_Client.lua")
 
 local oldOnInitLocalClient = Player.OnInitLocalClient

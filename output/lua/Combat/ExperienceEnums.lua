@@ -1,10 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
 -- List of all upgrades available.
 kCombatUpgrades = enum({-- Marine upgrades
 						'Mines', 'Welder', 'Shotgun', 'Flamethrower', 'GrenadeLauncher', 'HeavyMachineGun', 

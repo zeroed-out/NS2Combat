@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_ConsoleCommands_Client.lua
-
 -- Console commands only for the client (so the server can send the ups to the client)
 
 local function OnCommandSetUpgrades(upgradeId)

@@ -43,7 +43,7 @@ kResupplyTimer = 6
 AmmoPack.kNumClips = 1
 kCatalystTimer = 14
 
--- scan Duration, maybe we need to tune it a bit
+-- Scan Duration, maybe we need to tune it a bit
 kScanDuration = 7
 
 -- Make these less "spammy"

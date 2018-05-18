@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_StaticTargetMixin.lua
-
 local function setDecimalPlaces(num, idp)
     local mult = 10^(idp or 0)
     if num >= 0 then return math.floor(num * mult) / mult

@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_Embryo.lua
-
 local oldSetGestationData = Embryo.SetGestationData
 function Embryo:SetGestationData(techIds, previousTechId, ...)
 

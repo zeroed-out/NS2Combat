@@ -1,11 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
-
 -- Sounds for both client and server
 CombatEffects = {}
 CombatEffects.kMarineLvlUpSound = PrecacheAsset("sound/combat.fev/combat/upgrades/marine_lvl_up")

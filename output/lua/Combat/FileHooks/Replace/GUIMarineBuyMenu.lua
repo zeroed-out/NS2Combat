@@ -1,12 +1,4 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- GUIMarineBuyMenu.lua
-
+-- Combat's marines buy menu
 Script.Load("lua/GUIAnimatedScript.lua")
 
 Script.Load("lua/Combat/MarineBuyFuncs.lua")

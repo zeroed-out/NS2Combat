@@ -1,14 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- Sound Precache here
-
--- helper functions for the buy Menu
-
 -- Todo: Overide ScoringMixin?
 function Player:GetScore()
 

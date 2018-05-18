@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_GUIPlayerResources.lua
-
 -- Hide the TEAM RES
 local oldUpdate = GUIPlayerResource.Update
 function GUIPlayerResource:Update(...)

@@ -1,12 +1,5 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_ExperienceData.lua
-
+-- Sets up the combat tech data
+-- Todo: Make some of it configable for server ops
 Script.Load("lua/TechTreeConstants.lua")
 Script.Load("lua/Combat/ExperienceLevels.lua")
 Script.Load("lua/Combat/ExperienceEnums.lua")

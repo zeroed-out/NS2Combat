@@ -1,17 +1,8 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_ExperienceLevels.lua
-
 -- XP-List
 --Table for
 --    LVL,  needed XP to reach, RineName, AlienName, givenXP to killer
 
--- Todo: Make it possible to set up the levels via the config
+-- Todo: Make it possible to set up the levels via a config
 XpList = {}
 XpList[1] = { Level=1, 		XP=0,		MarineName="Private", 				AlienName="Hatchling", 		GivenXP=60}
 XpList[2] = { Level=2, 		XP=100, 	MarineName="Private First Class", 	AlienName="Xenoform", 		GivenXP=70}

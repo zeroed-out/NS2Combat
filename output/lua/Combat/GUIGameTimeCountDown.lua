@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- GUIGameTimeCountDown.lua
-
 class 'GUIGameTimeCountDown' (GUIAnimatedScript)
 
 GUIGameTimeCountDown.kBackgroundTexture = "ui/combat_count_down_bg.dds"

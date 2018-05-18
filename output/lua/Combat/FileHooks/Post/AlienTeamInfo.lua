@@ -1,12 +1,4 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_AlienTeamInfo.lua
-
+-- Unlock all upgrade chamber
 function AlienTeamInfo:OnUpdate()
 
     self.veilLevel = 3

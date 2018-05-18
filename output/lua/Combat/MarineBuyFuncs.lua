@@ -1,11 +1,4 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-      
--- helper Functions for the List, text etc
+-- Helper functions for the marine buy menu
 
 -- headlines for the Buymenu
 function CombatMarineBuy_GetHeadlines()

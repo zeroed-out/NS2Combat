@@ -1,10 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
 function Alien:UpdateArmorAmount(carapaceLevel)
 
     local level = GetHasCarapaceUpgrade(self) and carapaceLevel or 0

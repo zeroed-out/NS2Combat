@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_Weapon.lua
-
 -- Todo: Add OnAttack to Vanilla build 323
 local oldOnAttack = Weapon.OnAttack
 function Weapon:OnAttack(player)

@@ -1,10 +1,4 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
+-- Override the vanilla localization system with our own (using lua files instead of txt)
 do
 	local gamestringsFiles = {}
 

@@ -1,12 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_StructureAbility.lua
-
 function StructureAbility:IsAllowed(player)
 
 	local dropStructureId = self:GetDropStructureId()

@@ -1,11 +1,3 @@
---________________________________
---
---   	NS2 Combat Mod
---	Made by JimWest and MCMLXXXIV, 2012
---
---________________________________
-
--- combat_GUIAlienBuyMenu.lua
 Script.Load("lua/GUIAssets.lua")
 
 -- Todo: Refactor GUIAlienBuyMenu to make it easier to modify without having to copy all those local methods
