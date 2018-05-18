@@ -1,3 +1,6 @@
+-- Only load these changes inside the Srever VM
+if not Server then return end
+
 Script.Load("lua/Utility.lua")
 
 local function setDecimalPlaces(num, idp)
