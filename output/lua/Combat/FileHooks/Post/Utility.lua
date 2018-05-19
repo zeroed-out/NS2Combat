@@ -1,4 +1,4 @@
--- combat_Utility.lua
+-- Utility.lua
 
 -- Used to send messages to all players.
 function SendGlobalChatMessage(message)
@@ -88,8 +88,10 @@ end
 function GetHasTimelimitPassed()
 	if Server then
 		return GetGamerules():GetHasTimelimitPassed()
-	else
+	elseif Client then
 		return PlayerUI_GetHasTimelimitPassed()
+	else
+		return false --Predict
 	end
 end
 

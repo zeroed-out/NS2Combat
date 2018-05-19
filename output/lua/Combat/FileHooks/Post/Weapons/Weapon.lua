@@ -1,3 +1,6 @@
+-- Server only
+if not Server then return end
+
 -- Todo: Add OnAttack to Vanilla build 323
 local oldOnAttack = Weapon.OnAttack
 function Weapon:OnAttack(player)

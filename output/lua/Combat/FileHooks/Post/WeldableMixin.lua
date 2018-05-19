@@ -1,4 +1,4 @@
--- Only load these changes inside the Srever VM
+-- Only load these changes inside the Server VM
 if not Server then return end
 
 Script.Load("lua/Utility.lua")
