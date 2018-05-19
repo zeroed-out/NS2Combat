@@ -52,32 +52,6 @@ function Player:GotFastReload()
 
 end
 
--- check focus upgrade and weapon
-function Player:GotFocus()
-    
-    if Server then
-		self:CheckCombatData()
-        if self.combatTable.hasFocus then
-            -- check the weapon
-            return self:GetIsUsingPrimaryWeapon()
-        end  
-        
-    elseif Client then
-        local upgrades = self:GetPlayerUpgrades()
-        
-        if #upgrades > 0 then
-            for i, upgradeTechId in ipairs(upgrades) do
-                if upgradeTechId == kTechId.NutrientMist then
-                    return self:GetIsUsingPrimaryWeapon()
-                end
-            end
-        end
-        
-    end
-    
-    return false
-end
-
 function Player:GetIsUsingPrimaryWeapon()
     local activeWeapon = self:GetActiveWeapon()
     if activeWeapon then

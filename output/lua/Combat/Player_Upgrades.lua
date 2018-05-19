@@ -456,9 +456,8 @@ function Player:Reset_Lite()
 	self.combatTable.hasInk = false
 	self.combatTable.lastInk = 0
 	
-	-- for fastreload and focus
+	-- for fastreload
 	self.combatTable.hasFastReload = false
-	self.combatTable.hasFocus = false
 	
 	-- delete everything from the spawnProtect system
 	self.gotSpawnProtect = nil

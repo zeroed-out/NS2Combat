@@ -1,33 +1,40 @@
 Script.Load("lua/GUIAssets.lua")
 
 -- Todo: Refactor GUIAlienBuyMenu to make it easier to modify without having to copy all those local methods
-local kLargeFont = Fonts.kAgencyFB_Large
 local kFont = Fonts.kAgencyFB_Small
-local cannotSelectSound = "sound/NS2.fev/alien/common/vision_off"
 
-GUIAlienBuyMenu.kMaxNumberOfUpgradeButtons = 10
 GUIAlienBuyMenu.kUpgradeButtonDistance = GUIScale(kCombatAlienBuyMenuUpgradeButtonDistance)
-GUIAlienBuyMenu.kBuyHUDTexture = "ui/combat_alien_buildmenu.dds"
 GUIAlienBuyMenu.kRefundButtonWidth = GUIScale(80)
 GUIAlienBuyMenu.kRefundButtonHeight = GUIScale(80)
 GUIAlienBuyMenu.kRefundButtonYOffset = GUIScale(20)
 GUIAlienBuyMenu.kRefundButtonTextSize = GUIScale(22)
 GUIAlienBuyMenu.kRefundButtonTextureCoordinates = { 396, 428, 706, 511 }
 
-local function CreateSlot(self, category)
+-- Create a 'refund' button
+local function InitializeRefundButton(self)
 
-    local graphic = GUIManager:CreateGraphicItem()
-    graphic:SetSize(Vector(GUIAlienBuyMenu.kSlotSize, GUIAlienBuyMenu.kSlotSize, 0))
-    graphic:SetTexture(GUIAlienBuyMenu.kSlotTexture)
-    graphic:SetLayer(kGUILayerPlayerHUDForeground3)
-    graphic:SetAnchor(GUIItem.Middle, GUIItem.Center)
-    self.background:AddChild(graphic)
-    
-    table.insert(self.slots, { Graphic = graphic, Category = category } )
+    self.refundButtonBackground = GUIManager:CreateGraphicItem()
+    self.refundButtonBackground:SetAnchor(GUIItem.Right, GUIItem.Bottom)
+    self.refundButtonBackground:SetSize(Vector(GUIAlienBuyMenu.kRefundButtonWidth, GUIAlienBuyMenu.kRefundButtonHeight, 0))
+    self.refundButtonBackground:SetPosition(Vector(-GUIAlienBuyMenu.kRefundButtonWidth / 2, GUIAlienBuyMenu.kRefundButtonHeight / 2 + GUIAlienBuyMenu.kRefundButtonYOffset, 0))
+    self.refundButtonBackground:SetTexture(GUIAlienBuyMenu.kBuyMenuTexture)
+    self.refundButtonBackground:SetTexturePixelCoordinates(GUIUnpackCoords(GUIAlienBuyMenu.kRefundButtonTextureCoordinates))
+    self.background:AddChild(self.refundButtonBackground)
 
+    self.refundButtonText = GUIManager:CreateTextItem()
+    self.refundButtonText:SetAnchor(GUIItem.Middle, GUIItem.Center)
+    self.refundButtonText:SetFontName(kFont)
+    self.refundButtonText:SetTextAlignmentX(GUIItem.Align_Center)
+    self.refundButtonText:SetTextAlignmentY(GUIItem.Align_Center)
+    self.refundButtonText:SetText(Combat_ResolveString("COMBAT_REFUND_ALIEN"))
+    self.refundButtonText:SetColor(Color(242, 214, 42, 1))
+    self.refundButtonText:SetPosition(Vector(0, 0, 0))
+    self.refundButtonBackground:AddChild(self.refundButtonText)
 
 end
 
+local old_InitializeSlots = GUIAlienBuyMenu._InitializeSlots
+local CreateSlot
 function GUIAlienBuyMenu:_InitializeSlots()
 
     -- For the first version of this, just make a slot for each upgrade.
@@ -43,7 +50,7 @@ function GUIAlienBuyMenu:_InitializeSlots()
     
     for i = 1, #self.slots do
     
-        local angle = (i-1) * anglePerSlot + math.pi * 0.1
+        local angle = (i-1) * anglePerSlot + math.pi * 0.2
         local distance = GUIAlienBuyMenu.kSlotDistance
         
         self.slots[i].Graphic:SetPosition( Vector( math.cos(angle) * distance - GUIAlienBuyMenu.kSlotSize * .5, math.sin(angle) * distance - GUIAlienBuyMenu.kSlotSize * .5, 0) )
@@ -51,112 +58,20 @@ function GUIAlienBuyMenu:_InitializeSlots()
     
     end
 
-end
-
--- Create a 'refund' button
-local function InitializeRefundButton(self)
-
-    self.refundButtonBackground = GUIManager:CreateGraphicItem()
-    self.refundButtonBackground:SetAnchor(GUIItem.Right, GUIItem.Bottom)
-    self.refundButtonBackground:SetSize(Vector(GUIAlienBuyMenu.kRefundButtonWidth, GUIAlienBuyMenu.kRefundButtonHeight, 0))
-    self.refundButtonBackground:SetPosition(Vector(-GUIAlienBuyMenu.kRefundButtonWidth / 2, GUIAlienBuyMenu.kRefundButtonHeight / 2 + GUIAlienBuyMenu.kRefundButtonYOffset, 0))
-    self.refundButtonBackground:SetTexture(GUIAlienBuyMenu.kBuyMenuTexture)
-    self.refundButtonBackground:SetTexturePixelCoordinates(GUIUnpackCoords(GUIAlienBuyMenu.kRefundButtonTextureCoordinates))
-    self.background:AddChild(self.refundButtonBackground)
-    
-    self.refundButtonText = GUIManager:CreateTextItem()
-    self.refundButtonText:SetAnchor(GUIItem.Middle, GUIItem.Center)
-    self.refundButtonText:SetFontName(kFont)
-    self.refundButtonText:SetTextAlignmentX(GUIItem.Align_Center)
-    self.refundButtonText:SetTextAlignmentY(GUIItem.Align_Center)
-    self.refundButtonText:SetText(Combat_ResolveString("COMBAT_REFUND_ALIEN"))
-    self.refundButtonText:SetColor(Color(242, 214, 42, 1))
-    self.refundButtonText:SetPosition(Vector(0, 0, 0))
-    self.refundButtonBackground:AddChild(self.refundButtonText)
-
-end
-
-function GUIAlienBuyMenu:_InitializeUpgradeButtons()
-
-    -- There are purchased and unpurchased buttons. Both are managed in this list.
-    self.upgradeButtons = { }
-    
-    local upgrades = AlienUI_GetPersonalUpgrades()
-    
-    for i = 1, #self.slots do
-    
-        local upgrades = AlienUI_GetUpgradesForCategory(self.slots[i].Category)
-        local offsetAngle = self.slots[i].Angle
-        local anglePerUpgrade = math.pi * 0.25 / 3
-        anglePerUpgrade = anglePerUpgrade * 0.1
-        local category = self.slots[i].Category
-        
-        for upgradeIndex = 1, #upgrades do
-        
-            local angle = offsetAngle + anglePerUpgrade * (upgradeIndex-1) - anglePerUpgrade
-            local techId = upgrades[upgradeIndex]
-            
-            -- Every upgrade has an icon.
-            local buttonIcon = GUIManager:CreateGraphicItem()
-            buttonIcon:SetAnchor(GUIItem.Middle, GUIItem.Center)
-            buttonIcon:SetSize(Vector(GUIAlienBuyMenu.kUpgradeButtonSize, GUIAlienBuyMenu.kUpgradeButtonSize, 0))
-            buttonIcon:SetPosition(Vector(-GUIAlienBuyMenu.kUpgradeButtonSize / 2, GUIAlienBuyMenu.kUpgradeButtonSize, 0))
-            buttonIcon:SetTexture(GUIAlienBuyMenu.kBuyHUDTexture)
-            
-            -- hackish but just wanted that combat work again
-            -- handle tier2 and tier3
-            local iconX
-            local iconY
-
-            local index
-            local columns = 12
-            
-            if techId == kTechId.TwoHives then
-                index = 95 
-            elseif techId == kTechId.ThreeHives then
-                index = 77
-            elseif techId == kTechId.Vampirism then
-                index = 66
-            else 
-                iconX, iconY = GetMaterialXYOffset(techId, false)
-            end
-            
-            if index then
-                iconX = index % columns
-                iconY = math.floor(index / columns)  
-            end
-            
-            if iconX and iconY then
-                iconX = iconX * GUIAlienBuyMenu.kUpgradeButtonTextureSize
-                iconY = iconY * GUIAlienBuyMenu.kUpgradeButtonTextureSize        
-                buttonIcon:SetTexturePixelCoordinates(iconX, iconY, iconX + GUIAlienBuyMenu.kUpgradeButtonTextureSize, iconY + GUIAlienBuyMenu.kUpgradeButtonTextureSize)            
-            end
-            
-            -- Render above the Alien image.
-            buttonIcon:SetLayer(kGUILayerPlayerHUDForeground3)
-            self.background:AddChild(buttonIcon)
-
-            local unselectedPosition = Vector( math.cos(angle) * GUIAlienBuyMenu.kUpgradeButtonDistance - GUIAlienBuyMenu.kUpgradeButtonSize * .5, math.sin(angle) * GUIAlienBuyMenu.kUpgradeButtonDistance - GUIAlienBuyMenu.kUpgradeButtonSize * .5, 0 )
-            
-            buttonIcon:SetPosition(unselectedPosition)
-            
-            local purchased = AlienBuy_GetUpgradePurchased(techId)
-            if purchased then
-                table.insertunique(self.upgradeList, techId)
-            end
-
-            table.insert(self.upgradeButtons, { Background = nil, Icon = buttonIcon, TechId = techId, Category = techId,
-                                                Selected = purchased, SelectedMovePercent = 0, Cost = GetUpgradeFromTechId(techId):GetLevels(), Purchased = purchased, Index = nil, 
-                                                UnselectedPosition = unselectedPosition, SelectedPosition = self.slots[i].Graphic:GetPosition()  })
-        
-        
-        end
-    
-    end
 
     -- Create the refund button too.
     InitializeRefundButton(self)
+end
+debug.joinupvalues(GUIAlienBuyMenu._InitializeSlots, old_InitializeSlots) -- Todo: Make CreateSlot a class method
 
+local old_InitializeUpgradeButtons = GUIAlienBuyMenu._InitializeUpgradeButtons
+function GUIAlienBuyMenu:_InitializeUpgradeButtons()
+    old_InitializeUpgradeButtons(self)
+
+    -- set up costs of each upgrade
+    for _, button in ipairs(self.upgradeButtons) do
+        button.Cost = GetUpgradeFromTechId(button.TechId):GetLevels()
+    end
 end
 
 local function GetSelectedUpgradesCost(self)
@@ -165,15 +80,16 @@ local function GetSelectedUpgradesCost(self)
     local purchasedTech = GetPurchasedTechIds()
 
     -- Only count upgrades that we've selected and don't already own.
-    for i, currentButton in ipairs(self.upgradeButtons) do
+    for _, currentButton in ipairs(self.upgradeButtons) do
     
         if currentButton.Selected then
 
             local isPurchased = false
 
-            for j, purchasedTechId in ipairs(purchasedTech) do
+            for _, purchasedTechId in ipairs(purchasedTech) do
                 if currentButton.TechId == purchasedTechId then
                     isPurchased = true
+                    break
                 end
             end
 
@@ -193,7 +109,7 @@ end
 local function GetNumberOfSelectedUpgrades(self)
 
     local numSelected = 0
-    for i, currentButton in ipairs(self.upgradeButtons) do
+    for _, currentButton in ipairs(self.upgradeButtons) do
     
         if currentButton.Selected and not currentButton.Purchased then
             numSelected = numSelected + 1
@@ -323,7 +239,7 @@ function GUIAlienBuyMenu:Update(deltaTime)
     UpdateEvolveButton(self)
 
     -- Hide all the slots.
-    for i, slot in ipairs(self.slots) do
+    for _, slot in ipairs(self.slots) do
         slot.Graphic:SetIsVisible(false)
     end
 
@@ -331,7 +247,7 @@ function GUIAlienBuyMenu:Update(deltaTime)
 
     -- Override the colours per our schema.
     -- Always show, unless we can't afford the upgrade or it is not allowed.
-    for i, currentButton in ipairs(self.upgradeButtons) do
+    for _, currentButton in ipairs(self.upgradeButtons) do
         local useColor = kDefaultColor
 
         if currentButton.Purchased then
@@ -350,11 +266,8 @@ function GUIAlienBuyMenu:Update(deltaTime)
        
            local currentUpgradeInfoText = GetDisplayNameForTechId(currentButton.TechId)
            local tooltipText = GetTooltipInfoText(currentButton.TechId)
-           
-           if string.len(tooltipText) > 0 then
-               currentUpgradeInfoText = currentUpgradeInfoText .. "\n" .. tooltipText
-           end
-           self:_ShowMouseOverInfo(currentUpgradeInfoText, ToString(currentButton.Cost))
+
+           self:_ShowMouseOverInfo(currentUpgradeInfoText, tooltipText, currentButton.Cost)
            
        end
     end
@@ -518,9 +431,9 @@ function GUIAlienBuyMenu:_HandleUpgradeClicked()
                     AlienBuy_OnUpgradeSelected()
                 else
                     -- Deselect the tier 3 upgrade if the tier 2 get deselected
-                    if currentButton.TechId == kTechId.TwoHives then
+                    if currentButton.TechId == kTechId.BioMassTwo then
                         for _, button in ipairs(self.upgradeButtons) do
-                            if button.TechId == kTechId.ThreeHives and button.Selected then
+                            if button.TechId == kTechId.BioMassThree and button.Selected then
                                 ToggleButton(self, button)
                                 break
                             end

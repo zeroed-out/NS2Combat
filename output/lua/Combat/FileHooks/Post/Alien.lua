@@ -44,22 +44,6 @@ function Alien:UpdateHealthAmount()
 
 end
 
-local oldOnUpdateAnimationInput = Alien.OnUpdateAnimationInput
-function Alien:OnUpdateAnimationInput(modelMixin)
-
-	oldOnUpdateAnimationInput(self, modelMixin)
-  
-	if (Server and self.combatTable) or not Server then
-		if self:GotFocus() then
-			modelMixin:SetAnimationInput("attack_speed", kCombatFocusAttackSpeed)        
-		else
-			-- standard attack speed is 1, but the variable is local so we cant use it
-			modelMixin:SetAnimationInput("attack_speed", self:GetIsEnzymed() and kEnzymeAttackSpeed or 1.0)
-		end
-	end
-    
-end
-
 -- no hook, replace it
 function GetHasCamouflageUpgrade(callingEntity)
     if Server then
