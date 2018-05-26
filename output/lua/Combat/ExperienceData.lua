@@ -43,9 +43,6 @@ XpValues["PowerPoint"] = 0
 XpValues["Extractor"] = 0
 XpValues["Hive"] = 400
 
--- xp  for welding, healing
-kCombatHealingXP = 5
-
 local function UpgradeArmor(player, techUpgrade)
 	techUpgrade:ExecuteTechUpgrade(player)
 	player:UpdateArmorAmount()
