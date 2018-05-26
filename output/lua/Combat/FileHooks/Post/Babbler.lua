@@ -47,5 +47,7 @@ function Babbler:OnKill(attacker)
         end
     end
 
-    originalOnKill(self)    
+    if originalOnKill then 
+        originalOnKill(self) 
+    end
 end

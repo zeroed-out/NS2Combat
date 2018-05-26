@@ -1,6 +1,10 @@
 
 function PointGiverMixin:OnKill(attacker, doer, point, direction)
 
+    if not Server then 
+        return 
+    end
+    
     -- Give XP to killer.
     local pointOwner = attacker
     
