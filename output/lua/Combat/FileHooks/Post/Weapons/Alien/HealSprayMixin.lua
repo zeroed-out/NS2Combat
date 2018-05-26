@@ -39,7 +39,7 @@ local function HealEntity(self, player, targetEntity)
     local amountHealed = targetEntity:AddHealth(health, true, false, true, player)
     
     -- Do not count amount self healed.
-    if targetEntity ~= player then
+    if Server and targetEntity ~= player then
 	
 		--
 		-- Addition for Combat Mode to give XP for healing.
