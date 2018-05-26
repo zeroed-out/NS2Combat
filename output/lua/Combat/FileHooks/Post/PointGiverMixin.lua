@@ -1,4 +1,3 @@
--- Could not be hooked cause no Class is created anymore, but with this it's just getting replaced
 
 function PointGiverMixin:OnKill(attacker, doer, point, direction)
 
@@ -21,6 +20,19 @@ function PointGiverMixin:OnKill(attacker, doer, point, direction)
 				pointOwner:GiveXpMatesNearby(XpValue)
 			end			
         end
-    end    
+    else
+    
+        local playersInRange = GetEntitiesForTeamWithinRange("Player", GetEnemyTeamNumber(self:GetTeamNumber()), self:GetOrigin(), mateXpRange)
+        
+        local XpValue = GetXpValue(self) * mateXpAmount
+        
+        -- Only give Xp to players who are alive!
+        for _, player in ipairs(playersInRange) do
+            if self ~= player and player:GetIsAlive() then
+                player:AddXp(XpValue)
+            end
+        end
+
+    end
 
 end
