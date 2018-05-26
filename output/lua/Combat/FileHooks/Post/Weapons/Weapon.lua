@@ -31,5 +31,10 @@ local oldOnPrimaryAttackEnd = Weapon.OnPrimaryAttackEnd
 function Weapon:OnPrimaryAttackEnd(player)
 	oldOnPrimaryAttackEnd(self, player)
 
-	if not oldOnAttack then self:OnAttack(player) end
+	if not oldOnAttack then 
+        local player = self:GetParent()
+        if player then
+            self:OnAttack(player) 
+        end
+    end
 end
