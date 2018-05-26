@@ -25,3 +25,11 @@ function Weapon:OnSecondaryAttack(player)
 
 	if not oldOnAttack then self:OnAttack(player) end
 end
+
+
+local oldOnPrimaryAttackEnd = Weapon.OnPrimaryAttackEnd
+function Weapon:OnPrimaryAttackEnd(player)
+	oldOnPrimaryAttackEnd(self, player)
+
+	if not oldOnAttack then self:OnAttack(player) end
+end
