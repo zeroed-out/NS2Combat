@@ -544,8 +544,9 @@ function GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
                item.Highlight:SetIsVisible(false)
            end
            
-           local gotRequirements = self.player:GotRequirements(item.Upgrade)           
-           local useColor = Color(1,1,1,1)
+           local gotRequirements = self.player:GotRequirements(item.Upgrade)  
+           local anim = math.cos(Shared.GetTime() * 5) * 0.1 + 0.9        
+           local useColor = Color(anim,anim,anim,1)
 
             -- set grey if player doesn'T have the needed other Up
             if not gotRequirements then
@@ -555,8 +556,7 @@ function GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
             -- set it blink when we got the upp already
             elseif  self.player:GotItemAlready(item.Upgrade) then
                 
-                local anim = math.cos(Shared.GetTime() * 9) * 0.4 + 0.6
-                useColor = Color(1, 1, anim, 1)
+                useColor = Color(1, 1, 0.2, 1)
                     
             -- set red if can't afford
             elseif PlayerUI_GetPlayerResources() < item.Upgrade:GetLevels() then
@@ -857,7 +857,12 @@ function GUIMarineBuyMenu:SendKeyEvent(key, down)
         self:OnClose()
     end
     
-    return inputHandled
+    -- No matter what, this menu consumes MouseButton0/1.
+    if key == InputKey.MouseButton0 or key == InputKey.MouseButton1 then
+        inputHandled = true
+    end
+    
+    return inputHandled -- inputHandled
     
 end
 
