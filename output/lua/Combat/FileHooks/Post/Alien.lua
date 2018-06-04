@@ -31,9 +31,18 @@ end
 function Alien:UpdateHealthAmount()
 
 	-- Cap the health level at the max biomass level
-    local level = math.min(10, math.max(0, self:GetLvl() - 1))
+    --local level = math.min(10, math.max(0, self:GetLvl() - 1))
+    local level = 0
+    
+    if self.combatTwoHives then
+        level = level + 4
+    end
+    if self.combatThreeHives then
+        level = level + 5
+    end
+    
     local newMaxHealth = self:GetBaseHealth() + level * self:GetHealthPerBioMass()
-
+    
     if newMaxHealth ~= self.maxHealth then
 
         local healthPercent = self.maxHealth > 0 and self.health/self.maxHealth or 0
