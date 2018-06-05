@@ -23,6 +23,16 @@ mateXpAmount = 0.4
 -- range 35 was too big
 mateXpRange = 20
 
+-- how much % from the xp are the assisters are getting
+assistXpAmount = 0.4
+
+assistXPRange = 25
+
+-- how much to divide the XP between nearby players?
+-- e.g. set to 1 to divide equally among nearby assisters
+--      or set it to 0 to give all nearby assisters max XP
+assistPlayerRatio = 0.8
+
 -- XP-Values
 -- Scores for various creatures and structures.
 XpValues = {}
