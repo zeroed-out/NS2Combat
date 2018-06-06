@@ -31,7 +31,7 @@ assistXPRange = 25
 -- how much to divide the XP between nearby players?
 -- e.g. set to 1 to divide equally among nearby assisters
 --      or set it to 0 to give all nearby assisters max XP
-assistPlayerRatio = 0.8
+assistPlayerRatio = 0.6
 
 -- XP-Values
 -- Scores for various creatures and structures.
