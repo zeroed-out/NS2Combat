@@ -47,7 +47,7 @@ function PlayerUI_GetWeaponLevel()
     local self = Client.GetLocalPlayer()
 
     local level = 0
-    local upgrades = self:GetUpgrades()
+    local upgrades = self:GetPlayerUpgrades()
     for i = 1, #upgrades do
         local upgradeId = upgrades[i]
 
