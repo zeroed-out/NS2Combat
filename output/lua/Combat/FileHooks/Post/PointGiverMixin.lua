@@ -51,7 +51,7 @@ function PointGiverMixin:GiveAssistXPNearby(xp, killer)
     
     if #alivePlayers > 0 then
     
-        local xpPerPlayer = xp / #alivePlayers * assistPlayerRatio + xp * (1-assistPlayerRatio)
+        local xpPerPlayer = math.ceil(xp / #alivePlayers * assistPlayerRatio + xp * (1-assistPlayerRatio))
         for _, player in ipairs(alivePlayers) do
             player:AddXp(xpPerPlayer)
         end
