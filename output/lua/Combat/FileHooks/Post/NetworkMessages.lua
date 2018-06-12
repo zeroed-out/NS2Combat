@@ -30,6 +30,12 @@ local kCombatSettings =
 }
 Shared.RegisterNetworkMessage("CombatSettings", kCombatSettings)
 
+local kCombatMessage =
+{
+    message = string.format("string (%d)", kMaxChatLength * 4 + 1)
+}
+Shared.RegisterNetworkMessage("CombatMessage", kCombatMessage)
+
 if Server then
 	
 	function BuildCombatUpgradeCountMessage(messageUpgradeId, messageUpgradeCount)

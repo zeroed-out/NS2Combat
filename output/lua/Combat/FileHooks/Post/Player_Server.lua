@@ -468,13 +468,8 @@ end
 
 function Player:BuildAndSendDirectMessage(message)
 
-    --Sending LVL Msg only to the Player
-    local playerName = "Combat: " .. self:GetName()
-    local playerLocationId = -1
-    local playerTeamNumber = kTeamReadyRoom
-    local playerTeamType = kNeutralTeamType
 
-    Server.SendNetworkMessage(self, "Chat", BuildChatMessage(true, playerName, playerLocationId, playerTeamNumber, playerTeamType, message), true)
+    Server.SendNetworkMessage(self, "CombatMessage", {message = message}, true)
 
 end
 
