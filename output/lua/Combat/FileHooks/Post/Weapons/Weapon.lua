@@ -12,29 +12,12 @@ function Weapon:OnAttack(player)
 	end
 end
 
-local oldOnPrimaryAttack = Weapon.OnPrimaryAttack
-function Weapon:OnPrimaryAttack(player)
-	oldOnPrimaryAttack(self, player)
-
-	if not oldOnAttack then self:OnAttack(player) end
-end
-
-local oldOnSecondaryAttack = Weapon.OnSecondaryAttack
-function Weapon:OnSecondaryAttack(player)
-	oldOnSecondaryAttack(self, player)
-
-	if not oldOnAttack then self:OnAttack(player) end
-end
-
-
 local oldOnPrimaryAttackEnd = Weapon.OnPrimaryAttackEnd
 function Weapon:OnPrimaryAttackEnd(player)
 	oldOnPrimaryAttackEnd(self, player)
 
-	if not oldOnAttack then 
-        local player = self:GetParent()
-        if player then
-            self:OnAttack(player) 
-        end
-    end
+	if player and (player:isa("Marine") or player:isa("Exo")) then
+		player:CheckCombatData()
+		player:CheckCatalyst()
+	end
 end
