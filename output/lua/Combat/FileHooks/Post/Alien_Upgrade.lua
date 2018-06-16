@@ -4,3 +4,8 @@ function GetIsTechAvailable()
     return true
 
 end
+
+
+function GetHasCamouflageUpgrade(callingEntity)
+    return callingEntity.combatTable and callingEntity.combatTable.hasCamouflage
+end

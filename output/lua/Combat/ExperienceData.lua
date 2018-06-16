@@ -130,6 +130,10 @@ local function TierThree(player)
 	player.threeHives = true
 end
 
+local function GiveCamo(player)
+	player.combatTable.hasCamouflage = true
+end
+
 local function Scan(player)
 	player.combatTable.hasScan = true
 	player.combatTable.lastScan = 0
@@ -248,16 +252,18 @@ table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Onos,					"onos",			
 -- Tech
 table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Carapace,				"cara",				"Carapace",			kTechId.Carapace, 				nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Regeneration,			"regen",			"Regeneration",		kTechId.Regeneration, 			nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Celerity,				"cele",				"Celerity",			kTechId.Celerity, 				nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Adrenaline,				"adrenaline",		"Adrenaline",		kTechId.Adrenaline, 			nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Crush,				    "crush",		    "Crush",		    kTechId.Crush, 			        nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
-
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Vampirism,				"vampirism",        "Vampirism",	    kTechId.Vampirism, 				nil,				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 if not kCombatCompMode then
-	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Phantom,				"vampirism",        "Vampirism",	    kTechId.Vampirism, 				nil,				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Camouflage,				"camouflage",        "Camouflage",	    kTechId.Camouflage, 			GiveCamo,				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Aura,					"aura",				"Aura",				kTechId.Aura, 					nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.ShadeInk,				"ink",		        "Ink-Taunt",		kTechId.ShadeInk, 		   	 	ShadeInk,			nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
     table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Focus,				    "focus",			"Focus",			kTechId.Focus, 			        nil, 			    nil,	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 end
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Celerity,				"cele",				"Celerity",			kTechId.Celerity, 				nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Adrenaline,				"adrenaline",		"Adrenaline",		kTechId.Adrenaline, 			nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Crush,				    "crush",		    "Crush",		    kTechId.Crush, 			        nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+
+
 
 table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.TierTwo,				"tier2",			"Tier 2 abilities",			kTechId.BioMassTwo, 			TierTwo, 			nil, 						2, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.TierThree,				"tier3",			"Tier 3 abilities",			kTechId.BioMassThree, 			TierThree, 			kCombatUpgrades.TierTwo,	2, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))

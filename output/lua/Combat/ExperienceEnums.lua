@@ -9,7 +9,7 @@ kCombatUpgrades = enum({-- Marine upgrades
                         -- Alien upgrades
                         'Gorge', 'Lerk', 'Fade', 'Onos',
                         'TierTwo', 'TierThree',
-                        'Carapace', 'Regeneration', 'Vampirism', 'Phantom', 'Celerity',
+                        'Carapace', 'Regeneration', 'Vampirism', 'Camouflage', 'Celerity',
                         'Adrenaline', 'Feint', 'ShadeInk', 'Focus', 'Aura', 'Crush' })
 
 -- The order of these is important...
