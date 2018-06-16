@@ -253,6 +253,18 @@ local function StartCountdown(self)
 
 end
 
+local kCombatPregameLength = 15
+function NS2Gamerules:GetPregameLength()
+
+    local preGameTime = kCombatPregameLength
+    if Shared.GetCheatsEnabled() then
+        preGameTime = 0
+    end
+    
+    return preGameTime
+    
+end
+
 function NS2Gamerules:CheckGameStart()
 
 	if self:GetGameState() <= kGameState.PreGame then
@@ -264,12 +276,17 @@ function NS2Gamerules:CheckGameStart()
 		if (team1Players > 0 and team2Players > 0) or (Shared.GetCheatsEnabled() and (team1Players > 0 or team2Players > 0)) then
 
 			if self:GetGameState() < kGameState.PreGame then
-				StartCountdown(self)
+				--StartCountdown(self)
+                self:SetGameState(kGameState.PreGame)
+                
+                -- TODO: Put this on the client side so we can translate it
+                SendGlobalChatMessage(string.format("Game is starting in %s seconds!", kCombatPregameLength))
 			end
 
 		else
 			if self:GetGameState() == kGameState.PreGame then
 				self:SetGameState(kGameState.NotStarted)
+                SendGlobalChatMessage("Game start aborted. Join teams to start the game.")
 			end
 		end
 

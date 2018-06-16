@@ -109,11 +109,11 @@ function GUIGameTimeCountDown:Update()
 		end
 		
 		local player = Client.GetLocalPlayer()
-		if (self.showTimer and player:GetIsAlive()) then
+		if (self.showTimer and player:GetIsAlive()) and PlayerUI_GetHasGameStarted() then
 			self.timerBackground:SetIsVisible(true)
 			local TimeRemaining = PlayerUI_GetTimeRemaining()
 			if TimeRemaining == "00:00:00" then		    
-				self.timeRemainingText:SetText("Overtime")
+				self.timeRemainingText:SetText("Overtime!")
 			else
 				self.timeRemainingText:SetText(TimeRemaining)
 			end
@@ -121,7 +121,17 @@ function GUIGameTimeCountDown:Update()
 			self:RemindTime(player)
 			
 		else
-			self.timerBackground:SetIsVisible(false)
+            local gameInfo = GetGameInfoEntity()
+            local state = gameInfo:GetState()
+            if state == kGameState.PreGame then
+				self.timeRemainingText:SetText("Game is starting")
+                self.timerBackground:SetIsVisible(true)
+            elseif state == kGameState.Countdown then
+				self.timeRemainingText:SetText(string.format("Starting in %s", ToString(math.ceil(PlayerUI_GetRemainingCountdown()))))
+                self.timerBackground:SetIsVisible(true)
+            else
+                self.timerBackground:SetIsVisible(false)
+            end
 		end
 		
 	end
@@ -132,7 +142,7 @@ local lastTimeLeftText
 function GUIGameTimeCountDown:RemindTime(player)
 		
     -- send timeleft chat things now here, all client sided
-    if kCombatTimeLimit then
+    if kCombatTimeLimit and PlayerUI_GetHasGameStarted() then
         local timeLeft = math.ceil(kCombatTimeLimit - PlayerUI_GetGameLengthTime())
         if timeLeft > 0 and
             ((timeLeft % kCombatTimeReminderInterval) == 0 or 
