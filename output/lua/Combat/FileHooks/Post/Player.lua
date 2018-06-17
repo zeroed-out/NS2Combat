@@ -52,6 +52,26 @@ function Player:GotFastReload()
 
 end
 
+-- check for Fast Sprint
+function Player:GotFastSprint()
+
+    if Server then
+		self:CheckCombatData()
+        return self.combatTable.hasFastSprint
+    elseif Client then
+        local upgrades = self:GetPlayerUpgrades()
+        for _, upgradeTechId in ipairs(upgrades) do
+            if upgradeTechId == kTechId.PhaseTech then
+                return true
+            end
+        end
+        
+    end
+    
+    return false
+
+end
+
 function Player:GetIsUsingPrimaryWeapon()
     local activeWeapon = self:GetActiveWeapon()
     if activeWeapon then

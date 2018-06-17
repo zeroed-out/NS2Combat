@@ -458,6 +458,7 @@ function Player:Reset_Lite()
 	
 	-- for fastreload
 	self.combatTable.hasFastReload = false
+	self.combatTable.hasFastSprint = false
 	
 	-- delete everything from the spawnProtect system
 	self.gotSpawnProtect = nil

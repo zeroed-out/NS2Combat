@@ -16,3 +16,19 @@ if Shine and Shine.Hook and Shine.Hook.Add then
         return true, 0.25, 0.95
     end )
 end
+
+
+
+
+local stringMapping = {
+    ["ADVANCED_WEAPONRY"] = 'Faster Reload',
+    ["PHASE_TECH"] = 'Improved Sprint',
+}
+
+local oldResolveString = Locale.ResolveString
+Locale.ResolveString = function(str)
+    if stringMapping[str] then
+        return stringMapping[str]
+    end
+    return oldResolveString(str)
+end

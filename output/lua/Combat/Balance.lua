@@ -52,3 +52,5 @@ kInkTimer = 30
 -- reduce ink amount a bit
 ShadeInk.kShadeInkDisorientRadius = 9
 kCombatTauntCheckInterval = 4
+
+kSprintSpeedUpgradeScalar = 3.25

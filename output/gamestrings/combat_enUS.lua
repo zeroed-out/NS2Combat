@@ -33,6 +33,7 @@ kCombatLocaleMessages["enUS"]["COMBAT_WEAPON1_DESCRIPTION"] = "Weapons 1 tech Up
 kCombatLocaleMessages["enUS"]["COMBAT_WEAPON2_DESCRIPTION"] = "Weapons 2 tech Upgrade. Increases the damage of your weapons. You need Weapons 1 first."
 kCombatLocaleMessages["enUS"]["COMBAT_WEAPON3_DESCRIPTION"] = "Weapons 3 tech Upgrade. Increases the damage of your weapons. You need Weapons 2 first."
 kCombatLocaleMessages["enUS"]["COMBAT_RELOAD_DESCRIPTION"] = "Increases the reload speed of all of your weapons."
+kCombatLocaleMessages["enUS"]["COMBAT_SPRINT_DESCRIPTION"] = "Increases your sprint speed, but you need Armor 1 first."
 kCombatLocaleMessages["enUS"]["COMBAT_ARMOR1_DESCRIPTION"] = "Armor 1 tech Upgrade. Substantially increases your armor."
 kCombatLocaleMessages["enUS"]["COMBAT_ARMOR2_DESCRIPTION"] = "Armor 2 tech Upgrade. Substantially increases your armor. You need Armor 1 first."
 kCombatLocaleMessages["enUS"]["COMBAT_ARMOR3_DESCRIPTION"] = "Armor 3 tech Upgrade. Substantially increases your armor. You need Armor 2 first."

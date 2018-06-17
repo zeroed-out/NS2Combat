@@ -49,6 +49,7 @@ function CombatMarineBuy_GUISortUps(upgradeList)
         kTechId.Armor1,
         kTechId.Armor2,
         kTechId.Armor3,
+        kTechId.PhaseTech,     
         "nextRow",
 
         -- 4, Class Upgrades
@@ -114,6 +115,7 @@ function CombatMarineBuy_GetWeaponDescription(techId)
         combatWeaponDescription[kTechId.Armor1] = {"COMBAT_ARMOR1_DESCRIPTION"}
         combatWeaponDescription[kTechId.Armor2] = {"COMBAT_ARMOR2_DESCRIPTION"}
         combatWeaponDescription[kTechId.Armor3] = {"COMBAT_ARMOR3_DESCRIPTION"}
+        combatWeaponDescription[kTechId.PhaseTech] = {"COMBAT_SPRINT_DESCRIPTION"}
 
         combatWeaponDescription[kTechId.Jetpack] = {"COMBAT_JETPACK_DESCRIPTION"}
         combatWeaponDescription[kTechId.Exosuit] = {"COMBAT_EXOSUIT_DESCRIPTION"}

@@ -86,6 +86,8 @@ local function GetSmallIconPixelCoordinates(itemTechId)
         kCombatMarineTechIdToMaterialOffset[kTechId.CatPack] = 45
         -- fast reload
         kCombatMarineTechIdToMaterialOffset[kTechId.AdvancedWeaponry] = 71
+        -- fast sprint
+        kCombatMarineTechIdToMaterialOffset[kTechId.PhaseTech] = 60
 
         -- grenades
         kCombatMarineTechIdToMaterialOffset[kTechId.ClusterGrenade] = 92
