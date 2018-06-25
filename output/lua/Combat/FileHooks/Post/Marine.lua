@@ -5,3 +5,9 @@ function Marine:Drop()
 
 end
 
+
+local networkVars =
+{
+    timeCatpackboost = "private time" -- remove compensated so we can do it outside of moves
+}
+Shared.LinkClassToMap("Marine", Marine.kMapName, networkVars, true)
