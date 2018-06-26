@@ -79,3 +79,95 @@ function Player:UpdateMisc(input)
     end
 
 end
+
+
+
+function PlayerUI_GetHasScan()
+    local self = Client.GetLocalPlayer()
+
+    local upgrades = self:GetPlayerUpgrades()
+    for i = 1, #upgrades do
+        local upgradeId = upgrades[i]
+
+        if upgradeId == kTechId.Scan then
+            return true
+        end
+    end
+    
+    return false
+end
+
+function PlayerUI_GetHasScan()
+    local self = Client.GetLocalPlayer()
+
+    local upgrades = self:GetPlayerUpgrades()
+    for i = 1, #upgrades do
+        local upgradeId = upgrades[i]
+
+        if upgradeId == kTechId.Scan then
+            return true
+        end
+    end
+    
+    return false
+end
+
+function PlayerUI_GetHasResupply()
+    local self = Client.GetLocalPlayer()
+
+    local upgrades = self:GetPlayerUpgrades()
+    for i = 1, #upgrades do
+        local upgradeId = upgrades[i]
+
+        if upgradeId == kTechId.MedPack then
+            return true
+        end
+    end
+    
+    return false
+end
+
+function PlayerUI_GetHasCatPack()
+    local self = Client.GetLocalPlayer()
+
+    local upgrades = self:GetPlayerUpgrades()
+    for i = 1, #upgrades do
+        local upgradeId = upgrades[i]
+
+        if upgradeId == kTechId.CatPack then
+            return true
+        end
+    end
+    
+    return false
+end
+
+function PlayerUI_GetNextScanIn()
+    local self = Client.GetLocalPlayer()
+
+    if self then
+        return math.max(math.ceil((self.lastScan or 0) + kScanTimer - Shared.GetTime()), 0)
+    end
+    
+    return 0
+end
+
+function PlayerUI_GetNextResupplyIn()
+    local self = Client.GetLocalPlayer()
+
+    if self then
+        return math.max(math.ceil((self.lastResupply or 0) + kResupplyTimer - Shared.GetTime()), 0)
+    end
+    
+    return 0
+end
+
+function PlayerUI_GetNextCatpackIn()
+    local self = Client.GetLocalPlayer()
+
+    if self then
+        return math.max(math.ceil((self.lastCatPack or 0) + kCatalystTimer + kCatPackDuration - Shared.GetTime()), 0)
+    end
+    
+    return 0
+end

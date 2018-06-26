@@ -63,6 +63,7 @@ function Player:ScanNow()
     StartSoundEffectAtOrigin(Observatory.kCommanderScanSound, position)
 
     self.combatTable.lastScan = Shared.GetTime()
+    self.lastScan = Shared.GetTime()
 
 end
 
@@ -99,7 +100,6 @@ function Player:ResupplyNow()
 
     -- dont drop a ammo pack, give ammo via a new function
     self:GiveAmmoToEveryWeapon()
-
     return true
 
 end
@@ -133,6 +133,7 @@ function Player:CatalystNow()
     StartSoundEffectAtOrigin(globalSound, self:GetOrigin())
     StartSoundEffectForPlayer(localSound, self)
     self:ApplyCatPack()
+    self.lastCatPack = Shared.GetTime()
     success = true
     self:SendDirectMessage("You now have catalyst for " .. kCatPackDuration .. " secs!")
     return success
@@ -637,6 +638,7 @@ function Player:OnUpdatePlayer(deltaTime)
 
                 if success then
                     self.combatTable.lastResupply = 0
+                    self.lastResupply = Shared.GetTime()
                 end
             else
                 self.combatTable.lastResupply = self.combatTable.lastResupply + deltaTime
