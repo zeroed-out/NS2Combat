@@ -62,7 +62,7 @@ function Player:ScanNow()
     CreateEntity(Scan.kMapName, position, self:GetTeamNumber())
     StartSoundEffectAtOrigin(Observatory.kCommanderScanSound, position)
 
-    return true
+    self.combatTable.lastScan = Shared.GetTime()
 
 end
 
@@ -616,17 +616,11 @@ function Player:OnUpdatePlayer(deltaTime)
 
         -- Provide scan and resupply function
         if self.combatTable.hasScan then
-            -- SCAN!!
-            if (self.combatTable.lastScan + deltaTime >= kScanTimer) then
+        
+            if (self.combatTable.lastScan + kScanTimer < Shared.GetTime()) then
 
-                local success = self:ScanNow()
+                self:ScanNow()
 
-                if success then
-                    self.combatTable.lastScan = 0
-                end
-
-            else
-                self.combatTable.lastScan = self.combatTable.lastScan + deltaTime
             end
         end
 
