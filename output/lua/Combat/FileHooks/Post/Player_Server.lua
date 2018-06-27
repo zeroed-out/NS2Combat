@@ -626,22 +626,14 @@ function Player:OnUpdatePlayer(deltaTime)
         end
 
         if self.combatTable.hasResupply then
-            if (self.combatTable.lastResupply + deltaTime >= kResupplyTimer) then
+            if (self.combatTable.lastResupply + kResupplyTimer < Shared.GetTime()) then
 
-                -- Keep the timer going, even if we don't need to resupply.
-                local success = false
                 if (self:NeedsResupply()) then
-                    success = self:ResupplyNow()
-                else
-                    success = true
+                    self:ResupplyNow()
                 end
 
-                if success then
-                    self.combatTable.lastResupply = 0
-                    self.lastResupply = Shared.GetTime()
-                end
-            else
-                self.combatTable.lastResupply = self.combatTable.lastResupply + deltaTime
+                self.combatTable.lastResupply = Shared.GetTime()
+                self.lastResupply = Shared.GetTime()
             end
         end
 
