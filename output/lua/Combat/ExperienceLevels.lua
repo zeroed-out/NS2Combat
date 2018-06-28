@@ -13,10 +13,12 @@ XpList[6] = { Level=6, 		XP=1100, 	MarineName="Captain", 				AlienName="Rampager
 XpList[7] = { Level=7, 		XP=1450, 	MarineName="Commander", 			AlienName="Slaughterer", 	GivenXP=120}
 XpList[8] = { Level=8, 		XP=1900, 	MarineName="Major", 				AlienName="Eliminator", 	GivenXP=130}
 XpList[9] = { Level=9, 		XP=2300, 	MarineName="Field Marshal", 		AlienName="Nightmare", 		GivenXP=140}
-XpList[10] = { Level=10, 	XP=2800, 	MarineName="General", 				AlienName="Behemoth", 		GivenXP=160}
-XpList[11] = { Level=11, 	XP=3500, 	MarineName="President", 			AlienName="Overlord", 		GivenXP=180}
+XpList[10] = { Level=10, 	XP=2800, 	MarineName="Major General", 		AlienName="Behemoth", 		GivenXP=160}
+XpList[11] = { Level=11, 	XP=3500, 	MarineName="General", 			    AlienName="Overlord", 		GivenXP=180}
 XpList[12] = { Level=12, 	XP=4500, 	MarineName="Badass", 				AlienName="Super Mutant", 	GivenXP=200}
 XpList[13] = { Level=13, 	XP=6000, 	MarineName="Rambo", 				AlienName="Hive Mind", 	 	GivenXP=210}
+XpList[14] = { Level=14, 	XP=9000, 	MarineName="TSF Defender", 		    AlienName="Unstoppable Fury", 	 	GivenXP=220}
+XpList[15] = { Level=15, 	XP=15000, 	MarineName="Hero of Sanjii", 		AlienName="Scourge of Sanjii", 	 	GivenXP=230}
 
 maxLvl = #XpList
 maxXp = XpList[maxLvl]["XP"]

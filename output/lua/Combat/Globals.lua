@@ -1,6 +1,8 @@
 -- Balance changes of vanila values
 Script.Load("lua/Combat/Balance.lua")
 
+kMaxScore = 16000 -- max of 16384 due to engine... -- was 9999
+
 -- Experience based values like avgXpAmount is still in ExperienceData
 
 -- Welcome Message that every player receives who joined our game
