@@ -41,7 +41,10 @@ function Player:PerformSpawnProtect()
             elseif self:isa("Alien") then
 
                 local spawnProtectTimeLeft = self.combatTable.deactivateSpawnProtect - Shared.GetTime()
-                self:SetHasUmbra(true, spawnProtectTimeLeft)
+                --self:SetHasUmbra(true, spawnProtectTimeLeft)
+                local mucousStart = spawnProtectTimeLeft + Shared.GetTime() - kMucousShieldDuration
+                self:SetMucousShield()
+                self.lastMucousShield = mucousStart
                 self.gotSpawnProtect = true
 
             end
