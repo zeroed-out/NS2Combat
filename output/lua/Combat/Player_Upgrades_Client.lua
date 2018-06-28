@@ -201,12 +201,15 @@ end
 
 function PlayerUI_GetTimeRemaining()
 
+    local gameInfo = GetGameInfoEntity()
+    if not gameInfo then return 0 end
+
 	local timeDigital = "00:00:00"
 	if kCombatTimeLimit then
-		local exactTimeLeft = kCombatTimeLimit - PlayerUI_GetGameLengthTime()
+		local exactTimeLeft = kCombatTimeLimit - (Shared.GetTime() - gameInfo:GetStartTime()) 
 		if exactTimeLeft > 0 then
-			local showMinutes = math.abs(exactTimeLeft) > 0
-			local showMilliseconds = exactTimeLeft > 0 and exactTimeLeft < 30		
+			local showMinutes = math.abs(exactTimeLeft) > 59
+			local showMilliseconds = exactTimeLeft > 0 and not showMinutes
 			timeDigital = GetTimeDigital(exactTimeLeft, showMinutes, showMilliseconds)
 		end
 	end

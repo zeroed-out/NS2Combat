@@ -168,9 +168,21 @@ end
 
 
 function GUIGameTimeCountDown:Uninitialize()
-
-	GUI.DestroyItem(self.timeRemainingText)
-	GUI.DestroyItem(self.timerBackground)
-    GUI.DestroyItem(self.background)
+    GUIAnimatedScript.Uninitialize(self)
+    
+    if self.timeRemainingText then
+        GUI.DestroyItem(self.timeRemainingText)
+        self.timeRemainingText = nil
+    end
+    
+    if self.timerBackground then
+        GUI.DestroyItem(self.timerBackground)
+        self.timerBackground = nil
+    end
+    
+    if self.background then
+        GUI.DestroyItem(self.background)
+        self.background = nil
+    end
 
 end

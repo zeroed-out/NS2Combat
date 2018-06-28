@@ -42,7 +42,7 @@ function GetTimeText(timeInSeconds)
 end
 
 -- Gets the time in the format "mm:ss:ms"
-function GetTimeDigital(timeInSeconds, showMinutes, showMilliseconds)
+function GetTimeDigital(timeInSeconds, showMinutes, showHundredths)
 
 	local timeLeftText = ""
 	local timeNumericSeconds = tonumber(timeInSeconds)
@@ -70,14 +70,14 @@ function GetTimeDigital(timeInSeconds, showMinutes, showMilliseconds)
 	end
 	
 	-- Disable milliseconds by default. They are *really* annoying.
-	if showMilliseconds then
-		timeLeftText = timeLeftText .. ":"
+	if showHundredths then
+		timeLeftText = timeLeftText .. "."
 	
-		local timeLeftMilliseconds = math.ceil((timeNumericSeconds * 100) % 100)
-		if (timeLeftMilliseconds < 10) then
-			timeLeftText = timeLeftText .. "0" .. timeLeftMilliseconds
+		local timeLeftHundredths = math.ceil((timeNumericSeconds * 100) % 100)
+		if (timeLeftHundredths < 10) then
+			timeLeftText = timeLeftText .. "0" .. timeLeftHundredths
 		else
-			timeLeftText = timeLeftText .. timeLeftMilliseconds
+			timeLeftText = timeLeftText .. timeLeftHundredths
 		end
 	end
 	
