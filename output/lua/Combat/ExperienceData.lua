@@ -72,7 +72,7 @@ local function GiveExo(player)
 	-- powering up, dont let him move
 	exoMarine:BlockMove()
 	exoMarine:SetCameraDistance(4)
-	exoMarine:SendDirectMessage("Powering up. You have to wait " .. kExoPowerUpTime .. " sec till you can move again.")
+	exoMarine:SendDirectMessage("Powering up. You have to wait " .. kExoPowerUpTime .. " sec untill you can move again.")
 	exoMarine.poweringUpFinishedTime = Shared.GetTime() + kExoPowerUpTime
 	exoMarine:GiveUpsBack()
 	exoMarine:UpdateArmorAmount()
@@ -84,7 +84,7 @@ local function GiveExoDualMinigun(player)
 	-- powering up, dont let him move
 	exoMarine:BlockMove()
 	exoMarine:SetCameraDistance(4)
-	exoMarine:SendDirectMessage("Powering up. You have to wait " .. kExoPowerUpTime .. " sec till you can move again.")
+	exoMarine:SendDirectMessage("Powering up. You have to wait " .. kExoPowerUpTime .. " sec untill you can move again.")
 	exoMarine.poweringUpFinishedTime = Shared.GetTime() + kExoPowerUpTime
 	exoMarine:GiveUpsBack()
 	exoMarine:UpdateArmorAmount()
@@ -97,7 +97,7 @@ local function GiveExoRailGun(player)
 	-- powering up, dont let him move
 	exoMarine:BlockMove()
 	exoMarine:SetCameraDistance(4)
-	exoMarine:SendDirectMessage("Powering up. You have to wait " .. kExoPowerUpTime .. " sec till you can move again.")
+	exoMarine:SendDirectMessage("Powering up. You have to wait " .. kExoPowerUpTime .. " sec untill you can move again.")
 	exoMarine.poweringUpFinishedTime = Shared.GetTime() + kExoPowerUpTime
 	exoMarine:GiveUpsBack()
 	exoMarine:UpdateArmorAmount()
@@ -110,7 +110,7 @@ local function GiveExoDualRailGun(player)
 	-- powering up, dont let him move
 	exoMarine:BlockMove()
 	exoMarine:SetCameraDistance(4)
-	exoMarine:SendDirectMessage("Powering up. You have to wait " .. kExoPowerUpTime .. " sec till you can move again.")
+	exoMarine:SendDirectMessage("Powering up. You have to wait " .. kExoPowerUpTime .. " sec untill you can move again.")
 	exoMarine.poweringUpFinishedTime = Shared.GetTime() + kExoPowerUpTime
 	exoMarine:GiveUpsBack()
 	exoMarine:UpdateArmorAmount()
