@@ -15,33 +15,33 @@ function WeldableMixin:OnWeld(doer, elapsedTime, player)
 
     if self:GetCanBeWelded(doer) then
     
-    	if self.GetIsBuilt and GetGamerules():GetHasTimelimitPassed() then
+    	--if self.GetIsBuilt and GetGamerules():GetHasTimelimitPassed() then
 			-- Do nothing
-        elseif self.OnWeldOverride then
+        if self.OnWeldOverride then
             self:OnWeldOverride(doer, elapsedTime)
         elseif doer:isa("MAC") then
             self:AddHealth(MAC.kRepairHealthPerSecond * elapsedTime)
         elseif doer:isa("Welder") then
-            self:AddHealth(doer:GetRepairRate(self) * elapsedTime)
+            local amountHealed = self:AddHealth(doer:GetRepairRate(self) * elapsedTime)
 			
 			local maxXp = GetXpValue(self)
 			
 			local healXp = 0
 			if self:isa("Player") then
-				healXp = setDecimalPlaces(maxXp * kPlayerHealXpRate * kHealXpRate * doer:GetRepairRate(self) * elapsedTime / self:GetMaxHealth(), 1)
+				healXp = setDecimalPlaces(maxXp * kPlayerHealXpRate * kHealXpRate * amountHealed / self:GetMaxHealth(), 1)
 			else
-				healXp = setDecimalPlaces(maxXp * kHealXpRate * doer:GetRepairRate(self) * elapsedTime / self:GetMaxHealth(), 1)
+				healXp = setDecimalPlaces(maxXp * kHealXpRate * amountHealed / self:GetMaxHealth(), 1)
 			end
 				
 			-- Award XP.
-			local doerPlayer = doer:GetParent()
-			doerPlayer:AddXp(healXp)
+            if healXp > 0 then
+                local doerPlayer = doer:GetParent()
+                doerPlayer:AddXp(healXp)
+            end
         end
 		
 		if player and player.OnWeldTarget then
-			if not (self.GetIsBuilt and GetHasTimelimitPassed()) then
-				player:OnWeldTarget(self)
-			end
+            player:OnWeldTarget(self)
         end
         
     end
