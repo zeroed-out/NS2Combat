@@ -1,3 +1,3 @@
 function Exo:GetCanEject()
-    return false
+    return true
 end

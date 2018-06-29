@@ -226,12 +226,14 @@ function Player:ApplyAllUpgrades(upgradeTypes, singleUpgrade)
                             upgrade:DoUpgrade(self)
                         else
                             -- to enable jp and exo
-                            if  self:isa("Marine") or self:isa("Exo") then
+                            if self:isa("Marine") or self:isa("Exo") then
                                 upgrade:DoUpgrade(self)
                             end
                         end
                     else
-                        upgrade:DoUpgrade(self)
+                        if not (self:isa("Exo") and upgradeType == kCombatUpgradeTypes.Weapon) then
+                            upgrade:DoUpgrade(self)
+                        end
                     end
                 end
                 
@@ -398,7 +400,7 @@ function Player:GiveUpsBack()
 		self:RefundUpgrades({ kCombatUpgradeTypes.Class })
     end
     
-    self:ApplyAllUpgrades({ kCombatUpgradeTypes.Weapon, kCombatUpgradeTypes.Tech })         
+    self:ApplyAllUpgrades({kCombatUpgradeTypes.Weapon, kCombatUpgradeTypes.Tech })         
     self.isRespawning = false        
 	
 end
@@ -486,11 +488,17 @@ function Player:RefundAllUpgrades()
 	self:AddLvlFree(self:GetLvl() - 1 + kCombatStartUpgradePoints)
 	self:SendDirectMessage("All points refunded. You can choose your upgrades again!")
 	
+    for _, exosuit in ipairs(GetEntities("Exosuit")) do
+        local owner = exosuit:GetOwner()
+        if owner and owner == self then
+            exosuit:Kill(nil, nil, self:GetOrigin())
+        end
+    end
+
 	-- Kill the player when they do this. Prevents abuse!
 	if (self:GetIsAlive()) then
 		self:Kill(nil, nil, self:GetOrigin())
 	end
-
 end
 
 -- sends all upgrades to the player
