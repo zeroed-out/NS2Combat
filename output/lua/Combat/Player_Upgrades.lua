@@ -374,6 +374,15 @@ function Player:RefundUpgrades()
 			end
 		end
 	end
+    
+    
+    for _, exosuit in ipairs(GetEntities("Exosuit")) do
+        local owner = exosuit:GetOwner()
+        if owner and owner == self then
+            exosuit:Kill(nil, nil, self:GetOrigin())
+        end
+    end
+
 
 end
 

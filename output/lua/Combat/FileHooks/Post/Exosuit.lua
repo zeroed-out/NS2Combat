@@ -10,6 +10,9 @@ if Server then
         --    self:SetOwner(nil)
         --    self.resetOwnerTime = nil
         --end
+        if not self:GetOwner() or self:GetOwner():GetTeamNumber() ~= self:GetTeamNumber() then
+            self:Kill(nil, nil, self:GetOrigin())
+        end
         
     end
 end

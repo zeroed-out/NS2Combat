@@ -1,3 +1,6 @@
+
+local kExoDeployDuration = 1.4
 function Exo:GetCanEject()
-    return true
+    return self:GetIsPlaying() and not self.ejecting and self:GetIsOnGround()
+        and self.creationTime + kExoDeployDuration < Shared.GetTime()
 end
