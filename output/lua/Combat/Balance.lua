@@ -1,14 +1,11 @@
--- Focus
-kCombatFocusAttackSpeed = 0.6
-kCombatFocusDamageScalar = 1.4
 
 -- Gestate Times
 kGestateTime = {}
 kGestateTime[kTechId.Skulk] = 1
-kGestateTime[kTechId.Gorge] = 2
-kGestateTime[kTechId.Lerk] = 2
-kGestateTime[kTechId.Fade] = 3
-kGestateTime[kTechId.Onos] = 6
+kGestateTime[kTechId.Gorge] = 3
+kGestateTime[kTechId.Lerk] = 4
+kGestateTime[kTechId.Fade] = 5
+kGestateTime[kTechId.Onos] = 8
 kSkulkGestateTime = kGestateTime[kTechId.Skulk]
 
 -- Power points
