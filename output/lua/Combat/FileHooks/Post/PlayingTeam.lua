@@ -48,56 +48,46 @@ function PlayingTeam:SpawnInitialStructures(techPoint)
     
 end
 
+-- replaces built-in func
+function PlayingTeam:RespawnAllDeadPlayer()
+    local deadPlayers = self:GetSortedRespawnQueue()
+    for i = 1, #deadPlayers do
+        local deadPlayer = deadPlayers[ i ]
+        self:RemovePlayerFromRespawnQueue( deadPlayer )
+        local success, newPlayer = self:SpawnPlayer( deadPlayer)
+        if success then newPlayer:SetCameraDistance( 0 ) end
+    end
+end
+
 -- Respawn timers.
 function PlayingTeam:Update(timePassed)
 
-	if self.timeSinceLastSpawn == nil then 
+	if self.lastRespawnTime == nil or self:GetNumPlayersInQueue() <= 0 then 
 		self:ResetSpawnTimer()
 	end
 	
-	-- Increment the spawn timer
-	self.timeSinceLastSpawn = self.timeSinceLastSpawn + timePassed
-	
-    -- check if there are really no Spectators (should fix the spawnbug)
-	local players = GetEntitiesForTeam("Spectator", self:GetTeamNumber())
+    -- this was using Spectators, which aparently fixed a spawn bug...?
+	local players = self:GetSortedRespawnQueue()
 	
 	-- Spawn all players in the queue once every 10 seconds or so.
-	if self:GetNumPlayersInQueue() or (#players > 0)  then
-		
+	if (#players > 0)  then
 		-- Are we ready to spawn? This is based on the time since the last spawn wave...
-		local respawnTimer = kCombatRespawnTimer
+		local respawnTime = self.lastRespawnTime + kCombatRespawnTimer
 		if GetHasTimelimitPassed() then
-			respawnTimer = kCombatOvertimeRespawnTimer
+			respawnTime = self.lastRespawnTime + kCombatOvertimeRespawnTimer
 		end
-		local timeToSpawn = (self.timeSinceLastSpawn >= respawnTimer)
+		local timeToSpawn = (respawnTime <= Shared.GetTime())
 		
+		self:GetInfoEntity():SetNextRespawn(respawnTime)
+        
 		if timeToSpawn then
-			-- Reset the spawn timer.
-			self:ResetSpawnTimer()
 			
-			-- Loop through the respawn queue and spawn dead players.
-			-- Also handle the case where there are too many players to spawn all of them - do it on a FIFO basis.
-			local lastPlayer
-			local thisPlayer = self:GetOldestQueuedPlayer()
-			
-			if thisPlayer then
-                while (lastPlayer == thisPlayer) or (thisPlayer ~= nil) do
-                    local success = self:SpawnPlayer(thisPlayer)
-                    -- Don't crash the server when no more players can spawn...
-                    if not success then break end
-                    
-                    lastPlayer = thisPlayer
-                    thisPlayer = self:GetOldestQueuedPlayer()
-                end
-            else
-                -- somethings wrong, spawn all Spectators
-                for _, player in ipairs(players) do
-                    local success = self:SpawnPlayer(player)
-                    -- Don't crash the server when no more players can spawn...
-                    if not success then break end
-                end
-            end
+			self:RespawnAllDeadPlayer()
             
+            -- only reset if there is no one left to respawn
+            if self:GetNumPlayersInQueue() <= 0 then
+                self:ResetSpawnTimer()
+            end
 		else
 			-- Send any 'waiting to respawn' messages (normally these only go to AlienSpectators)
 			for _, player in ipairs(self:GetPlayers()) do
@@ -118,12 +108,7 @@ end
 function PlayingTeam:ResetSpawnTimer()
 
 	-- Reset the spawn timer
-	self.timeSinceLastSpawn = 0
-	if not GetHasTimelimitPassed() then
-		self.nextSpawnTime = Shared.GetTime() + kCombatRespawnTimer
-	else
-		self.nextSpawnTime = Shared.GetTime() + kCombatOvertimeRespawnTimer
-	end
+	self.lastRespawnTime = Shared.GetTime()
 			
 end
 
@@ -173,7 +158,7 @@ function PlayingTeam:SpawnPlayer(player)
 		newPlayer:SwitchWeapon(1)
     end
 
-    return success
+    return success, newPlayer
 
 end
 
