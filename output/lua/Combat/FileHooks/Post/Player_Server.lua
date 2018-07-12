@@ -435,7 +435,7 @@ function Player:spendlvlHints(hint, type)
 
     elseif hint == "hardCapped" then
         self:SendDirectMessage( "Cannot buy this upgrade.")
-        self:SendDirectMessage( "Only 1 player may take this upgrade for every 5 players in your team." )
+        self:SendDirectMessage( "There is a limit to the number of players that can be using " .. type )
 
     elseif hint == "freeLvl" then
         local lvlFree = self:GetLvlFree()

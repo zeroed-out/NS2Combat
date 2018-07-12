@@ -1,5 +1,7 @@
 -- Unlock all upgrade chamber
-function AlienTeamInfo:OnUpdate()
+function AlienTeamInfo:OnUpdate(deltaTime)
+
+    TeamInfo.OnUpdate(self, deltaTime)
 
     self.veilLevel = 3
 	self.spurLevel = 3

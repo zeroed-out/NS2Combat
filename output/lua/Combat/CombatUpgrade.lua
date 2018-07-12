@@ -76,7 +76,7 @@ function CombatUpgrade:GetIsHardCapped(player)
 	-- Hard cap scale is expressed e.g. 1/5
 	-- So if we have more than 1 player with this upgrade per 5 players we are hardcapped.
 	-- Recalculate at the point someone tries to buy for accuracy.
-	if (self.hardCapScale > 0) then
+	if (self:GetHardCapScale() > 0) then
 	
 		local teamPlayers = GetEntitiesForTeam("Player", player:GetTeamNumber())
 		local numInTeam = #teamPlayers
@@ -95,7 +95,7 @@ function CombatUpgrade:GetIsHardCapped(player)
 			
 		end		
 		
-		if (numPlayersWithUpgrade / numInTeam) >= self.hardCapScale then
+		if numPlayersWithUpgrade >= math.ceil(self:GetHardCapScale() * numInTeam) then
 			return true
 		else
 			return false

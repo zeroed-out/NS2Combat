@@ -33,6 +33,22 @@ local function InitializeRefundButton(self)
 
 end
 
+
+function GUIAlienBuyMenu:_GetAlienTypeHardCap(idx)
+
+    local cap = 1
+    local player = Client.GetLocalPlayer()
+    local teamInfo = GetTeamInfoEntity(player:GetTeamNumber())
+    local playerCount = teamInfo:GetPlayerCount()
+    
+    local upgrade = GetUpgradeFromTechId(AlienBuy_GetTechIdForAlien(idx))
+    if (upgrade and upgrade:GetHardCapScale() and upgrade:GetHardCapScale() ~= 0) then
+        cap = upgrade:GetHardCapScale()
+    end
+    return math.ceil(cap * playerCount)
+end
+
+
 local old_InitializeSlots = GUIAlienBuyMenu._InitializeSlots
 local CreateSlot
 function GUIAlienBuyMenu:_InitializeSlots()
@@ -303,7 +319,7 @@ function GUIAlienBuyMenu:SendKeyEvent(key, down)
                 -- Buy the selected alien if we have a different one selected.
                 
                 if self.selectedAlienType ~= AlienBuy_GetCurrentAlien() then
-                    if AlienBuy_GetCurrentAlien() == 5 then
+                    if AlienBuy_GetCurrentAlien() == AlienTechIdToIndex(kTechId.Skulk)  then
                         -- only buy another class when youre a skulk
                         table.insert(purchases, AlienBuy_GetTechIdForAlien(self.selectedAlienType))
                     end
@@ -337,7 +353,7 @@ function GUIAlienBuyMenu:SendKeyEvent(key, down)
                 for k, buttonItem in ipairs(self.alienButtons) do
                     
                     local researched, researchProgress, researching = self:_GetAlienTypeResearchInfo(buttonItem.TypeData.Index)
-                    if (researched or researching) and self:_GetIsMouseOver(buttonItem.Button) then
+                    if (researched or researching) and self:_GetIsMouseOver(buttonItem.Button) and ScoreboardUI_GetNumberOfAliensByType(buttonItem.TypeData.Name) <  self:_GetAlienTypeHardCap(buttonItem.TypeData.Index)  then
                         
                         if (AlienBuy_GetCurrentAlien() == 5) then
                             -- Deselect all upgrades when a different alien type is selected.
@@ -386,6 +402,11 @@ function GUIAlienBuyMenu:SendKeyEvent(key, down)
         local player = Client.GetLocalPlayer()
         player:CloseMenu(true)
         
+    end
+    
+    -- No matter what, this menu consumes MouseButton0/1.
+    if key == InputKey.MouseButton0 or key == InputKey.MouseButton1 then
+        inputHandled = true
     end
     
     return inputHandled
@@ -454,3 +475,41 @@ function GUIAlienBuyMenu:_HandleUpgradeClicked()
 
 end
 debug.joinupvalues(GUIAlienBuyMenu._HandleUpgradeClicked, old_HandleUpgradeClicked)
+
+
+-- TODO: Maybe find another way to do this without hooking an internal func?
+
+local old_UpdateAbilityIcons = GUIAlienBuyMenu._UpdateAbilityIcons
+function GUIAlienBuyMenu:_UpdateAbilityIcons()
+    old_UpdateAbilityIcons(self)
+    
+    for k, alienButton in ipairs(self.alienButtons) do
+        local allowedToEvolve = GetCanAffordAlienTypeAndUpgrades(self, alienButton.TypeData.Index)
+        if allowedToEvolve and 
+            (AlienBuy_GetCurrentAlien() ~= AlienTechIdToIndex(kTechId.Skulk) or ScoreboardUI_GetNumberOfAliensByType(alienButton.TypeData.Name) >=  self:_GetAlienTypeHardCap(alienButton.TypeData.Index)) then
+            alienButton.Button:SetColor(GUIAlienBuyMenu.kDisabledColor)
+        end
+    end
+    
+end
+
+local old_UpdateAlienButtons = GUIAlienBuyMenu._UpdateAlienButtons
+function GUIAlienBuyMenu:_UpdateAlienButtons()
+    old_UpdateAlienButtons(self)
+    
+    for k, alienButton in ipairs(self.alienButtons) do
+    
+        -- Info needed for the rest of this code.
+        local researched, researchProgress, researching = self:_GetAlienTypeResearchInfo(alienButton.TypeData.Index)
+
+        local buttonIsVisible = researched or researching
+        
+        if buttonIsVisible then
+            local hardCap = self:_GetAlienTypeHardCap(alienButton.TypeData.Index)
+            if (hardCap and hardCap ~= 0) then
+                alienButton.PlayersText:SetText(ToString(ScoreboardUI_GetNumberOfAliensByType(alienButton.TypeData.Name)) .. "/" .. hardCap)
+            end
+        end
+        
+    end
+end

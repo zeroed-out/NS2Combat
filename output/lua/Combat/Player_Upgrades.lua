@@ -92,7 +92,7 @@ function Player:CoEnableUpgrade(upgrades)
         -- Check whether we have room to evolve and the player is near a hive/command station for evolving to onos/exo
         if self:isa("Alien") then
             local lifeFormTechId = kTechId.Skulk
-            if self:GetIsAlive() then 
+            if self:GetIsAlive() and not hardCapped then 
                 if upgrade:GetType() == kCombatUpgradeTypes.Class then
                     lifeFormTechId = self:GetTechId()
                 else
@@ -135,7 +135,7 @@ function Player:CoEnableUpgrade(upgrades)
         elseif (not self:isa(team)) and not (self:isa("Exo") and team == "Marine") then
             self:spendlvlHints("wrong_team", team)
 		elseif hardCapped then
-			self:spendlvlHints("hardCapped")
+			self:spendlvlHints("hardCapped", upgrade:GetTextCode())
         elseif alreadyGotUpgrade then
             self:spendlvlHints("already_owned", upgrade:GetTextCode())
         elseif noRoom then
