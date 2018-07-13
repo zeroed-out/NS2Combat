@@ -94,3 +94,14 @@ function Player:GetCanTakeDamageOverride()
     return canTakeDamage and not self.gotSpawnProtect
 
 end
+
+if Server then
+    function Player:SetRespawnTime(time)
+        self.nextRespawnTime = time
+        Server.SendNetworkMessage(Server.GetOwner(self), "SetNextRespawnTime", { time = time }, true)
+    end
+
+    function Player:GetNextRespawnTime()
+        return self.nextRespawnTime or 0
+    end
+end

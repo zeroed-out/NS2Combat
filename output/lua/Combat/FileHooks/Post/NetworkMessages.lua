@@ -20,6 +20,12 @@ local kCombatSetLvlUpMessage =
 }
 Shared.RegisterNetworkMessage("CombatLvlUp", kCombatSetLvlUpMessage)
 
+local kSetNextRespawnTimeMessage =
+{
+    time = "time"
+}
+Shared.RegisterNetworkMessage("SetNextRespawnTime", kSetNextRespawnTimeMessage)
+
 local kCombatSettings =
 {
 	compMode = "boolean",

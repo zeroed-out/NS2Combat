@@ -48,61 +48,64 @@ function PlayingTeam:SpawnInitialStructures(techPoint)
     
 end
 
--- replaces built-in func
-function PlayingTeam:RespawnAllDeadPlayer()
+local kSpawnWiggleRoom = 0.5
+function PlayingTeam:RespawnAllDeadWaitingPlayers()
     local deadPlayers = self:GetSortedRespawnQueue()
+    local time = Shared.GetTime()
     for i = 1, #deadPlayers do
         local deadPlayer = deadPlayers[ i ]
-        self:RemovePlayerFromRespawnQueue( deadPlayer )
-        local success, newPlayer = self:SpawnPlayer( deadPlayer)
-        if success then newPlayer:SetCameraDistance( 0 ) end
+        if deadPlayer.nextRespawnTime and deadPlayer.nextRespawnTime - kSpawnWiggleRoom <= time then
+            self:RemovePlayerFromRespawnQueue( deadPlayer )
+            local success, newPlayer = self:SpawnPlayer( deadPlayer)
+            if success then newPlayer:SetCameraDistance( 0 ) end
+        end
     end
 end
 
 -- Respawn timers.
 function PlayingTeam:Update(timePassed)
 
-	if self.lastRespawnTime == nil or self:GetNumPlayersInQueue() <= 0 then 
+	if self.lastRespawnTime == nil then 
 		self:ResetSpawnTimer()
 	end
 	
     -- this was using Spectators, which aparently fixed a spawn bug...?
 	local players = self:GetSortedRespawnQueue()
 	
-	-- Spawn all players in the queue once every 10 seconds or so.
-	if (#players > 0)  then
-		-- Are we ready to spawn? This is based on the time since the last spawn wave...
-		local respawnTime = self.lastRespawnTime + kCombatRespawnTimer
-		if GetHasTimelimitPassed() then
-			respawnTime = self.lastRespawnTime + kCombatOvertimeRespawnTimer
-		end
-		local timeToSpawn = (respawnTime <= Shared.GetTime())
-		
-		self:GetInfoEntity():SetNextRespawn(respawnTime)
-        
-		if timeToSpawn then
-			
-			self:RespawnAllDeadPlayer()
-            
-            -- only reset if there is no one left to respawn
-            if self:GetNumPlayersInQueue() <= 0 then
-                self:ResetSpawnTimer()
-            end
-		else
-			-- Send any 'waiting to respawn' messages (normally these only go to AlienSpectators)
-			for _, player in ipairs(self:GetPlayers()) do
-				if not player.waitingToSpawnMessageSent then
-					if player:GetIsAlive() == false then
-						SendPlayersMessage({ player }, kTeamMessageTypes.SpawningWait)
-						player.waitingToSpawnMessageSent = true
-						player.timeWaveSpawnEnd = self.nextSpawnTime
-					end
-				end
-			end
-		end
-	
-	end
+	-- Spawn all players that are ready in waves
+    local respawnTime = self:GetNextSpawnTime()
+    local timeToSpawn = (respawnTime <= Shared.GetTime())
     
+    self:GetInfoEntity():SetNextRespawn(respawnTime)
+    
+    if timeToSpawn then
+        
+        self:RespawnAllDeadWaitingPlayers()
+        
+        self:ResetSpawnTimer()
+        
+        
+    else
+        -- Send any 'waiting to respawn' messages (normally these only go to AlienSpectators)
+        for _, player in ipairs(self:GetPlayers()) do
+            if not player.waitingToSpawnMessageSent then
+                if player:GetIsAlive() == false then
+                    SendPlayersMessage({ player }, kTeamMessageTypes.SpawningWait)
+                    player.waitingToSpawnMessageSent = true
+                    player.timeWaveSpawnEnd = self.nextSpawnTime
+                end
+            end
+        end
+    end
+
+    
+end
+
+
+local oldPutPlayerInRespawnQueue = PlayingTeam.PutPlayerInRespawnQueue
+function PlayingTeam:PutPlayerInRespawnQueue(player)
+    oldPutPlayerInRespawnQueue(self, player)
+    player:SetRespawnTime(self:GetNextSpawnTime() + self:GetSpawnInterval())
 end
 
 function PlayingTeam:ResetSpawnTimer()
@@ -111,6 +114,23 @@ function PlayingTeam:ResetSpawnTimer()
 	self.lastRespawnTime = Shared.GetTime()
 			
 end
+
+
+function PlayingTeam:GetSpawnInterval()
+
+    if GetHasTimelimitPassed() then
+        return kCombatOvertimeRespawnTimer
+    end
+    return kCombatRespawnTimer
+    
+end
+function PlayingTeam:GetNextSpawnTime()
+    if not self.lastRespawnTime then return 0 end
+    
+    return self.lastRespawnTime + self:GetSpawnInterval()
+    
+end
+
 
 function PlayingTeam:SpawnPlayer(player)
 

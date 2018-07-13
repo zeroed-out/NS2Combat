@@ -16,9 +16,8 @@ function GUIWaitingForAutoTeamBalance:Update(deltaTime)
     oldUpdate(self, deltaTime)
 
     
-    local teamInfo = GetTeamInfoEntity( PlayerUI_GetTeamNumber() )
-    if teamInfo and (PlayerUI_GetIsDead() or not Client.GetIsControllingPlayer())then
-        local timeToSpawn = math.max(0, math.ceil(teamInfo:GetNextRespawn() - Shared.GetTime()))
+    if (PlayerUI_GetIsDead() or not Client.GetIsControllingPlayer())then
+        local timeToSpawn = math.max(0, math.ceil(PlayerUI_GetNextRespawnTime() - Shared.GetTime()))
         if timeToSpawn > 0 then
             self.waitingText:SetText(string.format(Locale.ResolveString("NEXT_SPAWN_IN"), ToString(timeToSpawn)))
         else

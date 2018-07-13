@@ -162,6 +162,17 @@ function PlayerUI_GetNextResupplyIn()
     return 0
 end
 
+local clientNextRespawnTime = 0
+function PlayerUI_GetNextRespawnTime()
+    return clientNextRespawnTime
+end
+
+local function OnSetNextRespawnTime(message)
+    clientNextRespawnTime = message.time
+end
+Client.HookNetworkMessage("SetNextRespawnTime", OnSetNextRespawnTime)
+
+
 function PlayerUI_GetNextCatpackIn()
     local self = Client.GetLocalPlayer()
 

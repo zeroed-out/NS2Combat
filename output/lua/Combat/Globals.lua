@@ -34,9 +34,9 @@ kCombatAlienBuyMenuTotalAngle = 0.8
 kCombatAlienBuyMenuUpgradeButtonDistance = 210
 
 -- Set the respawn timer
-kCombatRespawnTimer = 12
-kAlienWaveSpawnInterval = 12
-kCombatOvertimeRespawnTimer = 16
+kCombatRespawnTimer = 6
+kAlienWaveSpawnInterval = 6
+kCombatOvertimeRespawnTimer = 10
 
 -- Rebalancing Intervals (secs)
 kCombatRebalanceInterval = 300
