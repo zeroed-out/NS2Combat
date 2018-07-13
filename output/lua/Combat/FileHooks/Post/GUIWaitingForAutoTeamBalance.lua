@@ -2,7 +2,7 @@
 local oldInit = GUIWaitingForAutoTeamBalance.Initialize
 function GUIWaitingForAutoTeamBalance:Initialize()
     oldInit(self)
-    kSpawnInOffset = GUIScale(Vector(0, 165, 0))
+    kSpawnInOffset = GUIScale(Vector(0, 115, 0))
     self.waitingText:SetAnchor(GUIItem.Middle, GUIItem.Center)
     self.waitingText:SetPosition(kSpawnInOffset)
     
@@ -14,7 +14,6 @@ local oldUpdate = GUIWaitingForAutoTeamBalance.Update
 function GUIWaitingForAutoTeamBalance:Update(deltaTime)
 
     oldUpdate(self, deltaTime)
-
     
     if (PlayerUI_GetIsDead() or not Client.GetIsControllingPlayer())then
         local timeToSpawn = math.max(0, math.ceil(PlayerUI_GetNextRespawnTime() - Shared.GetTime()))
@@ -28,3 +27,6 @@ function GUIWaitingForAutoTeamBalance:Update(deltaTime)
         self.waitingText:SetIsVisible(false)
     end
 end
+
+-- for ns2+ hacking
+GUIWaitingForAutoTeamBalance.UpdateActual = GUIWaitingForAutoTeamBalance.Update
