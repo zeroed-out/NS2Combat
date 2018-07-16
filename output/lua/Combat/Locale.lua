@@ -4,9 +4,13 @@ do
 
 	kCombatLocaleMessages = {}
 	Shared.GetMatchingFileNames("gamestrings/combat_*.lua", false, gamestringsFiles)
+    
 
 	for i = 1, #gamestringsFiles do
 	local file = gamestringsFiles[i]
+        if Server then
+            Server.AddRestrictedFileHashes(file)
+        end
 		Script.Load(file)
 	end
 
