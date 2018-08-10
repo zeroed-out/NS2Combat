@@ -11,6 +11,8 @@ UpgradableMixin.networkVars =
     upgrade8 = "enum kTechId",
     upgrade9 = "enum kTechId",
     upgrade10 = "enum kTechId",
+    upgrade11 = "enum kTechId",
+    upgrade12 = "enum kTechId",
 }
 
 function UpgradableMixin:__initmixin()
@@ -25,6 +27,8 @@ function UpgradableMixin:__initmixin()
     self.upgrade8 = kTechId.None
     self.upgrade9 = kTechId.None
     self.upgrade10 = kTechId.None
+    self.upgrade11 = kTechId.None
+    self.upgrade12 = kTechId.None
 
 end
 
@@ -90,6 +94,12 @@ function UpgradableMixin:GetUpgrades()
     if self.upgrade10 ~= kTechId.None then
         table.insert(upgrades, self.upgrade10)
     end
+    if self.upgrade11 ~= kTechId.None then
+        table.insert(upgrades, self.upgrade11)
+    end
+    if self.upgrade12 ~= kTechId.None then
+        table.insert(upgrades, self.upgrade12)
+    end
 
     return upgrades
 
@@ -151,9 +161,19 @@ function UpgradableMixin:GiveUpgrade(techId)
             self.upgrade10 = techId
             upgradeGiven = true
 
+        elseif self.upgrade11 == kTechId.None then
+
+            self.upgrade11 = techId
+            upgradeGiven = true
+
+        elseif self.upgrade12 == kTechId.None then
+
+            self.upgrade12 = techId
+            upgradeGiven = true
+
         end
 
-        assert(upgradeGiven, "Entity already has the max of eight upgrades. What are you doing?!?")
+        assert(upgradeGiven, "Entity already has the max of 12 upgrades. What are you doing?!?")
 
     end
 
@@ -221,6 +241,16 @@ function UpgradableMixin:RemoveUpgrade(techId)
             self.upgrade10 = kTechId.None
             removed = true
 
+        elseif self.upgrade11 == techId then
+
+            self.upgrade10 = kTechId.None
+            removed = true
+
+        elseif self.upgrade12 == techId then
+
+            self.upgrade10 = kTechId.None
+            removed = true
+
         end
 
     end
@@ -241,5 +271,7 @@ function UpgradableMixin:ClearUpgrades()
     self.upgrade8 = kTechId.None
     self.upgrade9 = kTechId.None
     self.upgrade10 = kTechId.None
+    self.upgrade11 = kTechId.None
+    self.upgrade12 = kTechId.None
 
 end

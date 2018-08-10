@@ -50,7 +50,17 @@ function GetAllUpgrades(team)
 	local upgradeList = {}
 	local className = ""
 	
-	if team == "Marine" or team == kTeam1Index then
+	-- hack to support marine vs marine
+	if team == kTeam1Index or team == kTeam2Index then
+		local teamType = GetGamerules():GetTeam(team):GetTeamType()
+		if teamType == kMarineTeamType then
+		    team = "Marine" 
+		else
+		    team = "Alien" 
+		end
+	end
+	
+	if team == "Marine" then
 		className = "CombatMarineUpgrade"
 	else
 		className = "CombatAlienUpgrade"

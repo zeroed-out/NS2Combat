@@ -19,6 +19,7 @@ kGrenadeLauncherGrenadeDamage = 135
 
 -- Ammo for mines
 kNumMines = 1
+kMaxNumMines = 3
 
 -- number of handgrenaeds
 kMaxHandGrenades = 1
