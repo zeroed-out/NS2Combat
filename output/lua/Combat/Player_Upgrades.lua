@@ -46,6 +46,7 @@ function Player:CoEnableUpgrade(upgrades)
 
 	self:CheckCombatData()
 	local validUpgrades = {}
+	local newPosition
 	-- support multiple upgrades
 	
 	for i, upgrade in ipairs(upgrades) do
@@ -56,11 +57,13 @@ function Player:CoEnableUpgrade(upgrades)
 		local heavyTechCooldown = false
 		local mutuallyExclusive = false
 		local hardCapped = upgrade:GetIsHardCapped(self)
+		local nearComm = upgrade:GetNeedsNearComm()
 		local mutuallyExclusiveDescription = ""
         local requirements = upgrade:GetRequirements()
         local techId = upgrade:GetTechId()
         local neededLvl = upgrade:GetLevels()
         local team = upgrade:GetTeam()
+		local desc = upgrade:GetDescription()
         
         -- Loop over the other items in the player's tech tree.
         for number, entry in ipairs(self.combatTable.techtree) do
@@ -99,16 +102,20 @@ function Player:CoEnableUpgrade(upgrades)
                     lifeFormTechId = techId
                 end
             end
-            
-            if not self:HasRoomToEvolve(lifeFormTechId) then
+			
+            local position, success = self:HasRoomToEvolve(lifeFormTechId)
+			
+            if not success then
                 noRoom = true
-            end
+			else
+				newPosition = position
+			end
            
-            if lifeFormTechId == kTechId.Onos and not hardCapped then
+            if nearComm and not hardCapped then
 				if (Shared.GetTime() - self.combatTable.timeLastHeavyTech) < kHeavyTechCooldown then
 					heavyTechCooldown = true
 				else
-					if #GetEntitiesWithinRange("Hive", self:GetOrigin(), kTechRange) == 0 then
+					if #GetEntitiesForTeamWithinRange("CommandStructure", self:GetTeamNumber(), self:GetOrigin(), kTechRange) == 0 then
 						notInTechRange = true
 					else
 						self.combatTable.timeLastHeavyTech = Shared.GetTime()
@@ -116,11 +123,13 @@ function Player:CoEnableUpgrade(upgrades)
 				end
 			end
         else
-            if techId == kTechId.DualMinigunExosuit and not hardCapped then
+            if nearComm and not hardCapped then
+			
 				if (Shared.GetTime() - self.combatTable.timeLastHeavyTech) < kHeavyTechCooldown then
 					heavyTechCooldown = true
 				else
-					if #GetEntitiesWithinRange("CommandStation", self:GetOrigin(), kTechRange) == 0 then
+				
+					if #GetEntitiesForTeamWithinRange("CommandStructure", self:GetTeamNumber(), self:GetOrigin(), kTechRange) == 0 then
 						notInTechRange = true
 					else
 						self.combatTable.timeLastHeavyTech = Shared.GetTime()
@@ -276,19 +285,48 @@ function Player:HasRoomToEvolve(techId)
     if not newAlienExtents then
         newAlienExtents = LookupTechData(self:GetTechId(), kTechDataMaxExtents)
     end
-    
-    local physicsMask = PhysicsMask.AllButPCsAndRagdolls
-    local position = self:GetOrigin()
-    
-    --if self:GetIsOnGround() and
-		if GetHasRoomForCapsule(eggExtents, position + Vector(0, eggExtents.y + Embryo.kEvolveSpawnOffset, 0), CollisionRep.Default, physicsMask, self) and
-		GetHasRoomForCapsule(newAlienExtents, position + Vector(0, newAlienExtents.y + Embryo.kEvolveSpawnOffset, 0), CollisionRep.Default, physicsMask, self) then
-		
-		success = true
-		end
-    --end
 	
-	return success
+	if eggExtents.x > newAlienExtents.x then
+		newAlienExtents.x = eggExtents.x
+	end
+    
+	if eggExtents.y > newAlienExtents.y then
+		newAlienExtents.y = eggExtents.y
+	end
+    
+	if eggExtents.z > newAlienExtents.z then
+		newAlienExtents.z = eggExtents.z
+	end
+    
+    local physicsMask = PhysicsMask.Evolve
+    local position = self:GetOrigin()
+	
+	local spawnBufferExtents = Vector(0.1, 0.1, 0.1)
+    
+	if GetHasRoomForCapsule(newAlienExtents + spawnBufferExtents, position + Vector(0, newAlienExtents.y + Embryo.kEvolveSpawnOffset, 0), CollisionRep.Move, physicsMask, self) then
+	
+		success = true
+		
+	else
+		
+		for index = 1, 25 do
+			
+			local offset = Vector(math.random() * 2 - 1, index / 25 * 3 - 1.0, math.random() * 2 - 1)
+			local spawnPoint = GetRandomSpawnForCapsule(newAlienExtents.y, math.max(newAlienExtents.x, newAlienExtents.z), self:GetModelOrigin() + offset, 0.5, 5, EntityFilterOne(self))
+
+			if spawnPoint then
+
+				position = spawnPoint
+				success = true
+				
+				break
+
+			end
+
+		end
+	end
+	
+	return position, success
 	
 end
 	
@@ -305,9 +343,10 @@ function Player:EvolveTo(newTechId)
     local armorScalar = self:GetArmor() / self:GetMaxArmor()
     
     local physicsMask = PhysicsMask.AllButPCsAndRagdolls
-    local position = self:GetOrigin()
-
-	if self:HasRoomToEvolve(newTechId) then
+	local position, success = self:HasRoomToEvolve(newTechId)
+	
+	
+	if success then
 	
         local newPlayer = self:Replace(Embryo.kMapName)
         position.y = position.y + Embryo.kEvolveSpawnOffset

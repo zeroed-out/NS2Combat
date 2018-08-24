@@ -280,7 +280,7 @@ function NS2Gamerules:CheckGameStart()
                 self:SetGameState(kGameState.PreGame)
                 
                 -- TODO: Put this on the client side so we can translate it
-                SendGlobalChatMessage(string.format("Game is starting in %s seconds!", kCombatPregameLength))
+                SendGlobalChatMessage(string.format("Game is starting in %s seconds!", self:GetPregameLength()))
 			end
 
 		else

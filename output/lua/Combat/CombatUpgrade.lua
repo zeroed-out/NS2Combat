@@ -1,6 +1,6 @@
 class 'CombatUpgrade'
 
-function CombatUpgrade:Initialize(team, upgradeId, upgradeTextCode, upgradeDescription, upgradeTechId, upgradeFunc, requirements, levels, upgradeType, refundUpgrade, hardCap, mutuallyExclusive)
+function CombatUpgrade:Initialize(team, upgradeId, upgradeTextCode, upgradeDescription, upgradeTechId, upgradeFunc, requirements, levels, upgradeType, refundUpgrade, hardCap, mutuallyExclusive, needsNearComm)
 
 	self.team = team
     self.id = upgradeId
@@ -13,7 +13,8 @@ function CombatUpgrade:Initialize(team, upgradeId, upgradeTextCode, upgradeDescr
 	self.refundUpgrade = refundUpgrade
 	self.mutuallyExclusive = mutuallyExclusive
 	self.hardCapScale = hardCap
-
+	self.needsNearComm = needsNearComm
+	
 	if (upgradeFunc) then
 		self.upgradeFunc = upgradeFunc
 		self.useCustomFunc = true
@@ -69,6 +70,10 @@ end
 
 function CombatUpgrade:GetHardCapScale()
 	return self.hardCapScale
+end
+
+function CombatUpgrade:GetNeedsNearComm()
+	return self.needsNearComm
 end
 
 function CombatUpgrade:GetIsHardCapped(player)
@@ -166,7 +171,7 @@ function CombatUpgrade:DoUpgrade(player)
 	end
 	
 	-- Do specific stuff for aliens or marines.
-    self:TeamSpecificLogic(player)
+    return self:TeamSpecificLogic(player)
 end
 
 local origGetIsTechUnlocked = GetIsTechUnlocked

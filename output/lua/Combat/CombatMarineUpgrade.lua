@@ -1,8 +1,8 @@
 class 'CombatMarineUpgrade' (CombatUpgrade)
 
-function CombatMarineUpgrade:Initialize(upgradeId, upgradeTextCode, upgradeDescription, upgradeTechId, upgradeFunc, requirements, levels, upgradeType, refundUpgrade, hardCap, mutuallyExclusive)
+function CombatMarineUpgrade:Initialize(...)
 
-	CombatUpgrade.Initialize(self, "Marine", upgradeId, upgradeTextCode, upgradeDescription, upgradeTechId, upgradeFunc, requirements, levels, upgradeType, refundUpgrade, hardCap, mutuallyExclusive)
+	CombatUpgrade.Initialize(self, "Marine", ...)
 
 end
 
@@ -49,4 +49,5 @@ function CombatMarineUpgrade:TeamSpecificLogic(player)
         end
 	end
 	
+	return true
 end
