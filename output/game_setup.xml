@@ -1,6 +1,6 @@
 <game>
 	<name>combat</name>
-	<description>Natural Selection 2 (Combat)</description>
+	<description>NS2:Combat</description>
 	<client>lua/Client.lua</client>
 	<server>lua/Server.lua</server>
 	<predict>lua/Predict.lua</predict>
