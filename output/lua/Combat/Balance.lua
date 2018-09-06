@@ -17,6 +17,9 @@ kCombatPowerPointAutoRepairTime = 300
 -- Grenade Launcher nerf
 kGrenadeLauncherGrenadeDamage = 135
 
+-- kill hydras if the player is not a gorge after 30 seconds
+kKillHydrasWhenNotGorge = true
+
 -- Ammo for mines
 kNumMines = 1
 kMaxNumMines = 3

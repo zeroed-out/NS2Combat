@@ -7,7 +7,7 @@ if Server then
 		oldOnUpdate(self, ...)
 
 		-- check if the owner is still a gorge
-		if self.hydraParentId then
+		if self.hydraParentId and kKillHydrasWhenNotGorge then
 			local owner = Shared.GetEntity(self.hydraParentId)
 			if owner then
 				if not owner:isa("Gorge") then
