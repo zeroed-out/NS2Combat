@@ -122,7 +122,7 @@ function Player:GiveAmmoToEveryWeapon()
 
     end
 
-    StartSoundEffectAtOrigin(AmmoPack.kPickupSound, self:GetOrigin())
+    StartSoundEffectAtOrigin("sound/NS2.fev/marine/common/pickup_ammo", self:GetOrigin())
 
 end
 

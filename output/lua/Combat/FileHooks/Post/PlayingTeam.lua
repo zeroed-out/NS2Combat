@@ -69,6 +69,8 @@ function PlayingTeam:Update(timePassed)
 		self:ResetSpawnTimer()
 	end
 	
+    self:UpdateVotes()
+	
     -- this was using Spectators, which aparently fixed a spawn bug...?
 	local players = self:GetSortedRespawnQueue()
 	
