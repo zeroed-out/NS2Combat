@@ -26,3 +26,31 @@ if Server then
 	end
 	
 end
+
+
+if Client then
+
+    function ShadeInk:Perform()
+	
+        local local_player = Client.GetLocalPlayer()
+        
+        if local_player and local_player.RemoveMarkFromTargetId then
+		
+			local playersInRange = GetEntitiesForTeamWithinRange("Player", self:GetTeamNumber(), self:GetOrigin(), ShadeInk.kInkRange)
+			
+			local data = local_player.clientLOSdata 
+			for index, player in ipairs(playersInRange) do
+			   
+				if data.damagedAt and data.damagedAt[player:GetId()] and data.remove then
+					data.remove[player:GetId()] = true            
+				end
+				
+				--local_player:RemoveMarkFromTargetId(player:GetId())
+					
+			end
+			
+		end
+		
+	end
+
+end
