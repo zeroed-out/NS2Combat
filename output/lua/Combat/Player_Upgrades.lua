@@ -298,7 +298,7 @@ function Player:HasRoomToEvolve(techId)
 		newAlienExtents.z = eggExtents.z
 	end
     
-    local physicsMask = PhysicsMask.Evolve
+    local physicsMask = PhysicsMask.AllButPCsAndRagdolls
     local position = self:GetOrigin()
 	
 	local spawnBufferExtents = Vector(0.1, 0.1, 0.1)
@@ -309,10 +309,9 @@ function Player:HasRoomToEvolve(techId)
 		
 	else
 		
-		for index = 1, 25 do
+		for index = 1, 100 do
 			
-			local offset = Vector(math.random() * 2 - 1, index / 25 * 3 - 1.0, math.random() * 2 - 1)
-			local spawnPoint = GetRandomSpawnForCapsule(newAlienExtents.y, math.max(newAlienExtents.x, newAlienExtents.z), self:GetModelOrigin() + offset, 0.5, 5, EntityFilterOne(self))
+			local spawnPoint = GetRandomSpawnForCapsule(newAlienExtents.y, math.max(newAlienExtents.x, newAlienExtents.z), self:GetModelOrigin(), 0, 5, EntityFilterOneAndIsa(self, "Babbler"))
 
 			if spawnPoint then
 

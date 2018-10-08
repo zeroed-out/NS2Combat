@@ -43,9 +43,9 @@ kCombatRebalanceInterval = 300
 
 -- Spawning radius and retries.
 kSpawnMaxRetries = 50
-kSpawnMinDistance = 2
+kSpawnMinDistance = 3
 kSpawnMaxDistance = 70
-kSpawnMaxVertical = 30
+kSpawnMaxVertical = 10
 kSpawnArmoryMaxRetries = 200
 kArmorySpawnMinDistance = 7
 kArmorySpawnMaxDistance = 60

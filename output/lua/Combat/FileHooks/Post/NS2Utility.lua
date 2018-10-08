@@ -57,18 +57,18 @@ function GetRandomSpawnForCapsule(capsuleHeight, capsuleRadius, origin, minRange
     for i = 0, kSpawnMaxRetries do
     
         local spawnPoint
-        local points = GetRandomPointsWithinRadius(origin, minRange, minRange*2 + ((maxRange-minRange*2) * i / kSpawnMaxRetries), kSpawnMaxVertical, 1, 1, nil, validationFunc)
+        local points = GetRandomPointsWithinRadius(origin, minRange, maxRange, kSpawnMaxVertical, 1, 1, nil, validationFunc)
         if #points == 1 then
             spawnPoint = points[1]
         elseif Server then
-            Print("GetRandomPointsWithinRadius() failed inside of GetRandomSpawnForCapsule()")
+            --Print("GetRandomPointsWithinRadius() failed inside of GetRandomSpawnForCapsule()")
         end
         
         if spawnPoint then
         
             -- The spawn point returned by GetRandomPointsWithinRadius() may be too close to the ground.
             -- Move it up a bit so there is some "wiggle" room. ValidateSpawnPoint() traces down anyway.
-            spawnPoint = spawnPoint + Vector(0, 0.5, 0)
+            spawnPoint = spawnPoint + Vector(0, 1.5, 0)
             local validSpawnPoint = ValidateSpawnPoint(spawnPoint, capsuleHeight, capsuleRadius, filter, origin)
             if validSpawnPoint then
                 return validSpawnPoint
