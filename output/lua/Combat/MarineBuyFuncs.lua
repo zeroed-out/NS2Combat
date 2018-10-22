@@ -49,13 +49,13 @@ function CombatMarineBuy_GUISortUps(upgradeList)
         kTechId.Armor1,
         kTechId.Armor2,
         kTechId.Armor3,
-        kTechId.PhaseTech,     
         "nextRow",
 
         -- 4, Class Upgrades
         kTechId.Jetpack,     
         kTechId.DualMinigunExosuit,
         kTechId.DualRailgunExosuit,
+        kTechId.PhaseTech,     
         "nextRow",
 
         -- 5, grenades

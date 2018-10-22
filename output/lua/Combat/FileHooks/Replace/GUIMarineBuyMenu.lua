@@ -20,6 +20,7 @@ GUIMarineBuyMenu.kArrowTexture = PrecacheAsset("ui/menu/arrow_horiz.dds")
 
 GUIMarineBuyMenu.kFont = Fonts.kAgencyFB_Small
 GUIMarineBuyMenu.kFont2 = Fonts.kAgencyFB_Small
+GUIMarineBuyMenu.kFontCost = Fonts.kAgencyFB_Large
 
 GUIMarineBuyMenu.kDescriptionFontName = Fonts.kAgencyFB_Tiny
 GUIMarineBuyMenu.kDescriptionFontSize = GUIScale(20)
@@ -430,7 +431,7 @@ function GUIMarineBuyMenu:_InitializeItemButtons()
                 graphicItem:AddChild(selectedArrow) 
                 
                 local itemCost = GUIManager:CreateTextItem()
-                itemCost:SetFontName(GUIMarineBuyMenu.kFont)
+                itemCost:SetFontName(GUIMarineBuyMenu.kFontCost)
                 itemCost:SetFontIsBold(true)
                 itemCost:SetAnchor(GUIItem.Right, GUIItem.Center)
                 itemCost:SetPosition(Vector(0, 0, 0))
@@ -553,17 +554,17 @@ function GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
             -- set grey if player doesn'T have the needed other Up
             if not gotRequirements then
             
-                useColor = Color(1, 0, 0, 1)
+                useColor = Color(0.4, 0.4, 0.4, 0.85)
                
             -- set it blink when we got the upp already
-            elseif  self.player:GotItemAlready(item.Upgrade) then
+            elseif self.player:GotItemAlready(item.Upgrade) then
                 
                 useColor = Color(1, 1, 0.2, 1)
                     
             -- set red if can't afford
             elseif PlayerUI_GetPlayerResources() < item.Upgrade:GetLevels() then
             
-                useColor = Color(0.5, 0.5, 0.5, 1) 
+                useColor = Color(0.8, 0.1, 0.1, 1) 
                
             end
             

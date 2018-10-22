@@ -311,7 +311,7 @@ function Player:HasRoomToEvolve(techId)
 		
 		for index = 1, 100 do
 			
-			local spawnPoint = GetRandomSpawnForCapsule(newAlienExtents.y, math.max(newAlienExtents.x, newAlienExtents.z), self:GetModelOrigin(), 0, 5, EntityFilterOneAndIsa(self, "Babbler"))
+			local spawnPoint = GetRandomSpawnForCapsule(newAlienExtents.y, math.max(newAlienExtents.x, newAlienExtents.z), self:GetOrigin() + Vector(0,2,0), 0, 5, EntityFilterAll())
 
 			if spawnPoint then
 
@@ -324,7 +324,9 @@ function Player:HasRoomToEvolve(techId)
 
 		end
 	end
-	
+	if not success then
+		Log("Couldn't find a spawn for capsule %s by %s", newAlienExtents.y, math.max(newAlienExtents.x, newAlienExtents.z))
+	end
 	return position, success
 	
 end
@@ -346,9 +348,10 @@ function Player:EvolveTo(newTechId)
 	
 	
 	if success then
-	
-        local newPlayer = self:Replace(Embryo.kMapName)
+		
         position.y = position.y + Embryo.kEvolveSpawnOffset
+		self:SetOrigin(position)
+        local newPlayer = self:Replace(Embryo.kMapName)
         newPlayer:SetOrigin(position)
           
         -- Clear angles, in case we were wall-walking or doing some crazy alien thing
