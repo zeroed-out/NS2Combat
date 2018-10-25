@@ -246,10 +246,37 @@ local function UpdateRefundButton(self)
 
 end
 
+function GUIAlienBuyMenu:_UpdatePurchasedButtons()
+
+    -- There are purchased and unpurchased buttons. Both are managed in this list.
+    local upgrades = AlienUI_GetPersonalUpgrades()
+	local changed = false
+
+    for i, currentButton in ipairs(self.upgradeButtons) do
+
+		local techId = currentButton.TechId
+
+		if not currentButton.Purchased then
+			local purchased = AlienBuy_GetUpgradePurchased(techId)
+			if purchased then
+				currentButton.Purchased = true
+				table.insertunique(self.upgradeList, techId)
+				changed = true
+			end
+		end
+
+    end
+	if changed then
+		self:SetPurchasedSelected()
+	end
+end
+
 local oldUpdate = GUIAlienBuyMenu.Update
 function GUIAlienBuyMenu:Update(deltaTime)
 
     oldUpdate(self, deltaTime)
+	
+	self:_UpdatePurchasedButtons()
 
     -- Call our version of the evolve button script.
     UpdateEvolveButton(self)
