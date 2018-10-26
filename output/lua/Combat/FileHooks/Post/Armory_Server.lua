@@ -3,11 +3,21 @@ local grenadeResupplyTime = 15
 local mineResupplyTime = 15
 
 local function ShouldResupplyGrenade(player)
+
+    if not player:GetIsAlive() then
+        return false
+    end
+	
 	local grenadeSlotWeapon = player:GetWeaponInHUDSlot(GrenadeThrower.GetHUDSlot())
 	return not grenadeSlotWeapon and (not player._lastGrenade or player._lastGrenade + grenadeResupplyTime < Shared.GetTime()) 
 end
 
 local function ShouldResupplyMine(player)
+
+    if not player:GetIsAlive() then
+        return false
+    end
+	
 	local mineSlotWeapon = player:GetWeaponInHUDSlot(LayMines.GetHUDSlot())
 	return not mineSlotWeapon and (not player._lastMine or player._lastMine + mineResupplyTime < Shared.GetTime()) 
 end
