@@ -309,9 +309,9 @@ function Player:HasRoomToEvolve(techId)
 		
 	else
 		
-		for index = 1, 100 do
+		for index = 1, 20 do
 			
-			local spawnPoint = GetRandomSpawnForCapsule(newAlienExtents.y, math.max(newAlienExtents.x, newAlienExtents.z), self:GetOrigin() + Vector(0,2,0), 0, 5, EntityFilterAll())
+			local spawnPoint = GetRandomSpawnForCapsule(newAlienExtents.y, math.max(newAlienExtents.x, newAlienExtents.z), self:GetOrigin() + Vector(0,0.5,0), 0, 2, EntityFilterAll())
 
 			if spawnPoint then
 

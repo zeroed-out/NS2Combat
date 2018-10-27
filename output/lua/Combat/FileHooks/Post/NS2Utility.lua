@@ -68,7 +68,7 @@ function GetRandomSpawnForCapsule(capsuleHeight, capsuleRadius, origin, minRange
         
             -- The spawn point returned by GetRandomPointsWithinRadius() may be too close to the ground.
             -- Move it up a bit so there is some "wiggle" room. ValidateSpawnPoint() traces down anyway.
-            spawnPoint = spawnPoint + Vector(0, 1.5, 0)
+            spawnPoint = spawnPoint + Vector(0, 0.6, 0)
             local validSpawnPoint = ValidateSpawnPoint(spawnPoint, capsuleHeight, capsuleRadius, filter, origin)
             if validSpawnPoint then
                 return validSpawnPoint
