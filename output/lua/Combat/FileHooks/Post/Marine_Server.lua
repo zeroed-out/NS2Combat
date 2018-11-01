@@ -8,13 +8,15 @@ function Marine:OnKill(...)
 end
 
 local oldOnTakeDamage = Marine.OnTakeDamage
-function Marine:OnTakeDamage(...)
+function Marine:OnTakeDamage(damage, ...)
 
-    oldOnTakeDamage(self, ...)
+    oldOnTakeDamage(self, damage, ...)
 
     -- Activate the Catalyst Pack.
-    self:CheckCombatData()
-    self:CheckCatalyst()
+	if damage and damage > 0 then
+		self:CheckCombatData()
+		self:CheckCatalyst()
+	end
 
 end
 

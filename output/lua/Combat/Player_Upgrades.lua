@@ -4,6 +4,9 @@
 -- store each players upgrades in a simple data structure like a bitmask or an array. That way we could avoid alot of
 -- currently needed networking and the expensive lookup methods.
 
+local kSpendResourcesSoundName = PrecacheAsset("sound/NS2.fev/marine/common/player_spend_nanites")
+
+
 function GetIsPrimaryWeapon(kMapName)
     local isPrimary = false
     
@@ -167,6 +170,10 @@ function Player:CoEnableUpgrade(upgrades)
             local pointText = (neededLvl > 1) and "points" or "point"
             self:SendDirectMessage(upgrade:GetDescription() .. " purchased for " .. neededLvl .. " upgrade " .. pointText)
             
+			if self:isa("Marine") or self:isa("Exo") then
+				Shared.PlayPrivateSound(self, kSpendResourcesSoundName, nil, 1.0, self:GetOrigin())
+			end
+			
             -- Special logic for alien lifeforms
             if self:isa("Alien") and upgrade:GetType() == kCombatUpgradeTypes.Class then
                 self.combatTable.currentLifeForm = upgrade

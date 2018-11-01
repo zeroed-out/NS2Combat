@@ -891,7 +891,7 @@ function GUIMarineBuyMenu:_HandleItemClicked(mouseX, mouseY)
             if researched and canAfford and not hasItem then
             
                 self.player:Combat_PurchaseItemAndUpgrades(item.Upgrade:GetTextCode())
-                self:OnClose()
+                --self:OnClose()
                 
                 return true, true
                 
