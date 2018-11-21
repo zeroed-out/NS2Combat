@@ -39,8 +39,8 @@ XpValues = {}
 XpValues["Marine"] = 0
 XpValues["Skulk"] = 0
 XpValues["Gorge"] = 10
-XpValues["Lerk"] = 20
-XpValues["Fade"] = 50
+XpValues["Lerk"] = 40
+XpValues["Fade"] = 80
 XpValues["Onos"] = 100
 XpValues["Exo"] = 100
 XpValues["Exosuit"] = 200
@@ -49,10 +49,10 @@ XpValues["Babbler"] = 5
 XpValues["Clog"] = 20
 XpValues["Cyst"] = 10
 XpValues["Armory"] = 100
-XpValues["CommandStation"] = 200
+XpValues["CommandStation"] = 400
 XpValues["PowerPoint"] = 0
 XpValues["Extractor"] = 0
-XpValues["Hive"] = 400
+XpValues["Hive"] = 800
 
 local function UpgradeArmor(player, techUpgrade)
 	techUpgrade:ExecuteTechUpgrade(player)
