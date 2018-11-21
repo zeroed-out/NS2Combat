@@ -18,6 +18,11 @@ GUIMarineBuyMenu.kMenuSelectionTexture = PrecacheAsset("ui/marine_buymenu_select
 GUIMarineBuyMenu.kScanLineTexture = PrecacheAsset("ui/menu/scanLine_big.dds")
 GUIMarineBuyMenu.kArrowTexture = PrecacheAsset("ui/menu/arrow_horiz.dds")
 
+GUIMarineBuyMenu.kMoreResources = PrecacheAsset("sound/NS2.fev/marine/voiceovers/commander/more")
+GUIMarineBuyMenu.kNeedsResearch = PrecacheAsset("sound/NS2.fev/common/invalid")
+Client.PrecacheLocalSound(GUIMarineBuyMenu.kMoreResources)
+Client.PrecacheLocalSound(GUIMarineBuyMenu.kNeedsResearch)
+
 GUIMarineBuyMenu.kFont = Fonts.kAgencyFB_Small
 GUIMarineBuyMenu.kFont2 = Fonts.kAgencyFB_Small
 GUIMarineBuyMenu.kFontCost = Fonts.kAgencyFB_Large
@@ -891,11 +896,17 @@ function GUIMarineBuyMenu:_HandleItemClicked(mouseX, mouseY)
             if researched and canAfford and not hasItem then
             
                 self.player:Combat_PurchaseItemAndUpgrades(item.Upgrade:GetTextCode())
-                --self:OnClose()
+                self:OnClose()
                 
                 return true, true
                 
             end
+			
+			if not researched then
+				Shared.PlaySound(nil, GUIMarineBuyMenu.kNeedsResearch)
+			elseif not canAfford then
+				Shared.PlaySound(nil, GUIMarineBuyMenu.kMoreResources)
+			end
             
         end 
         

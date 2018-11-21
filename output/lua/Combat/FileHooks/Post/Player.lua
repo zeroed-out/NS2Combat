@@ -105,3 +105,8 @@ if Server then
         return self.nextRespawnTime or 0
     end
 end
+
+-- combat is an arcade mode, so "rookie" status doesn't apply
+function Player:GetIsRookie()
+    return false -- self.isRookie
+end
