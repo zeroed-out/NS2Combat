@@ -33,3 +33,9 @@ if Server then
 	Server.AddRestrictedFileHashes(hookedFolder .. "/*")
 end
 SetupFilehookFolders(hookedFolder)
+
+-- fix for ns2_co_core that includes the old water mod that breaks the server
+ModLoader.SetupFileHook("lua/water_Client.lua", "", "halt")
+ModLoader.SetupFileHook("lua/water_Server.lua", "", "halt")
+ModLoader.SetupFileHook("lua/water_Predict.lua", "", "halt")
+ModLoader.SetupFileHook("lua/water_Shared.lua", "", "halt")
