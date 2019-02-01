@@ -1,3 +1,13 @@
+
+local oldResetTeam = MarineTeam.ResetTeam
+function MarineTeam:ResetTeam()
+	local oldReturn = oldResetTeam(self)
+	
+	self.lastArcSpawn = Shared.GetTime()
+	
+	return oldReturn
+end
+
 function MarineTeam:SpawnWarmUpStructures()
 end
 
@@ -34,10 +44,34 @@ function MarineTeam:SpawnInitialStructures(techPoint)
 end
 
 
+function MarineTeam:SpawnARC()
+	local ARCPos
+	local extents = Vector(0.2, 0.2, 0.2) -- LookupTechData(kTechId.ARC, kTechDataMaxExtents)
+    for p = 1, 20 do
+		ARCPos = GetRandomSpawnForCapsule(extents.y, extents.x, self.startTechPoint:GetOrigin() + Vector(0,p* 0.1 + 4,0), 2, 6)
+		if ARCPos then
+		
+			break
+			
+		end
+	end
+	if not ARCPos then
+		ARCPos = self.startTechPoint:GetOrigin() + Vector(2, 1, 2)
+	end
+	local newEnt = CreateEntity(ARC.kMapName, ARCPos, self:GetTeamNumber())
+	SetRandomOrientation(newEnt)
+	newEnt:TriggerEffects("spawnSoundEffects")
+end
 
--- Don't Check for IPS
+-- Don't Check for IPs
 function MarineTeam:Update(timePassed)
 
     PlayingTeam.Update(self, timePassed)
+	if GetGamerules():GetGameStarted() and kCombatARCSpawnEnabled then
+		if self.lastArcSpawn + ScaleWithPlayerCount(kARCSpawnFrequency, #GetEntitiesForTeam("Player", GetEnemyTeamNumber(self:GetTeamNumber())), false)  < Shared.GetTime() then
+			self.lastArcSpawn = Shared.GetTime()
+			self:SpawnARC()
+		end
+	end
     
 end
