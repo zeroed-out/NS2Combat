@@ -4,21 +4,23 @@
 
 -- Todo: Make it possible to set up the levels via a config
 XpList = {}
-XpList[1] = { Level=1, 		XP=0,		MarineName="Private", 				AlienName="Hatchling", 		GivenXP=60}
-XpList[2] = { Level=2, 		XP=100, 	MarineName="Private First Class", 	AlienName="Xenoform", 		GivenXP=70}
-XpList[3] = { Level=3, 		XP=250, 	MarineName="Corporal", 				AlienName="Minion", 		GivenXP=80}
-XpList[4] = { Level=4, 		XP=500, 	MarineName="Sergeant", 				AlienName="Ambusher", 		GivenXP=90}
-XpList[5] = { Level=5, 		XP=800, 	MarineName="Lieutenant", 			AlienName="Attacker", 		GivenXP=100}
-XpList[6] = { Level=6, 		XP=1100, 	MarineName="Captain", 				AlienName="Rampager", 		GivenXP=110}
-XpList[7] = { Level=7, 		XP=1450, 	MarineName="Commander", 			AlienName="Slaughterer", 	GivenXP=120}
-XpList[8] = { Level=8, 		XP=1900, 	MarineName="Major", 				AlienName="Eliminator", 	GivenXP=130}
-XpList[9] = { Level=9, 		XP=2300, 	MarineName="Field Marshal", 		AlienName="Nightmare", 		GivenXP=140}
-XpList[10] = { Level=10, 	XP=2800, 	MarineName="Major General", 		AlienName="Behemoth", 		GivenXP=160}
-XpList[11] = { Level=11, 	XP=3500, 	MarineName="General", 			    AlienName="Overlord", 		GivenXP=180}
-XpList[12] = { Level=12, 	XP=4500, 	MarineName="Badass", 				AlienName="Super Mutant", 	GivenXP=200}
-XpList[13] = { Level=13, 	XP=6000, 	MarineName="Rambo", 				AlienName="Hive Mind", 	 	GivenXP=210}
-XpList[14] = { Level=14, 	XP=9000, 	MarineName="TSF Defender", 		    AlienName="Unstoppable Fury", 	 	GivenXP=220}
-XpList[15] = { Level=15, 	XP=15000, 	MarineName="Hero of Sanjii", 		AlienName="Scourge of Sanjii", 	 	GivenXP=230}
+XpList[1] = { Level=1, 		XP=0,		MarineName="Private", 				AlienName="Hatchling",         GivenXP=60 		}
+XpList[2] = { Level=2, 		XP=100, 	MarineName="Private First Class", 	AlienName="Snark",      	   GivenXP=62 		}
+XpList[3] = { Level=3, 		XP=210, 	MarineName="Corporal", 				AlienName="Minion",     	   GivenXP=65 		}
+XpList[4] = { Level=4, 		XP=350, 	MarineName="Sergeant", 				AlienName="Grunt",      	   GivenXP=67 		}
+XpList[5] = { Level=5, 		XP=450, 	MarineName="Lieutenant", 			AlienName="Ambusher",    	   GivenXP=70 		}
+XpList[6] = { Level=6, 		XP=600, 	MarineName="Captain", 				AlienName="Rampager",      	   GivenXP=75 		}
+XpList[7] = { Level=7, 		XP=760, 	MarineName="Commander", 			AlienName="Slaughterer",       GivenXP=80		}
+XpList[8] = { Level=8, 		XP=930, 	MarineName="Major", 				AlienName="Eliminator",        GivenXP=85		}
+XpList[9] = { Level=9, 		XP=1100, 	MarineName="Field Marshal", 		AlienName="Behemoth",      	   GivenXP=90		}
+XpList[10] = { Level=10, 	XP=1280, 	MarineName="Major General", 		AlienName="Bane",      		   GivenXP=95		}
+XpList[11] = { Level=11, 	XP=1500, 	MarineName="Brigadier General", 	AlienName="Guardian",     	   GivenXP=100		}
+XpList[12] = { Level=12, 	XP=1740, 	MarineName="Major General", 		AlienName="Overlord",     	   GivenXP=105		}
+XpList[13] = { Level=13, 	XP=2000, 	MarineName="General", 			    AlienName="Nightmare",         GivenXP=110		}
+XpList[14] = { Level=14, 	XP=2250, 	MarineName="Badass", 				AlienName="Super Mutant",      GivenXP=115		}
+XpList[15] = { Level=15, 	XP=2500, 	MarineName="Rambo", 				AlienName="Hive Mind",         GivenXP=120		}
+XpList[16] = { Level=16, 	XP=3000, 	MarineName="TSF Defender", 		    AlienName="Unstoppable Fury",  GivenXP=135		}
+XpList[17] = { Level=17, 	XP=3500, 	MarineName="Hero of Sanjii", 		AlienName="Scourge of Sanjii", GivenXP=150		}
 
 maxLvl = #XpList
 maxXp = XpList[maxLvl]["XP"]

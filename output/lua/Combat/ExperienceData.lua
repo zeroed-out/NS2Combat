@@ -24,14 +24,18 @@ mateXpAmount = 0.4
 mateXpRange = 20
 
 -- how much % from the xp are the assisters are getting
-assistXpAmount = 0.4
+assistXpAmount = 1.0
 
-assistXPRange = 25
+assistXPRange = 15
 
 -- how much to divide the XP between nearby players?
 -- e.g. set to 1 to divide equally among nearby assisters
 --      or set it to 0 to give all nearby assisters max XP
-assistPlayerRatio = 0.6
+assistPlayerRatio = 1.0
+
+baseXpForKill = 60
+-- extra bonus xp given per level difference
+extraXpPerLevelDiff = 10
 
 -- XP-Values
 -- Scores for various creatures and structures.
@@ -39,20 +43,21 @@ XpValues = {}
 XpValues["Marine"] = 0
 XpValues["Skulk"] = 0
 XpValues["Gorge"] = 10
-XpValues["Lerk"] = 40
-XpValues["Fade"] = 80
-XpValues["Onos"] = 100
-XpValues["Exo"] = 100
-XpValues["Exosuit"] = 200
+XpValues["Lerk"] = 20
+XpValues["Fade"] = 40
+XpValues["Onos"] = 50
+XpValues["Exo"] = 50
+XpValues["Exosuit"] = 100
 XpValues["Hydra"] = 30
 XpValues["Babbler"] = 5
 XpValues["Clog"] = 20
 XpValues["Cyst"] = 10
 XpValues["Armory"] = 100
-XpValues["CommandStation"] = 400
+XpValues["CommandStation"] = 200
 XpValues["PowerPoint"] = 0
 XpValues["Extractor"] = 0
-XpValues["Hive"] = 800
+XpValues["Hive"] = 400
+XpValues["ARC"] = 50
 
 local function UpgradeArmor(player, techUpgrade)
 	techUpgrade:ExecuteTechUpgrade(player)

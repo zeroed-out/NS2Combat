@@ -149,6 +149,8 @@ kAlienInitialIndivRes = 0
 -- disabled this for better balance
 kHeavyTechCooldown = 0
 
+kCombatARCSpawnEnabled = true
+
 -- Alien Tier to Ability map
 kCombatAlienTierTwoTechIds = { kTechId.Leap, kTechId.BabblerEgg, kTechId.BabblerAbility, kTechId.Umbra, kTechId.MetabolizeEnergy, kTechId.MetabolizeHealth, kTechId.Charge, kTechId.BoneShield }
 kCombatAlienTierThreeTechIds = { kTechId.BileBomb, kTechId.Web, kTechId.BoneShield, kTechId.Spores, kTechId.Stab, kTechId.Stomp }

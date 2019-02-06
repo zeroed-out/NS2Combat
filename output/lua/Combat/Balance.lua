@@ -55,3 +55,5 @@ ShadeInk.kShadeInkDisorientRadius = 9
 kCombatTauntCheckInterval = 4
 
 kSprintSpeedUpgradeScalar = 3.25
+
+kARCSpawnFrequency = 30

@@ -2,7 +2,7 @@
 kCombatUpgrades = enum({-- Marine upgrades
                         'Mines', 'Welder', 'Shotgun', 'Flamethrower', 'GrenadeLauncher', 'HeavyMachineGun',
                         'Weapons1', 'Weapons2', 'Weapons3', 'Armor1', 'Armor2', 'Armor3',
-                        'MotionDetector', 'Scanner', 'Catalyst', 'Resupply', 'EMP', 'FastSprint',
+                        'MotionDetector', 'Scanner', 'Catalyst', 'Resupply', 'ImprovedResupply', 'EMP', 'FastSprint',
                         'Jetpack', 'Exosuit', 'DualMinigunExosuit', 'FastReload',
                         'RailGunExosuit', 'ClusterGrenade', 'GasGrenade', 'PulseGrenade',
 

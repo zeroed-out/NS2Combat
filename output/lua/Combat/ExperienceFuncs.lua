@@ -29,11 +29,20 @@ end
 function GetXpValue(entity)
 
 	if entity:isa("Player") then
-		return XpList[entity.combatTable.lvl]["GivenXP"]
+		return XpList[entity.combatTable.lvl] and XpList[entity.combatTable.lvl]["GivenXP"] or 0
 	else
-		return XpValues[entity:GetClassName()]
+		return XpValues[entity:GetClassName()] or 0
 	end
 	
+end
+
+function GetXpLevelDiff(killedPlayer, nearbyPlayer)
+	if killedPlayer:isa("Player") and nearbyPlayer:isa("Player") and
+		killedPlayer.combatTable and nearbyPlayer.combatTable then
+		local levelDiff = killedPlayer.combatTable.lvl - nearbyPlayer.combatTable.lvl
+		return math.max(0, levelDiff * extraXpPerLevelDiff)
+	end
+	return 0
 end
 
 -- Used to check whether an entity should deliver Xp on death or on damage
