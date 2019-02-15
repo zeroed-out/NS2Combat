@@ -130,7 +130,22 @@ function GUIMarineHUD:Update(deltaTime)
     if self.resupplyStatus then
         self.resupplyStatus:SetIsVisible(PlayerUI_GetHasResupply())
         self.resupplyText:SetIsVisible(PlayerUI_GetHasResupply())
-        self.resupplyText:SetText(tostring(PlayerUI_GetNextResupplyIn()))
+		local nextIn = PlayerUI_GetNextResupplyIn()
+        self.resupplyText:SetText(tostring(nextIn))
+		
+		local resupplied = nextIn and nextIn > kResupplyTimer
+		-- has used on-demand resupply
+		if resupplied ~= self._improvedResupplied then
+			if resupplied then
+				self.resupplyText:SetColor(Color(1,0,0))
+				self.resupplyStatus:SetColor(Color(1,0,0))
+			else
+				self.resupplyText:SetColor(kIconColors[kMarineTeamType])
+				self.resupplyStatus:SetColor(kIconColors[kMarineTeamType])
+			end
+		end
+		self._improvedResupplied = resupplied
+		
     end
     if self.catpackStatus then
         self.catpackStatus:SetIsVisible(PlayerUI_GetHasCatPack())
