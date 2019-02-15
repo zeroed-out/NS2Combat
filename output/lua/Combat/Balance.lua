@@ -40,7 +40,8 @@ kEMPBlastEnergyDamage = 75
 
 -- Timers for Scan, Resupply and Catalyst packs.
 kScanTimer = 14
-kResupplyTimer = 6
+kResupplyTimer = 5
+kImprovedResupplyExtra = 5
 AmmoPack.kNumClips = 1
 kCatalystTimer = 14
 

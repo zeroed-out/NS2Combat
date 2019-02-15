@@ -86,7 +86,8 @@ local function GetSmallIconPixelCoordinates(itemTechId)
         kCombatMarineTechIdToMaterialOffset[kTechId.Weapons1] = 55
         kCombatMarineTechIdToMaterialOffset[kTechId.Weapons2] = 56
         kCombatMarineTechIdToMaterialOffset[kTechId.Weapons3] = 57        
-        kCombatMarineTechIdToMaterialOffset[kTechId.MedPack] = 37
+        kCombatMarineTechIdToMaterialOffset[kTechId.MedPack] = 37 
+        kCombatMarineTechIdToMaterialOffset[kTechId.AmmoPack] = 36
         kCombatMarineTechIdToMaterialOffset[kTechId.Scan] = 41
         kCombatMarineTechIdToMaterialOffset[kTechId.MACEMP] = 62
         kCombatMarineTechIdToMaterialOffset[kTechId.CatPack] = 45

@@ -75,3 +75,33 @@ function MarineTeam:Update(timePassed)
 	end
     
 end
+
+
+local oldTriggerAlert = MarineTeam.TriggerAlert
+function MarineTeam:TriggerAlert(techId, entity, force)
+	oldTriggerAlert(self, techId, entity, force)
+	
+	if (techId == kTechId.MarineAlertNeedMedpack or techId == kTechId.MarineAlertNeedAmmo) and 
+		entity and entity:isa("Player") and
+		entity:GetIsAlive() and entity.combatTable and entity.combatTable.hasImprovedResupply and
+		(entity.combatTable.lastResupply <= Shared.GetTime()) then
+		
+		local newTime = Shared.GetTime() + kImprovedResupplyExtra
+		entity.combatTable.lastResupply = newTime
+		entity.lastResupply = newTime
+		
+		local position = entity:GetOrigin()
+		local mapName
+		if techId == kTechId.MarineAlertNeedMedpack then
+			mapName = MedPack.kMapName
+		else -- ammopack instead
+			mapName = AmmoPack.kMapName
+		end
+		
+        local droppack = CreateEntity(mapName, position, self:GetTeamNumber())
+        droppack:TriggerEffects( "medpack_commander_drop", { effecthostcoords = Coords.GetTranslation(position) } )
+		
+	end
+	
+end
+

@@ -111,9 +111,9 @@ kDualMinigunCost = generalCost
 
 -- Used by alien buy menu
 kGorgeCost = 1
-kLerkCost = 2
-kFadeCost = 4
-kOnosCost = 5
+kLerkCost = 3
+kFadeCost = 5
+kOnosCost = 6
 
 kCarapaceCost = generalCost
 kRegenerationCost = generalCost

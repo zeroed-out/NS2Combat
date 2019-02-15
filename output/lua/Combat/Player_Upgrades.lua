@@ -504,6 +504,7 @@ function Player:Reset_Lite()
     self.combatTable.lastScan = 0
 
     self.combatTable.hasResupply = false
+    self.combatTable.hasImprovedResupply = false
     self.combatTable.lastResupply = 0
 	
 	self.combatTable.hasCatalyst = false

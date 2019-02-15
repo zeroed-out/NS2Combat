@@ -24,10 +24,10 @@ function CombatMarineBuy_GUISortUps(upgradeList)
         -- 0, Support
         "nextRow",
         kTechId.MedPack,
+        kTechId.AmmoPack,
         kTechId.CatPack,
         kTechId.Scan,
         kTechId.LayMines,
-        kTechId.MACEMP,
         kTechId.Welder,
         "nextRow",
 
@@ -92,10 +92,10 @@ function CombatMarineBuy_GetWeaponDescription(techId)
         combatWeaponDescription = {}
 
         combatWeaponDescription[kTechId.MedPack] ={ "COMBAT_RESUPPLY_DESCRIPTION", kResupplyTimer }
+        combatWeaponDescription[kTechId.AmmoPack] =  {"COMBAT_IMPROVED_RESUPPLY_DESCRIPTION", kImprovedResupplyExtra}
         combatWeaponDescription[kTechId.Scan] = { "COMBAT_SCAN_DESCRIPTION", kScanTimer }
         combatWeaponDescription[kTechId.Welder] = { "COMBAT_WELDER_DESCRIPTION" }
         combatWeaponDescription[kTechId.LayMines] = {"COMBAT_MINES_DESCRIPTION"}
-        combatWeaponDescription[kTechId.MACEMP] =  {"COMBAT_EMP_DESCRIPTION", kEMPTimer}
         combatWeaponDescription[kTechId.CatPack] =  {"COMBAT_CATALYST_DESCRIPTION", kCatalystTimer}
 
         combatWeaponDescription[kTechId.Axe] = {"COMBAT_AXE_DESCRIPTION"}

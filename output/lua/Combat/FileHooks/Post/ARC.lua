@@ -1,6 +1,6 @@
 
 ARC.kMoveSpeed = 1.2 -- was 2.0
-ARC.kCombatMoveSpeed = 0.8 -- was 0.8
+ARC.kCombatMoveSpeed = 0.4 -- was 0.8
 if Server then
 	local oldOnUpdate = ARC.OnUpdate
 	function ARC:OnUpdate(deltaTime)
