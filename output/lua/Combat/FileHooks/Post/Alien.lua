@@ -1,3 +1,13 @@
+
+Script.Load("lua/Combat/InkMixin.lua")
+
+local oldOnCreate = Alien.OnCreate
+function Alien:OnCreate()
+	oldOnCreate(self)
+    InitMixin(self, InkMixin)
+	
+end
+
 function Alien:UpdateArmorAmount(carapaceLevel)
 
     local level = GetHasCarapaceUpgrade(self) and carapaceLevel or 0
