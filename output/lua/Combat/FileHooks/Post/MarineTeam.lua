@@ -61,6 +61,7 @@ function MarineTeam:SpawnARC()
 	local newEnt = CreateEntity(ARC.kMapName, ARCPos, self:GetTeamNumber())
 	SetRandomOrientation(newEnt)
 	newEnt:TriggerEffects("spawnSoundEffects")
+	GetGamerules():SpawnedARC()
 end
 
 -- Don't Check for IPs

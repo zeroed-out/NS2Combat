@@ -265,6 +265,14 @@ function NS2Gamerules:GetPregameLength()
     
 end
 
+
+function NS2Gamerules:SpawnedARC()
+	if not self.notified_about_arcs then
+		self.notified_about_arcs = true
+		SendGlobalChatMessage("The Marines have spawned an ARC!")
+	end
+end
+
 function NS2Gamerules:CheckGameStart()
 
 	if self:GetGameState() <= kGameState.PreGame then
