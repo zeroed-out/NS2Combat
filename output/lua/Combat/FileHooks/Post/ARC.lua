@@ -1,10 +1,19 @@
 
 ARC.kMoveSpeed = 1.2 -- was 2.0
 ARC.kCombatMoveSpeed = 0.4 -- was 0.8
+
+function ARC:GetIsSighted()
+	return true
+end
+
 if Server then
 	local oldOnUpdate = ARC.OnUpdate
 	function ARC:OnUpdate(deltaTime)
 		oldOnUpdate(self, deltaTime)
+		
+		-- todo: Do something less hacky
+		self:SetParasited()
+		
 		if self.deployMode == ARC.kDeployMode.Undeployed then
 		
 			local enemyCCs = GetEntitiesForTeam("CommandStructure", GetEnemyTeamNumber(self:GetTeamNumber()))
