@@ -57,7 +57,7 @@ XpValues["CommandStation"] = 200
 XpValues["PowerPoint"] = 0
 XpValues["Extractor"] = 0
 XpValues["Hive"] = 400
-XpValues["ARC"] = 100
+XpValues["ARC"] = 80
 
 local function UpgradeArmor(player, techUpgrade)
 	techUpgrade:ExecuteTechUpgrade(player)
