@@ -160,7 +160,11 @@ function NS2Gamerules:OnClientConnect(client)
 end
 
 function NS2Gamerules:UpdateWarmUp()
-	-- disable warmup
+	-- Just make warmup and notStarted the same thing
+	local gameState = self:GetGameState()
+	if gameState == kGameState.NotStarted then
+		self:SetGameState(kGameState.WarmUp)
+	end
 end
 
 local lastTimeXPRebalanced = 0
@@ -273,27 +277,51 @@ function NS2Gamerules:SpawnedARC()
 	end
 end
 
+function NS2Gamerules:GetNumConnecting()
+
+	local numNumPlayers = Server.GetNumPlayers and Server.GetNumPlayers() or 0
+	local numPlaying = Server.GetNumPlayingPlayers and Server.GetNumPlayingPlayers() or 0
+	local numSpectator = Server.GetNumSpectators and Server.GetNumSpectators() or 0
+	
+	return numNumPlayers - numSpectator - numPlaying
+	
+end
+
+local kWaitForConnectingTime = 30
 function NS2Gamerules:CheckGameStart()
 
+	
 	if self:GetGameState() <= kGameState.PreGame then
 
 		-- Start pre-game when both teams have players or when once side does if cheats are enabled
 		local team1Players = self.team1:GetNumPlayers()
 		local team2Players = self.team2:GetNumPlayers()
-
-		if (team1Players > 0 and team2Players > 0) or (Shared.GetCheatsEnabled() and (team1Players > 0 or team2Players > 0)) then
+		
+		local waitingForConnecting = false
+		if self:GetNumConnecting() > 0 and Shared.GetTime() < kWaitForConnectingTime then
+			waitingForConnecting = true
+		end
+		
+		if waitingForConnecting and team1Players > 0 and team2Players > 0 and not self.sentWaitingForConnectingMessage then
+			self.sentWaitingForConnectingMessage = true
+			local extraTime = math.ceil(kWaitForConnectingTime - Shared.GetTime())
+			SendGlobalChatMessage(string.format("Players still connecting. Waiting %s seconds for them to connect.", extraTime))
+		end
+		
+		if (not waitingForConnecting and team1Players > 0 and team2Players > 0) or 
+		  (Shared.GetCheatsEnabled() and (team1Players > 0 or team2Players > 0)) then
 
 			if self:GetGameState() < kGameState.PreGame then
 				--StartCountdown(self)
                 self:SetGameState(kGameState.PreGame)
-                
+				
                 -- TODO: Put this on the client side so we can translate it
                 SendGlobalChatMessage(string.format("Game is starting in %s seconds!", self:GetPregameLength()))
 			end
 
 		else
 			if self:GetGameState() == kGameState.PreGame then
-				self:SetGameState(kGameState.NotStarted)
+				self:SetGameState(kGameState.WarmUp)
                 SendGlobalChatMessage("Game start aborted. Join teams to start the game.")
 			end
 		end
