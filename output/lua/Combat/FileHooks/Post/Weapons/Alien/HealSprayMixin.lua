@@ -36,10 +36,10 @@ local function HealEntity(self, player, targetEntity)
         health = health * 0.5
     end
     
-    local amountHealed = targetEntity:AddHealth(health, true, false, true, player)
+    local amountHealed = targetEntity:AddHealth(health, true, false, false, player)
     
     -- Do not count amount self healed.
-    if Server and targetEntity ~= player then
+    if Server and targetEntity ~= player and not targetEntity:isa("Hydra") then
 	
 		--
 		-- Addition for Combat Mode to give XP for healing.
@@ -67,9 +67,10 @@ local function HealEntity(self, player, targetEntity)
         targetEntity:SetGameEffectMask(kGameEffect.OnFire, false)
     end
     
-    if Server and amountHealed > 0 then
-        targetEntity:TriggerEffects("sprayed")
-    end
+    --$McG: There is no effect defined as 'sprayed'
+    --if Server and amountHealed > 0 then
+    --    targetEntity:TriggerEffects("sprayed")
+    --end
     
 end
 

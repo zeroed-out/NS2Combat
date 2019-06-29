@@ -22,7 +22,7 @@ if Server then
 			
 				if enemy:GetIsAlive() then
 				
-					local distToTarget = (enemy:GetOrigin() - self:GetOrigin()):GetLengthXZ()
+					local distToTarget = (enemy:GetOrigin() - self:GetOrigin()):GetLength()
 					
 					if distToTarget < kARCRange - 2 then
 						self:GiveOrder(kTechId.ARCDeploy, self:GetId(), self:GetOrigin(), nil, true, true)

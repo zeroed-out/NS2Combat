@@ -22,8 +22,8 @@ function TechTree:CopyDataFrom(techTree)
     self.teamNumber = techTree.teamNumber
     
     if Server then
-        self.techNodesChanged = {}
-		self.upgradedTechIdsSupporting = {}
+        self.techNodesChanged = unique_set()
+        self.upgradedTechIdsSupporting = {}
 		
 		-- Deep clone the supporting techId list.
 		for i = 1, #techTree.upgradedTechIdsSupporting do

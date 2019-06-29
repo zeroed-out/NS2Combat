@@ -279,11 +279,10 @@ end
 
 function NS2Gamerules:GetNumConnecting()
 
-	local numNumPlayers = Server.GetNumPlayers and Server.GetNumPlayers() or 0
-	local numPlaying = Server.GetNumPlayingPlayers and Server.GetNumPlayingPlayers() or 0
-	local numSpectator = Server.GetNumSpectators and Server.GetNumSpectators() or 0
+	local numTotalPlayers = Server.GetNumPlayersTotal and Server.GetNumPlayersTotal() or 0
+	local numPlaying = Server.GetNumPlayers and Server.GetNumPlayers() or 0
 	
-	return numNumPlayers - numSpectator - numPlaying
+	return numTotalPlayers - numPlaying
 	
 end
 

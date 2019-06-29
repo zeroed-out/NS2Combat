@@ -44,6 +44,11 @@ function PowerPoint:GetCanConstructOverride()
 	return false
 end
 
+function PowerPoint:GetCanBeWeldedOverride()
+	return false
+end
+
+
 function PowerPoint:GetCanTakeDamageOverride()
 	return false
 end

@@ -67,7 +67,12 @@ local function UpdateScoreDisplay(self, deltaTime)
         self.scoreDisplayPopdownTime = 0
         self.scoreDisplayFadeoutTime = 0
 		
-        self.scoreDisplay:SetText(string.format("+%.0f%s", newScore, GUINotifications.kScoreDisplayExtraText))
+		local strform = "+%.0f%s"
+		if newScore < 10 then
+			strform = "+%.1f%s"
+		end
+		
+        self.scoreDisplay:SetText(string.format(strform, newScore, GUINotifications.kScoreDisplayExtraText))
         self.scoreDisplay:SetScale(GUIScale(Vector(0.5, 0.5, 0.5)))
         
         self.scoreDisplay:SetColor(wasKill and GUINotifications.kScoreDisplayKillTextColor or GUINotifications.kScoreDisplayTextColor)

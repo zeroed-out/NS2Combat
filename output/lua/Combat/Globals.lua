@@ -3,6 +3,9 @@ Script.Load("lua/Combat/Balance.lua")
 
 kMaxScore = 16000 -- max of 16384 due to engine... -- was 9999
 
+-- Max distance to propagate entities with... increase it due to crazy combat maps
+kMaxRelevancyDistance = 45 -- was 40
+
 -- Experience based values like avgXpAmount is still in ExperienceData
 
 -- Welcome Message that every player receives who joined our game
@@ -85,7 +88,7 @@ kHiveCCHealRate = 0.3
 -- The rate at which players gain XP for healing... relative to damage dealt.
 kHealXpRate = 0.5
 -- Rate at which players gain XP for healing other players...
-kPlayerHealXpRate = 0
+kPlayerHealXpRate = 0.2
 
 -- kill hydras after some time if the owner isn't a gorge
 kHydraKillTime = 30
@@ -131,12 +134,6 @@ kCelerityCost = generalCost
 kHyperMutationCost = generalCost
 kGorgeTunnelCost = generalCost
 kBabblerCost = 0
-
--- to get it loaded into the TechData
-SetCachedTechData(kTechId.Hydra, kTechDataCostKey, kHydraCost)
-SetCachedTechData(kTechId.GorgeTunnel, kTechDataCostKey, kGorgeTunnelCost)
-SetCachedTechData(kTechId.BabblerEgg, kTechDataCostKey, kBabblerCost)
-SetCachedTechData(kTechId.Web, kTechDataCostKey, kWebBuildCost)
 
 -- Range for evolving to Onos/Exo from the Hive/CommandStation
 kTechRange = 20.0

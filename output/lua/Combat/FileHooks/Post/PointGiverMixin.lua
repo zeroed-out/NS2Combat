@@ -34,25 +34,25 @@ function PointGiverMixin:GiveXpForKill(dying, killer)
 	
 	local baseXp = GetXpValue(dying)
 	
-    local playersInRange = GetEntitiesForTeamWithinRange("Player", GetEnemyTeamNumber(self:GetTeamNumber()), self:GetOrigin(), assistXPRange)
+    local playersInRange = GetEntitiesForTeamWithinRange("Player", GetEnemyTeamNumber(self:GetTeamNumber()), self:GetOrigin(), assistLOSXPRange)
     
-    -- Only give Xp to players who are alive!
     local alivePlayers = {}
+	
+	-- always include the killer even if they are dead!
+	if killer then
+        table.insert(alivePlayers, killer)
+	end
+	
     for _, player in ipairs(playersInRange) do
-        if player:GetIsAlive() then
-            table.insert(alivePlayers, player)
-			
-			-- prevent adding the killer twice
-			if player == killer then
-				killer = nil
+        if player:GetIsAlive() and killer ~= player then
+		
+			-- check if we're in the minimum assist XP range, if not, do a LOS check
+			if (self:GetOrigin() - player:GetOrigin()):GetLength() < assistXPRange or GetCanSeeEntity(player, self) then
+				table.insert(alivePlayers, player)
 			end
 			
         end
     end
-
-	if killer then
-        table.insert(alivePlayers, killer)
-	end
     
     baseXp = baseXp * assistXpAmount
 	
