@@ -27,6 +27,7 @@ mateXpRange = 20
 assistXpAmount = 1.0
 
 assistXPRange = 15
+assistLOSXPRange = 40
 
 -- how much to divide the XP between nearby players?
 -- e.g. set to 1 to divide equally among nearby assisters
@@ -58,6 +59,9 @@ XpValues["PowerPoint"] = 0
 XpValues["Extractor"] = 0
 XpValues["Hive"] = 400
 XpValues["ARC"] = 80
+XpValues["Whip"] = 50
+XpValues["Crag"] = 50
+XpValues["Shift"] = 50
 
 local function UpgradeArmor(player, techUpgrade)
 	techUpgrade:ExecuteTechUpgrade(player)

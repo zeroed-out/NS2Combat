@@ -15,7 +15,7 @@ kPowerPointPointValue = 0
 kCombatPowerPointAutoRepairTime = 300
 
 -- Grenade Launcher nerf
-kGrenadeLauncherGrenadeDamage = 135
+kGrenadeLauncherGrenadeDamage = 70 -- vanilla is 90, but we allow for damage upgrades
 
 -- kill hydras if the player is not a gorge after 30 seconds
 kKillHydrasWhenNotGorge = true
