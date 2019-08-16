@@ -43,12 +43,44 @@ function MarineTeam:SpawnInitialStructures(techPoint)
     return tower, commandStation    
 end
 
+function MarineTeam:GetARCSpawnPoint()
+
+	-- if there's a robo or arc factory
+	local robos = GetEntitiesForTeam("RoboticsFactory", self:GetTeamNumber())
+	if #robos > 0 then	
+		
+		for _, robo in ipairs(robos) do
+			return robo:GetOrigin()
+		end
+		
+	end
+	
+	return self.startTechPoint:GetOrigin()
+end
+
+function MarineTeam:PathExistsToEnemyCommand(origin)
+
+	local teamNumber = GetEnemyTeamNumber(self:GetTeamNumber())
+	local hives = GetEntitiesForTeam("CommandStructure", teamNumber)
+	
+	for _, hive in ipairs(hives) do
+	
+		local points = PointArray()
+		local isReachable = Pathing.GetPathPoints(origin, hive:GetOrigin(), points)   
+		if isReachable then
+			return true
+		end
+		
+	end
+	
+	return false
+end
 
 function MarineTeam:SpawnARC()
 	local ARCPos
 	local extents = Vector(0.2, 0.2, 0.2) -- LookupTechData(kTechId.ARC, kTechDataMaxExtents)
     for p = 1, 20 do
-		ARCPos = GetRandomSpawnForCapsule(extents.y, extents.x, self.startTechPoint:GetOrigin() + Vector(0,p* 0.1 + 4,0), 2, 6)
+		ARCPos = GetRandomSpawnForCapsule(extents.y, extents.x, self:GetARCSpawnPoint() + Vector(0,p* 0.1 + 4,0), 2, 6)
 		if ARCPos then
 		
 			break
@@ -56,8 +88,14 @@ function MarineTeam:SpawnARC()
 		end
 	end
 	if not ARCPos then
-		ARCPos = self.startTechPoint:GetOrigin() + Vector(2, 1, 2)
+		ARCPos = self:GetARCSpawnPoint() + Vector(2, 1, 2)
 	end
+	
+	-- if path doesn't exist, quit
+	if not self:PathExistsToEnemyCommand(ARCPos) then
+		return
+	end
+	
 	local newEnt = CreateEntity(ARC.kMapName, ARCPos, self:GetTeamNumber())
 	SetRandomOrientation(newEnt)
 	newEnt:TriggerEffects("spawnSoundEffects")
