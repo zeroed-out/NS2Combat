@@ -5,6 +5,14 @@ function GetAreEnemies(entityOne, entityTwo)
             or entityOne:GetTeamNumber() == kNeutralTeamType or entityTwo:GetTeamNumber() == kNeutralTeamType)
 end
 
+function GetAreFriends(entityOne, entityTwo)
+    return entityOne and entityTwo and HasMixin(entityOne, "Team") and HasMixin(entityTwo, "Team") and
+            (entityOne:GetTeamNumber() == entityTwo:GetTeamNumber() or
+				entityOne:GetTeamNumber() == kNeutralTeamType or
+				entityTwo:GetTeamNumber() == kNeutralTeamType
+			)
+end
+
 --
 -- Returns the spawn point on success, nil on failure.
 --

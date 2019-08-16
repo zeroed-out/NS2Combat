@@ -9,7 +9,7 @@ kMaxRelevancyDistance = 45 -- was 40
 -- Experience based values like avgXpAmount is still in ExperienceData
 
 -- Welcome Message that every player receives who joined our game
-combatModifiedMessage = "This mod is not reflective of the standard NS2 experience!!"
+combatModifiedMessage = "Contact Nin#4665 on Discord to report issues."
 combatWelcomeMessage = {combatModifiedMessage,
                         "This server is running a special Combat Mod V." .. kCombatVersion .. ".",
                         "This mod removes RTS elements and gives you upgrades for kills.",
@@ -147,6 +147,8 @@ kAlienInitialIndivRes = 0
 kHeavyTechCooldown = 0
 
 kCombatARCSpawnEnabled = true
+
+kCombatFillerBots = 0 -- disable bots by default even if enabled in vanilla
 
 -- Alien Tier to Ability map
 kCombatAlienTierTwoTechIds = { kTechId.Leap, kTechId.BabblerEgg, kTechId.BabblerAbility, kTechId.Umbra, kTechId.MetabolizeEnergy, kTechId.MetabolizeHealth, kTechId.Charge, kTechId.BoneShield }

@@ -9,5 +9,8 @@ function LookupTechData(techId, fieldName, default)
             return "BIOMASS_THREE_TOOLTIP"
         end
     end
+	if fieldName == kTechDataObstacleRadius and techId == kTechId.Door then
+		return 2.0 -- new radius
+	end
     return oldLookupTechData(techId, fieldName, default)
 end

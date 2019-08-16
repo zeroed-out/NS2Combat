@@ -86,6 +86,10 @@ function NS2Gamerules:OnCreate()
 
 	-- Recalculate these every half a second.
 	self:AddTimedCallback(UpdateUpgradeCounts, kCombatUpgradeUpdateInterval)
+	
+	if self.gameInfo:GetIsDedicated() then
+		self:SetMaxBots(kCombatFillerBots, false)
+	end
 
 end
 

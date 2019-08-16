@@ -7,7 +7,8 @@ local default = {
     ModPowerPointsTakeDamage = true,
     ModTimeLimit = 1500,
     ModAllowOvertime = true,
-	ModARCSpawnEnabled = true
+	ModARCSpawnEnabled = true,
+	ModFillerBots = 0
 }
 
 local fileName = "Combat.json"
@@ -21,6 +22,7 @@ local function LoadConfig()
     kCombatDefaultWinner = config.ModDefaultWinner
     kCombatPowerPointsTakeDamage = config.ModPowerPointsTakeDamage
 	kCombatARCSpawnEnabled = config.ModARCSpawnEnabled
+	kCombatFillerBots = config.ModFillerBots
 
 end
 
