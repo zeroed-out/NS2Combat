@@ -10,7 +10,7 @@ NS2Combat: A Combat-style mod for Natural Selection 2
 
 **Hosting your own server**
 ---------------------------
-1. Add the mod ID "520abdce" to your MapCycle.json
+1. Add the mod ID "527102a8" to your MapCycle.json
 
 **Contributing**
 ----------------
