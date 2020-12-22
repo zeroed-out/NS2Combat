@@ -99,6 +99,7 @@ end
 function Player:ResupplyNow()
 
     self.timeLastMedpack = false -- disables medpack pickup delay
+    self.expireTime = 0 -- fixes uninitialized value
     MedPack.OnTouch(self, self)
 
     -- dont drop a ammo pack, give ammo via a new function
