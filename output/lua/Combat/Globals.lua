@@ -9,7 +9,7 @@ kMaxRelevancyDistance = 45 -- was 40
 -- Experience based values like avgXpAmount is still in ExperienceData
 
 -- Welcome Message that every player receives who joined our game
-combatModifiedMessage = "Contact Nin#4665 on Discord to report issues."
+combatModifiedMessage = "Contact ailmanki#8429 (Meteru) on Discord to report issues."
 combatWelcomeMessage = {combatModifiedMessage,
                         "This server is running a special Combat Mod V." .. kCombatVersion .. ".",
                         "This mod removes RTS elements and gives you upgrades for kills.",
