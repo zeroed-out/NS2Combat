@@ -4,7 +4,7 @@ local CompatiblePlugins = {
 	votesurrender = true,
 	enforceteamsizes = true,
 	
-	pregame = false,
+	pregame = true,
 	pregameplus = false,
 	commbans = false,
 	customspawns = false,
