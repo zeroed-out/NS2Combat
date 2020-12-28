@@ -6,7 +6,9 @@ function GUIMarineHUD:Update(deltaTime)
 	self.commanderName:DestroyAnimation("COMM_TEXT_WRITE")
 	self.commanderName:SetText("COMBAT MODE")
 	self.commanderName:SetColor(GUIMarineHUD.kActiveCommanderColor)
-
+    
+    self.teamResText:SetIsVisible(false)
+    
 end
 
 
@@ -73,6 +75,7 @@ function GUIMarineHUD:Initialize()
     self.catpackText = CreateNewTextItem(self)
     self.catpackText:AddAsChildTo(self.catpackStatus)
     
+    self.teamResText:SetIsVisible(false)
     
     self.Reset = oldReset
     self:Reset()
