@@ -24,6 +24,12 @@ Compatible mods:
 [*] [url=steamcommunity.com/sharedfiles/filedetails/?id=1173477213] Personal Shield Generator [/url]
 [*] [url=steamcommunity.com/sharedfiles/filedetails/?id=2192264361] Spider Gorge [/url]
 [*] [url=steamcommunity.com/sharedfiles/filedetails/?id=1861166199] SentinelAI [/url]
+
+Shine Pregame configuration:
+[url=https://github.com/Person8880/Shine/wiki/Pregame#overview] Pregame Overview [/url]
+The property "mode" needs to be set to "Time"
+[code]"Mode": "TIME",[/code]
+
 ]=]
 image       = "preview.jpg"
 tag_modtype = "Custom Game Mode"
