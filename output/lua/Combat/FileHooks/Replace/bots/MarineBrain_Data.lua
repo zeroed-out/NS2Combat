@@ -268,26 +268,26 @@ local function PerformAttackEntity( eyePos, target, lastSeenPos, bot, brain, mov
     end
     
     
-    local retreating = false
-    local sdb = brain:GetSenses()
-    local minFraction = math.min( sdb:Get("healthFraction"), sdb:Get("ammoFraction") )
-    local armory = sdb:Get("nearestArmory").armory
-    
-    
-    -- retreat! Ignore previous move order, but keep our aim
-    if armory and minFraction < 0.3 and isDodgeable then
-        local touchDist = GetDistanceToTouch( eyePos, armory )
-        if touchDist > 2.0 then
-            bot:GetMotion():SetDesiredMoveTarget( armory:GetEngagementPoint() )
-        else
-            -- sit and wait to heal, ammo, etc.
-            brain.retreatTargetId = nil
-            bot:GetMotion():SetDesiredViewTarget( armory:GetEngagementPoint() )
-            bot:GetMotion():SetDesiredMoveTarget( nil )
-            doFire = false
-        end
-        retreating = true
-    end
+    --local retreating = false
+    --local sdb = brain:GetSenses()
+    --local minFraction = math.min( sdb:Get("healthFraction"), sdb:Get("ammoFraction") )
+    --local armory = sdb:Get("nearestArmory").armory
+    --
+    --
+    ---- retreat! Ignore previous move order, but keep our aim
+    --if armory and minFraction < 0.3 and isDodgeable then
+    --    local touchDist = GetDistanceToTouch( eyePos, armory )
+    --    if touchDist > 1.5 then
+    --        bot:GetMotion():SetDesiredMoveTarget( armory:GetEngagementPoint() )
+    --    else
+    --        -- sit and wait to heal, ammo, etc.
+    --        brain.retreatTargetId = nil
+    --        bot:GetMotion():SetDesiredViewTarget( armory:GetEngagementPoint() )
+    --        bot:GetMotion():SetDesiredMoveTarget( nil )
+    --        doFire = false
+    --    end
+    --    retreating = true
+    --end
 
     
     if doFire then
@@ -311,7 +311,8 @@ local function PerformAttackEntity( eyePos, target, lastSeenPos, bot, brain, mov
                 move.commands = AddMoveCommand( move.commands, Move.PrimaryAttack )
             end
             
-        elseif not retreating and dist < 15.0  then
+        --elseif not retreating and dist < 15.0  then
+        elseif dist < 15.0  then
             if not bot.lastAimCheatTime or bot.lastAimCheatTime + 0.5 < Shared.GetTime() then
                 bot.lastAimCheatTime = Shared.GetTime()
                 bot.lastAimPos = aimPos
@@ -706,56 +707,56 @@ kMarineBrainActions =
             end }
     end,
     
-    function(bot, brain)
-
-        local name = "getWelder"
-        local marine = bot:GetPlayer()
-        local sdb = brain:GetSenses()
-        local weight = 0.0
-        local weldData = sdb:Get("nearestWeldable")
-        local weldTarget = weldData.target
-        local weldDist = weldData.distance
-        local armoryData = sdb:Get("nearestArmory")
-        local armory = armoryData.armory
-        local armoryDist = armoryData.distance
-        
-        local resources = marine:GetResources()
-        
-        if not sdb:Get("welder") and
-            (brain.wantsWelder or 
-             (weldTarget and armory and 
-              weldDist + armoryDist < 30 and 
-              resources >= LookupTechData(kTechId.Welder, kTechDataCostKey)) 
-            ) then
-            
-            weight = 2.0 + bot.helpAbility
-            
-        end
-        
-        
-        return { name = name, weight = weight,
-            perform = function(move)
-
-                if armory then
-                    brain.wantsWelder = true
-
-                    local touchDist = GetDistanceToTouch( marine:GetEyePos(), armory )
-                    if touchDist > 1.5 then
-                        PerformMove( marine:GetOrigin(), armory:GetEngagementPoint(), bot, brain, move )
-                    else
-                    
-                        -- Buy the weapon!
-                        brain.buyTargetId = nil
-                        bot:GetMotion():SetDesiredViewTarget( armory:GetEngagementPoint() )
-                        bot:GetMotion():SetDesiredMoveTarget( nil )
-                        bot:GetPlayer():ProcessBuyAction({ kTechId.Welder })
-                        
-                    end
-                end
-
-            end }
-
-    end,
+    --function(bot, brain)
+    --
+    --    local name = "getWelder"
+    --    local marine = bot:GetPlayer()
+    --    local sdb = brain:GetSenses()
+    --    local weight = 0.0
+    --    local weldData = sdb:Get("nearestWeldable")
+    --    local weldTarget = weldData.target
+    --    local weldDist = weldData.distance
+    --    local armoryData = sdb:Get("nearestArmory")
+    --    local armory = armoryData.armory
+    --    local armoryDist = armoryData.distance
+    --
+    --    local resources = marine:GetResources()
+    --
+    --    if not sdb:Get("welder") and
+    --        (brain.wantsWelder or
+    --         (weldTarget and armory and
+    --          weldDist + armoryDist < 30 and
+    --          resources >= LookupTechData(kTechId.Welder, kTechDataCostKey))
+    --        ) then
+    --
+    --        weight = 2.0 + bot.helpAbility
+    --
+    --    end
+    --
+    --
+    --    return { name = name, weight = weight,
+    --        perform = function(move)
+    --
+    --            if armory then
+    --                brain.wantsWelder = true
+    --
+    --                local touchDist = GetDistanceToTouch( marine:GetEyePos(), armory )
+    --                if touchDist > 1.5 then
+    --                    PerformMove( marine:GetOrigin(), armory:GetEngagementPoint(), bot, brain, move )
+    --                else
+    --
+    --                    -- Buy the weapon!
+    --                    brain.buyTargetId = nil
+    --                    bot:GetMotion():SetDesiredViewTarget( armory:GetEngagementPoint() )
+    --                    bot:GetMotion():SetDesiredMoveTarget( nil )
+    --                    bot:GetPlayer():ProcessBuyAction({ kTechId.Welder })
+    --
+    --                end
+    --            end
+    --
+    --        end }
+    --
+    --end,
     
     function(bot, brain)
 
@@ -1080,245 +1081,246 @@ kMarineBrainActions =
 
     end,
     
-    function(bot, brain)
+    -- cant buy anything
+    --function(bot, brain)
+    --
+    --    local name = "buyWeapon"
+    --    local marine = bot:GetPlayer()
+    --    local sdb = brain:GetSenses()
+    --
+    --    local armory = sdb:Get("nearestArmory").armory
+    --    local armoryDist = sdb:Get("nearestArmory").distance
+    --
+    --    -- Find all the weapons available for purchase.
+    --    local availableWeapons = { }
+    --    local weapons = enum({
+    --        kTechId.HeavyMachineGun,
+    --        kTechId.Shotgun,
+    --        kTechId.Flamethrower,
+    --        kTechId.GrenadeLauncher,
+    --    })
+    --
+    --    --Update this with techtree updates
+    --    local weaponTechs = {
+    --        [kTechId.Shotgun] = kTechId.ShotgunTech,
+    --        [kTechId.Flamethrower] = kTechId.AdvancedWeaponry,
+    --        [kTechId.GrenadeLauncher] = kTechId.AdvancedWeaponry,
+    --        [kTechId.HeavyMachineGun] = kTechId.HeavyMachineGunTech,
+    --    }
+    --
+    --    local techTree = GetTechTree(marine:GetTeamNumber())
+    --    if techTree then
+    --        for _, weaponTechId in ipairs(weapons) do
+    --            if techTree:GetHasTech(weaponTechs[weaponTechId], true) then
+    --                availableWeapons[#availableWeapons + 1] = weaponTechId
+    --                availableWeapons[weaponTechId] = true
+    --            end
+    --        end
+    --    end
+    --
+    --    -- Figure out if we have a good enough weapon.
+    --    local bestWeaponTechId
+    --    weapons = marine:GetHUDOrderedWeaponList()
+    --    for w = 1, #weapons do
+    --
+    --        local weapon = weapons[w]
+    --        local weaponTechId = weapon:GetTechId()
+    --        bestWeaponTechId = bestWeaponTechId or weaponTechId
+    --        -- As long as we have one of the availableWeapons for purchase, we are content.
+    --        if availableWeapons[weaponTechId] then
+    --
+    --            bestWeaponTechId = weaponTechId
+    --            break
+    --
+    --        end
+    --
+    --    end
+    --
+    --    -- See if the Marine can afford anything.
+    --    local resources = marine:GetResources()
+    --
+    --    if not bot.decidedIfSavingForExo then
+    --        bot.decidedIfSavingForExo = true
+    --        bot.wantsExo = math.random() < 0.4
+    --    end
+    --
+    --    if not bot.decidedIfSavingForJetpack then
+    --        bot.decidedIfSavingForJetpack = true
+    --        bot.wantsJetpack = not bot.wantsExo and math.random() < 0.4
+    --    end
+    --
+    --        -- always try to reserve enough for an exo
+    --    if bot.wantsExo then
+    --        resources = resources - LookupTechData(kTechId.DualMinigunExosuit, kTechDataCostKey)
+    --    end
+    --
+    --    if bot.wantsJetpack then
+    --        resources = resources - LookupTechData(kTechId.Jetpack, kTechDataCostKey)
+    --    end
+    --
+    --    local canAffordWeaponTechId
+    --    for _, techId in ipairs(availableWeapons) do
+    --
+    --        if resources >= LookupTechData(techId, kTechDataCostKey) then
+    --
+    --            canAffordWeaponTechId = techId
+    --            --Continue checking the other weapons with a 50% chance each
+    --            if math.random() > 0.5 then
+    --                break
+    --            end
+    --
+    --        end
+    --
+    --    end
+    --
+    --    local wantNewWeapon = not availableWeapons[bestWeaponTechId] and canAffordWeaponTechId
+    --
+    --    local weight = 0.0
+    --    if armory and wantNewWeapon then
+    --        weight = EvalLPF( armoryDist, {
+    --                {0.0, 20.0},
+    --                {3.0, 10.0},
+    --                {5.0, 1.0},
+    --                {10.0, 0.2}
+    --                })
+    --    end
+    --
+    --    return { name = name, weight = weight,
+    --        perform = function(move)
+    --
+    --            if armory then
+    --
+    --                local touchDist = GetDistanceToTouch( marine:GetEyePos(), armory )
+    --                if touchDist > 1.5 then
+    --                    if brain.debug then DebugPrint("going towards armory at %s", ToString(armory:GetEngagementPoint())) end
+    --                    PerformMove( marine:GetOrigin(), armory:GetEngagementPoint(), bot, brain, move )
+    --                    move.commands = AddMoveCommand( move.commands, Move.MovementModifier )
+    --                else
+    --
+    --                    -- Buy the weapon!
+    --                    brain.buyTargetId = nil
+    --                    bot:GetMotion():SetDesiredViewTarget( armory:GetEngagementPoint() )
+    --                    bot:GetMotion():SetDesiredMoveTarget( nil )
+    --                    bot:GetPlayer():ProcessBuyAction({ canAffordWeaponTechId })
+    --
+    --                end
+    --            end
+    --
+    --        end }
+    --
+    --end,
 
-        local name = "buyWeapon"
-        local marine = bot:GetPlayer()
-        local sdb = brain:GetSenses()
-
-        local armory = sdb:Get("nearestArmory").armory
-        local armoryDist = sdb:Get("nearestArmory").distance
-        
-        -- Find all the weapons available for purchase.
-        local availableWeapons = { }
-        local weapons = enum({
-            kTechId.HeavyMachineGun,
-            kTechId.Shotgun,
-            kTechId.Flamethrower,
-            kTechId.GrenadeLauncher,
-        })
-
-        --Update this with techtree updates
-        local weaponTechs = {
-            [kTechId.Shotgun] = kTechId.ShotgunTech,
-            [kTechId.Flamethrower] = kTechId.AdvancedWeaponry,
-            [kTechId.GrenadeLauncher] = kTechId.AdvancedWeaponry,
-            [kTechId.HeavyMachineGun] = kTechId.HeavyMachineGunTech,
-        }
-
-        local techTree = GetTechTree(marine:GetTeamNumber())
-        if techTree then
-            for _, weaponTechId in ipairs(weapons) do
-                if techTree:GetHasTech(weaponTechs[weaponTechId], true) then
-                    availableWeapons[#availableWeapons + 1] = weaponTechId
-                    availableWeapons[weaponTechId] = true
-                end
-            end
-        end
-        
-        -- Figure out if we have a good enough weapon.
-        local bestWeaponTechId
-        weapons = marine:GetHUDOrderedWeaponList()
-        for w = 1, #weapons do
-        
-            local weapon = weapons[w]
-            local weaponTechId = weapon:GetTechId()
-            bestWeaponTechId = bestWeaponTechId or weaponTechId
-            -- As long as we have one of the availableWeapons for purchase, we are content.
-            if availableWeapons[weaponTechId] then
-            
-                bestWeaponTechId = weaponTechId
-                break
-                
-            end
-            
-        end
-        
-        -- See if the Marine can afford anything.
-        local resources = marine:GetResources()
-        
-        if not bot.decidedIfSavingForExo then
-            bot.decidedIfSavingForExo = true
-            bot.wantsExo = math.random() < 0.4
-        end
-        
-        if not bot.decidedIfSavingForJetpack then
-            bot.decidedIfSavingForJetpack = true
-            bot.wantsJetpack = not bot.wantsExo and math.random() < 0.4
-        end
-        
-            -- always try to reserve enough for an exo
-        if bot.wantsExo then
-            resources = resources - LookupTechData(kTechId.DualMinigunExosuit, kTechDataCostKey)
-        end
-        
-        if bot.wantsJetpack then
-            resources = resources - LookupTechData(kTechId.Jetpack, kTechDataCostKey)
-        end
-        
-        local canAffordWeaponTechId
-        for _, techId in ipairs(availableWeapons) do
-            
-            if resources >= LookupTechData(techId, kTechDataCostKey) then
-            
-                canAffordWeaponTechId = techId
-                --Continue checking the other weapons with a 50% chance each
-                if math.random() > 0.5 then
-                    break
-                end
-                
-            end
-            
-        end
-        
-        local wantNewWeapon = not availableWeapons[bestWeaponTechId] and canAffordWeaponTechId
-
-        local weight = 0.0
-        if armory and wantNewWeapon then
-            weight = EvalLPF( armoryDist, {
-                    {0.0, 20.0},
-                    {3.0, 10.0},
-                    {5.0, 1.0},
-                    {10.0, 0.2}
-                    })
-        end
-        
-        return { name = name, weight = weight,
-            perform = function(move)
-
-                if armory then
-
-                    local touchDist = GetDistanceToTouch( marine:GetEyePos(), armory )
-                    if touchDist > 1.5 then
-                        if brain.debug then DebugPrint("going towards armory at %s", ToString(armory:GetEngagementPoint())) end
-                        PerformMove( marine:GetOrigin(), armory:GetEngagementPoint(), bot, brain, move )
-                        move.commands = AddMoveCommand( move.commands, Move.MovementModifier )
-                    else
-                    
-                        -- Buy the weapon!
-                        brain.buyTargetId = nil
-                        bot:GetMotion():SetDesiredViewTarget( armory:GetEngagementPoint() )
-                        bot:GetMotion():SetDesiredMoveTarget( nil )
-                        bot:GetPlayer():ProcessBuyAction({ canAffordWeaponTechId })
-                        
-                    end
-                end
-
-            end }
-
-    end,
-
-    function(bot, brain)
-
-        local name = "buyExo"
-        local marine = bot:GetPlayer()
-        local sdb = brain:GetSenses()
-
-        local data = sdb:Get("nearestProto")
-        local proto = data.proto
-        local protoDist = data.distance
-        local weight = 0.0
-        local resources = marine:GetResources()
-        
-        local techTree = GetTechTree(marine:GetTeamNumber())
-        
-        if proto and proto.dist and not marine:isa("JetpackMarine") and
-            not HasGoodWeapon(marine) and
-            techTree:GetHasTech(kTechId.ExosuitTech, true) and 
-            resources >= LookupTechData(kTechId.DualMinigunExosuit, kTechDataCostKey) then
-            weight = EvalLPF( protoDist, {
-                    {0.0, 10.0},
-                    {3.0, 5.0},
-                    {5.0, 1.0},
-                    {10.0, 0.2}
-                    })
-            if bot.wantsExo then
-                weight = weight * 5 -- gimme gimme gimme
-            end
-        end
-		
-        return { name = name, weight = weight,
-            perform = function(move)
-
-                if proto then
-
-                    local touchDist = GetDistanceToTouch( marine:GetEyePos(), proto )
-                    if touchDist > 1.5 then
-                        --bot:SendTeamMessage("I really want an Exosuit!", 120)
-                        PerformMove( marine:GetOrigin(), proto:GetEngagementPoint(), bot, brain, move )
-                        move.commands = AddMoveCommand( move.commands, Move.MovementModifier )
-                    else
-                    
-                        -- Buy the exo!
-                        brain.buyTargetId = nil
-                        bot:GetMotion():SetDesiredViewTarget( proto:GetEngagementPoint() )
-                        
-                        -- this is a hack because you can't buy an exo if there's a jetpack at your feet
-                        bot:GetMotion():SetDesiredMoveTarget( proto:GetEngagementPoint() )
-                        bot:GetPlayer():ProcessBuyAction({ kTechId.DualMinigunExosuit })
-                        
-                    end
-                end
-
-            end }
-
-    end,
-
-    function(bot, brain)
-
-        local name = "buyJetpack"
-        local marine = bot:GetPlayer()
-        local sdb = brain:GetSenses()
-
-        local data = sdb:Get("nearestProto")
-        local proto = data.proto
-        local protoDist = data.distance
-        local weight = 0.0
-        local resources = marine:GetResources()
-        
-        local techTree = GetTechTree(marine:GetTeamNumber())
-        
-        if proto and proto.dist and not marine:isa("JetpackMarine") and
-            techTree:GetHasTech(kTechId.JetpackTech, true) and 
-            resources >= LookupTechData(kTechId.Jetpack, kTechDataCostKey) then
-            weight = EvalLPF( protoDist, {
-                    {0.0, 10.0},
-                    {3.0, 5.0},
-                    {10.0, 3.0},
-                    {20.0, 0.2}
-                    })
-                    
-            if bot.wantsJetpack then
-                weight = weight * 5 -- gimme gimme gimme
-            end
-        end
-        
-        return { name = name, weight = weight,
-            perform = function(move)
-
-                if proto then
-
-                    local touchDist = GetDistanceToTouch( marine:GetEyePos(), proto )
-                    if touchDist > 1.5 then
-                        --bot:SendTeamMessage("I really want an Exosuit!", 120)
-                        PerformMove( marine:GetOrigin(), proto:GetEngagementPoint(), bot, brain, move )
-                        move.commands = AddMoveCommand( move.commands, Move.MovementModifier )
-                    else
-                    
-                        -- Buy the exo!
-                        brain.buyTargetId = nil
-                        bot:GetMotion():SetDesiredViewTarget( proto:GetEngagementPoint() )
-                        
-                        -- this is a hack because you can't buy an exo if there's a jetpack at your feet
-                        bot:GetMotion():SetDesiredMoveTarget( proto:GetEngagementPoint() )
-                        bot:GetPlayer():ProcessBuyAction({ kTechId.Jetpack })
-                        
-                    end
-                end
-
-            end }
-
-    end,
+    --function(bot, brain)
+    --
+    --    local name = "buyExo"
+    --    local marine = bot:GetPlayer()
+    --    local sdb = brain:GetSenses()
+    --
+    --    local data = sdb:Get("nearestProto")
+    --    local proto = data.proto
+    --    local protoDist = data.distance
+    --    local weight = 0.0
+    --    local resources = marine:GetResources()
+    --
+    --    local techTree = GetTechTree(marine:GetTeamNumber())
+    --
+    --    if proto and proto.dist and not marine:isa("JetpackMarine") and
+    --        not HasGoodWeapon(marine) and
+    --        techTree:GetHasTech(kTechId.ExosuitTech, true) and
+    --        resources >= LookupTechData(kTechId.DualMinigunExosuit, kTechDataCostKey) then
+    --        weight = EvalLPF( protoDist, {
+    --                {0.0, 10.0},
+    --                {3.0, 5.0},
+    --                {5.0, 1.0},
+    --                {10.0, 0.2}
+    --                })
+    --        if bot.wantsExo then
+    --            weight = weight * 5 -- gimme gimme gimme
+    --        end
+    --    end
+	--
+    --    return { name = name, weight = weight,
+    --        perform = function(move)
+    --
+    --            if proto then
+    --
+    --                local touchDist = GetDistanceToTouch( marine:GetEyePos(), proto )
+    --                if touchDist > 1.5 then
+    --                    --bot:SendTeamMessage("I really want an Exosuit!", 120)
+    --                    PerformMove( marine:GetOrigin(), proto:GetEngagementPoint(), bot, brain, move )
+    --                    move.commands = AddMoveCommand( move.commands, Move.MovementModifier )
+    --                else
+    --
+    --                    -- Buy the exo!
+    --                    brain.buyTargetId = nil
+    --                    bot:GetMotion():SetDesiredViewTarget( proto:GetEngagementPoint() )
+    --
+    --                    -- this is a hack because you can't buy an exo if there's a jetpack at your feet
+    --                    bot:GetMotion():SetDesiredMoveTarget( proto:GetEngagementPoint() )
+    --                    bot:GetPlayer():ProcessBuyAction({ kTechId.DualMinigunExosuit })
+    --
+    --                end
+    --            end
+    --
+    --        end }
+    --
+    --end,
+    --
+    --function(bot, brain)
+    --
+    --    local name = "buyJetpack"
+    --    local marine = bot:GetPlayer()
+    --    local sdb = brain:GetSenses()
+    --
+    --    local data = sdb:Get("nearestProto")
+    --    local proto = data.proto
+    --    local protoDist = data.distance
+    --    local weight = 0.0
+    --    local resources = marine:GetResources()
+    --
+    --    local techTree = GetTechTree(marine:GetTeamNumber())
+    --
+    --    if proto and proto.dist and not marine:isa("JetpackMarine") and
+    --        techTree:GetHasTech(kTechId.JetpackTech, true) and
+    --        resources >= LookupTechData(kTechId.Jetpack, kTechDataCostKey) then
+    --        weight = EvalLPF( protoDist, {
+    --                {0.0, 10.0},
+    --                {3.0, 5.0},
+    --                {10.0, 3.0},
+    --                {20.0, 0.2}
+    --                })
+    --
+    --        if bot.wantsJetpack then
+    --            weight = weight * 5 -- gimme gimme gimme
+    --        end
+    --    end
+    --
+    --    return { name = name, weight = weight,
+    --        perform = function(move)
+    --
+    --            if proto then
+    --
+    --                local touchDist = GetDistanceToTouch( marine:GetEyePos(), proto )
+    --                if touchDist > 1.5 then
+    --                    --bot:SendTeamMessage("I really want an Exosuit!", 120)
+    --                    PerformMove( marine:GetOrigin(), proto:GetEngagementPoint(), bot, brain, move )
+    --                    move.commands = AddMoveCommand( move.commands, Move.MovementModifier )
+    --                else
+    --
+    --                    -- Buy the exo!
+    --                    brain.buyTargetId = nil
+    --                    bot:GetMotion():SetDesiredViewTarget( proto:GetEngagementPoint() )
+    --
+    --                    -- this is a hack because you can't buy an exo if there's a jetpack at your feet
+    --                    bot:GetMotion():SetDesiredMoveTarget( proto:GetEngagementPoint() )
+    --                    bot:GetPlayer():ProcessBuyAction({ kTechId.Jetpack })
+    --
+    --                end
+    --            end
+    --
+    --        end }
+    --
+    --end,
     
     function(bot, brain)
 
@@ -1427,49 +1429,50 @@ kMarineBrainActions =
             end }
     end,
 
-    function(bot, brain)
-
-        local name = "buildThings"
-        local marine = bot:GetPlayer()
-        local sdb = brain:GetSenses()
-        local weight = 0.0
-
-        local targetData = sdb:Get("nearestBuildable")
-        local target = targetData.target
-        local dist = targetData.distance
-        
-        if target then
-            local targetId = target:GetId()
-            if targetId then
-				local isAssigned = brain.teamBrain:GetIsBotAssignedTo(bot, {entId=targetId})
-                local numOthers = brain.teamBrain:GetNumOthersAssignedToEntity( targetId, bot )
-                if ((numOthers == nil) or numOthers >= 1) and not isAssigned then
-                    weight = 0.0
-                else
-                    weight = 0.06 -- slighty above explore, below guard humans unless close
-                    
-                    -- but with a close bonus
-                    if dist < 10 or isAssigned then
-                        weight = 0.12 -- above the closeBonus of guardHuman
-                    end
-                end
-            end
-        end
-        
-        weight = weight + weight * bot.helpAbility
-
-        return { name = name, weight = weight,
-            perform = function(move)
-                if target then 
-                    brain.teamBrain:UnassignBot(bot)
-                    brain.teamBrain:AssignBotToEntity( bot, target:GetId() )
-                    PerformUse( marine, target, bot, brain , move )
-                    bot:SendTeamMessage("I'll build the " .. target:GetMapName() .. " in " .. target:GetLocationName(), 120)
-                    move.commands = AddMoveCommand( move.commands, Move.MovementModifier )
-					
-                end
-            end }
-    end,
+    -- nothing to build, except player sentries
+    --function(bot, brain)
+    --
+    --    local name = "buildThings"
+    --    local marine = bot:GetPlayer()
+    --    local sdb = brain:GetSenses()
+    --    local weight = 0.0
+    --
+    --    local targetData = sdb:Get("nearestBuildable")
+    --    local target = targetData.target
+    --    local dist = targetData.distance
+    --
+    --    if target then
+    --        local targetId = target:GetId()
+    --        if targetId then
+	--			local isAssigned = brain.teamBrain:GetIsBotAssignedTo(bot, {entId=targetId})
+    --            local numOthers = brain.teamBrain:GetNumOthersAssignedToEntity( targetId, bot )
+    --            if ((numOthers == nil) or numOthers >= 1) and not isAssigned then
+    --                weight = 0.0
+    --            else
+    --                weight = 0.06 -- slighty above explore, below guard humans unless close
+    --
+    --                -- but with a close bonus
+    --                if dist < 10 or isAssigned then
+    --                    weight = 0.12 -- above the closeBonus of guardHuman
+    --                end
+    --            end
+    --        end
+    --    end
+    --
+    --    weight = weight + weight * bot.helpAbility
+    --
+    --    return { name = name, weight = weight,
+    --        perform = function(move)
+    --            if target then
+    --                brain.teamBrain:UnassignBot(bot)
+    --                brain.teamBrain:AssignBotToEntity( bot, target:GetId() )
+    --                PerformUse( marine, target, bot, brain , move )
+    --                bot:SendTeamMessage("I'll build the " .. target:GetMapName() .. " in " .. target:GetLocationName(), 120)
+    --                move.commands = AddMoveCommand( move.commands, Move.MovementModifier )
+	--
+    --            end
+    --        end }
+    --end,
     
     ------------------------------------------
     --
