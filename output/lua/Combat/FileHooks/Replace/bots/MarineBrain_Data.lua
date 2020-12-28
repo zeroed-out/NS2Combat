@@ -885,49 +885,49 @@ kMarineBrainActions =
     end,
     
     
-    function(bot, brain)
-
-        local name = "repairpower"
-        local marine = bot:GetPlayer()
-        local sdb = brain:GetSenses()
-        local weight = 0.0
-        local powerInfo = sdb:Get("nearestPower")
-        local powernode = powerInfo.entity
-
-        
-        if powernode ~= nil and
-            not powernode:GetIsPowering() and
-            powernode:HasConsumerRequiringPower(marine) then
-
-            local numOthers = brain.teamBrain:GetNumOthersAssignedToEntity( powernode:GetId(), bot )
-            if numOthers >= 2 and not brain.teamBrain:GetIsBotAssignedTo(bot, {entId=powernode:GetId()}) then
-                weight = 0.0
-            else
-                weight = 3.1 -- should be higher than construct..
-            end
-        end
-        
-        weight = weight + weight * bot.helpAbility
-
-        return { name = name, weight = weight,
-            perform = function(move)
-
-                if powernode then
-        
-                    brain.teamBrain:UnassignBot(bot)
-                    brain.teamBrain:AssignBotToEntity( bot, powernode:GetId() )
-                    
-                    local touchDist = GetDistanceToTouch( marine:GetEyePos(), powernode )
-                    if touchDist > 1.5 then
-                        move.commands = AddMoveCommand( move.commands, Move.MovementModifier )
-                        PerformMove( marine:GetOrigin(), powernode:GetEngagementPoint(), bot, brain, move )
-                    else
-                        PerformUse( marine, powernode, bot, brain , move )
-                    end
-                end
-                
-            end }
-    end,
+    --function(bot, brain)
+    --
+    --    local name = "repairpower"
+    --    local marine = bot:GetPlayer()
+    --    local sdb = brain:GetSenses()
+    --    local weight = 0.0
+    --    local powerInfo = sdb:Get("nearestPower")
+    --    local powernode = powerInfo.entity
+    --
+    --
+    --    if powernode ~= nil and
+    --        not powernode:GetIsPowering() and
+    --        powernode:HasConsumerRequiringPower(marine) then
+    --
+    --        local numOthers = brain.teamBrain:GetNumOthersAssignedToEntity( powernode:GetId(), bot )
+    --        if numOthers >= 2 and not brain.teamBrain:GetIsBotAssignedTo(bot, {entId=powernode:GetId()}) then
+    --            weight = 0.0
+    --        else
+    --            weight = 3.1 -- should be higher than construct..
+    --        end
+    --    end
+    --
+    --    weight = weight + weight * bot.helpAbility
+    --
+    --    return { name = name, weight = weight,
+    --        perform = function(move)
+    --
+    --            if powernode then
+    --
+    --                brain.teamBrain:UnassignBot(bot)
+    --                brain.teamBrain:AssignBotToEntity( bot, powernode:GetId() )
+    --
+    --                local touchDist = GetDistanceToTouch( marine:GetEyePos(), powernode )
+    --                if touchDist > 1.5 then
+    --                    move.commands = AddMoveCommand( move.commands, Move.MovementModifier )
+    --                    PerformMove( marine:GetOrigin(), powernode:GetEngagementPoint(), bot, brain, move )
+    --                else
+    --                    PerformUse( marine, powernode, bot, brain , move )
+    --                end
+    --            end
+    --
+    --        end }
+    --end,
     
 
     function( bot, brain )
