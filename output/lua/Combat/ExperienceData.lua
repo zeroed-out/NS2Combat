@@ -12,7 +12,7 @@ kCombatStartUpgradePoints = 0
 kCombatUpgradeUpdateInterval = 1
 
 -- How much lvl you will lose when you rejoin the same team
-kCombatPenaltyLevel = 1
+kCombatPenaltyLevel = 0
 
 -- how much % from the avg xp can new player get
 avgXpAmount = 0.75
@@ -48,10 +48,10 @@ XpValues["Lerk"] = 20
 XpValues["Fade"] = 40
 XpValues["Onos"] = 50
 XpValues["Exo"] = 50
-XpValues["Exosuit"] = 100
-XpValues["Hydra"] = 30
-XpValues["Babbler"] = 5
-XpValues["Clog"] = 20
+XpValues["Exosuit"] = 50
+XpValues["Hydra"] = 5
+XpValues["Babbler"] = 2
+XpValues["Clog"] = 1
 XpValues["Cyst"] = 10
 XpValues["Armory"] = 100
 XpValues["CommandStation"] = 200
@@ -59,9 +59,12 @@ XpValues["PowerPoint"] = 0
 XpValues["Extractor"] = 0
 XpValues["Hive"] = 400
 XpValues["ARC"] = 120
-XpValues["Whip"] = 50
-XpValues["Crag"] = 50
-XpValues["Shift"] = 50
+XpValues["Whip"] = 25
+XpValues["Crag"] = 25
+XpValues["Shift"] = 25
+XpValues["Shade"] = 25
+XpValues["Sentry"] = 25
+XpValues["Tunnel"] = 25
 
 local function UpgradeArmor(player, techUpgrade)
 	techUpgrade:ExecuteTechUpgrade(player)
@@ -77,19 +80,19 @@ local function GiveJetpack(player)
 	return jetpackMarine
 end
 local function GiveExoAndStoreWeapons(kMapName, player, layout)
-    local weapons = player:GetWeapons()
-    for i = 1, #weapons do            
-        weapons[i]:SetParent(nil)            
-    end
+	local weapons = player:GetWeapons()
+	for i = 1, #weapons do
+		weapons[i]:SetParent(nil)
+	end
 	local exo = player:Replace(kMapName, player:GetTeamNumber(), false, player:GetOrigin(), layout)
-
-    if exo then                
-        for i = 1, #weapons do
-            exo:StoreWeapon(weapons[i])
-        end            
-    end
-    
-    return exo
+	
+	if exo then
+		for i = 1, #weapons do
+			exo:StoreWeapon(weapons[i])
+		end
+	end
+	
+	return exo
 end
 local function GiveExo(player)
 	local exoMarine = GiveExoAndStoreWeapons(Exo.kMapName, player, { layout = "ClawMinigun" })
@@ -112,7 +115,7 @@ local function GiveExoDualMinigun(player)
 	exoMarine.poweringUpFinishedTime = Shared.GetTime() + kExoPowerUpTime
 	exoMarine:GiveUpsBack()
 	exoMarine:UpdateArmorAmount()
-
+	
 	return exoMarine
 end
 
@@ -125,7 +128,7 @@ local function GiveExoRailGun(player)
 	exoMarine.poweringUpFinishedTime = Shared.GetTime() + kExoPowerUpTime
 	exoMarine:GiveUpsBack()
 	exoMarine:UpdateArmorAmount()
-
+	
 	return exoMarine
 end
 
@@ -138,7 +141,7 @@ local function GiveExoDualRailGun(player)
 	exoMarine.poweringUpFinishedTime = Shared.GetTime() + kExoPowerUpTime
 	exoMarine:GiveUpsBack()
 	exoMarine:UpdateArmorAmount()
-
+	
 	return exoMarine
 end
 
@@ -192,7 +195,7 @@ end
 local function GiveWelder(player, techUpgrade)
 	techUpgrade:ExecuteTechUpgrade(player)
 	player.combatTable.justGotWelder = true
-
+	
 	-- SwitchWeapon here doesn't work - move it further along...
 	--player:SwitchWeapon(1)
 end
@@ -214,7 +217,7 @@ local function BuildUpgrade(team, upgradeId, upgradeTextCode, upgradeDescription
 		upgrade = CombatAlienUpgrade()
 	end
 	upgrade:Initialize(upgradeId, upgradeTextCode, upgradeDescription, upgradeTechId, upgradeFunc, requirements, levels, upgradeType, refundUpgrade, hardCap, mutuallyExclusive, needsNearComm)
-
+	
 	return upgrade
 end
 
@@ -239,7 +242,7 @@ if not kCombatCompMode then
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Mines,					"mines",			"Mines",			kTechId.LayMines, 				nil, 				nil, 						1, 		kCombatUpgradeTypes.Weapon, false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Flamethrower,			"flame",			"Flamethrower",		kTechId.Flamethrower, 			nil, 				kCombatUpgrades.Shotgun, 	1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.GrenadeLauncher, kCombatUpgrades.HeavyMachineGun }))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.GrenadeLauncher,		"gl",				"Grenade Launcher",	kTechId.GrenadeLauncher, 		nil, 				kCombatUpgrades.Shotgun, 	1, 		kCombatUpgradeTypes.Weapon, false,			1/3,		{kCombatUpgrades.Flamethrower, kCombatUpgrades.HeavyMachineGun }))
-
+	
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.ClusterGrenade,		"clustergrenade",	"ClusterGrenade",	kTechId.ClusterGrenade, 		nil, 		kCombatUpgrades.Weapons1, 	1, 		kCombatUpgradeTypes.Weapon,   false,			0,			{ kCombatUpgrades.GasGrenade, kCombatUpgrades.PulseGrenade}))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.PulseGrenade,			"pulsegrenade",		"PulseGrenade",		kTechId.PulseGrenade, 			nil, 		kCombatUpgrades.Weapons1, 	1, 		kCombatUpgradeTypes.Weapon,   false,			0,			{ kCombatUpgrades.ClusterGrenade, kCombatUpgrades.GasGrenade}))
 
@@ -286,7 +289,7 @@ if not kCombatCompMode then
 	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Camouflage,				"camouflage",        "Camouflage",	    kTechId.Camouflage, 			GiveCamo,				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Aura,					"aura",				"Aura",				kTechId.Aura, 					nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.ShadeInk,				"ink",		        "Ink-Taunt",		kTechId.ShadeInk, 		   	 	ShadeInk,			nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
-    table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Focus,				    "focus",			"Focus",			kTechId.Focus, 			        nil, 			    nil,	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Focus,				    "focus",			"Focus",			kTechId.Focus, 			        nil, 			    nil,	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 end
 table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Celerity,				"cele",				"Celerity",			kTechId.Celerity, 				nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Adrenaline,				"adrenaline",		"Adrenaline",		kTechId.Adrenaline, 			nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
