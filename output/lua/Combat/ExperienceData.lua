@@ -12,13 +12,13 @@ kCombatStartUpgradePoints = 0
 kCombatUpgradeUpdateInterval = 1
 
 -- How much lvl you will lose when you rejoin the same team
-kCombatPenaltyLevel = 0
+kCombatPenaltyLevel = 1
 
 -- how much % from the avg xp can new player get
-avgXpAmount = 0.75
+avgXpAmount = 0.8
 
 -- how much % from the xp are the m8 nearby getting and the range
-mateXpAmount = 0.4
+mateXpAmount = 0.5
 
 -- range 35 was too big
 mateXpRange = 20
@@ -32,11 +32,11 @@ assistLOSXPRange = 40
 -- how much to divide the XP between nearby players?
 -- e.g. set to 1 to divide equally among nearby assisters
 --      or set it to 0 to give all nearby assisters max XP
-assistPlayerRatio = 1.0
+assistPlayerRatio = 0.9
 
 baseXpForKill = 60
 -- extra bonus xp given per level difference
-extraXpPerLevelDiff = 10
+extraXpPerLevelDiff = 20
 
 -- XP-Values
 -- Scores for various creatures and structures.
@@ -49,15 +49,16 @@ XpValues["Fade"] = 40
 XpValues["Onos"] = 50
 XpValues["Exo"] = 50
 XpValues["Exosuit"] = 50
+XpValues["Jetpack"] = 25
 XpValues["Hydra"] = 5
 XpValues["Babbler"] = 2
 XpValues["Clog"] = 1
 XpValues["Cyst"] = 10
 XpValues["Armory"] = 100
-XpValues["CommandStation"] = 200
+XpValues["CommandStation"] = 300
 XpValues["PowerPoint"] = 0
 XpValues["Extractor"] = 0
-XpValues["Hive"] = 400
+XpValues["Hive"] = 300
 XpValues["ARC"] = 120
 XpValues["Whip"] = 25
 XpValues["Crag"] = 25
@@ -65,6 +66,7 @@ XpValues["Shift"] = 25
 XpValues["Shade"] = 25
 XpValues["Sentry"] = 25
 XpValues["Tunnel"] = 25
+XpValues["Egg"] = 25
 
 local function UpgradeArmor(player, techUpgrade)
 	techUpgrade:ExecuteTechUpgrade(player)
@@ -226,11 +228,11 @@ UpsList = {}
 -- Marine Upgrades
 -- Parameters:        				team,	 upgradeId, 							upgradeTextCode, 	upgradeDesc, 		upgradeTechId, 					upgradeFunc, 		requirements, 				levels, upgradeType,				refundUpgrade,	hardCapScale,	mutuallyExclusive, needsNearComm
 -- Start with classes
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Jetpack,				"jp",				"Jetpack",			kTechId.Jetpack, 				GiveJetpack, 		kCombatUpgrades.Armor2, 	2, 		kCombatUpgradeTypes.Class,	false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.DualMinigunExosuit } ))
---table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Exosuit,				"exo",			    "Exosuit",			kTechId.Exosuit, 	       		GiveExo,        	kCombatUpgrades.Armor2, 	5, 		kCombatUpgradeTypes.Class,	true,			1/7,		{ kCombatUpgrades.Jetpack, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.Jetpack} ))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Jetpack,				"jp",				"Jetpack",			kTechId.Jetpack, 				GiveJetpack, 		kCombatUpgrades.Armor2, 	2, 		kCombatUpgradeTypes.Class,	false,			0,			nil))
+--table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Exosuit,				"exo",			    "Exosuit",			kTechId.Exosuit, 	       		GiveExo,        	kCombatUpgrades.Armor2, 	5, 		kCombatUpgradeTypes.Class,	true,			1/7,		{kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.Jetpack} ))
 if not kCombatCompMode then
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.DualMinigunExosuit,	"dualminigun",		"Dual Minigun Exo",	kTechId.DualMinigunExosuit, 	GiveExoDualMinigun, kCombatUpgrades.Armor2, 	6, 		kCombatUpgradeTypes.Class,  true,			1/14,		{ kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.Jetpack}, true ))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.RailGunExosuit,	    "railgun",		    "Dual Railgun Exo",	kTechId.DualRailgunExosuit, 	GiveExoDualRailGun,      kCombatUpgrades.Armor2, 	5, 		kCombatUpgradeTypes.Class,  true,			1/14,		{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.Jetpack}, true ))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.DualMinigunExosuit,	"dualminigun",		"Dual Minigun Exo",	kTechId.DualMinigunExosuit, 	GiveExoDualMinigun, kCombatUpgrades.Armor2, 	6, 		kCombatUpgradeTypes.Class,  true,			1/14,		{ kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit}, true ))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.RailGunExosuit,	    "railgun",		    "Franchise Fixer",	kTechId.DualRailgunExosuit, 	GiveExoDualRailGun,      kCombatUpgrades.Armor2, 	6, 		kCombatUpgradeTypes.Class,  true,			1/14,		{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit}, true ))
 end
 
 -- Weapons
@@ -262,7 +264,7 @@ table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Armor3,				"arm3",	
 table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Resupply,				"resup",			"Resupply",			kTechId.MedPack , 	       		Resupply,    		nil, 	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 if not kCombatCompMode then
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.ImprovedResupply,	"impresup",			"Improved Resupply",kTechId.AmmoPack , 	    ImprovedResupply,    		kCombatUpgrades.Resupply, 	1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Scanner,				"scan",				"Scanner",			kTechId.Scan, 			   		Scan, 	      		nil,                     	1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Scanner,				"scan",				"Scanner",			kTechId.Scan, 			   		Scan, 	      		nil,                     	2, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Catalyst,				"cat",				"Catalyst",			kTechId.CatPack , 	       		Catalyst,  			nil, 	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.EMP,   				"emp",			    "EMP-Taunt",		kTechId.MACEMP , 	       		EMP,        		nil, 	                   99, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.FastReload,   		    "fastreload",		"Fast Reload",		kTechId.AdvancedWeaponry, 		FastReload,   	    nil, 	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
@@ -270,7 +272,7 @@ if not kCombatCompMode then
 end
 
 -- Alien Upgrades
-local kLerkHardCapScale = 1/2
+local kLerkHardCapScale = 1/2.5
 local kFadeHardCapScale = 1/4
 local kGorgeHardCapScale = 1/3
 local kOnosHardCapScale = 1/7
@@ -287,7 +289,7 @@ table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Regeneration,			"reg
 table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Vampirism,				"vampirism",        "Vampirism",	    kTechId.Vampirism, 				nil,				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 if not kCombatCompMode then
 	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Camouflage,				"camouflage",        "Camouflage",	    kTechId.Camouflage, 			GiveCamo,				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
-	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Aura,					"aura",				"Aura",				kTechId.Aura, 					nil, 				nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Aura,					"aura",				"Aura",				kTechId.Aura, 					nil, 				nil, 						2, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.ShadeInk,				"ink",		        "Ink-Taunt",		kTechId.ShadeInk, 		   	 	ShadeInk,			nil, 						1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Focus,				    "focus",			"Focus",			kTechId.Focus, 			        nil, 			    nil,	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 end
