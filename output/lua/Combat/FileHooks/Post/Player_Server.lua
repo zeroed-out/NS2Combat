@@ -606,7 +606,8 @@ function Player:OnUpdatePlayer(deltaTime)
     -- Putting this here to try and fix the giving xp on join.
     -- Also helps us write the xp balancing function later.
     if self:GetIsPlaying() then
-        if self.combatTable.setAvgXp then
+        -- Always give average xp, else xp is not given after spectating for example.
+        if self.combatTable.setAvgXp ~= false then
             local avgXp = Experience_GetAvgXp(self)
             -- Send the avg as a message to the player (%d doesn't work with SendDirectMessage)
             self:BalanceXp(avgXp)
