@@ -11,13 +11,13 @@ kMaxRelevancyDistance = 45 -- was 40
 -- Welcome Message that every player receives who joined our game
 combatModifiedMessage = "Contact ailmanki#8429 (Meteru) on Discord to report issues."
 combatWelcomeMessage = {combatModifiedMessage,
-                        "This server is running a special Combat Mod V." .. kCombatVersion .. ".",
-                        "This mod removes RTS elements and gives you upgrades for kills.",
-                        "Score = XP and Resources = Upgrade Points to use.",
-                        "For more information type /help in the chat or console."
-                        }
+                        "Welcome to Combat Mod! (This is not the default gamemode.)",
+                        "This mod gives you levels and upgrade points, which you can see on",
+                        "your Experience Bar at the bottom of the screen.",
+                        "Get experience from kills and press B to spend points!"
+}
 
-                        
+
 -- How often to send kills, deaths, nick name changes, etc. for scoreboard
 kScoreboardUpdateInterval = 2
 
@@ -26,7 +26,7 @@ kUpdatePingsIndividual = 5
 
 -- How often to send ping updates to all players.
 kUpdatePingsAll = 12
-						
+
 kCombatUpgradeNotifyInterval = 20
 kCombatReminderNotifyInterval = 45
 kDirectMessageFadeTime = 8
@@ -76,12 +76,12 @@ kPropEffectTimer = 2
 kCombatSpawnProtectDelay = 0.1
 kCombatMarineSpawnProtectTime = 2
 -- nano shield = spawn Protection
-kNanoShieldDuration = kCombatMarineSpawnProtectTime 
+kNanoShieldDuration = kCombatMarineSpawnProtectTime
 -- Alien time includes time spent in the egg.
 kCombatAlienSpawnProtectTime = kSkulkGestateTime + 2
 
 -- No eggs
-kAlienEggsPerHive = 0
+kAlienEggsPerHive = 2
 
 -- The rate at which players heal the hive/cc should be multiplied by this ratio.
 kHiveCCHealRate = 0.3
@@ -116,7 +116,7 @@ kDualMinigunCost = generalCost
 kGorgeCost = 1
 kLerkCost = 3
 kFadeCost = 5
-kOnosCost = 6
+kOnosCost = 7
 
 kCarapaceCost = generalCost
 kRegenerationCost = generalCost
@@ -151,9 +151,29 @@ kCombatARCSpawnEnabled = true
 kCombatFillerBots = 0 -- disable bots by default even if enabled in vanilla
 
 -- Alien Tier to Ability map
-kCombatAlienTierTwoTechIds = { kTechId.Leap, kTechId.BabblerEgg, kTechId.BabblerAbility, kTechId.Umbra, kTechId.MetabolizeEnergy, kTechId.MetabolizeHealth, kTechId.Charge, kTechId.BoneShield }
-kCombatAlienTierThreeTechIds = { kTechId.BileBomb, kTechId.Web, kTechId.BoneShield, kTechId.Spores, kTechId.Stab, kTechId.Stomp }
+kCombatAlienTierTwoTechIds = { kTechId.Leap, kTechId.BabblerEgg, kTechId.Web, kTechId.BabblerAbility, kTechId.Spores, kTechId.MetabolizeEnergy, kTechId.MetabolizeHealth, kTechId.Charge, kTechId.BoneShield }
+kCombatAlienTierThreeTechIds = { kTechId.BileBomb, kTechId.BoneShield, kTechId.Umbra, kTechId.Stab, kTechId.Stomp }
 if not kCombatCompMode then
-	-- Add Xenocide only if not competitive mode
-	table.insert(kCombatAlienTierThreeTechIds, kTechId.Xenocide)
+    -- Add Xenocide only if not competitive mode
+    table.insert(kCombatAlienTierThreeTechIds, kTechId.Xenocide)
+end
+
+
+
+function GorgeWeb:OnDestroy()
+    AlienStructure.OnDestroy(self)
+    if Server then
+        local team = self:GetTeam()
+        if team then
+            team:UpdateClientOwnedStructures(self:GetId())
+        end
+        local player = self:GetOwner()
+        if player then
+            if (self.consumed) then
+                player:AddResources(kWebBuildCost)
+            else
+                player:AddResources(kWebBuildCost)
+            end
+        end
+    end
 end
