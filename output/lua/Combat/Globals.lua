@@ -81,7 +81,7 @@ kNanoShieldDuration = kCombatMarineSpawnProtectTime
 kCombatAlienSpawnProtectTime = kSkulkGestateTime + 2
 
 -- No eggs
-kAlienEggsPerHive = 2
+kAlienEggsPerHive = 0
 
 -- The rate at which players heal the hive/cc should be multiplied by this ratio.
 kHiveCCHealRate = 0.3
