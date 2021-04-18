@@ -158,23 +158,3 @@ if not kCombatCompMode then
     table.insert(kCombatAlienTierThreeTechIds, kTechId.Xenocide)
 end
 
-
-if GorgeWeb then
-    function GorgeWeb:OnDestroy()
-        AlienStructure.OnDestroy(self)
-        if Server then
-            local team = self:GetTeam()
-            if team then
-                team:UpdateClientOwnedStructures(self:GetId())
-            end
-            local player = self:GetOwner()
-            if player then
-                if (self.consumed) then
-                    player:AddResources(kWebBuildCost)
-                else
-                    player:AddResources(kWebBuildCost)
-                end
-            end
-        end
-    end
-end
