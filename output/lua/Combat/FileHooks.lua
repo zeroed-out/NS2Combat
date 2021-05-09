@@ -1,9 +1,6 @@
 
 kCombatVersion = 6.2
 
--- Load Shine hooks
-ModLoader.SetupFileHook( "lua/shine/core/shared/hook.lua", "lua/shine/hook.lua", "post" )
-
 -- Setup Filehooks based on the folder structure inside the FileHooks folder
 -- Warning: Paths are case sensitive at Linux
 local function SetupFilehookFolder(folderPath, modPath, hookType)
