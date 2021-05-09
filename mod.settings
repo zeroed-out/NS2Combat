@@ -10,7 +10,7 @@ Bringing back the old and out of date Combat mod :)
 
 Many thanks to Shrimm for the continuous quality improvements.
 
-ModID:
+ModID: 93f05553
 
 Compatible mods:
 [list]
@@ -40,4 +40,4 @@ The property "mode" needs to be set to "Time"
 image       = "preview.jpg"
 tag_modtype = "Custom Game Mode"
 tag_support = "Must be run on Server"
-publish_id = ""
+publish_id = "93f05553"
