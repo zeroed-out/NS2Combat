@@ -559,7 +559,6 @@ function GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
 
             -- set grey if player doesn'T have the needed other Up
             if not gotRequirements then
-            
                 useColor = Color(0.4, 0.4, 0.4, 0.85)
                
             -- set it blink when we got the upp already
@@ -571,6 +570,11 @@ function GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
             elseif PlayerUI_GetPlayerResources() < item.Upgrade:GetLevels() then
             
                 useColor = Color(0.8, 0.1, 0.1, 1) 
+
+            -- set color if mutually exclusive
+            elseif GetMutuallyExclusive then
+            
+                useColor = Color(0.7, 0.1, 0.1, 1) 
                
             end
             

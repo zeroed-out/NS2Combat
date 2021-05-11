@@ -55,8 +55,28 @@ kInkTimer = 30
 ShadeInk.kShadeInkDisorientRadius = 9
 kCombatTauntCheckInterval = 4
 
-kSprintSpeedUpgradeScalar = 3.25
+kSprintSpeedUpgradeScalar = 3.5
 
 kARCSpawnFrequency = 60
 
 kShadeInkDuration = 5
+
+--Focus revert
+
+kFocusDamageBonusAtMax = 0.34
+kSpitFocusAttackSlowAtMax = .165
+kSpitFocusDamageBonusAtMax = 0.5
+
+-- Mine hp reduction
+
+kMineHealth = 28
+
+--web charge reduction
+
+kWebMaxCharges = 1
+
+-- Fade hp nerf
+kFadeHealth = 225
+
+--sentry damage increase
+kSentryDamage = 7

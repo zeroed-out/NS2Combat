@@ -8,8 +8,8 @@ function CombatMarineBuy_GetHeadlines()
         "Weapons",        
         "Offense",
         "Defense",
-        "Agility",
-        "Misc.",
+        "Utility",
+        "Specialization",
     }
     
     return headlines
@@ -23,25 +23,26 @@ function CombatMarineBuy_GUISortUps(upgradeList)
     local layoutList = {
         -- 0, Support
         "nextRow",
+        kTechId.MedPack,
+        kTechId.AmmoPack,
         kTechId.Welder,
         kTechId.Scan,
         kTechId.LayMines,
-        kTechId.ClusterGrenade,
-        kTechId.GasGrenade,
         kTechId.PulseGrenade,
         "nextRow",
 
         -- 1, Weapons
         kTechId.Shotgun,
+        kTechId.HeavyMachineGun,
         kTechId.GrenadeLauncher,
         kTechId.Flamethrower,
-        kTechId.HeavyMachineGun,
         "nextRow",
         
         -- 2, Offense
         kTechId.Weapons1,
         kTechId.Weapons2,
         kTechId.Weapons3,
+        kTechId.AdvancedWeaponry,
         "nextRow",
 
         -- 3, Defense
@@ -50,18 +51,17 @@ function CombatMarineBuy_GUISortUps(upgradeList)
         kTechId.Armor3,
         "nextRow",
 
-        -- 4, Agility
+        -- 4, Utility
         kTechId.PhaseTech,     
-        kTechId.Jetpack,     
         kTechId.CatPack,
-        kTechId.AdvancedWeaponry,
+        kTechId.ClusterGrenade,
+        kTechId.GasGrenade,
         "nextRow",
 
-        -- 5, Misc.
-        kTechId.MedPack,
-        kTechId.AmmoPack,
+        -- 5, Specialization
         kTechId.DualMinigunExosuit,
         kTechId.DualRailgunExosuit,
+        kTechId.Jetpack,     
 
     }
     

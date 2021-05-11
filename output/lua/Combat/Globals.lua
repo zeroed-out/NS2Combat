@@ -39,7 +39,7 @@ kCombatAlienBuyMenuUpgradeButtonDistance = 210
 -- Set the respawn timer
 kCombatRespawnTimer = 6
 kAlienWaveSpawnInterval = 6
-kCombatOvertimeRespawnTimer = 10
+kCombatOvertimeRespawnTimer = 12
 
 -- Rebalancing Intervals (secs)
 kCombatRebalanceInterval = 300
@@ -50,7 +50,7 @@ kSpawnMinDistance = 3
 kSpawnMaxDistance = 80
 kSpawnMaxVertical = 15
 kSpawnArmoryMaxRetries = 200
-kArmorySpawnMinDistance = 10
+kArmorySpawnMinDistance = 7
 kArmorySpawnMaxDistance = 80
 
 -- By default, Aliens win after a certain amount of time...
@@ -84,17 +84,17 @@ kCombatAlienSpawnProtectTime = kSkulkGestateTime + 2
 kAlienEggsPerHive = 0
 
 -- The rate at which players heal the hive/cc should be multiplied by this ratio.
-kHiveCCHealRate = 0.3
+kHiveCCHealRate = 0.4
 -- The rate at which players gain XP for healing... relative to damage dealt.
-kHealXpRate = 0.5
+kHealXpRate = 0.75
 -- Rate at which players gain XP for healing other players...
-kPlayerHealXpRate = 0.2
+kPlayerHealXpRate = 0.4
 
 -- kill hydras after some time if the owner isn't a gorge
 kHydraKillTime = 30
 
 -- Time delay for exo suits to power up.
-kExoPowerUpTime = 2.5
+kExoPowerUpTime = 2
 
 -- Override the costs of each of our entries.
 -- These won't take effect on the client side until we import this file into the client side mods
@@ -157,4 +157,3 @@ if not kCombatCompMode then
     -- Add Xenocide only if not competitive mode
     table.insert(kCombatAlienTierThreeTechIds, kTechId.Xenocide)
 end
-

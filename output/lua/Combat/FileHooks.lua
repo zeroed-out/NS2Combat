@@ -1,5 +1,5 @@
 
-kCombatVersion = 6.2
+kCombatVersion = 6.1
 
 -- Setup Filehooks based on the folder structure inside the FileHooks folder
 -- Warning: Paths are case sensitive at Linux
