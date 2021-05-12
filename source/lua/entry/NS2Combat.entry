@@ -1,0 +1,7 @@
+modEntry = {
+	FileHooks = "lua/Combat/FileHooks.lua",
+	Shared = "lua/Combat/Shared.lua",
+	Client = "lua/Combat/Client.lua",
+	Server = "lua/Combat/Server.lua",
+	Priority = 45
+}
