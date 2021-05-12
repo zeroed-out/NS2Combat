@@ -21,12 +21,12 @@ end
 --Sentry.kBarrelMoveTargetMult = 4 -- when a target is acquired, how fast to swivel the barrel
 ---- kRange 20 default
 if kCombatVersion then
-    Sentry.kRange = 30
+    Sentry.kRange = 25
 end
---Sentry.kReorientSpeed = .05
+--Sentry.kReorientSpeed = .1
 
 --Sentry.kTargetAcquireTime = 0.25
---Sentry.kConfuseDuration = 4
+--Sentry.kConfuseDuration = 3
 --Sentry.kAttackEffectIntervall = 0.2
 --Sentry.kConfusedAttackEffectInterval = kConfusedSentryBaseROF
 -- balance end
