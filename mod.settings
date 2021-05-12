@@ -1,42 +1,41 @@
-name        = "Meteru's NS2 Combat Fork"
+name        = "Combat Mod"
 source_dir  = "source"
 output_dir  = "output"
-description = [=[NS2Combat: A Combat-style mod for Natural Selection 2!
+description = [=[Combat Mod Beta Test
 
-This is used with permission, and is licensed under the MIT License. For more info, check out https://github.com/ailmanki/NS2Combat
+MOD ID: 93F61EAA
 
-Bringing back the old and out of date Combat mod :)
+CHANGE LOG
 
-Many thanks to Shrimm for the continuous quality improvements.
+XP gain altered: 10 less XP for a neutral kill, 5 more xp for kills above your level. Lifeforms, JP, exo, and armory experience given increased. Arcs now worth 100, from 120.
 
-ModID: 8AE61F8F
+Marine Tech Tree rework:
+* Sentries, Mines, Scan, and grenades now require welder
+* Pulse grenade now briefly scans
+* Max grenades changed to 2
+* Max Mines changed to 2, Max mines held changed to 2
+* Mines now have 28 HP
+* Sentries, Scan, Armor 3, Weapons 3, Fast reload, and adv resupply now cost 2 points
+* Sentries, JP, and exo now all mutually exclusive
+* Sentries now lock on .1 second slower and deal 7 damage from 5.
+* Prerequisites removed from JP and exo
+* Jetpack now cost 3
+* Railgun now cost 8
+* Prerequisites removed from weapons, now cost 2 points
+* Class limits added to sentry, Jetpack, and each weapon type. In a 10 player server, 5 SG, 4 HMG, 3 GL, 2 FT, 4 sentry, 5 JP, 1 railgun, 1 minigun
+* New ability: Shield Generator. Requires Armor 3, cost two points, and Mutually exclusive with fast reload. +20 armor, and auto-self welding.
+* Fast reload now requires Weapons 3 and is mutually exclusive with shield gen.
+* Scan now lasts for 5 seconds with a 15 second cooldown. Was 7 seconds 13 second cooldown
+* Weapons now refund on death
+* Exos now take 2.5 seconds from 3 to initialize on purchase
 
-Compatible mods:
-[list]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=1951316468] Buy Menu Hotkeys [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=2108455550] Enhanced Ragdoll [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=1132771326] Enhanced Spectator [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=820494522] Exosuit Boombox [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=1934484465] Clog Balance [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=2230489630] Combat Equipment [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=1079247507] Fade Void Rocket [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=2073756005] Gorge Toys [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=2332684940] Meteru's Local Talk Extended Fork [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=2330402722] Rebirth Bots [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=2295815997] Onos Rework Mod [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=1173477213] Personal Shield Generator [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=2368743395] Pulse Grenade Scan Mod [/url]
-[*] [url=steamcommunity.com/sharedfiles/filedetails/?id=2192264361] Spider Gorge [/url]
-[*] [strike] [url=steamcommunity.com/sharedfiles/filedetails/?id=1861166199] SentinelAI [/url] [/strike]
-[/list]
-
-Shine Pregame configuration:
-[url=https://github.com/Person8880/Shine/wiki/Pregame#overview] Pregame Overview [/url]
-The property "mode" needs to be set to "Time"
-[code]"Mode": "TIME",[/code]
-
-]=]
+Alien Tech changed:
+* Focus now reverted to do 100 damage (45 for gorge), now costs 2 points
+* Lifeforms now cost 2,4,6,8 from 1,3,5,7.
+* Ink now lasts 5 seconds with a 30 second cooldown to properly counter scan half the time
+* Fades HP reduced by 25
+* Spawn protection increased to .5 seconds from .1  (Idk if this is working)]=]
 image       = "preview.jpg"
 tag_modtype = "Custom Game Mode"
 tag_support = "Must be run on Server"
-publish_id = "8ae61f8f"
+publish_id = "93f61eaa"
