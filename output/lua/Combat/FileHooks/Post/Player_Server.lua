@@ -408,7 +408,7 @@ function Player:spendlvlHints(hint, type)
         if type == "Alien" then
             techType = "Hive to evolve to an Onos"
         else
-            techType = "Command Station to get an Exosuit"
+            techType = "Command Station to get a Weapon or Exosuit"
         end
         self:SendDirectMessage("You have to be near the " .. techType .. "!")
 
@@ -622,7 +622,7 @@ function Player:OnUpdatePlayer(deltaTime)
 
         -- Provide scan and resupply function
         if self.combatTable.hasScan then
-        
+
             if (self.combatTable.lastScan + kScanTimer < Shared.GetTime()) then
 
                 self:ScanNow()
