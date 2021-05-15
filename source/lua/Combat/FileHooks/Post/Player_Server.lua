@@ -408,7 +408,7 @@ function Player:spendlvlHints(hint, type)
         if type == "Alien" then
             techType = "Hive to evolve to an Onos"
         else
-            techType = "Command Station to get a Weapon or Exosuit"
+            techType = "Command Station to get an Advanced Weapon or Exosuit"
         end
         self:SendDirectMessage("You have to be near the " .. techType .. "!")
 
