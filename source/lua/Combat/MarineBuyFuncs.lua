@@ -35,7 +35,7 @@ function CombatMarineBuy_GUISortUps(upgradeList)
         kTechId.Shotgun,
         kTechId.HeavyMachineGun,
         kTechId.GrenadeLauncher,
---        kTechId.Flamethrower,
+        kTechId.Flamethrower,
         "nextRow",
         
         -- 2, Offense
