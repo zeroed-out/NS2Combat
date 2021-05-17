@@ -39,14 +39,14 @@ kXenocideRange = 9
 kEMPBlastEnergyDamage = 75
 
 -- Timers for Scan, Resupply and Catalyst packs.
-kScanTimer = 15
+kScanTimer = 12
 kResupplyTimer = 5
 kImprovedResupplyExtra = 5
 AmmoPack.kNumClips = 1
-kCatalystTimer = 14
+kCatalystTimer = 10
 
 -- Scan Duration, maybe we need to tune it a bit
-kScanDuration = 5
+kScanDuration = 6
 
 -- Make these less "spammy"
 kEMPTimer = 30
@@ -57,7 +57,7 @@ kCombatTauntCheckInterval = 4
 
 kSprintSpeedUpgradeScalar = 3.5
 
-kARCSpawnFrequency = 60
+kARCSpawnFrequency = 80
 
 kShadeInkDuration = 5
 
@@ -69,7 +69,10 @@ kSpitFocusDamageBonusAtMax = 0.5
 
 --web charge reduction
 
-kWebMaxCharges = 1
+kWebMaxCharges = 2
 
 --sentry damage increase
 kSentryDamage = 10
+
+--Mine HP reduction
+kMineHealth = 24

@@ -21,12 +21,12 @@ end
 --Sentry.kBarrelMoveTargetMult = 4 -- when a target is acquired, how fast to swivel the barrel
 ---- kRange 20 default
 if kCombatVersion then
-    Sentry.kRange = 25
+    Sentry.kRange = 20
 end
 --Sentry.kReorientSpeed = .1
 
 --Sentry.kTargetAcquireTime = 0.25
---Sentry.kConfuseDuration = 3
+--Sentry.kConfuseDuration = 5
 --Sentry.kAttackEffectIntervall = 0.2
 --Sentry.kConfusedAttackEffectInterval = kConfusedSentryBaseROF
 -- balance end
@@ -62,29 +62,29 @@ end
 local oldOnInitialized = Sentry.OnInitialized
 function Sentry:OnInitialized()
     oldOnInitialized(self)
-    
+
     InitMixin(self, LaserMixin)
 end
 
 -- Called by ConstructMixing:OnUse
 function Sentry:GetCanConstruct(constructor)
-    
+
     if self.GetCanConstructOverride then
         return self:GetCanConstructOverride(constructor)
     end
-    
+
     -- Check if we're on infestation
     -- Doing the origin-based check may be expensive, but this is only done sparsely. And better than tracking infestation all the time.
     if LookupTechData(self:GetTechId(), kTechDataNotOnInfestation) and GetIsPointOnInfestation(self:GetOrigin()) then
         return false
     end
-    
+
     local activeWeapon
     if  constructor.GetActiveWeapon then
         activeWeapon = constructor:GetActiveWeapon()
     end
-    
-    
+
+
     return not self:GetIsBuilt() and GetAreFriends(self, constructor) and self:GetIsAlive() and
             (not constructor or constructor:isa("MAC") or
                     (constructor:isa("Marine") and not self.personal or
@@ -135,10 +135,10 @@ end
 
 function Sentry:OnUpdateAnimationInput(modelMixin)
 
-    PROFILE("Sentry:OnUpdateAnimationInput")    
+    PROFILE("Sentry:OnUpdateAnimationInput")
     modelMixin:SetAnimationInput("attack", self.attacking)
     modelMixin:SetAnimationInput("powered", self.personal or self.attachedToBattery)
-    
+
 end
 
 function Sentry:GetCanRecycleOverride()
@@ -146,7 +146,7 @@ function Sentry:GetCanRecycleOverride()
 end
 
 function Sentry:GetUnitNameOverride(viewer)
-    
+
     local unitName = GetDisplayName(self)
     --self.personal and
     if  not GetAreEnemies(self, viewer) and self.ownerId then
@@ -158,7 +158,7 @@ function Sentry:GetUnitNameOverride(viewer)
             end
         end
         if ownerName then
-            
+
             local lastLetter = ownerName:sub(-1)
             if lastLetter == "s" or lastLetter == "S" then
                 return string.format( "%s' Sentry", ownerName )
@@ -166,29 +166,29 @@ function Sentry:GetUnitNameOverride(viewer)
                 return string.format( "%s's Sentry", ownerName )
             end
         end
-    
+
     end
-    
+
     return unitName
 
 end
 
 if kCombatVersion then
     function Sentry:ComputeDamageOverride(attacker, damage, damageType, hitPoint)
-        
+
         -- Lerk spikes do double damage to mines.
         if (damageType == kDamageType.Puncture and attacker:isa("Lerk")) or (damageType == kDamageType.Corrode and attacker:isa("Gorge"))  then
             damage = damage * 0.5
         end
-        
+
         return damage
-    
+
     end
 end
 local oldOnDestroy = Sentry.OnDestroy
 function Sentry:OnDestroy()
     if self.personal and Server then
-    
+
         if kCombatVersion or self.consumed then
             local player = self:GetOwner()
             if player and player:GetIsAlive() then
@@ -196,53 +196,53 @@ function Sentry:OnDestroy()
                 if not self.consumed then
                     activeWeapon = player:GetActiveWeapon()
                 end
-                
+
                 player:GiveItem(BuildSentry.kMapName)
-                
+
                 if activeWeapon and activeWeapon:GetMapName() then
                     player:SetActiveWeapon(activeWeapon:GetMapName())
                 end
             end
         end
     end
-   
+
     oldOnDestroy(self)
 end
 
 function GetCheckSentryLimit(techId, origin, normal, commander)
-    
+
     -- Prevent the case where a Sentry in one room is being placed next to a
     -- SentryBattery in another room.
     local battery = GetSentryBatteryInRoom(origin)
     if battery then
-        
+
         if (battery:GetOrigin() - origin):GetLength() > SentryBattery.kRange then
             return false
         end
-    
+
     else
         return false
     end
-    
+
     local location = GetLocationForPoint(origin)
     local locationName = location and location:GetName() or nil
     local numInRoom = 0
     local validRoom = false
-    
+
     if locationName then
-        
+
         validRoom = true
-        
+
         for index, sentry in ientitylist(Shared.GetEntitiesWithClassname("Sentry")) do
-            
+
             if false == sentry.personal and sentry:GetLocationName() == locationName then
                 numInRoom = numInRoom + 1
             end
-        
+
         end
-    
+
     end
-    
+
     return validRoom and numInRoom < kSentriesPerBattery
 
 end

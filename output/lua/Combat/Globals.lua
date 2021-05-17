@@ -39,7 +39,7 @@ kCombatAlienBuyMenuUpgradeButtonDistance = 210
 -- Set the respawn timer
 kCombatRespawnTimer = 6
 kAlienWaveSpawnInterval = 6
-kCombatOvertimeRespawnTimer = 12
+kCombatOvertimeRespawnTimer = 10
 
 -- Rebalancing Intervals (secs)
 kCombatRebalanceInterval = 300
@@ -47,11 +47,11 @@ kCombatRebalanceInterval = 300
 -- Spawning radius and retries.
 kSpawnMaxRetries = 50
 kSpawnMinDistance = 3
-kSpawnMaxDistance = 80
-kSpawnMaxVertical = 15
+kSpawnMaxDistance = 70
+kSpawnMaxVertical = 10
 kSpawnArmoryMaxRetries = 200
-kArmorySpawnMinDistance = 8
-kArmorySpawnMaxDistance = 80
+kArmorySpawnMinDistance = 7
+kArmorySpawnMaxDistance = 60
 
 -- By default, Aliens win after a certain amount of time...
 -- Specified in seconds...
@@ -73,7 +73,7 @@ kPropEffect = "vortex_destroy"
 kPropEffectTimer = 2
 
 -- Spawn protection
-kCombatSpawnProtectDelay = 0.5
+kCombatSpawnProtectDelay = 0.1
 kCombatMarineSpawnProtectTime = 2
 -- nano shield = spawn Protection
 kNanoShieldDuration = kCombatMarineSpawnProtectTime
@@ -88,7 +88,7 @@ kHiveCCHealRate = 0.3
 -- The rate at which players gain XP for healing... relative to damage dealt.
 kHealXpRate = 0.75
 -- Rate at which players gain XP for healing other players...
-kPlayerHealXpRate = 0.2
+kPlayerHealXpRate = 0.3
 
 -- kill hydras after some time if the owner isn't a gorge
 kHydraKillTime = 30
@@ -114,9 +114,9 @@ kDualMinigunCost = generalCost
 
 -- Used by alien buy menu
 kGorgeCost = 1
-kLerkCost = 4
-kFadeCost = 6
-kOnosCost = 8
+kLerkCost = 3
+kFadeCost = 5
+kOnosCost = 7
 
 kCarapaceCost = generalCost
 kRegenerationCost = generalCost
@@ -136,7 +136,7 @@ kGorgeTunnelCost = generalCost
 kBabblerCost = 0
 
 -- Range for evolving to Onos/Exo from the Hive/CommandStation
-kTechRange = 20.0
+kTechRange = 25.0
 
 --set starting personal resources to 0
 kMarineInitialIndivRes = 0

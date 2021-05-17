@@ -25,10 +25,10 @@ function CombatMarineBuy_GUISortUps(upgradeList)
         "nextRow",
         kTechId.MedPack,
         kTechId.AmmoPack,
+        kTechId.CatPack,
         kTechId.Welder,
-        kTechId.Scan,
         kTechId.LayMines,
-        kTechId.PulseGrenade,
+        kTechId.Scan,
         "nextRow",
 
         -- 1, Weapons
@@ -53,7 +53,7 @@ function CombatMarineBuy_GUISortUps(upgradeList)
 
         -- 4, Utility
         kTechId.PhaseTech,     
-        kTechId.CatPack,
+        kTechId.PulseGrenade,
         kTechId.ClusterGrenade,
         kTechId.GasGrenade,
         "nextRow",

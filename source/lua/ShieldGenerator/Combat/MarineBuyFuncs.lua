@@ -11,7 +11,7 @@ function CombatMarineBuy_GUISortUps(upgradeList)
 	end
 
 	local oldList = oldCombatMarineBuy_GUISortUps(upgradeList)
-	
+
 	if shieldUpgrade then
 		for index, entry in ipairs(oldList) do
 			if entry.GetTechId and entry:GetTechId() == kTechId.Armor3 then
@@ -20,15 +20,15 @@ function CombatMarineBuy_GUISortUps(upgradeList)
 			end
 		end
 	end
-	
+
 	return oldList
-	
+
 end
 
 local oldDescFunc = CombatMarineBuy_GetWeaponDescription
 function CombatMarineBuy_GetWeaponDescription(techId)
 	if techId == kTechId.ShieldGenerator then
-		return "Provides extra armor, and auto-repairs when out of combat. Requires Armor 3."
+		return "Provides extra armor, and auto-repairs when out of combat. Requires Armor 2."
 	end
 	return oldDescFunc(techId)
 end
