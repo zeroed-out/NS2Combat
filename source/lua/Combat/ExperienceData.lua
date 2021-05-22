@@ -15,7 +15,7 @@ kCombatUpgradeUpdateInterval = 1
 kCombatPenaltyLevel = 1
 
 -- how much % from the avg xp can new player get
-avgXpAmount = 0.5
+avgXpAmount = 0.75
 
 -- how much % from the xp are the m8 nearby getting and the range
 mateXpAmount = 0.5
@@ -36,16 +36,16 @@ assistPlayerRatio = 0.9
 
 baseXpForKill = 60
 -- extra bonus xp given per level difference
-extraXpPerLevelDiff = 20
+extraXpPerLevelDiff = 30
 
 -- XP-Values
 -- Scores for various creatures and structures.
 XpValues = {}
 XpValues["Marine"] = 0
 XpValues["Skulk"] = 0
-XpValues["Gorge"] = 15
-XpValues["Lerk"] = 25
-XpValues["Fade"] = 50
+XpValues["Gorge"] = 25
+XpValues["Lerk"] = 50
+XpValues["Fade"] = 75
 XpValues["Onos"] = 100
 XpValues["Exo"] = 100
 XpValues["Exosuit"] = 100
@@ -266,7 +266,7 @@ table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Resupply,				"resup
 if not kCombatCompMode then
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.ImprovedResupply,	"impresup",			"Improved Resupply",kTechId.AmmoPack , 	    ImprovedResupply,    		kCombatUpgrades.Resupply, 	1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Scanner,				"scan",				"Scanner",			kTechId.Scan, 			   		Scan, 	      		kCombatUpgrades.Mines,                     	1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Catalyst,				"cat",				"Catalyst",			kTechId.CatPack , 	       		Catalyst,  			kCombatUpgrades.ImprovedResupply, 	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Catalyst,				"cat",				"Catalyst",			kTechId.CatPack , 	       		Catalyst,  			nil, 	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.EMP,   				"emp",			    "EMP-Taunt",		kTechId.MACEMP , 	       		EMP,        		nil, 	                   99, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.FastReload,   		    "fastreload",		"Fast Reload",		kTechId.AdvancedWeaponry, 		FastReload,   	    kCombatUpgrades.Weapons2, 	                    2, 		kCombatUpgradeTypes.Tech,   false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.DualMinigunExosuit}))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.FastSprint,   		    "fastsprint",		"Improved Sprint",		kTechId.PhaseTech, 		FastSprint,   	    nil, 	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))

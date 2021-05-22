@@ -23,7 +23,7 @@ end
 if kCombatVersion then
     Sentry.kRange = 20
 end
---Sentry.kReorientSpeed = .1
+--Sentry.kReorientSpeed = .15
 
 --Sentry.kTargetAcquireTime = 0.25
 --Sentry.kConfuseDuration = 5

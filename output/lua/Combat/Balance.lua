@@ -72,7 +72,7 @@ kSpitFocusDamageBonusAtMax = 0.5
 kWebMaxCharges = 2
 
 --sentry damage increase
-kSentryDamage = 10
+kSentryDamage = 8
 
 --Mine HP reduction
 kMineHealth = 24

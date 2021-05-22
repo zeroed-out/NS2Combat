@@ -15,7 +15,7 @@ kCombatUpgradeUpdateInterval = 1
 kCombatPenaltyLevel = 1
 
 -- how much % from the avg xp can new player get
-avgXpAmount = 0.5
+avgXpAmount = 0.75
 
 -- how much % from the xp are the m8 nearby getting and the range
 mateXpAmount = 0.5
@@ -36,37 +36,37 @@ assistPlayerRatio = 0.9
 
 baseXpForKill = 60
 -- extra bonus xp given per level difference
-extraXpPerLevelDiff = 20
+extraXpPerLevelDiff = 30
 
 -- XP-Values
 -- Scores for various creatures and structures.
 XpValues = {}
 XpValues["Marine"] = 0
 XpValues["Skulk"] = 0
-XpValues["Gorge"] = 10
-XpValues["Lerk"] = 20
-XpValues["Fade"] = 40
-XpValues["Onos"] = 50
-XpValues["Exo"] = 50
-XpValues["Exosuit"] = 50
-XpValues["Jetpack"] = 25
-XpValues["Hydra"] = 5
+XpValues["Gorge"] = 25
+XpValues["Lerk"] = 50
+XpValues["Fade"] = 75
+XpValues["Onos"] = 100
+XpValues["Exo"] = 100
+XpValues["Exosuit"] = 100
+XpValues["Jetpack"] = 50
+XpValues["Hydra"] = 10
 XpValues["Babbler"] = 2
 XpValues["Clog"] = 1
 XpValues["Cyst"] = 10
-XpValues["Armory"] = 250
-XpValues["CommandStation"] = 400
+XpValues["Armory"] = 200
+XpValues["CommandStation"] = 300
 XpValues["PowerPoint"] = 0
 XpValues["Extractor"] = 0
-XpValues["Hive"] = 400
-XpValues["ARC"] = 120
-XpValues["Whip"] = 25
-XpValues["Crag"] = 25
-XpValues["Shift"] = 25
-XpValues["Shade"] = 25
-XpValues["Sentry"] = 25
-XpValues["Tunnel"] = 25
-XpValues["Egg"] = 25
+XpValues["Hive"] = 300
+XpValues["ARC"] = 150
+XpValues["Whip"] = 50
+XpValues["Crag"] = 50
+XpValues["Shift"] = 50
+XpValues["Shade"] = 50
+XpValues["Sentry"] = 50
+XpValues["Tunnel"] = 50
+XpValues["Egg"] = 100
 
 local function UpgradeArmor(player, techUpgrade)
 	techUpgrade:ExecuteTechUpgrade(player)
@@ -266,7 +266,7 @@ table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Resupply,				"resup
 if not kCombatCompMode then
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.ImprovedResupply,	"impresup",			"Improved Resupply",kTechId.AmmoPack , 	    ImprovedResupply,    		kCombatUpgrades.Resupply, 	1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Scanner,				"scan",				"Scanner",			kTechId.Scan, 			   		Scan, 	      		kCombatUpgrades.Mines,                     	1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Catalyst,				"cat",				"Catalyst",			kTechId.CatPack , 	       		Catalyst,  			kCombatUpgrades.ImprovedResupply, 	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Catalyst,				"cat",				"Catalyst",			kTechId.CatPack , 	       		Catalyst,  			nil, 	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.EMP,   				"emp",			    "EMP-Taunt",		kTechId.MACEMP , 	       		EMP,        		nil, 	                   99, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.FastReload,   		    "fastreload",		"Fast Reload",		kTechId.AdvancedWeaponry, 		FastReload,   	    kCombatUpgrades.Weapons2, 	                    2, 		kCombatUpgradeTypes.Tech,   false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.DualMinigunExosuit}))
 	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.FastSprint,   		    "fastsprint",		"Improved Sprint",		kTechId.PhaseTech, 		FastSprint,   	    nil, 	                    1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
