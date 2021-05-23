@@ -15,7 +15,7 @@ kCombatUpgradeUpdateInterval = 1
 kCombatPenaltyLevel = 1
 
 -- how much % from the avg xp can new player get
-avgXpAmount = 0.5
+avgXpAmount = 0.75
 
 -- how much % from the xp are the m8 nearby getting and the range
 mateXpAmount = 0.5
@@ -36,16 +36,16 @@ assistPlayerRatio = 0.9
 
 baseXpForKill = 60
 -- extra bonus xp given per level difference
-extraXpPerLevelDiff = 20
+extraXpPerLevelDiff = 30
 
 -- XP-Values
 -- Scores for various creatures and structures.
 XpValues = {}
 XpValues["Marine"] = 0
 XpValues["Skulk"] = 0
-XpValues["Gorge"] = 15
-XpValues["Lerk"] = 25
-XpValues["Fade"] = 50
+XpValues["Gorge"] = 25
+XpValues["Lerk"] = 50
+XpValues["Fade"] = 75
 XpValues["Onos"] = 100
 XpValues["Exo"] = 100
 XpValues["Exosuit"] = 100
