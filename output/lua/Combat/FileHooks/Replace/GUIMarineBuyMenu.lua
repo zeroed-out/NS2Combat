@@ -446,6 +446,7 @@ function GUIMarineBuyMenu:_InitializeItemButtons()
                 itemCost:SetScale(fontScaleVector)
                 itemCost:SetColor(GUIMarineBuyMenu.kTextColor)
                 itemCost:SetText(ToString(upgrade:GetLevelCost()))
+                
 
                 if upgrade:GetHardCapScale() > 0 then
                     local hardCapCount = GUIManager:CreateTextItem()
@@ -559,7 +560,7 @@ function GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
            local useColor = Color(anim,anim,anim,1)
 
             -- set grey if player doesn'T have the needed other Up
-            if not gotRequirements and gotLevelRequirements then
+            if not gotRequirements or gotLevelRequirements then
             
                 useColor = Color(0.4, 0.4, 0.4, 0.85)
                
