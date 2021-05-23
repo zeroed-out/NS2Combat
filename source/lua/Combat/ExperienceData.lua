@@ -226,77 +226,79 @@ end
 UpsList = {}
 
 -- Marine Upgrades
--- Parameters:        				team,	 upgradeId, 								upgradeTextCode, 	upgradeDesc, 		upgradeTechId, 					upgradeFunc, 		tech requirements, 		lvl requirements, levelCost, upgradeType,				refundUpgrade,	hardCapScale,	mutuallyExclusive, 																			needsNearComm
+-- Parameters:        				team,	 upgradeId, 							upgradeTextCode, 	upgradeDesc, 		upgradeTechId, 					upgradeFunc, 						tech requirements,		level requirements,	levels, upgradeType,				refundUpgrade,	hardCapScale,	mutuallyExclusive, needsNearComm
 -- Start with classes
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Jetpack,					"jp",				"Jetpack",			kTechId.Jetpack, 				GiveJetpack, 		kCombatUpgrades.Armor2,		1,			2, 		kCombatUpgradeTypes.Class,	false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.DualMinigunExosuit } 	))
---table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Exosuit,					"exo",			    "Exosuit",			kTechId.Exosuit, 	       		GiveExo,        	kCombatUpgrades.Armor2,		1, 			5, 		kCombatUpgradeTypes.Class,	true,			1/7,		{ kCombatUpgrades.Jetpack, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.Jetpack} 			))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Jetpack,				"jp",				"Jetpack",			kTechId.Jetpack, 				GiveJetpack, 						nil, 						1,				3, 		kCombatUpgradeTypes.Class,	false,			1/2,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.Sentries}))
+--table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Exosuit,				"exo",			    "Exosuit",			kTechId.Exosuit, 	       		GiveExo,        					kCombatUpgrades.Armor2, 	1,				5, 		kCombatUpgradeTypes.Class,	true,			1/7,		{kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.Jetpack, kCombatUpgrades.Sentries, kCombatUpgrades.ShieldGenerator} ))
 if not kCombatCompMode then
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.DualMinigunExosuit,	"dualminigun",		"Dual Minigun Exo",	kTechId.DualMinigunExosuit, 	GiveExoDualMinigun, kCombatUpgrades.Armor2,		1, 			6, 		kCombatUpgradeTypes.Class,  true,			1/14,		{ kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.Jetpack}, 			true))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.RailGunExosuit,	    "railgun",		    "Dual Railgun Exo",	kTechId.DualRailgunExosuit, 	GiveExoDualRailGun, kCombatUpgrades.Armor2,		1, 			5, 		kCombatUpgradeTypes.Class,  true,			1/14,		{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.Jetpack}, 		true))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.DualMinigunExosuit,	"dualminigun",		"Dual Minigun Exo",	kTechId.DualMinigunExosuit, GiveExoDualMinigun, 				nil, 						1,				7, 		kCombatUpgradeTypes.Class,  true,			1/14,		{ kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.Jetpack, kCombatUpgrades.Sentries, kCombatUpgrades.ShieldGenerator}, true ))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.RailGunExosuit,	    "railgun",		    "Dual Railgun Exo",	kTechId.DualRailgunExosuit, GiveExoDualRailGun, 				nil, 						1,				7, 		kCombatUpgradeTypes.Class,  true,			1/14,		{ kCombatUpgrades.Exosuit, kCombatUpgrades.DualMinigunExosuit, kCombatUpgrades.Jetpack, kCombatUpgrades.Sentries, kCombatUpgrades.ShieldGenerator}, true ))
 end
 
 -- Weapons
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Welder,					"welder",			"Welder",			kTechId.Welder, 				GiveWelder, 		nil,						1, 			1, 		kCombatUpgradeTypes.Weapon, false,			0,			nil																									))
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Shotgun,					"sg",				"Shotgun",			kTechId.Shotgun, 				nil, 				kCombatUpgrades.Weapons1,	1, 			1, 		kCombatUpgradeTypes.Weapon, false,			0,			nil																									))
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.HeavyMachineGun,			"hmg",				"Machine Gun",		kTechId.HeavyMachineGun, 		nil, 				kCombatUpgrades.Shotgun,	1, 			1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.Flamethrower, kCombatUpgrades.GrenadeLauncher }									))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Welder,				"welder",			"Welder",			kTechId.Welder, 				GiveWelder, 						nil, 						1,				1, 		kCombatUpgradeTypes.Weapon, false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Shotgun,				"sg",				"Shotgun",			kTechId.Shotgun, 				nil, 								nil, 						1,				2, 		kCombatUpgradeTypes.Weapon, true,			1/2,			{kCombatUpgrades.Flamethrower, kCombatUpgrades.GrenadeLauncher }))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.HeavyMachineGun,		"hmg",				"Machine Gun",		kTechId.HeavyMachineGun, 		nil, 								nil, 						1,				2, 		kCombatUpgradeTypes.Weapon, true,			1/3,			{kCombatUpgrades.Flamethrower, kCombatUpgrades.GrenadeLauncher, kCombatUpgrades.Shotgun }, true ))
 
 if not kCombatCompMode then
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Mines,					"mines",			"Mines",			kTechId.LayMines, 				nil, 				nil,						1,			1, 		kCombatUpgradeTypes.Weapon, false,			0,			nil																									))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Flamethrower,			"flame",			"Flamethrower",		kTechId.Flamethrower, 			nil, 				kCombatUpgrades.Shotgun,	1, 			1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.GrenadeLauncher, kCombatUpgrades.HeavyMachineGun }								))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.GrenadeLauncher,		"gl",				"Grenade Launcher",	kTechId.GrenadeLauncher, 		nil, 				kCombatUpgrades.Shotgun,	1, 			1, 		kCombatUpgradeTypes.Weapon, false,			1/3,		{ kCombatUpgrades.Flamethrower, kCombatUpgrades.HeavyMachineGun }									))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.ClusterGrenade,		"clustergrenade",	"ClusterGrenade",	kTechId.ClusterGrenade, 		nil, 				kCombatUpgrades.Weapons1,	1, 			1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.GasGrenade, kCombatUpgrades.PulseGrenade}											))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.PulseGrenade,			"pulsegrenade",		"PulseGrenade",		kTechId.PulseGrenade, 			nil, 				kCombatUpgrades.Weapons1,	1, 			1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.ClusterGrenade, kCombatUpgrades.GasGrenade}										))
+
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Mines,					"mines",			"Mines",			kTechId.LayMines, 			nil, 								kCombatUpgrades.Welder, 	1,				1, 		kCombatUpgradeTypes.Weapon, false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Flamethrower,			"flame",			"Flamethrower",		kTechId.Flamethrower, 		nil, 								nil, 						1,				2, 		kCombatUpgradeTypes.Weapon, true,			1/5,			{ kCombatUpgrades.GrenadeLauncher, kCombatUpgrades.HeavyMachineGun, kCombatUpgrades.Shotgun }, true ))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.GrenadeLauncher,		"gl",				"Grenade Launcher",	kTechId.GrenadeLauncher, 	nil, 								nil, 						1,				2, 		kCombatUpgradeTypes.Weapon, true,			1/4,		{kCombatUpgrades.Flamethrower, kCombatUpgrades.HeavyMachineGun, kCombatUpgrades.Shotgun }, true ))
+
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.ClusterGrenade,		"clustergrenade",	"ClusterGrenade",	kTechId.ClusterGrenade, 	nil, 								kCombatUpgrades.Welder, 	1,				1, 		kCombatUpgradeTypes.Weapon,   false,			0,			{ kCombatUpgrades.GasGrenade, kCombatUpgrades.PulseGrenade}))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.PulseGrenade,			"pulsegrenade",		"PulseGrenade",		kTechId.PulseGrenade, 		nil, 								kCombatUpgrades.Welder, 	1,				1, 		kCombatUpgradeTypes.Weapon,   false,			0,			{ kCombatUpgrades.ClusterGrenade, kCombatUpgrades.GasGrenade}))
 
 end
 
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.GasGrenade,				"gasgrenade",		"GasGrenade",		kTechId.GasGrenade, 			nil, 				kCombatUpgrades.Weapons1,	1, 			1, 		kCombatUpgradeTypes.Weapon, false,			0,			{ kCombatUpgrades.ClusterGrenade, kCombatUpgrades.PulseGrenade}										))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.GasGrenade,			"gasgrenade",		"GasGrenade",		kTechId.GasGrenade, 			nil, 								kCombatUpgrades.Welder, 	1,				1, 		kCombatUpgradeTypes.Weapon,   false,			0,			{ kCombatUpgrades.ClusterGrenade, kCombatUpgrades.PulseGrenade}))
 
 -- Tech
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Weapons1,					"dmg1",				"Damage 1",			kTechId.Weapons1, 				nil, 				nil,						2, 			1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Weapons2,					"dmg2",				"Damage 2",			kTechId.Weapons2, 				nil, 				kCombatUpgrades.Weapons1,	1,			1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Weapons3,					"dmg3",				"Damage 3",			kTechId.Weapons3, 				nil, 				kCombatUpgrades.Weapons2,	1, 			1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Armor1,					"arm1",				"Armor 1",			kTechId.Armor1, 				UpgradeArmor, 		nil,						1, 			1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Armor2,					"arm2",				"Armor 2",			kTechId.Armor2, 				UpgradeArmor, 		kCombatUpgrades.Armor1,		1,			1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Armor3,					"arm3",				"Armor 3",			kTechId.Armor3, 				UpgradeArmor, 		kCombatUpgrades.Armor2,		1, 			1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Weapons1,				"dmg1",				"Damage 1",			kTechId.Weapons1, 				nil, 								nil, 						1,				1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Weapons2,				"dmg2",				"Damage 2",			kTechId.Weapons2, 				nil, 								kCombatUpgrades.Weapons1,	1,				1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Weapons3,				"dmg3",				"Damage 3",			kTechId.Weapons3, 				nil, 								kCombatUpgrades.Weapons2, 	1,				1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Armor1,				"arm1",				"Armor 1",			kTechId.Armor1, 				UpgradeArmor, 						nil, 						1,				1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Armor2,				"arm2",				"Armor 2",			kTechId.Armor2, 				UpgradeArmor, 						kCombatUpgrades.Armor1,		1,				1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Armor3,				"arm3",				"Armor 3",			kTechId.Armor3, 				UpgradeArmor, 						kCombatUpgrades.Armor2, 	1,				1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 
 -- Add motion detector, scanner, resup, catpacks as available...
-table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Resupply,					"resup",			"Resupply",			kTechId.MedPack , 	       		Resupply,    		nil,						1, 	        1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
-if not kCombatCompMode then
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.ImprovedResupply,		"impresup",			"Improved Resupply",kTechId.AmmoPack , 	    		ImprovedResupply,   kCombatUpgrades.Resupply,	1, 			1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Scanner,				"scan",				"Scanner",			kTechId.Scan, 			   		Scan, 	      		nil,						1,          1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Catalyst,				"cat",				"Catalyst",			kTechId.CatPack , 	       		Catalyst,  			nil,						1, 	        1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.EMP,   				"emp",			    "EMP-Taunt",		kTechId.MACEMP , 	       		EMP,        		nil,						1, 	        99, 	kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.FastReload,   		    "fastreload",		"Fast Reload",		kTechId.AdvancedWeaponry, 		FastReload,   	    nil,						1, 	        1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
-	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.FastSprint,   		    "fastsprint",		"Improved Sprint",	kTechId.PhaseTech, 				FastSprint,   	    kCombatUpgrades.Armor1,		1, 	        1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil																									))
+table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Resupply,				"resup",			"Resupply",			kTechId.MedPack , 	       		Resupply,    						nil, 	                    1,				1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+if not kCombatCompMode then	
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.ImprovedResupply,	"impresup",			"Improved Resupply",kTechId.AmmoPack , 	    ImprovedResupply,    						kCombatUpgrades.Resupply, 	1,				1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Scanner,				"scan",				"Scanner",			kTechId.Scan, 			   		Scan, 	      					kCombatUpgrades.Mines,      1,               	1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.Catalyst,				"cat",				"Catalyst",			kTechId.CatPack , 	       		Catalyst,  						nil, 	                    1,				1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.EMP,   				"emp",			    "EMP-Taunt",		kTechId.MACEMP , 	       		EMP,        					nil, 	                   	1,				99, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.FastReload,   		    "fastreload",		"Fast Reload",		kTechId.AdvancedWeaponry, 		FastReload,   					kCombatUpgrades.Weapons2, 	1,                2, 		kCombatUpgradeTypes.Tech,   false,			0,			{ kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.DualMinigunExosuit}))
+	table.insert(UpsList, BuildUpgrade("Marine", kCombatUpgrades.FastSprint,   		    "fastsprint",		"Improved Sprint",		kTechId.PhaseTech, 		FastSprint,   	    				nil, 	                    1,				1, 		kCombatUpgradeTypes.Tech,   false,			0,			nil))
 end
 
 -- Alien Upgrades
-local kLerkHardCapScale = 1/2
+local kLerkHardCapScale = 1/2.5
 local kFadeHardCapScale = 1/4
 local kGorgeHardCapScale = 1/3
 local kOnosHardCapScale = 1/7
 
--- Parameters:        				team,	 upgradeId, 							upgradeTextCode, 	upgradeDesc, 		upgradeTechId, 			upgradeFunc,	requirements,		lvl requirements,	levelCost, 	upgradeType,                refundUpgrade,	hardCapScale,		mutuallyExclusive, needsNearComm
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Gorge,					"gorge",			"Gorge",			kTechId.Gorge, 			nil, 			nil,					1,				1, 			kCombatUpgradeTypes.Class,  true,			kGorgeHardCapScale,		nil					))
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Lerk,					"lerk",				"Lerk",				kTechId.Lerk, 			nil, 			nil,            		1,				kLerkCost, 	kCombatUpgradeTypes.Class,  true,			kLerkHardCapScale,		nil					))
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Fade,					"fade",				"Fade",				kTechId.Fade, 			nil, 			nil,            		1,				kFadeCost, 	kCombatUpgradeTypes.Class,  true,			kFadeHardCapScale,		nil					))
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Onos,					"onos",				"Onos",				kTechId.Onos, 			nil, 			nil,            		1,				kOnosCost, 	kCombatUpgradeTypes.Class,  true,			kOnosHardCapScale,	    nil,			true))
+-- Parameters:        				team,	 upgradeId, 							upgradeTextCode, 	upgradeDesc, 		upgradeTechId, 					upgradeFunc, 		tech requirement, 			level requirements,	levels, 	upgradeType,                refundUpgrade,	hardCapScale,		mutuallyExclusive, needsNearComm
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Gorge,					"gorge",			"Gorge",			kTechId.Gorge, 					nil, 				nil, 						1,					1, 			kCombatUpgradeTypes.Class,  true,			kGorgeHardCapScale,		nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Lerk,					"lerk",				"Lerk",				kTechId.Lerk, 					nil, 				nil,              			1,					kLerkCost, 	kCombatUpgradeTypes.Class,  true,			kLerkHardCapScale,		nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Fade,					"fade",				"Fade",				kTechId.Fade, 					nil, 				nil,              			1,					kFadeCost, 	kCombatUpgradeTypes.Class,  true,			kFadeHardCapScale,		nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Onos,					"onos",				"Onos",				kTechId.Onos, 					nil, 				nil,              			1,					kOnosCost, 	kCombatUpgradeTypes.Class,  true,			kOnosHardCapScale,	    nil, true))
 
 -- Tech
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Carapace,				"cara",				"Carapace",			kTechId.Carapace, 		nil, 			nil, 					1,				1, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Regeneration,			"regen",			"Regeneration",		kTechId.Regeneration, 	nil, 			nil, 					1,				1, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Vampirism,				"vampirism",        "Vampirism",	    kTechId.Vampirism, 		nil,			nil, 					1,				1, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Carapace,				"cara",				"Carapace",			kTechId.Carapace, 				nil, 				nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Regeneration,			"regen",			"Regeneration",		kTechId.Regeneration, 			nil, 				nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Vampirism,				"vampirism",        "Vampirism",	    kTechId.Vampirism, 				nil,				nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
 if not kCombatCompMode then
-	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Camouflage,			"camouflage",       "Camouflage",		kTechId.Camouflage, 	GiveCamo,		nil, 					1,				1, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
-	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Aura,				"aura",				"Aura",				kTechId.Aura, 			nil, 			nil, 					1,				1, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
-	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.ShadeInk,			"ink",		        "Ink-Taunt",		kTechId.ShadeInk, 		ShadeInk,		nil, 					1,				1, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
-    table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Focus,				"focus",			"Focus",			kTechId.Focus, 			nil, 			nil,	        		1,        		1, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
+	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Camouflage,				"camouflage",        "Camouflage",	    kTechId.Camouflage, 		GiveCamo,			nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Aura,					"aura",				"Aura",				kTechId.Aura, 				nil, 				kCombatUpgrades.TierTwo, 	1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.ShadeInk,				"ink",		        "Ink-Taunt",		kTechId.ShadeInk, 		   	ShadeInk,			nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
+	table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Focus,				    "focus",			"Focus",			kTechId.Focus, 			    nil, 			    kCombatUpgrades.TierTwo,	1,      			1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
 end
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Celerity,				"cele",				"Celerity",			kTechId.Celerity, 		nil, 			nil, 					1,				1, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Adrenaline,				"adrenaline",		"Adrenaline",		kTechId.Adrenaline, 	nil, 			nil, 					1,				1, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Crush,				    "crush",		    "Crush",		    kTechId.Crush, 			nil, 			nil, 					1,				1, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Celerity,				"cele",				"Celerity",			kTechId.Celerity, 				nil, 				nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Adrenaline,				"adrenaline",		"Adrenaline",		kTechId.Adrenaline, 			nil, 				nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Crush,				    "crush",		    "Crush",		    kTechId.Crush, 			        nil, 				nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
 
 
 
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.TierTwo,				"tier2",			"Tier 2 abilities",	kTechId.BioMassTwo,		TierTwo,		nil,					1, 				2, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
-table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.TierThree,				"tier3",			"Tier 3 abilities",	kTechId.BioMassThree,	TierThree, 	kCombatUpgrades.TierTwo,	1,				2, 			kCombatUpgradeTypes.Tech,   false,			0,						nil					))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.TierTwo,				"tier2",			"Tier 2 abilities",			kTechId.BioMassTwo, 	TierTwo, 			nil, 						1,					2, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.TierThree,				"tier3",			"Tier 3 abilities",			kTechId.BioMassThree, 	TierThree, 			kCombatUpgrades.TierTwo,	1,					2, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))

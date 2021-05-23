@@ -74,8 +74,6 @@ function CombatUpgrade:GetRefundUpgrade()
 end
 
 function CombatUpgrade:GetHardCapScale()
-	Print(self.description .. "hardcao")
-	Print(self.description .. " with hardcao " .. self.hardCapScale)
 	return self.hardCapScale
 end
 
