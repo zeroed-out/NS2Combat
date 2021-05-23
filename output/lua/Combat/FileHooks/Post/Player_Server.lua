@@ -392,12 +392,12 @@ function Player:spendlvlHints(hint, type)
     elseif hint == "neededOtherUp" then
         self:SendDirectMessage( "You need " .. type .. " first")
 
+    elseif hint == "minLvl" then
+        self:SendDirectMessage("You are level " .. Experience_GetLvl(self:GetScore()) .. " but you need at least level ".. type )
+        
     elseif hint == "neededLvl" then
         self:SendDirectMessage("You got only " .. self:GetLvlFree().. " but you need at least ".. type .. " free Lvl")
     
-    elseif hint == "minLvl" then
-        self:SendDirectMessage("You are level " .. Experience_GetLvl(self:GetScore()) .. " but you need at least level ".. type )
-
     elseif hint == "already_owned" then
         -- Suppress this now as most people buy via the menus.
         --self:SendDirectMessage("You already own the upgrade " .. type)
