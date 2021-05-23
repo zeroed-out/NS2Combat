@@ -560,7 +560,7 @@ function GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
            local useColor = Color(anim,anim,anim,1)
 
             -- set grey if player doesn'T have the needed other Up
-            if not gotRequirements or gotLevelRequirements then
+            if not gotRequirements or not gotLevelRequirements then
             
                 useColor = Color(0.4, 0.4, 0.4, 0.85)
                
