@@ -11,7 +11,7 @@ function CombatMarineBuy_GUISortUps(upgradeList)
 	end
 
 	local oldList = oldCombatMarineBuy_GUISortUps(upgradeList)
-	
+
 	if sentryUpgrade then
 		for index, entry in ipairs(oldList) do
 			if entry.GetTechId and entry:GetTechId() == kTechId.Jetpack then
@@ -20,7 +20,7 @@ function CombatMarineBuy_GUISortUps(upgradeList)
 			end
 		end
 	end
-	
+
 	return oldList
 	
 end
@@ -28,7 +28,7 @@ end
 local oldDescFunc = CombatMarineBuy_GetWeaponDescription
 function CombatMarineBuy_GetWeaponDescription(techId)
 	if techId == kTechId.DropSentry then
-		return "You get one AI sentry gun. Requires Welder."
+		return "You get one AI sentry gun. Requires Welder and Level 5."
 	end
 	return oldDescFunc(techId)
 end
