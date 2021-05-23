@@ -45,10 +45,18 @@ function CombatUpgrade:GetTechId()
 	return self.techId
 end
 
+--leave this here for Rebirth bots
+function CombatUpgrade:GetLevels()
+	return self.levelCost
+end
+
 function CombatUpgrade:GetLevelCost()
 	return self.levelCost
 end
 
+function CombatUpgrade:GetRequirements()
+	return self.techRequirements
+end
 function CombatUpgrade:GetTechRequirements()
 	return self.techRequirements
 end
