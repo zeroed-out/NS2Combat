@@ -1,6 +1,6 @@
 class 'CombatUpgrade'
 
-function CombatUpgrade:Initialize(team, upgradeId, upgradeTextCode, upgradeDescription, upgradeTechId, upgradeFunc, requirements, levels, upgradeType, refundUpgrade, hardCap, mutuallyExclusive, needsNearComm)
+function CombatUpgrade:Initialize(team, upgradeId, upgradeTextCode, upgradeDescription, upgradeTechId, upgradeFunc, techReqs, levelReqs, levelCost, upgradeType, refundUpgrade, hardCap, mutuallyExclusive, needsNearComm)
 
 	self.team = team
     self.id = upgradeId
@@ -8,8 +8,9 @@ function CombatUpgrade:Initialize(team, upgradeId, upgradeTextCode, upgradeDescr
 	self.description = upgradeDescription
 	self.techId = upgradeTechId
     self.upgradeType = upgradeType
-	self.requirements = requirements
-	self.levels = levels
+	self.techRequirements = techReqs
+	self.levelRequirements = levelReqs
+	self.levelCost = levelCost
 	self.refundUpgrade = refundUpgrade
 	self.mutuallyExclusive = mutuallyExclusive
 	self.hardCapScale = hardCap
@@ -44,12 +45,16 @@ function CombatUpgrade:GetTechId()
 	return self.techId
 end
 
-function CombatUpgrade:GetLevels()
-	return self.levels
+function CombatUpgrade:GetLevelCost()
+	return self.levelCost
 end
 
-function CombatUpgrade:GetRequirements()
-	return self.requirements
+function CombatUpgrade:GetTechRequirements()
+	return self.techRequirements
+end
+
+function CombatUpgrade:GetLevelRequirements()
+	return self.levelRequirements
 end
 
 function CombatUpgrade:HasCustomFunc()
@@ -69,6 +74,8 @@ function CombatUpgrade:GetRefundUpgrade()
 end
 
 function CombatUpgrade:GetHardCapScale()
+	Print(self.description .. "hardcao")
+	Print(self.description .. " with hardcao " .. self.hardCapScale)
 	return self.hardCapScale
 end
 

@@ -97,16 +97,28 @@ local function OnCommandUpgrades(client)
 	end
 	
 	for _, upgrade in ipairs(upgradeList) do
-		local requirements = upgrade:GetRequirements()
+
+		local levelRequirements = upgrade:GetLevelRequirements()
+		local levelRequirementsText = ""
+		
+		local hasRequirementText = ""
+
+		if (levelRequirements and levelRequirements > 1) then 
+			hasRequirementText = " first and "
+			levelRequirementsText = "level " .. levelRequirements .. ", "
+		end
+
+		local requirements = upgrade:GetTechRequirements()
 		local requirementsText = ""
 		
 		if (requirements) then 
+			hasRequirementText = " first and "
 			requirementsText = GetUpgradeFromId(requirements):GetDescription()
-		else
-			requirementsText = "no"
 		end
+
+
 		
-	    player:SendDirectMessage(upgrade:GetTextCode() .. " (" .. upgrade:GetDescription() .. ") needs " .. (requirementsText or "no") .. " upgrade first and " .. (upgrade:GetLevels() or 0) .. " free Lvl" )
+	    player:SendDirectMessage(upgrade:GetTextCode() .. " (" .. upgrade:GetDescription() .. ") requires " .. levelRequirementsText .. requirementsText .. hasRequirementText .. (upgrade:GetLevelCost() or 0) .. " free Lvl" )
     end
 
 end

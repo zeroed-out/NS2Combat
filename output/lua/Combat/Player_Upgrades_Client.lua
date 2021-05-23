@@ -22,7 +22,7 @@ end
 function Player:GotRequirements(upgrade)
     
     if upgrade then
-        local requirements = upgrade:GetRequirements()
+        local requirements = upgrade:GetTechRequirements()
 
         -- does this up needs other ups??
         if requirements then
@@ -48,7 +48,7 @@ end
 function Player:GotRequirementsFromTechIds(upgrade, upgradeTechIdList)
     
     if upgrade then
-        local requirements = upgrade:GetRequirements()
+        local requirements = upgrade:GetTechRequirements()
 
         -- does this up needs other ups??
         if requirements then
@@ -61,6 +61,17 @@ function Player:GotRequirementsFromTechIds(upgrade, upgradeTechIdList)
         else
             return true
         end
+    end
+
+    return false
+end
+
+function Player:GotLevelRequirements(upgrade, score)
+    
+    if upgrade then
+        local levelRequirements = upgrade:GetLevelRequirements()
+        return levelRequirements and (Experience_GetLvl(score) >= levelRequirements)
+        
     end
 
     return false

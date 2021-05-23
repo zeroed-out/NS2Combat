@@ -85,7 +85,7 @@ function GetUnpurchasedUpgradeInfoArray(techIdTable)
 				table.insert(t, GetTooltipInfoText(techId))                 
 				table.insert(t, GetTechTree():GetResearchProgressForNode(techId))
 				-- cost
-				table.insert(t, upgrade:GetLevels()) 
+				table.insert(t, upgrade:GetLevelCost()) 
 				table.insert(t, techId)
 				if techTree then
 					table.insert(t, techTree:GetIsTechAvailable(techId))
@@ -173,7 +173,7 @@ function AlienBuy_GetIsUpgradeAllowed(techId, upgradeTechIdList)
     if player then    
         local upgrade = GetUpgradeFromTechId(techId)
         if upgrade then
-            return player:GotRequirementsFromTechIds(upgrade, upgradeTechIdList)
+            return player:GotRequirementsFromTechIds(upgrade, upgradeTechIdList) and player:GotLevelRequirements(upgrade, player:GetScore())
         end    
     end
     
@@ -196,7 +196,7 @@ function AlienBuy_GetAlienCost(alienType)
     local upgrade = GetUpgradeFromTechId(techId)
     
     if upgrade then
-        return upgrade:GetLevels()
+        return upgrade:GetLevelCost()
     end
     
     return 0

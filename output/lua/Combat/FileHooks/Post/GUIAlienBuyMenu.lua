@@ -86,7 +86,7 @@ function GUIAlienBuyMenu:_InitializeUpgradeButtons()
 
     -- set up costs of each upgrade
     for _, button in ipairs(self.upgradeButtons) do
-        button.Cost = GetUpgradeFromTechId(button.TechId):GetLevels()
+        button.Cost = GetUpgradeFromTechId(button.TechId):GetLevelCost()
     end
 end
 

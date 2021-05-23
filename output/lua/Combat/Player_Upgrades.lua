@@ -62,9 +62,11 @@ function Player:CoEnableUpgrade(upgrades)
 		local hardCapped = upgrade:GetIsHardCapped(self)
 		local nearComm = upgrade:GetNeedsNearComm()
 		local mutuallyExclusiveDescription = ""
-        local requirements = upgrade:GetRequirements()
+        local requirements = upgrade:GetTechRequirements()
         local techId = upgrade:GetTechId()
-        local neededLvl = upgrade:GetLevels()
+        local neededLvl = upgrade:GetLevelCost()
+		local minLvl = upgrade:GetLevelRequirements()
+		local currentLvl = Experience_GetLvl(self:GetScore())
         local team = upgrade:GetTeam()
 		local desc = upgrade:GetDescription()
         
@@ -156,6 +158,8 @@ function Player:CoEnableUpgrade(upgrades)
             self:spendlvlHints("not_in_techrange", team)
 		elseif heavyTechCooldown then
             self:spendlvlHints("heavytech_cooldown", team)
+        elseif currentLvl < minLvl then
+            self:spendlvlHints("minLvl", minLvl)			
         elseif self:GetLvlFree() < neededLvl then
             self:spendlvlHints("neededLvl", neededLvl)
 		elseif mutuallyExclusive then
@@ -207,8 +211,8 @@ function Player:RefundMutuallyExclusiveUpgrades(upgrade)
 			for i, mutuallyExclusiveUpgrade in ipairs(entry:GetMutuallyExclusive()) do
 				if upgrade:GetId() == mutuallyExclusiveUpgrade then
 					table.insert(removals, index)
-					self:AddLvlFree(entry:GetLevels())
-					self:SendDirectMessage("Refunded " .. entry:GetLevels() .. " upgrade point(s) for your " .. entry:GetDescription())
+					self:AddLvlFree(entry:GetLevelCost())
+					self:SendDirectMessage("Refunded " .. entry:GetLevelCost() .. " upgrade point(s) for your " .. entry:GetDescription())
 				end
 			end
 		end
@@ -413,7 +417,7 @@ function Player:RefundUpgrades()
 	-- For each class, find the upgrade and remove it, and take away the correct amount of lvlfree.
 	for index, upgrade in ipairs(upgrades) do
 		if (upgrade:GetRefundUpgrade()) then
-			self:AddLvlFree(upgrade:GetLevels())
+			self:AddLvlFree(upgrade:GetLevelCost())
 			
 			for index, combatUpgrade in ipairs(self.combatTable.techtree) do
 				if upgrade:GetId() == combatUpgrade:GetId() then

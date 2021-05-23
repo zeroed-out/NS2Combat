@@ -10,6 +10,6 @@ end
 
 local upgrade = CombatMarineUpgrade()
 
-upgrade:Initialize(kCombatUpgrades.ShieldGenerator, "shieldgenerator", "Shield Generator", kTechId.ShieldGenerator, GiveShield, kCombatUpgrades.Armor2, 2, kCombatUpgradeTypes.Class, false, 0, { kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.DualMinigunExosuit })
+upgrade:Initialize(kCombatUpgrades.ShieldGenerator, "shieldgenerator", "Shield Generator", kTechId.ShieldGenerator, GiveShield, kCombatUpgrades.Armor2, 1, 2, kCombatUpgradeTypes.Class, false, 0, { kCombatUpgrades.Exosuit, kCombatUpgrades.RailGunExosuit, kCombatUpgrades.DualMinigunExosuit })
 
 table.insert(UpsList, upgrade)

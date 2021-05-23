@@ -445,7 +445,7 @@ function GUIMarineBuyMenu:_InitializeItemButtons()
                 itemCost:SetTextAlignmentY(GUIItem.Align_Center)
                 itemCost:SetScale(fontScaleVector)
                 itemCost:SetColor(GUIMarineBuyMenu.kTextColor)
-                itemCost:SetText(ToString(upgrade:GetLevels()))
+                itemCost:SetText(ToString(upgrade:GetLevelCost()))
 
                 if upgrade:GetHardCapScale() > 0 then
                     local hardCapCount = GUIManager:CreateTextItem()
@@ -554,11 +554,12 @@ function GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
            end
            
            local gotRequirements = self.player:GotRequirements(item.Upgrade)  
+           local gotLevelRequirements = self.player:GotLevelRequirements(item.Upgrade, self.player:GetScore() )
            local anim = math.cos(Shared.GetTime() * 5) * 0.1 + 0.9        
            local useColor = Color(anim,anim,anim,1)
 
             -- set grey if player doesn'T have the needed other Up
-            if not gotRequirements then
+            if not gotRequirements and gotLevelRequirements then
             
                 useColor = Color(0.4, 0.4, 0.4, 0.85)
                
@@ -568,7 +569,7 @@ function GUIMarineBuyMenu:_UpdateItemButtons(deltaTime)
                 useColor = Color(1, 1, 0.2, 1)
                     
             -- set red if can't afford
-            elseif PlayerUI_GetPlayerResources() < item.Upgrade:GetLevels() then
+            elseif PlayerUI_GetPlayerResources() < item.Upgrade:GetLevelCost() then
             
                 useColor = Color(0.8, 0.1, 0.1, 1) 
                
@@ -630,7 +631,7 @@ function GUIMarineBuyMenu:_UpdateContent(deltaTime)
     if techId and self.hoverUpgrade then
     
         local researched = self.player:GotRequirements(self.hoverUpgrade)                
-        local itemCost = ConditionalValue(self.hoverUpgrade, self.hoverUpgrade:GetLevels(), 0)
+        local itemCost = ConditionalValue(self.hoverUpgrade, self.hoverUpgrade:GetLevelCost(), 0)
         local upgradesCost = 0
         local canAfford = PlayerUI_GetPlayerResources() >= itemCost + upgradesCost
 
@@ -889,12 +890,13 @@ function GUIMarineBuyMenu:_HandleItemClicked(mouseX, mouseY)
         if self:_GetIsMouseOver(item.Button) then
         
             local researched = self.player:GotRequirements(item.Upgrade)
-            local itemCost = item.Upgrade:GetLevels()
+            local itemCost = item.Upgrade:GetLevelCost()
             local upgradesCost = self:_GetSelectedUpgradesCost()
             local canAfford = PlayerUI_GetPlayerResources() >= itemCost + upgradesCost 
             local hasItem = self.player:GotItemAlready(item.Upgrade)
+            local hasLevel = item.Upgrade:GetLevelRequirements() <= Experience_GetLvl(self.player:GetScore())
             
-            if researched and canAfford and not hasItem then
+            if researched and canAfford and hasLevel and not hasItem then
             
                 self.player:Combat_PurchaseItemAndUpgrades(item.Upgrade:GetTextCode())
                 self:OnClose()
@@ -905,7 +907,7 @@ function GUIMarineBuyMenu:_HandleItemClicked(mouseX, mouseY)
 			
 			if not researched then
 				Shared.PlaySound(nil, GUIMarineBuyMenu.kNeedsResearch)
-			elseif not canAfford then
+			elseif not canAfford or not hasLevel then
 				Shared.PlaySound(nil, GUIMarineBuyMenu.kMoreResources)
 			end
             
