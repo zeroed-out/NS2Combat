@@ -1,0 +1,4 @@
+modEntry = {
+    FileHooks = "lua/NutrientMist/FileHooks.lua",
+    Priority = 90
+}

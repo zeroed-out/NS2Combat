@@ -10,7 +10,7 @@ kCombatUpgrades = enum({-- Marine upgrades
                         'Gorge', 'Lerk', 'Fade', 'Onos',
                         'TierTwo', 'TierThree',
                         'Carapace', 'Regeneration', 'Vampirism', 'Camouflage', 'Celerity',
-                        'Adrenaline', 'Feint', 'ShadeInk', 'Focus', 'Aura', 'Crush' })
+                        'Adrenaline', 'Feint', 'ShadeInk', 'Focus', 'Aura', 'Crush', 'NutrientMist', 'EnzymeCloud' })
 
 -- The order of these is important...
 kCombatUpgradeTypes = enum({'Class', 'Tech', 'Weapon'})

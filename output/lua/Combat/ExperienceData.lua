@@ -205,8 +205,19 @@ end
 local function FastReload(player)
 	player.combatTable.hasFastReload = true
 end
+
 local function FastSprint(player)
 	player.combatTable.hasFastSprint = true
+end
+
+local function NutrientMist(player)
+	player.combatTable.hasNutrientMist = true
+	player.combatTable.lastNutrientMist= 0
+end
+
+local function EnzymeCloud(player)
+	player.combatTable.hasEnzymeCloud = true
+	player.combatTable.lastEnzymeCloud = 0
 end
 
 -- Helper function to build upgrades for us.
@@ -297,6 +308,8 @@ end
 table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Celerity,				"cele",				"Celerity",			kTechId.Celerity, 				nil, 				nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
 table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Adrenaline,				"adrenaline",		"Adrenaline",		kTechId.Adrenaline, 			nil, 				nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
 table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.Crush,				    "crush",		    "Crush",		    kTechId.Crush, 			        nil, 				nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.NutrientMist,		    "mist",		    "Nutrient Mist",		kTechId.NutrientMist, 	        NutrientMist,		nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
+table.insert(UpsList, BuildUpgrade("Alien", kCombatUpgrades.EnzymeCloud,		    "enzyme",		    "Enzyme Cloud",		kTechId.EnzymeCloud, 	        EnzymeCloud,		nil, 						1,					1, 			kCombatUpgradeTypes.Tech,   false,			0,			nil))
 
 
 
