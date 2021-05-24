@@ -51,6 +51,7 @@ kScanDuration = 6
 -- Make these less "spammy"
 kEMPTimer = 30
 kInkTimer = 30
+kCombatInkOnSighted = false
 -- reduce ink amount a bit
 ShadeInk.kShadeInkDisorientRadius = 9
 kCombatTauntCheckInterval = 4
