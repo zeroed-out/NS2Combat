@@ -1,35 +1,32 @@
--- Implement lvl and XP
-local oldProcessTauntAbilities = Player.ProcessTauntAbilities
-function Player:ProcessTauntAbilities()
-    oldProcessTauntAbilities(self)
-    if self.combatTable then
-        if self.combatTable.hasNutrientMist then
-            --if self.combatTable.lastInk == 0 or Shared.GetTime() >= ( self.combatTable.lastInk + kInkTimer) then
-            if GetIsPointOnInfestation(self:GetOrigin()) then
-                self:TriggerMist()
-              --  self.combatTable.lastInk = Shared.GetTime()
-            --else
-              --  local timeReady = math.ceil(self.combatTable.lastInk + kInkTimer - Shared.GetTime())
-                self:SendDirectMessage("Mist away!")
-            --end
-            else
-                Print("Not on infestation")
-            end
-        end
+local oldTriggerAlert = Player.TriggerAlert
+function Player:TriggerAlert(techId, entity, force)
+	oldTriggerAlert(self, techId, entity, force)
+	
+    if (kCombatEnzymeCloudDebug) then
+        Print("TechId:" .. (LookupTechData(techId,kTechDataDisplayName) or LookupTechData(techId,kTechDataAlertText)))
     end
 
-    --Print("============Taunt Processed============")
+    if techId ~= kTechId.AlienAlertNeedDrifter or not entity or not entity.combatTable or not entity.combatTable.hasEnzymeCloud then
+        return
+    end
+    local canEnzyme = entity.combatTable.lastEnzymeCloud <= Shared.GetTime()
 
+	if entity:isa("Player") and entity:GetIsAlive() and canEnzyme then
+		
+		local newTime = Shared.GetTime() + kEnzymeCloudAbilityCooldown
+		entity.combatTable.lastEnzymeCloud = newTime
+		local position = entity:GetOrigin()
+        local enzyme = CreateEntity(EnzymeCloud.kMapName, position , self:GetTeamNumber())
+        enzyme:TriggerEffects( "drifter_shoot_enzyme", { effecthostcoords = Coords.GetTranslation(position) } )
+
+    elseif not canEnzyme then
+        local timeReady = math.ceil(entity.combatTable.lastEnzymeCloud + kEnzymeCloudAbilityCooldown - Shared.GetTime())
+        self:SendDirectMessage("Enzyme ready in " .. timeReady .. " sec")
+    end		
+	
+end
+if (kCombatEnzymeCloudDebug) then
+    Print("===========MyFaileLoaded==================")
 end
 
 
-function Player:TriggerMist()
-
-    -- Create ShadeInk entity in world at this position with a small offset
-
-    local mist = CreateEntity(NutrientMist.kMapName, self:GetOrigin() + Vector(0, 0.2, 0), self:GetTeamNumber())
-    StartSoundEffectOnEntity("sound/NS2.fev/alien/commander/catalyze_2D", mist)
-
-end
-
---Print("============Player_Server Loaded============")
