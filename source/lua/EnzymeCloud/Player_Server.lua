@@ -20,8 +20,8 @@ function Player:TriggerAlert(techId, entity, force)
         enzyme:TriggerEffects( "drifter_shoot_enzyme", { effecthostcoords = Coords.GetTranslation(position) } )
 
     elseif not canEnzyme then
-        local timeReady = math.ceil(entity.combatTable.lastEnzymeCloud + kEnzymeCloudAbilityCooldown - Shared.GetTime())
-        self:SendDirectMessage("Enzyme ready in " .. timeReady .. " sec")
+        local timeReady = math.abs(entity.combatTable.lastEnzymeCloud + kEnzymeCloudAbilityCooldown - Shared.GetTime())
+        entity:SendDirectMessage("Enzyme ready in " .. timeReady .. " sec")
     end		
 	
 end
