@@ -25,7 +25,7 @@ if Server then
 	end
 	
 	function InkMixin:OnSighted(isSighted)
-		if isSighted then
+		if isSighted and kCombatInkOnSighted then
 			self:CheckTriggerInk()
 		end
 	end
