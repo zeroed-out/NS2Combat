@@ -8,9 +8,9 @@
 --kNutrientMistAutobuildMultiplier = 1
 
 kNutrientMistCost = 2
-kNutrientMistCooldown = 15
+kNutrientMistCooldown = 20
 -- Note: If kNutrientMistDuration changes, there is a tooltip that needs to be updated.
-kNutrientMistDuration = 4
+kNutrientMistDuration = 5
 
 -- 100% + X (increases by 66%, which is 10 second reduction over 15 seconds)
 kNutrientMistPercentageIncrease = 66

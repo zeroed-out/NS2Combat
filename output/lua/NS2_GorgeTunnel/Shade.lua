@@ -5,7 +5,7 @@ class 'GorgeShade' (Shade)
 GorgeShade.kCloakRadius = kGorgeShadeCloakRadius
 GorgeShade.kMapName = "gorgeshade"
 GorgeShade.kMaxUseableRange = 6.5
-local kDigestDuration = 1.5
+local kDigestDuration = 0.5
 local networkVars =
 {
     ownerId = "entityid"
@@ -25,13 +25,13 @@ function GorgeShade:GetUseMaxRange()
 end
 
 function GorgeShade:GetMapBlipType()
-    return kMinimapBlipType.Shade	
+    return kMinimapBlipType.Shade
 end
 
 function GorgeShade:GetUnitNameOverride(viewer)
-    
+
     local unitName = GetDisplayName(self)
-    
+
     if not GetAreEnemies(self, viewer) and self.ownerId then
         local ownerName
         for _, playerInfo in ientitylist(Shared.GetEntitiesWithClassname("PlayerInfoEntity")) do
@@ -41,7 +41,7 @@ function GorgeShade:GetUnitNameOverride(viewer)
             end
         end
         if ownerName then
-            
+
             local lastLetter = ownerName:sub(-1)
             if lastLetter == "s" or lastLetter == "S" then
                 return string.format( "%s' Shade", ownerName )
@@ -49,9 +49,9 @@ function GorgeShade:GetUnitNameOverride(viewer)
                 return string.format( "%s's Shade", ownerName )
             end
         end
-    
+
     end
-    
+
     return unitName
 
 end
@@ -92,11 +92,11 @@ function GorgeShade:OnOverrideOrder(order)
 end
 
 function GorgeShade:GetTechButtons(techId)
-	local techButtons = { kTechId.ShadeInk, kTechId.None, kTechId.ShadeCloak, kTechId.None, 
+	local techButtons = { kTechId.ShadeInk, kTechId.None, kTechId.ShadeCloak, kTechId.None,
                           kTechId.None, kTechId.None, kTechId.None, kTechId.None }
-	
+
     return techButtons
-    
+
 end
 
 function GorgeShade:OnDestroy()
@@ -105,7 +105,7 @@ function GorgeShade:OnDestroy()
 		local team = self:GetTeam()
         if team then
             team:UpdateClientOwnedStructures(self:GetId())
-        end	
+        end
 		local player = self:GetOwner()
 		if player then
 			if (self.consumed) then

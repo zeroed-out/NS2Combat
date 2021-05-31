@@ -14,9 +14,6 @@ kPowerPointArmor = 500
 kPowerPointPointValue = 0
 kCombatPowerPointAutoRepairTime = 300
 
--- Grenade Launcher nerf
-kGrenadeLauncherGrenadeDamage = 70 -- vanilla is 90, but we allow for damage upgrades
-
 -- kill hydras if the player is not a gorge after 30 seconds
 kKillHydrasWhenNotGorge = true
 
@@ -50,7 +47,7 @@ kScanDuration = 6
 
 -- Make these less "spammy"
 kEMPTimer = 30
-kInkTimer = 30
+kInkTimer = 20
 kCombatInkOnSighted = false
 
 -- reduce ink amount a bit
@@ -59,7 +56,7 @@ kCombatTauntCheckInterval = 4
 
 kSprintSpeedUpgradeScalar = 3.5
 
-kARCSpawnFrequency = 80
+kARCSpawnFrequency = 90
 
 kShadeInkDuration = 5
 
@@ -73,8 +70,11 @@ kSpitFocusDamageBonusAtMax = 0.5
 
 kWebMaxCharges = 2
 
---sentry damage increase
-kSentryDamage = 8
+--sentry changes
+kSentryDamage = 8 --default 5
+kSentryHealth = 400 --default 500
+kSentryArmor = 50 --default 100
+kSentryBuildTime = 5
 
---Mine HP reduction
-kMineHealth = 24
+--Digest speed Reduction
+kHydraDigestDuration = 0.5

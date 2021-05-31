@@ -45,15 +45,15 @@ class 'TunnelEntrance' (ScriptActor)
 
 TunnelEntrance.kMapName = "tunnelentrance"
 
-local kDigestDuration = 1.5
-local kTunnelInfestationRadius = 7
+local kDigestDuration = 0.5
+local kTunnelInfestationRadius = 8
 
 TunnelEntrance.kModelName = PrecacheAsset("models/alien/tunnel/mouth.model")
 TunnelEntrance.kModelNameShadow = PrecacheAsset("models/alien/tunnel/mouth_shadow.model")
 local kAnimationGraph = PrecacheAsset("models/alien/tunnel/mouth.animation_graph")
 
 local kSwallowAnimationLength = Shared.GetAnimationLength(TunnelEntrance.kModelName, "swallow")
-local kClogEatTime = kSwallowAnimationLength * 0.55
+local kClogEatTime = 0.5
 local kClogEatRadius = 1.5
 local kClogEatRadiusSq = kClogEatRadius * kClogEatRadius
 local kClogEatHeight = 2.5
@@ -99,9 +99,9 @@ AddMixinNetworkVars(InfestationMixin, networkVars)
 AddMixinNetworkVars(AlienTunnelVariantMixin, networkVars)
 
 function TunnelEntrance:OnCreate()
-    
+
     ScriptActor.OnCreate(self)
-    
+
     InitMixin(self, BaseModelMixin)
     InitMixin(self, ClientModelMixin)
     InitMixin(self, LiveMixin)
@@ -125,23 +125,23 @@ function TunnelEntrance:OnCreate()
     InitMixin(self, CombatMixin)
     InitMixin(self, DigestMixin)
     InitMixin(self, InfestationMixin)
-    
+
     if Server then
-        
+
         InitMixin(self, InfestationTrackerMixin)
         self.open = false
         self.tunnelId = Entity.invalidId
         self.lastAutoBuildTime = 0
         self.isPlayingConnectedEffects = false
-    
+
     elseif Client then
         InitMixin(self, CommanderGlowMixin)
     end
-    
+
     self:SetLagCompensated(false)
     self:SetPhysicsType(PhysicsType.Kinematic)
     self:SetPhysicsGroup(PhysicsGroup.BigStructuresGroup)
-    
+
     self.timeLastInteraction = 0
     self.timeLastExited = 0
     self.destLocationId = Entity.invalidId
@@ -153,44 +153,44 @@ function TunnelEntrance:OnCreate()
 end
 
 function TunnelEntrance:OnInitialized()
-    
+
     ScriptActor.OnInitialized(self)
-    
+
     self:SetModel(TunnelEntrance.kModelName, kAnimationGraph)
-    
+
     if Server then
-        
+
         InitMixin(self, StaticTargetMixin)
         InitMixin(self, SleeperMixin)
-        
+
         -- This Mixin must be inited inside this OnInitialized() function.
         if not HasMixin(self, "MapBlip") then
             InitMixin(self, MapBlipMixin)
         end
-        
+
         self.onNormalInfestation = false
-    
+
     elseif Client then
-        
+
         InitMixin(self, UnitStatusMixin)
         InitMixin(self, HiveVisionMixin)
-    
+
     end
-    
+
     self.skipOpenAnimation = true
-    
+
     InitMixin(self, AlienTunnelVariantMixin)
 
 end
 
 function TunnelEntrance:OnResearchComplete(techId)
-    
+
     local success = false
-    
+
     if techId == kTechId.UpgradeToInfestedTunnel then
         self:UpgradeToTechId(kTechId.InfestedTunnel)
         self:SetDesiredInfestationRadius(self:GetInfestationMaxRadius())
-        
+
         local otherEntrance = self:GetOtherEntrance()
         if otherEntrance and not otherEntrance:GetIsInfested() then
             otherEntrance:CancelResearch()
@@ -198,7 +198,7 @@ function TunnelEntrance:OnResearchComplete(techId)
             otherEntrance:SetDesiredInfestationRadius(self:GetInfestationMaxRadius())
         end
     end
-    
+
     return success
 
 end
@@ -208,13 +208,13 @@ function TunnelEntrance:GetTunnelTimeResearchStarted()
 end
 
 function TunnelEntrance:OnResearch(researchId)
-    
+
     --The InfestedTunnel research has started. Let's track this event and tell our other tunnel to do the same (if the other
     -- tunnel wasn't the one to already tell us first! The timeResearchStarted variable keeps us from stackOverflowing each
     -- tunnel telling the other back and forth to start research.
     if researchId == kTechId.UpgradeToInfestedTunnel then
         self.timeResearchStarted = Shared.GetTime()
-        
+
         local otherEntrance = self:GetOtherEntrance()
         if otherEntrance and (otherEntrance:GetTunnelTimeResearchStarted() == 0) then
             otherEntrance:SetResearching(self:GetTeam():GetTechTree():GetTechNode(researchId), self:GetTeam():GetCommander())
@@ -224,13 +224,13 @@ function TunnelEntrance:OnResearch(researchId)
 end
 
 function TunnelEntrance:OnResearchCancel(researchId)
-    
+
     --The InfestedTunnel research has been cancelled. Let's track this event and tell our other tunnel to do the same (if the other
     -- tunnel wasn't the one to already tell us first! The timeResearchStarted variable keeps us from stackOverflowing each
     -- tunnel telling the other back and forth to start research.
     if researchId == kTechId.UpgradeToInfestedTunnel then
         self.timeResearchStarted = 0
-        
+
         local otherEntrance = self:GetOtherEntrance()
         if otherEntrance and (otherEntrance:GetTunnelTimeResearchStarted() ~= 0) then
             otherEntrance:CancelResearch()
@@ -240,26 +240,26 @@ function TunnelEntrance:OnResearchCancel(researchId)
 end
 
 function TunnelEntrance:OnDestroy()
-    
+
     ScriptActor.OnDestroy(self)
-    
+
     if Client then
-        
+
         Client.DestroyRenderDecal(self.decal)
         self.decal = nil
-    
+
     end
 
 end
 
 function TunnelEntrance:SetVariant(tunnelVariant)
-    
+
     if tunnelVariant == kAlienTunnelVariants.Shadow then
         self:SetModel(TunnelEntrance.kModelNameShadow, kAnimationGraph)
     else
         self:SetModel(TunnelEntrance.kModelName, kAnimationGraph)
     end
-    
+
     self.variant = tunnelVariant
 
 end
@@ -277,7 +277,7 @@ function TunnelEntrance:GetInfestationMaxRadius()
     if self:GetIsInfested() then
         return TunnelEntrance.kTunnelInfestationRadius
     end
-    
+
     return 0
 end
 
@@ -308,23 +308,23 @@ function TunnelEntrance:GetCanDigest(player)
 end
 
 function TunnelEntrance:SetOwner(owner)
-    
+
     if owner and not self.ownerClientId then
-        
+
         local client = Server.GetOwner(owner)
         self.ownerClientId = client:GetUserId()
-        
+
         --[[if Server then
             self:UpdateConnectedTunnel()
         end--]]
-        
+
         if self.tunnelId and self.tunnelId ~= Entity.invalidId then
-            
+
             local tunnelEnt = Shared.GetEntity(self.tunnelId)
             tunnelEnt:SetOwnerClientId(self.ownerClientId)
-        
+
         end
-    
+
     end
 
 end
@@ -344,7 +344,7 @@ function TunnelEntrance:GetMatureMaxHealth()
     if self:GetIsInfested() then
         return kMatureInfestedTunnelEntranceHealth
     end
-    
+
     return kMatureTunnelEntranceHealth
 end
 
@@ -352,7 +352,7 @@ function TunnelEntrance:GetMatureMaxArmor()
     if self:GetIsInfested() then
         return kMatureInfestedTunnelEntranceArmor
     end
-    
+
     return kMatureTunnelEntranceArmor
 end
 
@@ -380,27 +380,27 @@ function TunnelEntrance:GetOtherEntrance()
 end
 
 function TunnelEntrance:SetOtherEntrance(otherEntranceEnt)
-    
+
     -- Convert the entity to an id (or to invalid id if nil).
     local otherEntranceId = Entity.invalidId
     if otherEntranceEnt then
         otherEntranceId = otherEntranceEnt:GetId()
     end
-    
+
     -- Skip if the other entrance is already setup.
     if otherEntranceId == self.otherEntranceId then
         return
     end
-    
+
     local prevOtherEntrance = Shared.GetEntity(self.otherEntranceId)
-    
+
     self.otherEntranceId = otherEntranceId
-    
+
     -- Disconnect previous other entrance from us.
     if prevOtherEntrance then
         prevOtherEntrance:SetOtherEntrance(nil)
     end
-    
+
     -- Have the other entrance set its 'other' entrance to this entrance.
     if otherEntranceEnt then
         otherEntranceEnt:SetOtherEntrance(self)
@@ -425,30 +425,30 @@ function TunnelEntrance:GetCanUpgradeToInfestedTunnel()
     if (otherEntrance and otherEntrance:GetIsResearching()) or self:GetIsResearching() then
         return false
     end
-    
+
     return self:GetTechId() ~= kTechId.InfestedTunnel
 end
 
 function TunnelEntrance:GetTechButtons()
-    
+
     local buttons = { kTechId.None, kTechId.None, kTechId.None, kTechId.None,
                       kTechId.None, kTechId.None, kTechId.None, kTechId.None }
-    
+
     if self:GetCanBuildOtherEnd() then
         buttons[1] = kTechId.TunnelExit
     end
     if self:GetCanTriggerCollapse() then
         buttons[8] = kTechId.TunnelCollapse
     end
-    
+
     if self:GetCanRelocate() then
         buttons[2] = kTechId.TunnelRelocate
     end
-    
+
     if self:GetCanUpgradeToInfestedTunnel() then
         buttons[3] = kTechId.UpgradeToInfestedTunnel
     end
-    
+
     return buttons
 end
 
@@ -457,57 +457,57 @@ function TunnelEntrance:GetTechAllowed(techId)
     local teamNumber = self:GetTeamNumber()
     local teamInfo = GetTeamInfoEntity(teamNumber)
     local canAfford = teamInfo:GetTeamResources() >= GetCostForTech(techId)
-    
+
     if techId == kTechId.TunnelExit then
         local numHives = teamInfo:GetNumCapturedTechPoints()
         local numTunnels = Tunnel.GetLivingTunnelCount(teamNumber)
-        
+
         allowed = numHives > numTunnels
     elseif techId == kTechId.UpgradeToInfestedTunnel then
         allowed = self:GetCanUpgradeToInfestedTunnel() and GetIsUnitActive(self)
     end
-    
+
     return allowed, canAfford
 end
 
 function TunnelEntrance:GetSendDeathMessageOverride(messageViewerTeam, killer)
-    
+
     -- Hide the message if it killed itself (collapse)
     if messageViewerTeam and self == killer then
-        
+
         if messageViewerTeam.GetTeamType and messageViewerTeam:GetTeamType() ~= self:GetTeamType() then
             return false
         end
     end
-    
+
     return true
 end
 
 function TunnelEntrance:PerformActivation(techId)
-    
+
     local success = false
     local keepProcessing = true
-    
+
     if techId == kTechId.TunnelCollapse then
-        
+
         -- TODO(Salads): Replace the current icon for consumed in inventory_icons with the one in buildmenu.
         if self:GetCanTriggerCollapse() then
             self.consumed = true
             self:Kill(self)
         end
     end
-    
+
     return success, keepProcessing
 
 end
 
 function TunnelEntrance:GetIsCollapsing()
-    
+
     local tunnel = self:GetTunnelEntity()
     if not tunnel then
         return false
     end
-    
+
     return tunnel:GetIsCollapsing()
 
 end
@@ -517,7 +517,7 @@ function TunnelEntrance:GetIsConnected()
 end
 
 function TunnelEntrance:Interact()
-    
+
     self.beingUsed = true
     self.clientBeingUsed = true
     self.timeLastInteraction = Shared.GetTime()
@@ -539,30 +539,30 @@ function TunnelEntrance:GetFlinchIntensityOverride()
 end
 
 if Server then
-    
+
     function TunnelEntrance:OnEntityChange(oldId, newId)
-        
+
         -- If the other entrance is destroyed, just remove it here.  Normally it would be removed
         -- when the entrance is killed, but it could be destroyed before being killed due to a
         -- round reset, for example.
         if self.otherEntranceId ~= Entity.invalidId and self.otherEntranceId == oldId then
             self.otherEntranceId = Entity.invalidId
         end
-        
+
         -- The only reason the tunnel can be destroyed without this knowing about it first is due
         -- to a round reset.
         if self.tunnelId ~= Entity.invalidId and self.tunnelId == oldId then
             self.tunnelId = Entity.invalidId
         end
-    
+
     end
-    
+
     local function ComputeDestinationLocationId(self)
-        
+
         local destLocationId = Entity.invalidId
-        
+
         if self.open then
-            
+
             local oppositeExit = self:GetOtherEntrance()
             if oppositeExit then
                 local location = GetLocationForPoint(oppositeExit:GetOrigin())
@@ -570,15 +570,15 @@ if Server then
                     destLocationId = location:GetId()
                 end
             end
-        
+
         end
-        
+
         return destLocationId
-    
+
     end
-    
+
     function TunnelEntrance:CheckForClogs()
-        
+
         local clogs = GetEntitiesWithinRange("Clog", self:GetOrigin(), kClogSearchRadius)
         for i = 1, #clogs do
             if clogs[i] then
@@ -588,11 +588,11 @@ if Server then
                 end
             end
         end
-        
+
         return false
-    
+
     end
-    
+
     function TunnelEntrance:UpdateConnectionEffects()
         local isConnected = self:GetIsConnected()
         if isConnected and not self.isPlayingConnectedEffects then
@@ -602,71 +602,71 @@ if Server then
             self:TriggerEffects("tunnel_ambient_stop")
         end
     end
-    
+
     function TunnelEntrance:OnUpdate(deltaTime)
-        
+
         ScriptActor.OnUpdate(self, deltaTime)
-        
+
         local otherEntrance = self:GetOtherEntrance()
         self.open = otherEntrance and otherEntrance:GetIsBuilt() and not self:GetIsCollapsing()
         self.beingUsed = self.timeLastInteraction + 0.1 > Shared.GetTime()
         self.destLocationId = ComputeDestinationLocationId(self)
-        
+
         self:UpdateConnectionEffects()
-        
+
         -- temp fix: push AI units away to prevent players getting stuck
         if self:GetIsAlive() and ( not self.timeLastAIPushUpdate or self.timeLastAIPushUpdate + 1.4 < Shared.GetTime() ) then
-            
+
             local baseYaw = 0
             self.timeLastAIPushUpdate = Shared.GetTime()
-            
+
             for _, entity in ipairs(GetEntitiesWithMixinWithinRange("Repositioning", self:GetOrigin(), 1.4)) do
-                
+
                 if entity:GetCanReposition() then
-                    
+
                     entity.isRepositioning = true
                     entity.timeLeftForReposition = 1
-                    
+
                     baseYaw = entity:FindBetterPosition( GetYawFromVector(entity:GetOrigin() - self:GetOrigin()), baseYaw, 0 )
-                    
+
                     if entity.RemoveFromMesh ~= nil then
                         entity:RemoveFromMesh()
                     end
-                
+
                 end
-            
+
             end
-        
+
         end
-        
+
         if self:CheckForClogs() then
             self.clogNearMouth = true
         end
-    
+
     end
-    
+
     function TunnelEntrance:GetDestroyOnKill()
         return false
     end
-    
+
     function TunnelEntrance:GetTunnelEntity()
-        
+
         if self.tunnelId and self.tunnelId ~= Entity.invalidId then
             return Shared.GetEntity(self.tunnelId)
         end
-    
+
     end
-    
+
     function TunnelEntrance:UpdateConnectedTunnel()
-        
+
         local hasValidTunnel = self.tunnelId ~= nil and Shared.GetEntity(self.tunnelId) ~= nil
-        
+
         if hasValidTunnel or self:GetOwnerClientId() == nil or not self:GetIsBuilt() then
             return
         end
-        
+
         local foundTunnel
-        
+
         -- register if a tunnel entity already exists or a free tunnel has been found
         for _, tunnel in ientitylist( Shared.GetEntitiesWithClassname("Tunnel") ) do
             if tunnel:GetOwnerClientId() == self:GetOwnerClientId() then
@@ -680,19 +680,19 @@ if Server then
             foundTunnel = CreateEntity(Tunnel.kMapName, nil, self:GetTeamNumber())
             newTunnel = true
         end
-        
+
         -- check if there is another tunnel entrance to connect with
         foundTunnel:SetOwnerClientId(self:GetOwnerClientId())
-        
+
         local selfId = self:GetId()
-        
+
         --Print(ToString(selfId).." self")
-        
+
         if foundTunnel.exitAId ~= selfId and foundTunnel.exitBId ~= selfId then
             foundTunnel:AddExit(self)
         end
         self.tunnelId = foundTunnel:GetId()
-        
+
         local foundTunnelEntrance
         -- register if a tunnel entity already exists or a free tunnel has been found
         for _, tunnelEntrance in ientitylist( Shared.GetEntitiesWithClassname("TunnelEntrance") ) do
@@ -703,9 +703,9 @@ if Server then
                 break
             end
         end
-        
+
         self:SetOtherEntrance(foundTunnelEntrance)
-        
+
         if (foundTunnelEntrance) then
             foundTunnelEntrance:SetOtherEntrance(self)
             if newTunnel then
@@ -717,14 +717,14 @@ if Server then
             --    foundTunnelEntrance.tunnelId = self.tunnelId
             --end
         end
-        
+
         --Print(ToString(foundTunnel.exitAId).." + "..ToString(foundTunnel.exitBId))
-    
+
     end
-    
+
     -- Sets the Tunnel entity that this TunnelEntrance leads to.  Also handles informing the Tunnel entity.
     function TunnelEntrance:SetTunnel(tunnel)
-        
+
         -- Get the id of the tunnel, or invalidId if nil.  Also validate the input (only accepts Tunnel or nil).
         local id
         if tunnel then
@@ -735,114 +735,114 @@ if Server then
             assert(tunnel == nil)
             id = Entity.invalidId
         end
-        
+
         -- Skip if the id is already set to this.
         if id == self.tunnelId then
             return
         end
-        
+
         local prevTunnel = Shared.GetEntity(self.tunnelId)
-        
+
         self.tunnelId = id
-        
+
         if prevTunnel then
             prevTunnel:RemoveExit(self)
         end
-        
+
         if tunnel then
             tunnel:AddExit(self)
         end
-    
+
     end
-    
+
     function TunnelEntrance:OnConstructionComplete()
-        
+
         -- Just finished construction, so open animation should play (if it is open).  This is to prevent the open
         -- animation from playing when the tunnel comes into view.
         self.skipOpenAnimation = false
-        
+
         if self:GetGorgeOwner() then
             self:UpdateConnectedTunnel()
             self:UpgradeToTechId(kTechId.InfestedTunnel)
             self:SetDesiredInfestationRadius(self:GetInfestationMaxRadius())
         else
-            
+
             -- If the tunnel entrance has another (completed) tunnel entrance, ensure a tunnel connects the two together.
             local otherEntrance = self:GetOtherEntrance()
-            
+
             -- If the other side started the infestation research before this side finished building, we want to set our progress to match.
             if otherEntrance and otherEntrance:GetIsResearching() then
                 self.researchProgress = otherEntrance.researchProgress
             end
-            
+
             if otherEntrance and otherEntrance:GetIsBuilt() then
-                
+
                 assert(self:GetTunnelEntity() == nil) -- this TunnelEntrance should not already have a tunnel assigned to it.
-                
+
                 -- See if the other entrance already has a tunnel assigned to it (eg this is a relocate).
                 local tunnel = otherEntrance:GetTunnelEntity()
                 if not tunnel then
-                    
+
                     -- Create a new tunnel since neither of the two entrances had one.
                     tunnel = CreateEntity(Tunnel.kMapName, nil, self:GetTeamNumber())
                     otherEntrance:SetTunnel(tunnel)
-                
+
                 end
-                
+
                 self:SetTunnel(tunnel)
-            
+
             end
-        
+
         end
     end
-    
+
     function TunnelEntrance:UpdateDestruction()
-        
+
         local destructionAllowed = {allowed=true}
         self:GetDestructionAllowed(destructionAllowed)
         destructionAllowed = destructionAllowed.allowed
-        
+
         if destructionAllowed then
             DestroyEntity(self)
             return false -- don't renew this check.
         else
             return true -- repeat this check again some time in the future
         end
-    
+
     end
-    
+
     function TunnelEntrance:OnKill(attacker, doer, point, direction)
-        
+
         ScriptActor.OnKill(self, attacker, doer, point, direction)
-        
+
         self:TriggerEffects("death")
-        
+
         self:TriggerEffects("tunnel_ambient_stop")
-        
+
         self:SetModel(nil)
-        
+
         local team = self:GetTeam()
         if team then
             team:UpdateClientOwnedStructures(self:GetId())
         end
-        
+
         -- Tell the other entrance we've died.
         self:SetOtherEntrance(nil)
-        
+
         -- If a tunnel is killed (and it wasn't due to a relocation command), the tunnel begins to destabilize and
         -- eventually collapse.
         local tunnel = self:GetTunnelEntity()
         if tunnel and not self.killWithoutCollapse then
             tunnel:BeginCollapse()
         end
-        
+
         -- Disconnect from the tunnel
         self:SetTunnel(nil)
-        
+
         -- We need to wait for infestation to recede before we can actually destroy
         -- the entity.
         self:AddTimedCallback(TunnelEntrance.UpdateDestruction, kUpdateDestructionInterval)
-        
+
         if self:GetGorgeOwner() then
             local player = self:GetOwner()
             if player then
@@ -851,16 +851,16 @@ if Server then
                 else
                     player:AddResources(kGorgeTunnelCostKill)
                 end
-            
+
             end
         end
     end
-    
+
     function TunnelEntrance:KillWithoutCollapse()
-        
+
         self.killWithoutCollapse = true
         self:Kill()
-    
+
     end
 
 end
@@ -880,10 +880,10 @@ end
 
 function TunnelEntrance:OnConstruct(builder)
     if Server then
-        
+
         local time = Shared.GetTime()
         local playSound = builder or self.lastAutoBuildTime + 3 < time
-        
+
         if playSound then
             self.lastAutoBuildTime = time
             self:TriggerEffects("tunnel_building_pulse", {effecthostcoords = self:GetCoords()})
@@ -892,33 +892,33 @@ function TunnelEntrance:OnConstruct(builder)
 end
 
 if Server then
-    
+
     function TunnelEntrance:SuckinEntity(entity)
-        
+
         if entity and HasMixin(entity, "TunnelUser") then
-            
+
             local tunnelEntity = self:GetTunnelEntity()
             if tunnelEntity then
-                
+
                 -- Notify LOS mixin of the impending move (to prevent enemies scouted by this
                 -- player from getting stuck scouted).
                 if HasMixin(entity, "LOS") then
                     entity:MarkNearbyDirtyImmediately()
                 end
-                
+
                 tunnelEntity:MovePlayerToTunnel(entity, self)
                 entity:SetVelocity(Vector(0, 0, 0))
-                
+
                 if entity.OnUseGorgeTunnel then
                     entity:OnUseGorgeTunnel()
                 end
-            
+
             end
-        
+
         end
-    
+
     end
-    
+
     function TunnelEntrance:OnEntityExited(entity)
         self.timeLastExited = Shared.GetTime()
         self:TriggerEffects("tunnel_exit_3D")
@@ -927,11 +927,11 @@ if Server then
 end
 
 function TunnelEntrance:OnUpdateAnimationInput(modelMixin)
-    
+
     local sucking = self.beingUsed or (self.clientBeingUsed and self.timeLastInteraction and self.timeLastInteraction + 0.1 > Shared.GetTime())
     -- sucking will be nil when self.clientBeingUsed is nil. Handle this case here.
     sucking = sucking or false
-    
+
     modelMixin:SetAnimationInput("open", self.open)
     modelMixin:SetAnimationInput("player_in", sucking)
     modelMixin:SetAnimationInput("player_out", self.timeLastExited + 0.2 > Shared.GetTime())
@@ -941,7 +941,7 @@ function TunnelEntrance:OnUpdateAnimationInput(modelMixin)
 end
 
 function TunnelEntrance:EatAClog()
-    
+
     -- find the closest clog to tunnel origin, within the cylinder defined.
     local clogs = GetEntitiesWithinRange("Clog", self:GetOrigin(), kClogSearchRadius)
     local closest, closestDist
@@ -957,26 +957,26 @@ function TunnelEntrance:EatAClog()
             end
         end
     end
-    
+
     if closest then
         closest:Kill()
     end
-    
+
     self.clogNearMouth = false
-    
+
     return false
 
 end
 
 if Server then
     function TunnelEntrance:OnTag(tagName)
-        
+
         if tagName == "eat_clog_start" then
             self:AddTimedCallback(TunnelEntrance.EatAClog, kClogEatTime)
         elseif tagName == "opened" then
             self.skipOpenAnimation = false
         end
-    
+
     end
 end
 
@@ -985,16 +985,16 @@ function TunnelEntrance:GetEngagementPointOverride()
 end
 
 function TunnelEntrance:OnUpdateRender()
-    
+
     local showDecal = self:GetIsVisible() and not self:GetIsCloaked() and self:GetIsAlive()
-    
+
     if not self.decal and showDecal then
         self.decal = CreateSimpleInfestationDecal(1.9, self:GetCoords())
     elseif self.decal and not showDecal then
         Client.DestroyRenderDecal(self.decal)
         self.decal = nil
     end
-    
+
     -- if self._renderModel then
     --     if self.variant == kGorgeVariants.toxin then
     --         self._renderModel:SetMaterialParameter("textureIndex", 1 )
@@ -1007,7 +1007,7 @@ end
 
 
 function TunnelEntrance:GetDestinationLocationName()
-    
+
     local location = Shared.GetEntity(self.destLocationId)
     if location then
         return location:GetName()
@@ -1017,9 +1017,9 @@ end
 
 
 function TunnelEntrance:GetUnitNameOverride(viewer)
-    
+
     local unitName = GetDisplayName(self)
-    
+
     if not GetAreEnemies(self, viewer) and self.ownerId then
         local ownerName
         for _, playerInfo in ientitylist(Shared.GetEntitiesWithClassname("PlayerInfoEntity")) do
@@ -1029,7 +1029,7 @@ function TunnelEntrance:GetUnitNameOverride(viewer)
             end
         end
         if ownerName then
-            
+
             local lastLetter = ownerName:sub(-1)
             if lastLetter == "s" or lastLetter == "S" then
                 return string.format( Locale.ResolveString( "TUNNEL_ENTRANCE_OWNER_ENDS_WITH_S" ), ownerName )
@@ -1037,22 +1037,22 @@ function TunnelEntrance:GetUnitNameOverride(viewer)
                 return string.format( Locale.ResolveString( "TUNNEL_ENTRANCE_OWNER" ), ownerName )
             end
         end
-    
+
     end
-    
+
     return unitName
 
 end
 
 function TunnelEntrance:OverrideHintString( hintString, forEntity )
-    
+
     if not GetAreEnemies(self, forEntity) then
         local locationName = self:GetDestinationLocationName()
         if locationName and locationName~="" then
             return string.format(Locale.ResolveString( "TUNNEL_ENTRANCE_HINT_TO_LOCATION" ), locationName )
         end
     end
-    
+
     return hintString
 
 end

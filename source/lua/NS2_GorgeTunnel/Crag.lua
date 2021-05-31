@@ -10,9 +10,9 @@
 }--]]
 
 --[[function Crag:GetUnitNameOverride(viewer)
-    
+
     local unitName = GetDisplayName(self)
-    
+
     if self.gorge and not GetAreEnemies(self, viewer) and self.ownerId then
         local ownerName
         for _, playerInfo in ientitylist(Shared.GetEntitiesWithClassname("PlayerInfoEntity")) do
@@ -22,7 +22,7 @@
             end
         end
         if ownerName then
-            
+
             local lastLetter = ownerName:sub(-1)
             if lastLetter == "s" or lastLetter == "S" then
                 return string.format( "%s' Crag", ownerName )
@@ -30,9 +30,9 @@
                 return string.format( "%s's Crag", ownerName )
             end
         end
-    
+
     end
-    
+
     return unitName
 
 end--]]
@@ -50,7 +50,7 @@ local networkVars =
     ownerId = "entityid"
 }
 
-local kDigestDuration = 1.5
+local kDigestDuration = 0.5
 
 function GorgeCrag:OnCreate()
 	Crag.OnCreate(self)
@@ -64,9 +64,9 @@ end
 function GorgeCrag:GetTechButtons(techId)
     local techButtons = { kTechId.HealWave, kTechId.None, kTechId.CragHeal, kTechId.None,
                               kTechId.None, kTechId.None, kTechId.None, kTechId.None }
-        
+
     return techButtons
-    
+
 end
 
 if not Server then
@@ -94,9 +94,9 @@ function GorgeCrag:OnDestroy()
 end
 
 function GorgeCrag:GetUnitNameOverride(viewer)
-    
+
     local unitName = GetDisplayName(self)
-    
+
     if not GetAreEnemies(self, viewer) and self.ownerId then
         local ownerName
         for _, playerInfo in ientitylist(Shared.GetEntitiesWithClassname("PlayerInfoEntity")) do
@@ -106,7 +106,7 @@ function GorgeCrag:GetUnitNameOverride(viewer)
             end
         end
         if ownerName then
-            
+
             local lastLetter = ownerName:sub(-1)
             if lastLetter == "s" or lastLetter == "S" then
                 return string.format( "%s' Crag", ownerName )
@@ -114,9 +114,9 @@ function GorgeCrag:GetUnitNameOverride(viewer)
                 return string.format( "%s's Crag", ownerName )
             end
         end
-    
+
     end
-    
+
     return unitName
 
 end

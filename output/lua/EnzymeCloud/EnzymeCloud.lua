@@ -1,7 +1,7 @@
 
 kCombatEnzymeCloudDebug = false
 
-EnzymeCloud.kEnzymeCloudDuration = kEnzymeCloudDuration
-EnzymeCloud.kOnPlayerDuration = 2.3
-EnzymeCloud.kRadius = 6.5
-kEnzymeCloudAbilityCooldown = 12
+EnzymeCloud.kEnzymeCloudDuration = 4
+EnzymeCloud.kOnPlayerDuration = 1
+EnzymeCloud.kRadius = 8
+kEnzymeCloudAbilityCooldown = 20
