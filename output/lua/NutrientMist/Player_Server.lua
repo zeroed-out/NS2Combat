@@ -4,7 +4,7 @@ function Player:ProcessTauntAbilities()
     oldProcessTauntAbilities(self)
     if self.combatTable then
         if self.combatTable.hasNutrientMist then
-            if self.combatTable.lastInk == 0 or Shared.GetTime() >= ( self.combatTable.lastNutrientMist + kNutrientMistCooldown) then
+            if self.combatTable.lastNutrientMist == 0 or Shared.GetTime() >= ( self.combatTable.lastNutrientMist + kNutrientMistCooldown) then
                 if GetIsPointOnInfestation(self:GetOrigin()) then
                     self:TriggerMist()
                     self.combatTable.lastNutrientMist = Shared.GetTime()
