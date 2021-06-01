@@ -1,8 +1,8 @@
 
 --[[function Shift:GetUnitNameOverride(viewer)
-    
+
     local unitName = GetDisplayName(self)
-    
+
     if self.gorge and not GetAreEnemies(self, viewer) and self.ownerId then
         local ownerName
         for _, playerInfo in ientitylist(Shared.GetEntitiesWithClassname("PlayerInfoEntity")) do
@@ -12,7 +12,7 @@
             end
         end
         if ownerName then
-            
+
             local lastLetter = ownerName:sub(-1)
             if lastLetter == "s" or lastLetter == "S" then
                 return string.format( "%s' Shift", ownerName )
@@ -20,9 +20,9 @@
                 return string.format( "%s's Shift", ownerName )
             end
         end
-    
+
     end
-    
+
     return unitName
 
 end--]]
@@ -39,7 +39,7 @@ local networkVars =
     ownerId = "entityid"
 }
 
-local kDigestDuration = 1.5
+local kDigestDuration = 0.5
 
 
 function GorgeShift:OnCreate()
@@ -51,7 +51,7 @@ function GorgeShift:GetTechButtons(techId)
 
     local techButtons = { kTechId.None, kTechId.None, kTechId.ShiftEnergize, kTechId.None,
 							kTechId.None, kTechId.None, kTechId.None, kTechId.None }
-    return techButtons   
+    return techButtons
 
 end
 
@@ -61,9 +61,9 @@ function GorgeShift:GetMapBlipType()
 end
 
 function GorgeShift:GetUnitNameOverride(viewer)
-    
+
     local unitName = GetDisplayName(self)
-    
+
     if not GetAreEnemies(self, viewer) and self.ownerId then
         local ownerName
         for _, playerInfo in ientitylist(Shared.GetEntitiesWithClassname("PlayerInfoEntity")) do
@@ -73,7 +73,7 @@ function GorgeShift:GetUnitNameOverride(viewer)
             end
         end
         if ownerName then
-            
+
             local lastLetter = ownerName:sub(-1)
             if lastLetter == "s" or lastLetter == "S" then
                 return string.format( "%s' Shift", ownerName )
@@ -81,9 +81,9 @@ function GorgeShift:GetUnitNameOverride(viewer)
                 return string.format( "%s's Shift", ownerName )
             end
         end
-    
+
     end
-    
+
     return unitName
 
 end

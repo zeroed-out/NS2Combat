@@ -21,9 +21,9 @@ XpList[14] = { Level=14, 	XP=4000, 	MarineName="Lieutenant Colonel", 	AlienName=
 XpList[15] = { Level=15, 	XP=4500, 	MarineName="Colonel", 				AlienName="Nightmare",   		GivenXP=105		}
 XpList[16] = { Level=16, 	XP=5000, 	MarineName="Brigadier General", 	AlienName="Mind Flayer",  		GivenXP=110		}
 XpList[17] = { Level=17, 	XP=5600, 	MarineName="Major General", 		AlienName="Unstoppable Fury",   GivenXP=120		}
-XpList[18] = { Level=18, 	XP=6300, 	MarineName="Lieutenant General", 	AlienName="Hive Mind",          GivenXP=130		}
-XpList[19] = { Level=19, 	XP=7100, 	MarineName="Commander", 		  	AlienName="Scourge of Sanji",   GivenXP=150		}
-XpList[20] = { Level=20, 	XP=8000, 	MarineName="Hero of Sanji", 		AlienName="Demigod", 			GivenXP=250		}
+XpList[18] = { Level=18, 	XP=6300, 	MarineName="Lieutenant General", 	AlienName="Hive Mind",          GivenXP=150		}
+XpList[19] = { Level=19, 	XP=7100, 	MarineName="Commander", 		  	AlienName="Scourge of Sanji",   GivenXP=250		}
+XpList[20] = { Level=20, 	XP=8000, 	MarineName="Hero of Sanji", 		AlienName="Demigod", 			GivenXP=500		}
 
 maxLvl = #XpList
 maxXp = XpList[maxLvl]["XP"]

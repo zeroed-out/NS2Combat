@@ -1,5 +1,5 @@
-local kDefaultDigestDuration = 2
-local kAllowedReleaseTimeBeforeReset = 0.3
+local kDefaultDigestDuration = 0.5
+local kAllowedReleaseTimeBeforeReset = 0.1
 
 local function GetEffectiveDigestDuration(self)
 

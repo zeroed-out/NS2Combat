@@ -41,7 +41,7 @@ local networkVars =
 }
 
 AddMixinNetworkVars(LaserMixin, networkVars)
-local kDigestDuration = 1.5
+local kDigestDuration = 0.5
 
 function Sentry:GetDigestDuration()
     return kDigestDuration

@@ -74,11 +74,11 @@ kPropEffectTimer = 2
 
 -- Spawn protection
 kCombatSpawnProtectDelay = 0.1
-kCombatMarineSpawnProtectTime = 2
+kCombatMarineSpawnProtectTime = 3
 -- nano shield = spawn Protection
 kNanoShieldDuration = kCombatMarineSpawnProtectTime
 -- Alien time includes time spent in the egg.
-kCombatAlienSpawnProtectTime = kSkulkGestateTime + 2
+kCombatAlienSpawnProtectTime = kSkulkGestateTime + 3
 
 -- No eggs
 kAlienEggsPerHive = 0

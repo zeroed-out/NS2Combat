@@ -9,7 +9,7 @@ class 'GorgeWhip' (Whip)
 
 GorgeWhip.kMapName = "gorgewhip"
 GorgeWhip.kMaxUseableRange = 6.5
-local kDigestDuration = 1.5
+local kDigestDuration = 0.5
 
 local networkVars =
 {
@@ -17,7 +17,7 @@ local networkVars =
 }
 
 function GorgeWhip:OnCreate()
-	Whip.OnCreate(self)	
+	Whip.OnCreate(self)
     InitMixin(self, DigestMixin)
 end
 
@@ -30,9 +30,9 @@ function GorgeWhip:GetMapBlipType()
 end
 
 function GorgeWhip:GetUnitNameOverride(viewer)
-    
+
     local unitName = GetDisplayName(self)
-    
+
     if not GetAreEnemies(self, viewer) and self.ownerId then
         local ownerName
         for _, playerInfo in ientitylist(Shared.GetEntitiesWithClassname("PlayerInfoEntity")) do
@@ -42,7 +42,7 @@ function GorgeWhip:GetUnitNameOverride(viewer)
             end
         end
         if ownerName then
-            
+
             local lastLetter = ownerName:sub(-1)
             if lastLetter == "s" or lastLetter == "S" then
                 return string.format( "%s' Whip", ownerName )
@@ -50,9 +50,9 @@ function GorgeWhip:GetUnitNameOverride(viewer)
                 return string.format( "%s's Whip", ownerName )
             end
         end
-    
+
     end
-    
+
     return unitName
 
 end
@@ -64,9 +64,9 @@ function GorgeWhip:GetTechButtons(techId)
     if self:GetIsMature() then
         techButtons[1] = kTechId.WhipBombard
     end
-    
+
     return techButtons
-    
+
 end
 
 if not Server then
@@ -114,7 +114,7 @@ function GorgeWhip:OnDestroy()
 		local team = self:GetTeam()
         if team then
             team:UpdateClientOwnedStructures(self:GetId())
-        end	
+        end
 
 		local player = self:GetOwner()
 		if player then

@@ -1,4 +1,4 @@
-kCombatEquipmentSentryCost = 2
+kCombatEquipmentSentryCost = 1
 kCombatEquipmentSentryResearchCost = kShotgunTechResearchCost
 kCombatEquipmentSentryResearchTime = kShotgunTechResearchTime
 kCombatEquipmentSentryPointValue = 10

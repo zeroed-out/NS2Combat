@@ -1,1 +1,1 @@
-kHiveInfestationRadius = 30 -- was 20
+kHiveInfestationRadius = 40 -- was 20
