@@ -8,6 +8,7 @@ function Player:ProcessTauntAbilities()
                 if GetIsPointOnInfestation(self:GetOrigin()) then
                     self:TriggerMist()
                     self.combatTable.lastNutrientMist = Shared.GetTime()
+                    self.lastNutrientMist = Shared.GetTime()
                 else
                     self:SendDirectMessage("Cannot Nutrient Mist. Not on infestation")
                 end

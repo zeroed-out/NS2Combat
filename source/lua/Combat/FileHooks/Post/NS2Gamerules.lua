@@ -219,7 +219,7 @@ function NS2Gamerules:OnUpdate(timePassed)
 
 end
 
-local function Dump(variable, name, maxdepth, depth)
+function Dump(variable, name, maxdepth, depth)
     if name == nil then
         name = '(this)'
     end

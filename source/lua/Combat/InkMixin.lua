@@ -1,3 +1,5 @@
+
+
 InkMixin = CreateMixin(InkMixin)
 InkMixin.type = "Ink"
 
@@ -6,6 +8,12 @@ function InkMixin:__initmixin()
     PROFILE("InkMixin:__initmixin")
     
 end
+
+InkMixin.networkVars = {
+	lastInk = "time"
+}
+
+Shared.LinkClassToMap("Alien", Alien.kMapName, InkMixin.networkVars, true)
 
 if Server then
 

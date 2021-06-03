@@ -173,6 +173,7 @@ function Player:TriggerInk()
     -- Create ShadeInk entity in world at this position with a small offset
     local shadeInk = CreateEntity(ShadeInk.kMapName, self:GetOrigin() + Vector(0, 0.2, 0), self:GetTeamNumber())
     StartSoundEffectOnEntity("sound/NS2.fev/alien/structures/shade/cloak_triggered", shadeInk)
+    self.lastInk = Shared.GetTime()
 
 end
 

@@ -14,6 +14,7 @@ function Player:TriggerAlert(techId, entity, force)
 	if entity:isa("Player") and entity:GetIsAlive() and canEnzyme then
 		
 		entity.combatTable.lastEnzymeCloud = Shared.GetTime()
+        entity.lastEnzymeCloud = Shared.GetTime()
 		local position = entity:GetOrigin()
         local enzyme = CreateEntity(EnzymeCloud.kMapName, position , self:GetTeamNumber())
         enzyme:TriggerEffects( "drifter_shoot_enzyme", { effecthostcoords = Coords.GetTranslation(position) } )
@@ -25,7 +26,7 @@ function Player:TriggerAlert(techId, entity, force)
 	
 end
 if (kCombatEnzymeCloudDebug) then
-    Print("===========MyFaileLoaded==================")
+    Print("===========MyFileLoaded==================")
 end
 
 

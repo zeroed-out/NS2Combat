@@ -97,21 +97,6 @@ function PlayerUI_GetHasScan()
     return false
 end
 
-function PlayerUI_GetHasScan()
-    local self = Client.GetLocalPlayer()
-
-    local upgrades = self:GetPlayerUpgrades()
-    for i = 1, #upgrades do
-        local upgradeId = upgrades[i]
-
-        if upgradeId == kTechId.Scan then
-            return true
-        end
-    end
-    
-    return false
-end
-
 function PlayerUI_GetHasResupply()
     local self = Client.GetLocalPlayer()
 
@@ -180,5 +165,31 @@ function PlayerUI_GetNextCatpackIn()
         return math.max(math.ceil((self.lastCatPack or 0) + kCatalystTimer + kCatPackDuration - Shared.GetTime()), 0)
     end
     
+    return 0
+end
+
+function PlayerUI_GetHasInk()
+    local self = Client.GetLocalPlayer()
+
+    local upgrades = self:GetPlayerUpgrades()
+    for i = 1, #upgrades do
+        local upgradeId = upgrades[i]
+
+        if upgradeId == kTechId.ShadeInk then
+            return true
+        end
+    end
+    
+    return false
+
+end
+
+function PlayerUI_GetHasInkIn()
+    local player = Client.GetLocalPlayer()
+
+    if player then
+        return math.max(math.ceil((player.lastInk or 0) + kInkTimer - Shared.GetTime()), 0)
+    end
+
     return 0
 end
